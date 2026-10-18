@@ -157,7 +157,7 @@ class PlayState extends ConductorState
 		if (introCutscene())
 			inIntroCutscene = true;
 
-		if (Flag.IS_MOBILE)
+		if (Flag.IS_MOBILE_MODE)
 		{
 			leaveButton = new CornerButton('backBtn');
 			add(leaveButton);

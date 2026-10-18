@@ -14,7 +14,9 @@ enum abstract Flag(Bool) from Bool to Bool
 
 	public static final IS_32BIT = new Flag('IS_32BIT', [DefineMacro.isDefined('_32bit'),]);
 	public static final IS_DEBUG = new Flag('IS_DEBUG', [DefineMacro.isDefined('debug'),]);
-	public static final IS_MOBILE = new Flag('IS_MOBILE', [DefineMacro.isDefined('MOBILE_MODE') || PLATFORM_ANDROID || PLATFORM_IOS]);
+	public static final IS_MOBILE_MODE = new Flag('IS_MOBILE_MODE', [
+		DefineMacro.isDefined('MOBILE_MODE') || PLATFORM_WEB || PLATFORM_ANDROID || PLATFORM_IOS
+	]);
 
 	public static final PLAY_SHADERS = new Flag('PLAY_SHADERS', [!DefineMacro.isDefined('DISABLE_PLAY_SHADERS')]);
 	public static final PLAY_IMMORTAL = new Flag('PLAY_IMMORTAL', [DefineMacro.isDefined('immortal') || DefineMacro.isDefined('IMMORTAL')]);
@@ -29,14 +31,19 @@ enum abstract Flag(Bool) from Bool to Bool
 	public static final FREEPLAY_VISUALIZER = new Flag('FREEPLAY_VISUALIZER', [
 		!PLATFORM_WEB,
 		!PLATFORM_LINUX,
-		!DefineMacro.isDefined('DISABLE_FREEPLAY_VISUALIZER')
+		!DefineMacro.isDefined('DISABLE_FREEPLAY_VISUALIZER'),
+		!DefineMacro.isDefined('FREEPLAY_CENTER_LAYOUT'),
 	]);
 	public static final FREEPLAY_VISUALIZER_MULTICACHE = new Flag('FREEPLAY_VISUALIZER_MULTICACHE', [FREEPLAY_VISUALIZER, !PLATFORM_LINUX, !IS_32BIT,]);
 
-	public static final FREEPLAY_LEFT_LAYOUT = new Flag('FREEPLAY_LEFT_LAYOUT', [DefineMacro.isDefined('FREEPLAY_LEFT_LAYOUT')
-		|| IS_MOBILE]);
+	public static final FREEPLAY_CENTER_LAYOUT = new Flag('FREEPLAY_CENTER_LAYOUT', [
+		DefineMacro.isDefined('FREEPLAY_CENTER_LAYOUT') || !FREEPLAY_VISUALIZER]);
 
-	public static final FREEPLAY_RIGHT_LAYOUT = new Flag('FREEPLAY_RIGHT_LAYOUT', [!FREEPLAY_LEFT_LAYOUT]);
+	public static final FREEPLAY_LEFT_LAYOUT = new Flag('FREEPLAY_LEFT_LAYOUT', [
+		DefineMacro.isDefined('FREEPLAY_LEFT_LAYOUT') || IS_MOBILE_MODE,
+		!FREEPLAY_CENTER_LAYOUT
+	]);
+	public static final FREEPLAY_RIGHT_LAYOUT = new Flag('FREEPLAY_RIGHT_LAYOUT', [!FREEPLAY_LEFT_LAYOUT, !FREEPLAY_CENTER_LAYOUT]);
 
 	public static final STARTINGSTATE_DIALOGUE = new Flag('STARTINGSTATE_DIALOGUE', [DefineMacro.isDefined('DIALOGUE')]);
 	public static final STARTINGSTATE_RESULTS = new Flag('STARTINGSTATE_RESULTS', [DefineMacro.isDefined('RESULTS')]);

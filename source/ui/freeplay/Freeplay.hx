@@ -164,7 +164,7 @@ class Freeplay extends ConductorState
 		changeSel(0);
 		filter('all');
 
-		if (Flag.IS_MOBILE)
+		if (Flag.IS_MOBILE_MODE)
 		{
 			playButton = new CornerButton('playBtn');
 
@@ -570,32 +570,28 @@ class Freeplay extends ConductorState
 				song.variation = defaultVariation;
 
 			var tXt:FlxText = new FlxText(0, i * 64, 0, '${song.song}', 32);
-
 			var variationStr = song.variation.toString().toLowerCase();
+			var curSongRank:SongRank = Save.scores.get('${song.song.toLowerCase()}-${variationStr}')?.rank ?? NONE;
 
 			if (song.variation != defaultVariation)
 				tXt.text += ' (${variationStr.substr(0, 1).toUpperCase()}${variationStr.substr(1)})';
-
-			var curSongRank:SongRank = Save.scores.get('${song.song.toLowerCase()}-${variationStr}')?.rank ?? NONE;
 			if (curSongRank == NONE && Flag.FREEPLAY_DISPLAY_SONG_PLAYED)
 				tXt.text += ' (Unplayed)';
 
 			if (curWaveforms[i] == null && Flag.FREEPLAY_VISUALIZER_MULTICACHE)
 				makeWaveform(song, i);
 
-			if (Flag.FREEPLAY_VISUALIZER && (curWaveforms[i] != null && Flag.FREEPLAY_VISUALIZER_MULTICACHE))
-			{
-				if (Flag.FREEPLAY_LEFT_LAYOUT)
-					tXt.alignment = LEFT;
+			if (!(Flag.FREEPLAY_VISUALIZER && (curWaveforms[i] != null && Flag.FREEPLAY_VISUALIZER_MULTICACHE)))
+				if (Flag.FREEPLAY_CENTER_LAYOUT)
+					tXt.screenCenter(X);
 
-				if (Flag.FREEPLAY_RIGHT_LAYOUT)
-				{
-					tXt.alignment = RIGHT;
-					tXt.x = FlxG.width - tXt.width;
-				}
+			if (Flag.FREEPLAY_LEFT_LAYOUT)
+				tXt.alignment = LEFT;
+			else if (Flag.FREEPLAY_RIGHT_LAYOUT)
+			{
+				tXt.alignment = RIGHT;
+				tXt.x = FlxG.width - tXt.width;
 			}
-			else
-				tXt.screenCenter(X);
 
 			texts.add(tXt);
 		}

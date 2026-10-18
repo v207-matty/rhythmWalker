@@ -97,7 +97,7 @@ class DialogueScene extends ConductorState
 		proceedText.alpha = 0;
 		proceedText.alignment = CENTER;
 
-		if (Flag.IS_MOBILE)
+		if (Flag.IS_MOBILE_MODE)
 		{
 			leaveButton = new CornerButton('backBtn');
 			add(leaveButton);

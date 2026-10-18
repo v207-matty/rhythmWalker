@@ -1,5 +1,12 @@
 # 0.4.0 - 10/17/2026
 
+- MOBILE SUPPORT HAS BEEN ADDED!
+    - Gameplay gets a leave button
+    - Gameplay now lets you click the screen to move
+    - Dialogue Scene gets 2 buttons for skipping and proceeding
+    - Freeplay gets a play button
+    - Freeplay layout flips
+
 - SAVE SHIT HAS BEEN CHANGED ( No conversion, sorry :( )
     - New Path
     - Scores are saved different
