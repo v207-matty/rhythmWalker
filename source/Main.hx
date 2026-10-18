@@ -1,5 +1,6 @@
 package;
 
+import song.SongRank;
 #if sys
 import sys.io.File;
 import sys.FileSystem;
@@ -49,11 +50,13 @@ class Main extends FlxGame
 
 		super.create(_);
 
-		FlxTransitionableState.defaultTransIn = getDefaultTransition();
-		FlxTransitionableState.defaultTransOut = getDefaultTransition();
+		FlxG.console.registerClass(Paths);
+		FlxG.console.registerClass(Save);
+		FlxG.console.registerClass(Freeplay);
+		FlxG.console.registerClass(WindowUtil);
 
-		FlxG.sound.soundTray.volumeUpSound = Paths.getAudio('sfx/volume');
-		FlxG.sound.soundTray.volumeDownSound = Paths.getAudio('sfx/volume');
+		FlxTransitionableState.defaultTransIn = FlxTransitionableState.defaultTransOut = getDefaultTransition();
+		FlxG.sound.soundTray.volumeUpSound = FlxG.sound.soundTray.volumeDownSound = Paths.getAudio('sfx/volume');
 	}
 
 	override function update()

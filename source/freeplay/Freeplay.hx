@@ -367,11 +367,11 @@ class Freeplay extends ConductorState
 
 		if (!audioCache.exists(songCode))
 		{
-			bgAudio.load(Paths.getSong(entries[selectedEntry].song, entries[selectedEntry]?.variation ?? defaultVariation), true);
+			bgAudio.load(Paths.getSong(entries[selectedEntry].song, entries[selectedEntry]?.variation ?? defaultVariation));
 			audioCache.set(songCode, bgAudio._sound);
 		}
 		else
-			bgAudio.load(audioCache.get(songCode), true);
+			bgAudio.load(audioCache.get(songCode));
 
 		if (!Flag.FREEPLAY_VISUALIZER_MULTICACHE)
 		{
@@ -565,8 +565,14 @@ class Freeplay extends ConductorState
 
 			if (Flag.FREEPLAY_VISUALIZER && (curWaveforms[i] != null && Flag.FREEPLAY_VISUALIZER_MULTICACHE))
 			{
-				tXt.alignment = RIGHT;
-				tXt.x = FlxG.width - tXt.width;
+				if (Flag.FREEPLAY_LEFT_LAYOUT)
+					tXt.alignment = LEFT;
+
+				if (Flag.FREEPLAY_RIGHT_LAYOUT)
+				{
+					tXt.alignment = RIGHT;
+					tXt.x = FlxG.width - tXt.width;
+				}
 			}
 			else
 				tXt.screenCenter(X);
@@ -608,7 +614,8 @@ class Freeplay extends ConductorState
 			audio = new FlxSound().load(audioCache.get(viz));
 		else
 		{
-			audio = new FlxSound().load(Paths.getSong(song.song, song.variation), true);
+			audio = new FlxSound().load(Paths.getSong(song.song, song.variation));
+			audio.setup(1, true);
 
 			audioCache.set(viz, audio._sound);
 		}
@@ -644,6 +651,9 @@ class Freeplay extends ConductorState
 			{
 				audioVizCache.set(viz, bgAudioViz);
 			});
+
+			if (Flag.FREEPLAY_LEFT_LAYOUT)
+				bgAudioViz.x = FlxG.width - bgAudioViz.width;
 		}
 
 		bgAudioViz.ID = i;

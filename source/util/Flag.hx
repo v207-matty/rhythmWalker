@@ -33,6 +33,11 @@ enum abstract Flag(Bool) from Bool to Bool
 	]);
 	public static final FREEPLAY_VISUALIZER_MULTICACHE = new Flag('FREEPLAY_VISUALIZER_MULTICACHE', [FREEPLAY_VISUALIZER, !PLATFORM_LINUX, !IS_32BIT,]);
 
+	public static final FREEPLAY_LEFT_LAYOUT = new Flag('FREEPLAY_LEFT_LAYOUT', [DefineMacro.isDefined('FREEPLAY_LEFT_LAYOUT')
+		|| IS_MOBILE]);
+
+	public static final FREEPLAY_RIGHT_LAYOUT = new Flag('FREEPLAY_RIGHT_LAYOUT', [!FREEPLAY_LEFT_LAYOUT]);
+
 	public static final STARTINGSTATE_DIALOGUE = new Flag('STARTINGSTATE_DIALOGUE', [DefineMacro.isDefined('DIALOGUE')]);
 	public static final STARTINGSTATE_RESULTS = new Flag('STARTINGSTATE_RESULTS', [DefineMacro.isDefined('RESULTS')]);
 
