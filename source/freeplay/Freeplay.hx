@@ -443,7 +443,7 @@ class Freeplay extends ConductorState
 
 	function changeBGAudio()
 	{
-		if (!bgAudio.playing)
+		if (bgAudio == null || !bgAudio.playing)
 		{
 			runOnWaveforms((wave, waveID) ->
 			{
