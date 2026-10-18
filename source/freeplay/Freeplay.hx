@@ -114,6 +114,7 @@ class Freeplay extends ConductorState
 		randomTip = tips[FlxG.random.int(0, tips.length - 1)].replace('\\n', '\n');
 
 		bgAudio = new FlxSound();
+		// FlxG.sound.list.add(bgAudio);
 		FlxG.sound.onVolumeChange.add(onVolumeChange);
 		onVolumeChange(FlxG.sound.volume);
 
@@ -193,7 +194,7 @@ class Freeplay extends ConductorState
 			}
 			trace(song);
 
-			if (bgAudio.playing)
+			if (bgAudio != null && bgAudio.playing)
 				bgAudio.fadeOut(.25, 0, t ->
 				{
 					FlxG.sound.onVolumeChange.remove(onVolumeChange);
@@ -207,9 +208,8 @@ class Freeplay extends ConductorState
 			FlxG.switchState(() -> new DialogueScene(new Song(song.song, song.variation)));
 		}
 
-		if (bgAudio != null)
-			if (bgAudio.volume > FlxG.sound.volume)
-				bgAudio.volume = FlxG.sound.volume;
+		if (bgAudio != null && bgAudio.volume > FlxG.sound.volume)
+			bgAudio.volume = FlxG.sound.volume;
 
 		FlxG.watch.addQuick('songCode', songCode);
 		runOnWaveforms((wave, waveID) ->
@@ -230,9 +230,8 @@ class Freeplay extends ConductorState
 			wave.active = true;
 			wave.waveformTime += elapsed * 1000;
 
-			if (bgAudio != null)
-				if (wave.waveformTime > bgAudio.length)
-					wave.waveformTime = 0;
+			if (bgAudio != null && wave.waveformTime > bgAudio.length)
+				wave.waveformTime = 0;
 		});
 	}
 
@@ -269,10 +268,13 @@ class Freeplay extends ConductorState
 
 	function onVolumeChange(vol:Float) @:privateAccess
 	{
-		if (bgAudio.fadeTween?.active)
-			bgAudio.fadeTween.cancel();
+		if (bgAudio != null)
+		{
+			if (bgAudio.fadeTween?.active)
+				bgAudio.fadeTween.cancel();
 
-		bgAudio.volume = FlxG.sound.volume;
+			bgAudio.volume = FlxG.sound.volume;
+		}
 
 		runOnWaveforms((wave, waveID) ->
 		{
@@ -324,7 +326,8 @@ class Freeplay extends ConductorState
 
 	function loadSongAudio() @:privateAccess
 	{
-		bgAudio.stop();
+		if (bgAudio != null)
+			bgAudio.stop();
 
 		if (entries[selectedEntry] == null)
 			return;
@@ -600,7 +603,7 @@ class Freeplay extends ConductorState
 			bgAudioViz.waveformDuration = 125;
 
 			bgAudioViz.waveformOrientation = VERTICAL;
-			bgAudioViz.waveformTime = bgAudio.time;
+			bgAudioViz.waveformTime = bgAudio?.time ?? 0;
 
 			bgAudioViz.alpha = 0;
 
