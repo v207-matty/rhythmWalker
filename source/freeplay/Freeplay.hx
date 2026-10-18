@@ -175,6 +175,9 @@ class Freeplay extends ConductorState
 
 			playButton.back.angle = 90;
 			playButton.offsetBy(-8, -32);
+
+			playButton.onClicked.add(proceed);
+
 			add(playButton);
 		}
 
@@ -231,7 +234,7 @@ class Freeplay extends ConductorState
 			if (FlxG.keys.anyJustPressed([D, RIGHT]))
 				changeVolume(1);
 
-			if (FlxG.keys.justPressed.ENTER || (FlxG.mouse.justPressed && FlxG.mouse.overlaps(playButton)))
+			if (FlxG.keys.justPressed.ENTER)
 				proceed();
 		}
 

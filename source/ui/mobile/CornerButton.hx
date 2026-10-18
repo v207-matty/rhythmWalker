@@ -1,10 +1,14 @@
 package ui.mobile;
 
+import flixel.FlxG;
+import flixel.util.FlxSignal;
 import ui.objects.RWSprite;
 
 class CornerButton extends RWSprite
 {
 	public var back(default, null):RWSprite;
+
+	public var onClicked:FlxSignal;
 
 	override public function new(cornerButton = 'pauseBtn')
 	{
@@ -13,6 +17,16 @@ class CornerButton extends RWSprite
 		back = new RWSprite('ui/mobile/cornerButtonBG');
 
 		setScale(0.5);
+
+		onClicked = new FlxSignal();
+	}
+
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+
+		if (FlxG.mouse.overlaps(this) && FlxG.mouse.justPressed)
+			onClicked.dispatch();
 	}
 
 	override function draw()

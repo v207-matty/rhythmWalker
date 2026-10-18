@@ -6,6 +6,9 @@
 
 - Added crash handler
 
+- Dialogue Scenes can now have null portraits (they just turn invisible)
+- Rephrased Dialogue Scene "ESCAPE to leave" and it is now "ESCAPE to skip"
+
 - Fixed being able to change selection or volume in freeplay while transitioning
 - Fixed Scroll Down Chinatown last 2 lines of dialogue being associated with the wrong speaker
 - Fixed freeplay crashes relating to null song audio

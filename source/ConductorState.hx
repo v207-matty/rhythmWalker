@@ -34,6 +34,6 @@ class ConductorState extends FlxUIState
 	{
 		super.update(elapsed);
 
-		FlxG.mouse.visible = mouseEnabled;
+		FlxG.mouse.enabled = FlxG.mouse.visible = mouseEnabled;
 	}
 }

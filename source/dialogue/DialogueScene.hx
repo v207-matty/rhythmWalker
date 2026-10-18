@@ -1,5 +1,7 @@
 package dialogue;
 
+import util.Flag;
+import ui.mobile.CornerButton;
 import flixel.math.FlxMath;
 import flixel.util.FlxTimer;
 import flixel.addons.text.FlxTypeText;
@@ -52,6 +54,9 @@ class DialogueScene extends ConductorState
 
 	var proceedText:FlxText;
 
+	var leaveButton:CornerButton;
+	var proceedButton:CornerButton;
+
 	override function create()
 	{
 		super.create();
@@ -62,23 +67,17 @@ class DialogueScene extends ConductorState
 			return;
 		}
 
-		if (dialogue?.characters?.left != null)
-		{
-			characterLeft = new DialogueCharacter(dialogue.characters.left);
-			add(characterLeft);
+		characterLeft = new DialogueCharacter(dialogue?.characters?.left ?? null);
+		characterRight = new DialogueCharacter(dialogue?.characters?.right ?? null);
 
-			characterLeft.screenCenter(Y);
-			characterLeft.x = characterLeft.width;
-		}
+		characterLeft.screenCenter(Y);
+		characterRight.screenCenter(Y);
 
-		if (dialogue?.characters?.right != null)
-		{
-			characterRight = new DialogueCharacter(dialogue.characters.right);
-			add(characterRight);
+		characterLeft.x = characterLeft.width;
+		characterRight.x = FlxG.width - (characterRight.width * 2);
 
-			characterRight.screenCenter(Y);
-			characterRight.x = FlxG.width - (characterRight.width * 2);
-		}
+		add(characterLeft);
+		add(characterRight);
 
 		dialogueText = new FlxTypeText(0, 0, 0, 'Lorem Ipsum Dolor Sit Amet', 32);
 		add(dialogueText);
@@ -89,17 +88,32 @@ class DialogueScene extends ConductorState
 		dialogueText.screenCenter();
 		dialogueText.y += dialogueText.height * 4;
 
-		dialogueText.completeCallback = function()
-		{
-			dialogueFinished = true;
-		};
+		dialogueText.completeCallback = () -> dialogueFinished = true;
 
 		proceedInTimer = new FlxTimer();
 
-		proceedText = new FlxText(0, 0, 0, 'ENTER to proceed\nESCAPE to leave', 16);
+		proceedText = new FlxText(0, 0, 0, 'ENTER to proceed\nESCAPE to skip', 16);
 		add(proceedText);
 		proceedText.alpha = 0;
 		proceedText.alignment = CENTER;
+
+		if (Flag.IS_MOBILE)
+		{
+			leaveButton = new CornerButton('backBtn');
+			add(leaveButton);
+			leaveButton.back.flipX = true;
+			leaveButton.offsetBy(24, 0);
+			leaveButton.onClicked.add(leave);
+
+			proceedButton = new CornerButton('proceedBtn');
+			add(proceedButton);
+			proceedButton.x = FlxG.width - leaveButton.width;
+			proceedButton.offsetBy(-8, 0);
+			proceedButton.onClicked.add(() -> if (dialogueFinished) proceed());
+
+			proceedText.text = 'ENTER or the play button to proceed\nESCAPE or the back button to skip';
+		}
+
 		proceedText.screenCenter();
 		proceedText.y = FlxG.height - proceedText.height;
 
@@ -154,14 +168,10 @@ class DialogueScene extends ConductorState
 			dialogueFinished = true;
 
 		if (characterLeft != null)
-			characterLeft.alpha = 0.5;
-		if (characterRight != null)
-			characterRight.alpha = 0.5;
+			characterLeft.alpha = (line?.speaker == 1) ? 1 : 0.5;
 
-		if (line?.speaker == 1 && characterLeft != null)
-			characterLeft.alpha = 1;
-		if (line?.speaker == 2 && characterRight != null)
-			characterRight.alpha = 1;
+		if (characterRight != null)
+			characterRight.alpha = (line?.speaker == 2) ? 1 : 0.5;
 	}
 
 	var proceedInTimer:FlxTimer;
@@ -171,23 +181,27 @@ class DialogueScene extends ConductorState
 		switch (event.id.toLowerCase())
 		{
 			case 'playsound':
-				if (event.data != null)
-					FlxG.sound.play(Paths.getAudio('game/cutscenes/${event.data}'));
-			case 'characterswitch':
-				if (event.data != null)
-				{
-					if (event.data.left != null)
-						characterLeft.switchPortrait(event.data.left);
+				if (event.data == null)
+					return;
 
-					if (event.data.right != null)
-						characterRight.switchPortrait(event.data.right);
-				}
+				FlxG.sound.play(Paths.getAudio('game/cutscenes/${event.data}'));
+			case 'characterswitch':
+				if (event.data == null)
+					return;
+
+				if (Reflect.fields(event.data).contains('left'))
+					characterLeft.switchPortrait(event.data.left);
+
+				if (Reflect.fields(event.data).contains('right'))
+					characterRight.switchPortrait(event.data.right);
 			case 'proceedin':
-				if (event.data != null)
-					proceedInTimer.start(Std.parseFloat(Std.string(event.data)), t ->
-					{
-						proceed();
-					});
+				if (event.data == null)
+					return;
+
+				proceedInTimer.start(Std.parseFloat(Std.string(event.data)), t ->
+				{
+					proceed();
+				});
 		}
 	}
 
