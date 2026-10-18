@@ -1,3 +1,5 @@
+import ui.mobile.CornerButton;
+import util.Flag;
 import ui.objects.RWSprite;
 import ui.freeplay.Freeplay;
 import flixel.util.FlxTimer;
@@ -28,6 +30,8 @@ class ResultsState extends ConductorState
 
 	var windupScore:Float = 0;
 	var windupText:FlxText;
+
+	var leaveButton:CornerButton;
 
 	override function create()
 	{
@@ -91,6 +95,14 @@ class ResultsState extends ConductorState
 		{
 			leave();
 		});
+
+		if (Flag.IS_MOBILE_MODE)
+		{
+			leaveButton = new CornerButton('backBtn');
+			add(leaveButton);
+			leaveButton.x = FlxG.width - leaveButton.width;
+			leaveButton.onClicked.add(leave);
+		}
 	}
 
 	var windupDone = false;
@@ -101,15 +113,16 @@ class ResultsState extends ConductorState
 	{
 		super.update(elapsed);
 
-		if (windupDone && !leaveTimer.finished && FlxG.keys.anyJustPressed([ENTER, ESCAPE]))
-		{
-			leaveTimer.cancel();
+		if (FlxG.keys.anyJustPressed([ENTER, ESCAPE]))
 			leave();
-		}
 	}
 
 	function leave()
 	{
+		if (!windupDone || leaveTimer.finished)
+			return;
+
+		leaveTimer.cancel();
 		FlxG.switchState(() -> new Freeplay());
 	}
 }

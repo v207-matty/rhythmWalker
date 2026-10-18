@@ -2,6 +2,7 @@
 
 <!--
 - Mobile Work
+    - [MOBILE] Results gets a leave button
     - [MOBILE] Gameplay gets a leave button
     - [MOBILE] Dialogue Scene gets 2 buttons for skipping and proceeding
     - [MOBILE] Freeplay gets a play button
