@@ -1,5 +1,5 @@
 import util.Flag;
-import freeplay.Freeplay;
+import ui.freeplay.Freeplay;
 import flixel.text.FlxText;
 import flixel.FlxG;
 import flixel.FlxState;
@@ -35,7 +35,7 @@ class InitState extends FlxState
 	{
 		if (Flag.STARTINGSTATE_DIALOGUE)
 		{
-			FlxG.switchState(() -> new dialogue.DialogueScene(new song.Song('encapture')));
+			FlxG.switchState(() -> new ui.dialogue.DialogueScene(new song.Song('encapture')));
 			return;
 		}
 

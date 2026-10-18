@@ -1,4 +1,4 @@
-package dialogue;
+package ui.dialogue;
 
 import util.Flag;
 import ui.mobile.CornerButton;

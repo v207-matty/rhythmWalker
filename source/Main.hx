@@ -14,7 +14,7 @@ import flixel.addons.transition.FlxTransitionSprite;
 import flixel.graphics.FlxGraphic;
 import flixel.addons.transition.TransitionData;
 import haxe.Json;
-import freeplay.Freeplay;
+import ui.freeplay.Freeplay;
 import lime.utils.Assets;
 import util.Flag;
 import util.WindowUtil;

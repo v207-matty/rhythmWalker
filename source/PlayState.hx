@@ -2,12 +2,12 @@ package;
 
 import ui.mobile.CornerButton;
 import util.Flag;
-import freeplay.Freeplay;
+import ui.freeplay.Freeplay;
 import util.CustomShader;
 import flixel.util.FlxGradient;
 import ui.objects.RWSprite;
 import flixel.addons.transition.FlxTransitionableState;
-import dialogue.DialogueScene;
+import ui.dialogue.DialogueScene;
 import stage.TrainWreakShooter;
 import flixel.FlxObject;
 import flixel.FlxCamera;

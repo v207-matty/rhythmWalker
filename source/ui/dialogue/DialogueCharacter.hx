@@ -1,4 +1,4 @@
-package dialogue;
+package ui.dialogue;
 
 import ui.objects.RWSprite;
 

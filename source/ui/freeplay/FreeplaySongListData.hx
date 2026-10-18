@@ -1,6 +1,6 @@
-package freeplay;
+package ui.freeplay;
 
-import freeplay.FreeplaySongData;
+import ui.freeplay.FreeplaySongData;
 
 typedef FreeplaySongListData =
 {

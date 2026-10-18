@@ -1,5 +1,5 @@
 import ui.objects.RWSprite;
-import freeplay.Freeplay;
+import ui.freeplay.Freeplay;
 import flixel.util.FlxTimer;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;

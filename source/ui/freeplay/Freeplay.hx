@@ -1,4 +1,4 @@
-package freeplay;
+package ui.freeplay;
 
 import ui.objects.RWSprite;
 import ui.mobile.CornerButton;
@@ -11,7 +11,7 @@ import flixel.tweens.FlxTween;
 import flixel.addons.display.waveform.FlxWaveform;
 import flixel.sound.FlxSound;
 import song.Song;
-import dialogue.DialogueScene;
+import ui.dialogue.DialogueScene;
 import song.SongRank;
 import haxe.Json;
 import flixel.FlxSprite;

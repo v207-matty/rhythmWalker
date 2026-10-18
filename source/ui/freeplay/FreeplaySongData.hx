@@ -1,4 +1,4 @@
-package freeplay;
+package ui.freeplay;
 
 import song.SongVariation;
 
