@@ -203,7 +203,7 @@ class Freeplay extends ConductorState
 		{
 			for (i => swipe in FlxG.swipes)
 			{
-				if (swipe.duration < 0.1)
+				if (swipe.duration == 0)
 					continue;
 
 				if (i > 0)
