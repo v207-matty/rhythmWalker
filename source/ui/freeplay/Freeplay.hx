@@ -227,9 +227,9 @@ class Freeplay extends ConductorState
 				final range_right = [-0.2, 1.2];
 
 				if (up >= range[0] && up <= range[1])
-					changeSel(-1);
-				else if (down >= range[0] && down <= range[1])
 					changeSel(1);
+				else if (down >= range[0] && down <= range[1])
+					changeSel(-1);
 				else if ((left >= range_left_1[0] && left <= range_left_1[1]) || (left <= range_left_2[0] && left >= range_left_2[1]))
 					changeVolume(-1);
 				else if (right >= range_right[0] && right <= range_right[1])
