@@ -1,12 +1,12 @@
-# 0.4.0 - 10/17/2026
+# 0.4.0 - 10/2026
 
-- MOBILE SUPPORT HAS BEEN ADDED!
-    - Gameplay gets a leave button
+- Mobile Work
+    - [MOBILE] Gameplay gets a leave button
     - Gameplay now lets you click the screen to move (NOT MOBILE EXCLUSIVE)
-    - Dialogue Scene gets 2 buttons for skipping and proceeding
+    - [MOBILE] Dialogue Scene gets 2 buttons for skipping and proceeding
     - Freeplay lets you swipe to change selection and volume (NOT MOBILE EXCLUSIVE)
-    - Freeplay gets a play button
-    - Freeplay layout flips
+    - [MOBILE] Freeplay gets a play button
+    - [MOBILE] Freeplay layout flips
 
 - SAVE SHIT HAS BEEN CHANGED ( No conversion, sorry :( )
     - New Path
