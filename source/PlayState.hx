@@ -1,5 +1,6 @@
 package;
 
+import ui.mobile.CornerButton;
 import util.Flag;
 import freeplay.Freeplay;
 import util.CustomShader;
@@ -72,6 +73,8 @@ class PlayState extends ConductorState
 
 	var stageBackLayer:FlxSpriteGroup;
 	var stageFrontLayer:FlxSpriteGroup;
+
+	var leaveButton:CornerButton;
 
 	override public function new(song:String, ?variation:SongVariation = defaultVariation)
 	{
@@ -153,6 +156,14 @@ class PlayState extends ConductorState
 
 		if (introCutscene())
 			inIntroCutscene = true;
+
+		if (Flag.IS_MOBILE)
+		{
+			leaveButton = new CornerButton('backBtn');
+			add(leaveButton);
+			leaveButton.x = FlxG.width - leaveButton.width;
+			leaveButton.onClicked.add(leave);
+		}
 	}
 
 	override function update(elapsed:Float)
@@ -255,11 +266,14 @@ class PlayState extends ConductorState
 		}
 
 		if (FlxG.keys.justPressed.ESCAPE)
-		{
-			seenEndCutscene = seenIntroCutscene = true;
-			skipping = true;
-			onSongEnd();
-		}
+			leave();
+	}
+
+	function leave()
+	{
+		seenEndCutscene = seenIntroCutscene = true;
+		skipping = true;
+		onSongEnd();
 	}
 
 	function move(mult = 1.0)
@@ -814,7 +828,7 @@ class PlayState extends ConductorState
 
 							if (Std.string(piece[0]).contains('dj') || Std.string(piece[0]).contains('ocs'))
 								pieceSprCENTER.x += pieceSprCENTER.width * .05;
-							
+
 							if (Std.string(piece[0]).contains('marcella'))
 							{
 								pieceSprCENTER.x += pieceSprCENTER.width * .05;
