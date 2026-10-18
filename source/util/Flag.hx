@@ -11,11 +11,13 @@ enum abstract Flag(Bool) from Bool to Bool
 	public static final PLATFORM_HASHLINK = new Flag('PLATFORM_HASHLINK', [DefineMacro.isDefined('hl')]);
 	public static final PLATFORM_ANDROID = new Flag('PLATFORM_ANDROID', [DefineMacro.isDefined('android')]);
 	public static final PLATFORM_IOS = new Flag('PLATFORM_IOS', [DefineMacro.isDefined('ios')]);
+	public static final PLATFORM_MOBILE = new Flag('PLATFORM_MOBILE', [PLATFORM_ANDROID || PLATFORM_IOS]);
 
 	public static final IS_32BIT = new Flag('IS_32BIT', [DefineMacro.isDefined('_32bit'),]);
 	public static final IS_DEBUG = new Flag('IS_DEBUG', [DefineMacro.isDefined('debug'),]);
+	
 	public static final IS_MOBILE_MODE = new Flag('IS_MOBILE_MODE', [
-		DefineMacro.isDefined('MOBILE_MODE') || PLATFORM_WEB || PLATFORM_ANDROID || PLATFORM_IOS
+		DefineMacro.isDefined('MOBILE_MODE') || PLATFORM_WEB || PLATFORM_MOBILE
 	]);
 
 	public static final PLAY_SHADERS = new Flag('PLAY_SHADERS', [!DefineMacro.isDefined('DISABLE_PLAY_SHADERS')]);

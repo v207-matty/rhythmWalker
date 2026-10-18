@@ -1,5 +1,6 @@
 package ui.mobile;
 
+import util.Flag;
 import flixel.FlxG;
 import flixel.util.FlxSignal;
 import ui.objects.RWSprite;
@@ -16,7 +17,7 @@ class CornerButton extends RWSprite
 
 		back = new RWSprite('ui/mobile/cornerButtonBG');
 
-		setScale(0.5);
+		setScale(Flag.PLATFORM_MOBILE ? 1 : 0.5);
 
 		onClicked = new FlxSignal();
 	}
