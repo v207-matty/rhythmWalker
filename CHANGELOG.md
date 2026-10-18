@@ -2,6 +2,7 @@
 
 - Added crash handler
 
+- Fixed crash when changing song audio in freeplay
 - Fixed Dialogue Portrait loading
 
 - DCE has been enabled
