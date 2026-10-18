@@ -6,6 +6,7 @@
 
 - Added crash handler
 
+- Fixed Scroll Down Chinatown last 2 lines of dialogue being associated with the wrong speaker
 - Fixed freeplay crashes relating to null song audio
 - Fixed save not saving on crashes
 - Fixed Dialogue Portrait loading
