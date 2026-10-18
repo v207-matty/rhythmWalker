@@ -60,7 +60,7 @@ class Main extends FlxGame
 	{
 		super.update();
 
-		if (Flag.IS_DEBUG && FlxG.keys.pressed.F4)
+		if (FlxG.keys.pressed.F4)
 			throw 'Debug Crash';
 	}
 
