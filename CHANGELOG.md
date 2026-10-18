@@ -1,7 +1,8 @@
 # 0.4.0 - 10/17/2026
 
 - Fixed Dialogue Portrait loading
-- DCE has been enabled (should make the file size smaller)
+
+- DCE has been enabled
 
 # 0.3.2 - 5/25/2026
 
