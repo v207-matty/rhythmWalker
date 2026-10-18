@@ -2,8 +2,9 @@
 
 - MOBILE SUPPORT HAS BEEN ADDED!
     - Gameplay gets a leave button
-    - Gameplay now lets you click the screen to move
+    - Gameplay now lets you click the screen to move (NOT MOBILE EXCLUSIVE)
     - Dialogue Scene gets 2 buttons for skipping and proceeding
+    - Freeplay lets you swipe to change selection and volume (NOT MOBILE EXCLUSIVE)
     - Freeplay gets a play button
     - Freeplay layout flips
 

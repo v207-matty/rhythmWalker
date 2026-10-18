@@ -1,5 +1,6 @@
 package ui.freeplay;
 
+import flixel.math.FlxMath;
 import ui.objects.RWSprite;
 import ui.mobile.CornerButton;
 import util.Flag;
@@ -207,21 +208,32 @@ class Freeplay extends ConductorState
 				if (i > 0)
 					continue;
 
-				final up = swipe.degrees / -90;
-				final down = swipe.degrees / 90;
+				if (swipe.distance == 0)
+					continue;
 
-				// final count = Math.min(Math.abs((swipe.endPosition.y - swipe.startPosition.y) / 128) + 1, 6);
+				final up = FlxMath.roundDecimal(swipe.degrees / -90, 2);
+				final down = FlxMath.roundDecimal(swipe.degrees / 90, 2);
 
-				// trace(swipe.startPosition.y, swipe.endPosition.y, count);
+				final left = FlxMath.roundDecimal(swipe.degrees / 180, 2);
+				final right = FlxMath.roundDecimal(swipe.degrees / 45, 2);
 
-				final minRange = 0.8;
-				final maxRange = 1.2;
+				trace('dist: ${swipe.distance}', 'deg: ${swipe.degrees}', 'left: $left', 'down: $down', 'up: $up', 'right: $right');
 
-				if (up >= minRange && up <= maxRange)
+				final range = [0.8, 1.2];
+
+				final range_left_1 = [0.7, 1.5];
+				final range_left_2 = [-0.7, -1.5];
+
+				final range_right = [-0.2, 1.2];
+
+				if (up >= range[0] && up <= range[1])
 					changeSel(-1);
-
-				if (down >= minRange && down <= maxRange)
+				else if (down >= range[0] && down <= range[1])
 					changeSel(1);
+				else if ((left >= range_left_1[0] && left <= range_left_1[1]) || (left <= range_left_2[0] && left >= range_left_2[1]))
+					changeVolume(-1);
+				else if (right >= range_right[0] && right <= range_right[1])
+					changeVolume(1);
 			}
 
 			if (FlxG.keys.anyJustPressed([W, UP]))
