@@ -18,9 +18,11 @@ class ResultsState extends ConductorState
 	{
 		super();
 
-		songScore = Save.songScores.get(songCode);
-		songRank = Save.songRanks.get(songCode);
-		songRankPercent = Save.songRankPercents.get(songCode);
+		var score = Save.scores.get(songCode);
+
+		songScore = score?.score ?? 0;
+		songRank = score?.rank ?? NONE;
+		songRankPercent = score?.percent ?? 0;
 	}
 
 	var windupScore:Float = 0;

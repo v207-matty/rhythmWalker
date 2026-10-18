@@ -367,29 +367,15 @@ class Freeplay extends ConductorState
 		if (selectedEntry > entries.length - 1)
 			selectedEntry = 0;
 
-		var curSongScore:Int = Save.songScores.get(songCode) ?? 0;
-		var curSongRank:SongRank = Save.songRanks.get(songCode) ?? NONE;
-		var curSongRankPercent:Float = 0;
-		try
-		{
-			if (Std.string(Save.songRankPercents.get(songCode)) == 'null')
-				curSongRankPercent = 0;
-			else
-				curSongRankPercent = Save.songRankPercents.get(songCode) ?? 0;
-		}
-		catch (e)
-		{
-			if (e.toString().contains('assert') && Flag.PLATFORM_HASHLINK)
-			{
-				trace('ITS FUCKING ASSERT AGAIN.');
-			}
-			else
-				trace(e);
-		}
+		var score = Save.scores.get(songCode);
+		var curSongScore:Int = score?.score ?? 0;
+		var curSongRank:SongRank = score?.rank ?? NONE;
+		var curSongRankPercent:Float = score?.percent ?? 0;
 
 		for (i => text in texts.members)
 		{
-			var textSongRank:SongRank = Save.songRanks.get('${entries[i].song.toLowerCase()}-${(entries[i].variation ?? defaultVariation).toString().toLowerCase()}') ?? NONE;
+			final code = '${entries[i].song}-${(entries[i].variation ?? defaultVariation)}'.toLowerCase();
+			var textSongRank:SongRank = Save.scores.get(code)?.rank ?? NONE;
 
 			text.color = (textSongRank == NONE && Flag.FREEPLAY_DISPLAY_SONG_PLAYED) ? FlxColor.RED : FlxColor.WHITE;
 
@@ -534,7 +520,7 @@ class Freeplay extends ConductorState
 			if (song.variation != defaultVariation)
 				tXt.text += ' (${variationStr.substr(0, 1).toUpperCase()}${variationStr.substr(1)})';
 
-			var curSongRank:SongRank = Save.songRanks.get('${song.song.toLowerCase()}-${variationStr}') ?? NONE;
+			var curSongRank:SongRank = Save.scores.get('${song.song.toLowerCase()}-${variationStr}')?.rank ?? NONE;
 			if (curSongRank == NONE && Flag.FREEPLAY_DISPLAY_SONG_PLAYED)
 				tXt.text += ' (Unplayed)';
 
@@ -547,9 +533,7 @@ class Freeplay extends ConductorState
 				tXt.x = FlxG.width - tXt.width;
 			}
 			else
-			{
 				tXt.screenCenter(X);
-			}
 
 			texts.add(tXt);
 		}

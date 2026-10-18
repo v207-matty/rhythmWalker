@@ -1,3 +1,4 @@
+import song.SongScore;
 import flixel.util.FlxSave;
 import util.Flag;
 import flixel.math.FlxMath;
@@ -9,16 +10,12 @@ using StringTools;
 
 typedef SaveData =
 {
-	?songScores:Map<String, Int>,
-	?songRanks:Map<String, SongRank>,
-	?songRankPercents:Map<String, Float>,
+	?scores:Map<String, SongScore>,
 }
 
 class Save
 {
-	public static var songScores:Map<String, Int> = [];
-	public static var songRanks:Map<String, SongRank> = [];
-	public static var songRankPercents:Map<String, Float> = [];
+	public static var scores:Map<String, SongScore> = [];
 
 	public static var game(get, set):SaveData;
 
@@ -31,7 +28,6 @@ class Save
 	public static function init()
 	{
 		FlxG.save.bind('RhythmWalker', '.Matty');
-		FlxG.save.mergeDataFrom('RhythmWalker', 'Maki', true, true,);
 
 		load();
 
@@ -45,25 +41,19 @@ class Save
 	{
 		game ??= {};
 
-		game.songScores ??= [];
-		game.songRanks ??= [];
-		game.songRankPercents ??= [];
+		game.scores ??= [];
 
 		if (!Flag.SAVE_CLEAR)
-		{
-			songScores = game.songScores;
-			songRanks = game.songRanks;
-			songRankPercents = game.songRankPercents;
-		}
+			scores = game.scores;
 
 		trace(game);
 	}
 
 	public static function save()
 	{
-		game.songScores = songScores;
-		game.songRanks = songRanks;
-		game.songRankPercents = songRankPercents;
+		game = {
+			scores: game.scores
+		};
 
 		FlxG.save.flush();
 
@@ -72,25 +62,10 @@ class Save
 
 	public static function saveSongScore(id:String, score:Int, totalScore:Int)
 	{
-		var songScore:Int = songScores.get(id) ?? 0;
-		var songRank:SongRank = songRanks.get(id) ?? NONE;
-		var songRankPercent:Float = 0;
-		try
-		{
-			if (Std.string(Save.songRankPercents.get(id)) == 'null')
-				songRankPercent = 0;
-			else
-				songRankPercent = Save.songRankPercents.get(id) ?? 0;
-		}
-		catch (e)
-		{
-			if (e.toString().contains('assert') && Flag.PLATFORM_HASHLINK)
-			{
-				trace('ITS FUCKING ASSERT AGAIN.');
-			}
-			else
-				trace(e);
-		}
+		var song = scores.get(id);
+		var songScore:Int = song?.score ?? 0;
+		var songRank:SongRank = song?.rank ?? NONE;
+		var songRankPercent:Float = song?.percent ?? 0;
 
 		var newHS:Bool = false;
 
@@ -110,9 +85,11 @@ class Save
 		if (songRank == NONE)
 			songRank = BAD;
 
-		songScores.set(id, songScore);
-		songRanks.set(id, songRank);
-		songRankPercents.set(id, FlxMath.roundDecimal(songRankPercent, 2));
+		scores.set(id, {
+			percent: FlxMath.roundDecimal(songRankPercent, 2),
+			rank: songRank,
+			score: songScore,
+		});
 
 		return newHS;
 	}

@@ -1,5 +1,9 @@
 # 0.4.0 - 10/17/2026
 
+- SAVE SHIT HAS BEEN CHANGED ( No conversion, sorry :( )
+    - New Path
+    - Scores are saved different
+
 - Added crash handler
 
 - Fixed save not saving on crashes
