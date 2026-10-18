@@ -264,6 +264,8 @@ class PlayState extends ConductorState
 
 		if (FlxG.keys.pressed.SHIFT)
 			shiftThing *= 2;
+		else if (FlxG.mouse.pressed)
+			shiftThing *= 2 * (player.x / FlxG.mouse.x);
 
 		player.flipX = mult > -1;
 		player.velocity.x += (data.player.speed * shiftThing) * mult;
