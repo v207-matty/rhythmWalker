@@ -190,10 +190,13 @@ class Freeplay extends ConductorState
 
 					trace(swipe.degrees,up,down);
 
-					if (up >= 0.9 && up <= 1.1)
+					final minRange = 0.8;
+					final maxRange = 1.2;
+
+					if (up >= minRange && up <= maxRange)
 						changeSel(-1);
 
-					if (down >= 0.9 && down <= 1.1)
+					if (down >= minRange && down <= maxRange)
 						changeSel(1);
 				}
 			}
