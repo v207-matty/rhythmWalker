@@ -231,9 +231,9 @@ class PlayState extends ConductorState
 	{
 		player.maxVelocity.x = data.player.maxVelocityBase * scrollSpeed;
 
-		if (FlxG.keys.anyPressed([A, LEFT]))
+		if (FlxG.keys.anyPressed([A, LEFT]) || (FlxG.mouse.pressed && FlxG.mouse.x < player.x))
 			move(-1);
-		else if (FlxG.keys.anyPressed([D, RIGHT]))
+		else if (FlxG.keys.anyPressed([D, RIGHT]) || (FlxG.mouse.pressed && FlxG.mouse.x > player.x))
 			move(1);
 		else
 			playerVelocityDamping();
