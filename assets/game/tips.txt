@@ -3,3 +3,4 @@ Beat Monsters can't hurt you if the camera is off or faded below 10%,\nSo you ca
 When you're scaled down, you're more slippery!\nThis can be useful in dodging beat monsters.
 When you're scaled down, your hitbox does not scale with you!\nSo don't try dodging beat monsters last second, won't work.
 You can press ENTER or ESCAPE to skip the Results Scene
+When using your mouse to move, have your mouse closer to the player, that'll move them faster!
