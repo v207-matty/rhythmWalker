@@ -2,6 +2,7 @@
 
 - Added crash handler
 
+- Fixed save not saving on crashes
 - Fixed crash when changing song audio in freeplay
 - Fixed Dialogue Portrait loading
 
