@@ -187,22 +187,18 @@ class Freeplay extends ConductorState
 				final up = swipe.degrees / -90;
 				final down = swipe.degrees / 90;
 
-				final count = Math.min(Math.abs((swipe.endPosition.y - swipe.startPosition.y) / 128) + 1, 6);
+				// final count = Math.min(Math.abs((swipe.endPosition.y - swipe.startPosition.y) / 128) + 1, 6);
 
-				trace(swipe.startPosition.y, swipe.endPosition.y, count);
+				// trace(swipe.startPosition.y, swipe.endPosition.y, count);
 
 				final minRange = 0.8;
 				final maxRange = 1.2;
-				
-				if (Math.round(count) >= 1)
-					FlxTween.num(0, count, count / 15, {ease: FlxEase.expoOut}, t ->
-					{
-						if (up >= minRange && up <= maxRange)
-							changeSel(-1);
 
-						if (down >= minRange && down <= maxRange)
-							changeSel(1);
-					});
+				if (up >= minRange && up <= maxRange)
+					changeSel(-1);
+
+				if (down >= minRange && down <= maxRange)
+					changeSel(1);
 			}
 
 			if (FlxG.keys.anyJustPressed([W, UP]))
