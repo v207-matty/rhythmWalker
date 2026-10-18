@@ -6,12 +6,15 @@ enum abstract Flag(Bool) from Bool to Bool
 {
 	public static var list:Map<String, Flag> = [];
 
-	public static final IS_32BIT = new Flag('IS_32BIT', [DefineMacro.isDefined('_32bit'),]);
-	public static final IS_DEBUG = new Flag('IS_DEBUG', [DefineMacro.isDefined('debug'),]);
-
 	public static final PLATFORM_LINUX = new Flag('PLATFORM_LINUX', [DefineMacro.isDefined('linux')]);
 	public static final PLATFORM_WEB = new Flag('PLATFORM_WEB', [DefineMacro.isDefined('web')]);
 	public static final PLATFORM_HASHLINK = new Flag('PLATFORM_HASHLINK', [DefineMacro.isDefined('hl')]);
+	public static final PLATFORM_ANDROID = new Flag('PLATFORM_ANDROID', [DefineMacro.isDefined('android')]);
+	public static final PLATFORM_IOS = new Flag('PLATFORM_IOS', [DefineMacro.isDefined('ios')]);
+
+	public static final IS_32BIT = new Flag('IS_32BIT', [DefineMacro.isDefined('_32bit'),]);
+	public static final IS_DEBUG = new Flag('IS_DEBUG', [DefineMacro.isDefined('debug'),]);
+	public static final IS_MOBILE = new Flag('IS_MOBILE', [DefineMacro.isDefined('MOBILE_MODE') || PLATFORM_ANDROID || PLATFORM_IOS]);
 
 	public static final PLAY_SHADERS = new Flag('PLAY_SHADERS', [!DefineMacro.isDefined('DISABLE_PLAY_SHADERS')]);
 	public static final PLAY_IMMORTAL = new Flag('PLAY_IMMORTAL', [DefineMacro.isDefined('immortal') || DefineMacro.isDefined('IMMORTAL')]);

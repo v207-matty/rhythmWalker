@@ -1,3 +1,4 @@
+import util.Flag;
 import flixel.FlxG;
 import flixel.addons.sound.FlxRhythmConductor;
 import flixel.addons.ui.FlxUIState;
@@ -27,7 +28,7 @@ class ConductorState extends FlxUIState
 
 	function onStepHit(step:Int, backward:Bool) {}
 
-	var mouseEnabled:Bool = false;
+	var mouseEnabled:Bool = Flag.IS_MOBILE;
 
 	override function update(elapsed:Float)
 	{

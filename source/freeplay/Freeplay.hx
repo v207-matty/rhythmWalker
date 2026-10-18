@@ -174,39 +174,44 @@ class Freeplay extends ConductorState
 	{
 		super.update(elapsed);
 
-		if (FlxG.keys.anyJustPressed([W, UP]))
-			changeSel(-1);
-		if (FlxG.keys.anyJustPressed([S, DOWN]))
-			changeSel(1);
-
-		if (FlxG.keys.anyJustPressed([A, LEFT]))
-			changeVolume(-1);
-		if (FlxG.keys.anyJustPressed([D, RIGHT]))
-			changeVolume(1);
-
-		if (FlxG.keys.justPressed.ENTER)
-		{
-			FlxG.sound.play(Paths.getAudio('sfx/menu/confirm'));
-
-			var song = {
-				song: songCode.substr(0, songCode.lastIndexOf('-')),
-				variation: songCode.substr(songCode.lastIndexOf('-') + 1),
-			}
-			trace(song);
-
-			if (bgAudio != null && bgAudio.playing)
-				bgAudio.fadeOut(.25, 0, t ->
+		if (subState == null)
+			if (Flag.IS_MOBILE)
+			{
+				for (i => swipe in FlxG.swipes)
 				{
-					FlxG.sound.onVolumeChange.remove(onVolumeChange);
+					if (i > 0)
+						continue;
 
-					bgAudio.stop();
-					bgAudio.destroy();
-					bgAudio = null;
-				});
+					if (swipe.duration < 0.15)
+						continue;
 
-			DialogueScene.seenIntroCutscene = false;
-			FlxG.switchState(() -> new DialogueScene(new Song(song.song, song.variation)));
-		}
+					final up = swipe.degrees / -90;
+					final down = swipe.degrees / 90;
+
+					trace(swipe.degrees,up,down);
+
+					if (up >= 0.9 && up <= 1.1)
+						changeSel(-1);
+
+					if (down >= 0.9 && down <= 1.1)
+						changeSel(1);
+				}
+			}
+			else
+			{
+				if (FlxG.keys.anyJustPressed([W, UP]))
+					changeSel(-1);
+				if (FlxG.keys.anyJustPressed([S, DOWN]))
+					changeSel(1);
+
+				if (FlxG.keys.anyJustPressed([A, LEFT]))
+					changeVolume(-1);
+				if (FlxG.keys.anyJustPressed([D, RIGHT]))
+					changeVolume(1);
+
+				if (FlxG.keys.justPressed.ENTER)
+					proceed();
+			}
 
 		if (bgAudio != null && bgAudio.volume > FlxG.sound.volume)
 			bgAudio.volume = FlxG.sound.volume;
@@ -233,6 +238,30 @@ class Freeplay extends ConductorState
 			if (bgAudio != null && wave.waveformTime > bgAudio.length)
 				wave.waveformTime = 0;
 		});
+	}
+
+	function proceed()
+	{
+		FlxG.sound.play(Paths.getAudio('sfx/menu/confirm'));
+
+		var song = {
+			song: songCode.substr(0, songCode.lastIndexOf('-')),
+			variation: songCode.substr(songCode.lastIndexOf('-') + 1),
+		}
+		trace(song);
+
+		if (bgAudio != null && bgAudio.playing)
+			bgAudio.fadeOut(.25, 0, t ->
+			{
+				FlxG.sound.onVolumeChange.remove(onVolumeChange);
+
+				bgAudio.stop();
+				bgAudio.destroy();
+				bgAudio = null;
+			});
+
+		DialogueScene.seenIntroCutscene = false;
+		FlxG.switchState(() -> new DialogueScene(new Song(song.song, song.variation)));
 	}
 
 	override function finishTransOut()
