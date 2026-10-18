@@ -331,11 +331,11 @@ class Freeplay extends ConductorState
 
 		if (!audioCache.exists(songCode))
 		{
-			bgAudio.loadEmbedded(Paths.getSong(entries[selectedEntry].song, entries[selectedEntry]?.variation ?? defaultVariation), true);
+			bgAudio.load(Paths.getSong(entries[selectedEntry].song, entries[selectedEntry]?.variation ?? defaultVariation), true);
 			audioCache.set(songCode, bgAudio._sound);
 		}
 		else
-			bgAudio.loadEmbedded(audioCache.get(songCode), true);
+			bgAudio.load(audioCache.get(songCode), true);
 
 		if (!Flag.FREEPLAY_VISUALIZER_MULTICACHE)
 		{
@@ -585,10 +585,10 @@ class Freeplay extends ConductorState
 
 		var audio:FlxSound;
 		if (audioCache.exists(viz))
-			audio = new FlxSound().loadEmbedded(audioCache.get(viz));
+			audio = new FlxSound().load(audioCache.get(viz));
 		else
 		{
-			audio = new FlxSound().loadEmbedded(Paths.getSong(song.song, song.variation), true);
+			audio = new FlxSound().load(Paths.getSong(song.song, song.variation), true);
 
 			audioCache.set(viz, audio._sound);
 		}

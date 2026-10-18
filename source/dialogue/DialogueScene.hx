@@ -83,7 +83,7 @@ class DialogueScene extends ConductorState
 		dialogueText = new FlxTypeText(0, 0, 0, 'Lorem Ipsum Dolor Sit Amet', 32);
 		add(dialogueText);
 
-		dialogueText.sounds = [FlxG.sound.load(Paths.getAudio('game/cutscenes/dialogueText')),];
+		dialogueText.sounds = [FlxG.sound.create(Paths.getAudio('game/cutscenes/dialogueText')),];
 		dialogueText.finishSounds = true;
 
 		dialogueText.screenCenter();

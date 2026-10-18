@@ -15,6 +15,6 @@ class DialogueCharacter extends RWSprite
 
 	public function switchPortrait(portrait:String)
 	{
-		loadGraphic(Paths.getImagePath('dialogue/portraits/$portrait'));
+		loadGraphic(Paths.getImagePath('game/cutscenes/dialogue/portraits/$portrait'));
 	}
 }

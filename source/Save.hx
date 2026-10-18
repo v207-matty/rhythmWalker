@@ -1,3 +1,4 @@
+import flixel.util.FlxSave;
 import util.Flag;
 import flixel.math.FlxMath;
 import lime.app.Application;
@@ -29,7 +30,8 @@ class Save
 
 	public static function init()
 	{
-		FlxG.save.bind('RhythmWalker', 'Maki');
+		FlxG.save.bind('RhythmWalker', '.Matty');
+		FlxG.save.mergeDataFrom('RhythmWalker', 'Maki', true, true,);
 
 		load();
 
