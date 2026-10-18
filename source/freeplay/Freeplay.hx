@@ -178,10 +178,10 @@ class Freeplay extends ConductorState
 		{
 			for (i => swipe in FlxG.swipes)
 			{
-				if (i > 0)
+				if (swipe.duration < 0.1)
 					continue;
 
-				if (swipe.duration < 0.05)
+				if (i > 0)
 					continue;
 
 				final up = swipe.degrees / -90;
