@@ -1,5 +1,7 @@
 package freeplay;
 
+import ui.objects.RWSprite;
+import ui.mobile.CornerButton;
 import util.Flag;
 import flixel.util.FlxSort;
 import openfl.media.Sound;
@@ -82,17 +84,16 @@ class Freeplay extends ConductorState
 
 	var camFollow:FlxObject;
 
-	var topSegBG:FlxSprite;
+	var topSegBG:RWSprite;
 	var topSegText:FlxText;
 
-	var btmSegBG:FlxSprite;
+	var btmSegBG:RWSprite;
 	var btmSegText:FlxText;
 
 	var bgAudio:FlxSound;
 	var bgAudioVizFade:FlxTween;
 
-	var playButton:FlxSprite;
-	var playButtonBox:FlxSprite;
+	var playButton:CornerButton;
 
 	public var songCode(get, never):String;
 
@@ -135,7 +136,8 @@ class Freeplay extends ConductorState
 		topSegText.alignment = CENTER;
 		topSegText.scrollFactor.set();
 
-		topSegBG = new FlxSprite(0, 0).makeGraphic(1, 1, FlxColor.BLACK);
+		topSegBG = new RWSprite(null);
+		topSegBG.makeGraphic(1, 1, FlxColor.BLACK);
 		topSegBG.scrollFactor.set();
 
 		add(topSegBG);
@@ -145,7 +147,8 @@ class Freeplay extends ConductorState
 		btmSegText.alignment = CENTER;
 		btmSegText.scrollFactor.set();
 
-		btmSegBG = new FlxSprite(0, 0).makeGraphic(1, 1, FlxColor.BLACK);
+		btmSegBG = new RWSprite(null);
+		btmSegBG.makeGraphic(1, 1, FlxColor.BLACK);
 		btmSegBG.scrollFactor.set();
 
 		add(btmSegBG);
@@ -163,24 +166,15 @@ class Freeplay extends ConductorState
 
 		if (Flag.IS_MOBILE)
 		{
-			playButtonBox = new FlxSprite().makeGraphic(1, 1);
-			playButtonBox.color = 0xFF000000;
-
-			playButton = new FlxSprite().loadGraphic(Paths.getImagePath('ui/play'));
-			playButton.scale.set(2, 2);
-			playButton.updateHitbox();
+			playButton = new CornerButton('playBtn');
 
 			playButton.y = FlxG.height - playButton.height;
 			playButton.x = FlxG.width - playButton.width;
 
-			playButtonBox.scale.set(playButton.width, playButton.height);
-			playButtonBox.x = playButton.getGraphicMidpoint().x;
-			playButtonBox.y = playButton.getGraphicMidpoint().y;
+			playButton.setScrollFactor(0);
 
-			playButton.scrollFactor.set(0, 0);
-			playButtonBox.scrollFactor.set(0, 0);
-
-			add(playButtonBox);
+			playButton.back.angle = 90;
+			playButton.offsetBy(-8, -32);
 			add(playButton);
 		}
 
@@ -476,9 +470,7 @@ class Freeplay extends ConductorState
 		topSegText.updateHitbox();
 		topSegText.screenCenter(X);
 
-		topSegBG.scale.set(FlxG.width, topSegText.height);
-		topSegBG.updateHitbox();
-
+		topSegBG.setScale(FlxG.width, topSegText.height);
 		topSegBG.setPosition(0, topSegText.y);
 
 		if (selectedEntry != prevSel || amount == 0)
@@ -531,9 +523,7 @@ class Freeplay extends ConductorState
 		btmSegText.screenCenter(X);
 		btmSegText.y = FlxG.height - btmSegText.height;
 
-		btmSegBG.scale.set(FlxG.width, btmSegText.height);
-		btmSegBG.updateHitbox();
-
+		btmSegBG.setScale(FlxG.width, btmSegText.height);
 		btmSegBG.setPosition(0, btmSegText.y);
 
 		if (selectedVolume != prevVol || amount == 0)

@@ -4,7 +4,7 @@ import util.Flag;
 import freeplay.Freeplay;
 import util.CustomShader;
 import flixel.util.FlxGradient;
-import util.RWSprite;
+import ui.objects.RWSprite;
 import flixel.addons.transition.FlxTransitionableState;
 import dialogue.DialogueScene;
 import stage.TrainWreakShooter;
@@ -34,7 +34,7 @@ class PlayState extends ConductorState
 {
 	var immortal:Bool = Flag.PLAY_IMMORTAL;
 
-	var player:FlxSprite;
+	var player:RWSprite;
 	var playerStunned:Bool = false;
 	var playerCollision:FlxSprite;
 
@@ -682,8 +682,7 @@ class PlayState extends ConductorState
 					}
 				});
 
-				player.scale.set(1.5, 1.5);
-				player.updateHitbox();
+				player.setScale(1.5);
 				player.screenCenter();
 				player.y = FlxG.height - player.height * 1.3;
 
@@ -858,9 +857,6 @@ class PlayState extends ConductorState
 				trainWreak_shooter.y -= trainWreak_shooter.width * 0.5;
 				stageBackLayer.add(trainWreak_shooter);
 
-				player.scale.set(2, 2);
-				player.updateHitbox();
-
 				player.screenCenter();
 				player.y = FlxG.height - player.height * 1.15;
 
@@ -883,7 +879,7 @@ class PlayState extends ConductorState
 				stageBackLayer.add(train);
 				train.camera = camGame;
 
-				player.scale.set(1, 1);
+				player.setScale(1);
 				player.updateHitbox();
 
 				player.screenCenter();
@@ -1011,18 +1007,18 @@ class PlayState extends ConductorState
 		}
 
 		// player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
-		player = new FlxSprite().loadGraphic(Paths.getImagePath('game/players/${data.player.skin}'), true, dimensionsSprite[0], dimensionsSprite[1]);
+		// player = new FlxSprite().loadGraphic(Paths.getImagePath('game/players/${data.player.skin}'), true, dimensionsSprite[0], dimensionsSprite[1]);
+		player = new RWSprite('game/players/${data.player.skin}', true, dimensionsSprite[0], dimensionsSprite[1]);
 
 		for (thing => data in animFrames)
 		{
 			trace('Player Anim "$thing" : $data');
-			player.animation.add(thing, data.frames, data?.fps ?? 24, false, data.flipX);
+			player.addAnim(thing, data.frames, data?.fps ?? 24, false, data.flipX, data.flipY);
 		}
 
 		playPlayerIdle();
 
-		player.scale.set(2, 2);
-		player.updateHitbox();
+		player.setScale(2);
 
 		player.animation.onFinish.add(animName ->
 		{

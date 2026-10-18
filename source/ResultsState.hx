@@ -1,3 +1,4 @@
+import ui.objects.RWSprite;
 import freeplay.Freeplay;
 import flixel.util.FlxTimer;
 import flixel.FlxSprite;
@@ -74,16 +75,14 @@ class ResultsState extends ConductorState
 
 		var were:Bool = (songRank != BAD);
 
-		var didWere = new FlxSprite(0, 0, Paths.getImagePath('game/results/${(were) ? 'were' : 'did'}'));
+		var didWere = new RWSprite('game/results/${(were) ? 'were' : 'did'}');
 		add(didWere);
-		didWere.scale.set(2, 2);
-		didWere.updateHitbox();
+		didWere.setScale(2);
 		didWere.screenCenter();
 
-		var rank = new FlxSprite(0, 0, Paths.getImagePath('game/results/ranks/$songRank'));
+		var rank = new RWSprite('game/results/ranks/$songRank');
 		add(rank);
-		rank.scale.set(2, 2);
-		rank.updateHitbox();
+		rank.setScale(2);
 		rank.screenCenter();
 
 		windupDone = true;

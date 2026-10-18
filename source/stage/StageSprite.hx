@@ -1,6 +1,6 @@
 package stage;
 
-import util.RWSprite;
+import ui.objects.RWSprite;
 
 class StageSprite extends RWSprite
 {

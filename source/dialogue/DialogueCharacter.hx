@@ -1,6 +1,6 @@
 package dialogue;
 
-import util.RWSprite;
+import ui.objects.RWSprite;
 
 class DialogueCharacter extends RWSprite
 {
