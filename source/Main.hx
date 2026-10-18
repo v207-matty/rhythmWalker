@@ -70,7 +70,7 @@ class Main extends FlxGame
 
 		Save.save();
 
-		var stack = CallStack.callStack();
+		var stack = CallStack.exceptionStack(true);
 
 		var error:String = 'Error: ${e.error}\n\nCall Stack:\n';
 		@:privateAccess stack.reverse();
@@ -79,14 +79,20 @@ class Main extends FlxGame
 		{
 			switch (stackItem)
 			{
-				case Method(classname, method):
-					error += 'Called from ${(classname == null ? '<unknown>' : classname)} @ $method\n';
-				case FilePos(s, file, line, _):
-					error += '$file:$line\n';
+				case FilePos(innerStackItem, file, line, column):
+					error += ' in ${file}#${line}';
+					if (column != null)
+						error += ':${column}';
+				case CFunction:
+					error += '[Function] ';
 				case Module(m):
-				default:
-					error += '$stackItem';
+					error += '[Module(${m})] ';
+				case Method(classname, method):
+					error += '[Function(${classname}.${method})] ';
+				case LocalFunction(v):
+					error += '[LocalFunction(${v})] ';
 			}
+			error += '\n';
 		}
 
 		for (stackItem in stack)
