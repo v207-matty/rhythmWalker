@@ -175,46 +175,49 @@ class Freeplay extends ConductorState
 		super.update(elapsed);
 
 		if (subState == null)
-			if (Flag.IS_MOBILE)
+		{
+			for (i => swipe in FlxG.swipes)
 			{
-				for (i => swipe in FlxG.swipes)
-				{
-					if (i > 0)
-						continue;
+				if (i > 0)
+					continue;
 
-					if (swipe.duration < 0.05)
-						continue;
+				if (swipe.duration < 0.05)
+					continue;
 
-					final up = swipe.degrees / -90;
-					final down = swipe.degrees / 90;
+				final up = swipe.degrees / -90;
+				final down = swipe.degrees / 90;
 
-					trace(swipe.degrees,up,down);
+				final count = Math.min(Math.abs((swipe.endPosition.y - swipe.startPosition.y) / 128) + 1, 6);
 
-					final minRange = 0.8;
-					final maxRange = 1.2;
+				trace(swipe.startPosition.y, swipe.endPosition.y, count);
 
-					if (up >= minRange && up <= maxRange)
-						changeSel(-1);
+				final minRange = 0.8;
+				final maxRange = 1.2;
+				
+				if (Math.round(count) >= 1)
+					FlxTween.num(0, count, count / 15, {ease: FlxEase.expoOut}, t ->
+					{
+						if (up >= minRange && up <= maxRange)
+							changeSel(-1);
 
-					if (down >= minRange && down <= maxRange)
-						changeSel(1);
-				}
+						if (down >= minRange && down <= maxRange)
+							changeSel(1);
+					});
 			}
-			else
-			{
-				if (FlxG.keys.anyJustPressed([W, UP]))
-					changeSel(-1);
-				if (FlxG.keys.anyJustPressed([S, DOWN]))
-					changeSel(1);
 
-				if (FlxG.keys.anyJustPressed([A, LEFT]))
-					changeVolume(-1);
-				if (FlxG.keys.anyJustPressed([D, RIGHT]))
-					changeVolume(1);
+			if (FlxG.keys.anyJustPressed([W, UP]))
+				changeSel(-1);
+			if (FlxG.keys.anyJustPressed([S, DOWN]))
+				changeSel(1);
 
-				if (FlxG.keys.justPressed.ENTER)
-					proceed();
-			}
+			if (FlxG.keys.anyJustPressed([A, LEFT]))
+				changeVolume(-1);
+			if (FlxG.keys.anyJustPressed([D, RIGHT]))
+				changeVolume(1);
+
+			if (FlxG.keys.justPressed.ENTER)
+				proceed();
+		}
 
 		if (bgAudio != null && bgAudio.volume > FlxG.sound.volume)
 			bgAudio.volume = FlxG.sound.volume;
@@ -393,11 +396,11 @@ class Freeplay extends ConductorState
 		bgAudio.fadeIn(.25, bgAudio.volume, FlxG.sound.volume);
 	}
 
-	function changeSel(amount:Int)
+	function changeSel(amount:Float)
 	{
 		var prevSel = selectedEntry;
 
-		selectedEntry += amount;
+		selectedEntry += Math.round(amount);
 
 		if (selectedEntry < 0)
 			selectedEntry = entries.length - 1;
