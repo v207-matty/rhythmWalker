@@ -182,7 +182,7 @@ class Freeplay extends ConductorState
 					if (i > 0)
 						continue;
 
-					if (swipe.duration < 0.15)
+					if (swipe.duration < 0.1)
 						continue;
 
 					final up = swipe.degrees / -90;
