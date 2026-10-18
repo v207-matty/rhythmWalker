@@ -1095,18 +1095,15 @@ class PlayState extends ConductorState
 					{
 						stageBackLayer.forEach(sprite ->
 						{
-							if (Std.isOfType(sprite, StageSprite))
-							{
-								if (sprite == null)
-									return;
+							if (!Std.isOfType(sprite, StageSprite) || sprite == null)
+								return;
 
-								if (sprite != trainWreak_shooter
-									&& (sprite.scale.x >= 2 && !cast(sprite, StageSprite).sprite.contains('randoms')))
-									if (sprite.x != 0 || sprite.y != 0)
-									{
-										stageBackLayer.remove(sprite);
-										sprite.destroy();
-									}
+							if (sprite != trainWreak_shooter
+								&& (sprite.scale.x >= 2 && !cast(sprite, StageSprite).sprite.contains('randoms'))
+								&& (sprite.x != 0 || sprite.y != 0))
+							{
+								stageBackLayer.remove(sprite);
+								sprite.destroy();
 							}
 						});
 					}
@@ -1166,15 +1163,20 @@ class PlayState extends ConductorState
 
 		seenEndCutscene = true;
 
+		function idleAndDamp()
+		{
+			playPlayerIdle();
+
+			new FlxTimer().start(1 / FlxG.updateFramerate, t ->
+			{
+				playerVelocityDamping();
+			}, FlxG.updateFramerate);
+		}
+
 		switch ([song.id, song.variation])
 		{
 			case ['train wreak', defaultVariation]:
-				playPlayerIdle();
-
-				new FlxTimer().start(1 / FlxG.updateFramerate, t ->
-				{
-					playerVelocityDamping();
-				}, FlxG.updateFramerate);
+				idleAndDamp();
 
 				FlxTween.tween(camGame, {zoom: 1.1}, 4, {ease: FlxEase.quintOut});
 
@@ -1191,20 +1193,12 @@ class PlayState extends ConductorState
 					});
 				});
 
-				FlxTimer.wait(2, () ->
-				{
-					onSongEnd();
-				});
+				FlxTimer.wait(2, onSongEnd);
 
 				return true;
 
 			case ['shift around', defaultVariation]:
-				playPlayerIdle();
-
-				new FlxTimer().start(1 / FlxG.updateFramerate, t ->
-				{
-					playerVelocityDamping();
-				}, FlxG.updateFramerate);
+				idleAndDamp();
 
 				FlxTimer.wait(1, () ->
 				{
