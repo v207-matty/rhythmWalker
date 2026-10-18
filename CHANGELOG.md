@@ -1,12 +1,15 @@
 # 0.4.0 - 10/2026
 
+<!--
 - Mobile Work
     - [MOBILE] Gameplay gets a leave button
-    - Gameplay now lets you click the screen to move (NOT MOBILE EXCLUSIVE)
     - [MOBILE] Dialogue Scene gets 2 buttons for skipping and proceeding
-    - Freeplay lets you swipe to change selection and volume (NOT MOBILE EXCLUSIVE)
     - [MOBILE] Freeplay gets a play button
     - [MOBILE] Freeplay layout flips
+-->
+
+- Gameplay now lets you click the screen to move (the player will move to where your cursor is)
+- Freeplay lets you swipe to change selection and volume
 
 - SAVE SHIT HAS BEEN CHANGED ( No conversion, sorry :( )
     - New Path
