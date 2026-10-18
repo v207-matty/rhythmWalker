@@ -47,6 +47,8 @@
 	<haxelib name="flixel-waveform" />
 	<haxelib name="flxrhythmconductor" />
 
+    <haxelib name="hxcpp-debugger" />
+
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
 	<!--Remove the legacy health system-->
@@ -96,4 +98,12 @@
 
 	<haxedef name="--dce" value="full" />
 
+	
+    <haxedef name="HXCPP_DEBUGGER" />
+    <haxedef name="HXCPP_STACK_TRACE" />
+    <haxedef name="HXCPP_STACK_LINE" />
+    <haxedef name="HXCPP_CHECK_POINTER" />
+
+    <define name="openfl_enable_handle_error" />
+	
 </project>
