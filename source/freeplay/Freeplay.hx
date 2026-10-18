@@ -328,6 +328,8 @@ class Freeplay extends ConductorState
 	{
 		if (bgAudio != null)
 			bgAudio.stop();
+		else
+			return;
 
 		if (entries[selectedEntry] == null)
 			return;
