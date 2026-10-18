@@ -812,10 +812,9 @@ class PlayState extends ConductorState
 						{
 							crowdSpriteShit(pieceSprCENTER);
 
-							if (Std.string(piece[0]).contains('dj'))
-								pieceSprCENTER.x -= pieceSprCENTER.width * .05;
-							if (Std.string(piece[0]).contains('ocs'))
+							if (Std.string(piece[0]).contains('dj') || Std.string(piece[0]).contains('ocs'))
 								pieceSprCENTER.x += pieceSprCENTER.width * .05;
+							
 							if (Std.string(piece[0]).contains('marcella'))
 							{
 								pieceSprCENTER.x += pieceSprCENTER.width * .05;
