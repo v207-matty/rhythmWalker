@@ -599,11 +599,14 @@ class Freeplay extends ConductorState
 					tXt.screenCenter(X);
 
 			if (Flag.FREEPLAY_LEFT_LAYOUT)
+			{
 				tXt.alignment = LEFT;
+				tXt.x += tXt.size;
+			}
 			else if (Flag.FREEPLAY_RIGHT_LAYOUT)
 			{
 				tXt.alignment = RIGHT;
-				tXt.x = FlxG.width - tXt.width;
+				tXt.x = FlxG.width - tXt.width - tXt.size;
 			}
 
 			texts.add(tXt);
@@ -626,13 +629,13 @@ class Freeplay extends ConductorState
 		{
 			runOnWaveforms((wave, waveID) ->
 			{
-				if (waveID == viz)
-				{
-					wave.ID = i;
-					curWaveformsID.remove(viz);
-					curWaveformsID.insert(i, viz);
-					add(wave);
-				}
+				if (waveID != viz)
+					return;
+
+				wave.ID = i;
+				curWaveformsID.remove(viz);
+				curWaveformsID.insert(i, viz);
+				add(wave);
 			});
 
 			return;
@@ -655,9 +658,7 @@ class Freeplay extends ConductorState
 		var bgAudioViz:FlxWaveform;
 
 		if (audioVizCache.exists(viz) && audioVizCache.get(viz) != null)
-		{
 			bgAudioViz = audioVizCache.get(viz);
-		}
 		else
 		{
 			bgAudioViz = new FlxWaveform(0, 0, Math.floor(FlxG.width / 4), Math.floor(FlxG.height - topSegBG.height - btmSegBG.height), FlxColor.WHITE,
