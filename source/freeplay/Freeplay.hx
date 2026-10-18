@@ -372,6 +372,7 @@ class Freeplay extends ConductorState
 		}
 		else
 			bgAudio.load(audioCache.get(songCode));
+		bgAudio.looped = true;
 
 		if (!Flag.FREEPLAY_VISUALIZER_MULTICACHE)
 		{
@@ -615,7 +616,7 @@ class Freeplay extends ConductorState
 		else
 		{
 			audio = new FlxSound().load(Paths.getSong(song.song, song.variation));
-			audio.setup(1, true);
+			audio.looped = true;
 
 			audioCache.set(viz, audio._sound);
 		}
