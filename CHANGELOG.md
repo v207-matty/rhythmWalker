@@ -15,8 +15,6 @@
 - Fixed save not saving on crashes
 - Fixed Dialogue Portrait loading
 
-- DCE has been enabled
-
 # 0.3.2 - 5/25/2026
 
 - Fixed Dialogue Loading

@@ -96,8 +96,6 @@
 
 	<haxedef name="lime_disable_assets_version"/>
 
-	<haxedef name="--dce" value="full" />
-
     <haxedef name="HXCPP_DEBUGGER" />
     <haxedef name="HXCPP_STACK_TRACE" />
     <haxedef name="HXCPP_STACK_LINE" />
