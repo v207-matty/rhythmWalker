@@ -1,3 +1,4 @@
+import util.Constants;
 import util.Flag;
 import ui.freeplay.Freeplay;
 import flixel.text.FlxText;
@@ -18,7 +19,7 @@ class InitState extends FlxState
 			return;
 		}
 
-		var clickForSync:FlxText = new FlxText(0, 0, 0, 'Click Here (Or anywhere!)', 16);
+		var clickForSync:FlxText = new FlxText(0, 0, 0, 'Click Here (Or anywhere!)', Constants.TEXT_SIZE);
 		add(clickForSync);
 		clickForSync.screenCenter();
 	}

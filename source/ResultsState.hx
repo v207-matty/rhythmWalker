@@ -1,3 +1,4 @@
+import util.Constants;
 import ui.mobile.CornerButton;
 import util.Flag;
 import ui.objects.RWSprite;
@@ -37,7 +38,7 @@ class ResultsState extends ConductorState
 	{
 		super.create();
 
-		windupText = new FlxText(0, 0, 0, '', 32);
+		windupText = new FlxText(0, 0, 0, '', Constants.TEXT_SIZE * 2);
 		add(windupText);
 
 		windupText.alignment = CENTER;
@@ -113,16 +114,17 @@ class ResultsState extends ConductorState
 	{
 		super.update(elapsed);
 
-		if (FlxG.keys.anyJustPressed([ENTER, ESCAPE]))
+		if (!leaveTimer.finished && FlxG.keys.anyJustPressed([ENTER, ESCAPE]))
 			leave();
 	}
 
 	function leave()
 	{
-		if (!windupDone || leaveTimer.finished)
+		if (!windupDone)
 			return;
 
-		leaveTimer.cancel();
+		if (!leaveTimer.finished)
+			leaveTimer.cancel();
 		FlxG.switchState(() -> new Freeplay());
 	}
 }

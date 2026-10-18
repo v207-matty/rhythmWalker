@@ -1,5 +1,6 @@
 package ui.dialogue;
 
+import util.Constants;
 import util.Flag;
 import ui.mobile.CornerButton;
 import flixel.math.FlxMath;
@@ -92,7 +93,7 @@ class DialogueScene extends ConductorState
 
 		proceedInTimer = new FlxTimer();
 
-		proceedText = new FlxText(0, 0, 0, 'ENTER to proceed\nESCAPE to skip', 16);
+		proceedText = new FlxText(0, 0, 0, 'ENTER to proceed\nESCAPE to skip', Constants.TEXT_SIZE);
 		add(proceedText);
 		proceedText.alpha = 0;
 		proceedText.alignment = CENTER;

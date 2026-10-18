@@ -1,5 +1,6 @@
 package ui.freeplay;
 
+import util.Constants;
 import flixel.math.FlxMath;
 import ui.objects.RWSprite;
 import ui.mobile.CornerButton;
@@ -133,7 +134,7 @@ class Freeplay extends ConductorState
 
 		FlxG.camera.follow(camFollow, LOCKON, .1);
 
-		topSegText = new FlxText(0, 0, 0, 'Score & Rank go here', 16);
+		topSegText = new FlxText(0, 0, 0, 'Score & Rank go here', Constants.TEXT_SIZE);
 		topSegText.alignment = CENTER;
 		topSegText.scrollFactor.set();
 
@@ -144,7 +145,7 @@ class Freeplay extends ConductorState
 		add(topSegBG);
 		add(topSegText);
 
-		btmSegText = new FlxText(0, 0, 0, '', 32);
+		btmSegText = new FlxText(0, 0, 0, '', Constants.TEXT_SIZE * 2);
 		btmSegText.alignment = CENTER;
 		btmSegText.scrollFactor.set();
 
@@ -175,7 +176,7 @@ class Freeplay extends ConductorState
 			playButton.setScrollFactor(0);
 
 			playButton.back.angle = 90;
-			playButton.offsetBy(-8, -32);
+			playButton.offsetBy(-16 * playButton.scale.x, -64 * playButton.scale.y);
 
 			playButton.onClicked.add(proceed);
 
@@ -581,7 +582,7 @@ class Freeplay extends ConductorState
 			if (song.variation == null)
 				song.variation = defaultVariation;
 
-			var tXt:FlxText = new FlxText(0, i * 64, 0, '${song.song}', 32);
+			var tXt:FlxText = new FlxText(0, i * 64, 0, '${song.song}', Constants.TEXT_SIZE * 2);
 			var variationStr = song.variation.toString().toLowerCase();
 			var curSongRank:SongRank = Save.scores.get('${song.song.toLowerCase()}-${variationStr}')?.rank ?? NONE;
 

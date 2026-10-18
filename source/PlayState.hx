@@ -1,5 +1,6 @@
 package;
 
+import util.Constants;
 import ui.mobile.CornerButton;
 import util.Flag;
 import ui.freeplay.Freeplay;
@@ -134,7 +135,7 @@ class PlayState extends ConductorState
 		add(stageFrontLayer);
 		stageFrontLayer.camera = camGame;
 
-		scoreText = new FlxText(0, 0, 0, 'BOB', 16);
+		scoreText = new FlxText(0, 0, 0, 'BOB', Constants.TEXT_SIZE);
 		add(scoreText);
 		scoreText.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		scoreText.camera = camHUD;
