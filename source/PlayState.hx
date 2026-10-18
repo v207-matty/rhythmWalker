@@ -175,46 +175,50 @@ class PlayState extends ConductorState
 
 		if (!inCutscene)
 			managePlayer();
-		else
-		{
-			if (song.id == 'encapture')
-				playerVelocityDamping();
-		}
+		else if (song.id == 'encapture')
+			playerVelocityDamping();
 
 		if (beatMonsters != null)
+			manageBeatMonsters();
+	}
+
+	function manageBeatMonsters()
+	{
+		beatMonsters.y = camGame.viewY;
+
+		for (monster in beatMonsters)
 		{
-			beatMonsters.y = camGame.viewY;
+			monster.y += monster.height * (.2 * scrollSpeed);
 
-			for (monster in beatMonsters)
+			if (!immortal
+				&& !inCutscene
+				&& monster.overlaps(playerCollision)
+				&& !playerStunned
+				&& camGame.visible
+				&& camGame.alpha >= 0.1)
 			{
-				monster.y += monster.height * (.2 * scrollSpeed);
+				playerStunned = true;
+				playerPlayAnim('hurt');
+				player.velocity.x = 0;
 
-				if (!immortal && !inCutscene && monster.overlaps(playerCollision) && !playerStunned && camGame.visible && camGame.alpha >= 0.1)
-				{
-					playerStunned = true;
-					playerPlayAnim('hurt');
-					player.velocity.x = 0;
+				beatMonsters.remove(monster);
+				monster.destroy();
 
-					beatMonsters.remove(monster);
-					monster.destroy();
+				FlxG.sound.play(Paths.getAudio('game/hurt'));
 
-					FlxG.sound.play(Paths.getAudio('game/hurt'));
+				hits++;
+			}
 
-					hits++;
-				}
-
-				if (monster.y > FlxG.height + monster.height)
-				{
-					beatMonsters.remove(monster);
-					monster.destroy();
-				}
+			if (monster.y > FlxG.height + monster.height)
+			{
+				beatMonsters.remove(monster);
+				monster.destroy();
 			}
 		}
 
 		if (beatMonsterSpawner != null)
 		{
 			beatMonsterSpawner.y = camGame.viewY;
-
 			beatMonsterSpawner.alpha = FlxMath.lerp(beatMonsterSpawner.alpha, (canSpawnMonster) ? 0.2 : 0, .1);
 		}
 	}
