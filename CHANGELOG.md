@@ -1,5 +1,7 @@
 # 0.4.0 - 10/17/2026
 
+- Added crash handler
+
 - Fixed Dialogue Portrait loading
 
 - DCE has been enabled

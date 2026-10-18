@@ -1,5 +1,12 @@
 package;
 
+#if sys
+import sys.io.File;
+import sys.FileSystem;
+#end
+import haxe.CallStack;
+import openfl.Lib;
+import openfl.events.UncaughtErrorEvent;
 import flixel.util.FlxColor;
 import flixel.math.FlxPoint;
 import flixel.addons.transition.FlxTransitionSprite;
@@ -26,12 +33,6 @@ class Main extends FlxGame
 
 	override function create(_:Event)
 	{
-		FlxTransitionableState.defaultTransIn = getDefaultTransition();
-		FlxTransitionableState.defaultTransOut = getDefaultTransition();
-
-		FlxG.sound.soundTray.volumeUpSound = Paths.getAudio('sfx/volume');
-		FlxG.sound.soundTray.volumeDownSound = Paths.getAudio('sfx/volume');
-
 		Save.init();
 
 		loadAssets();
@@ -44,7 +45,75 @@ class Main extends FlxGame
 		for (id => flag in Flag.list)
 			trace('Flag "${id}" : $flag');
 
+		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrashing);
+
 		super.create(_);
+
+		FlxTransitionableState.defaultTransIn = getDefaultTransition();
+		FlxTransitionableState.defaultTransOut = getDefaultTransition();
+
+		FlxG.sound.soundTray.volumeUpSound = Paths.getAudio('sfx/volume');
+		FlxG.sound.soundTray.volumeDownSound = Paths.getAudio('sfx/volume');
+	}
+
+	override function update()
+	{
+		super.update();
+
+		if (Flag.IS_DEBUG && FlxG.keys.pressed.F4)
+			throw 'Debug Crash';
+	}
+
+	function onCrashing(e:UncaughtErrorEvent)
+	{
+		e.preventDefault();
+
+		Save.save();
+
+		var stack = CallStack.callStack();
+
+		var error:String = 'Error: ${e.error}\n\nCall Stack:\n';
+		@:privateAccess stack.reverse();
+
+		function pushStack(stackItem:StackItem)
+		{
+			switch (stackItem)
+			{
+				case Method(classname, method):
+					error += 'Called from ${(classname == null ? '<unknown>' : classname)} @ $method\n';
+				case FilePos(s, file, line, _):
+					error += '$file:$line\n';
+				case Module(m):
+				default:
+					error += '$stackItem';
+			}
+		}
+
+		for (stackItem in stack)
+			pushStack(stackItem);
+
+		error += '\n\nPlease report this on the github: https://github.com/v207-matty/rhythmWalker/issues';
+
+		#if sys
+		var timestamp = Date.now().getTime();
+
+		if (!FileSystem.exists('crash'))
+			FileSystem.createDirectory('crash');
+
+		File.saveContent('crash/$timestamp.txt', error);
+
+		error += '\nThe crash log is saved to "crash/$timestamp.txt"';
+		#end
+
+		trace(error);
+
+		WindowUtil.alert('Crash Handler', error);
+
+		#if sys
+		Sys.exit(0);
+		#end
+
+		FlxG.stage.window.close();
 	}
 
 	function loadAssets()
@@ -53,22 +122,15 @@ class Main extends FlxGame
 		var tipsList = Paths.txt('game/tips');
 
 		if (Assets.exists(songList))
-		{
 			Freeplay.songList = Json.parse(Assets.getText(songList));
-		}
 		else
-		{
-			FlxG.stage.window.alert('SONG LIST IS MISSING, GAME WILL DIE NOW.');
-			FlxG.stage.window.close();
-		}
+			throw 'SONG LIST IS MISSING, GAME WILL DIE NOW.';
 
 		if (Assets.exists(tipsList))
-		{
 			Freeplay.tips = [
 				for (line in Assets.getText(tipsList).split('\n'))
 					if (line.trim().length > 0) line.trim()
 			];
-		}
 	}
 
 	function getDefaultTransition():TransitionData

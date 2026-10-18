@@ -6,7 +6,7 @@ using StringTools;
 
 class WindowUtil
 {
-	public static inline function resetTitle(?includeVersion:Bool)
+	public static function resetTitle(?includeVersion:Bool)
 	{
 		FlxG.stage.window.title = 'Rhythm Walker';
 
@@ -14,7 +14,7 @@ class WindowUtil
 			appendVersion();
 	}
 
-	public static inline function appendToTitle(str:String)
+	public static function appendToTitle(str:String)
 	{
 		if (str.trim().length < 1)
 			return;
@@ -22,8 +22,13 @@ class WindowUtil
 		FlxG.stage.window.title += ' $str';
 	}
 
-	public static inline function appendVersion()
+	public static function appendVersion()
 	{
 		appendToTitle('(v${FlxG.stage.application.meta.get('version')})');
+	}
+
+	public static function alert(title:String, message:String)
+	{
+		FlxG.stage.window.alert(message, title);
 	}
 }

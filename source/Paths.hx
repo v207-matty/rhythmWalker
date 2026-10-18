@@ -2,27 +2,27 @@ import song.SongVariation;
 
 class Paths
 {
-	public static inline function getPath(path:String)
+	public static function getPath(path:String)
 		return 'assets/$path';
 
-	public static inline function getAudio(path:String)
+	public static function getAudio(path:String)
 		return getPath('$path.ogg');
 
-	public static inline function getSong(song:String, variation:SongVariation = defaultVariation)
+	public static function getSong(song:String, variation:SongVariation = defaultVariation)
 		return getAudio('game/songs/${song.toLowerCase()}/${(variation ?? defaultVariation)?.toString()?.toLowerCase()}');
 
-	public static inline function getImagePath(path:String)
+	public static function getImagePath(path:String)
 		return getPath('$path.png');
 
-	public static inline function json(path:String)
+	public static function json(path:String)
 		return getPath('$path.json');
 
-	public static inline function txt(path:String)
+	public static function txt(path:String)
 		return getPath('$path.txt');
 
-	public static inline function frag(path:String)
+	public static function frag(path:String)
 		return getPath('shaders/$path.frag');
 
-	public static inline function vert(path:String)
+	public static function vert(path:String)
 		return getPath('shaders/$path.vert');
 }
