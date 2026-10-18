@@ -91,6 +91,9 @@ class Freeplay extends ConductorState
 	var bgAudio:FlxSound;
 	var bgAudioVizFade:FlxTween;
 
+	var playButton:FlxSprite;
+	var playButtonBox:FlxSprite;
+
 	public var songCode(get, never):String;
 
 	function get_songCode():String
@@ -158,6 +161,29 @@ class Freeplay extends ConductorState
 		changeSel(0);
 		filter('all');
 
+		if (Flag.IS_MOBILE)
+		{
+			playButtonBox = new FlxSprite().makeGraphic(1, 1);
+			playButtonBox.color = 0xFF000000;
+
+			playButton = new FlxSprite().loadGraphic(Paths.getImagePath('ui/play'));
+			playButton.scale.set(2, 2);
+			playButton.updateHitbox();
+
+			playButton.y = FlxG.height - playButton.height;
+			playButton.x = FlxG.width - playButton.width;
+
+			playButtonBox.scale.set(playButton.width, playButton.height);
+			playButtonBox.x = playButton.getGraphicMidpoint().x;
+			playButtonBox.y = playButton.getGraphicMidpoint().y;
+
+			playButton.scrollFactor.set(0, 0);
+			playButtonBox.scrollFactor.set(0, 0);
+
+			add(playButtonBox);
+			add(playButton);
+		}
+
 		if (transIn == null)
 			finishTransIn();
 	}
@@ -211,7 +237,7 @@ class Freeplay extends ConductorState
 			if (FlxG.keys.anyJustPressed([D, RIGHT]))
 				changeVolume(1);
 
-			if (FlxG.keys.justPressed.ENTER)
+			if (FlxG.keys.justPressed.ENTER || (FlxG.mouse.justPressed && FlxG.mouse.overlaps(playButton)))
 				proceed();
 		}
 
