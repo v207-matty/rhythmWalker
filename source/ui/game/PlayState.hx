@@ -1,5 +1,8 @@
 package ui.game;
 
+import lime.utils.Assets;
+import haxe.Json;
+import ui.game.player.PlayerData;
 import flixel.math.FlxPoint;
 import ui.objects.Floor;
 import util.Constants;
@@ -62,17 +65,15 @@ class PlayState extends ConductorState
 	var beatMonsterSpawner:FlxSprite;
 
 	var data = {
-		player: {
-			skin: 'bro-regular',
-			maxVelocityBase: 200,
-			speed: 20,
-		},
+		player: 'bro-regular',
 		beatMonsters: {
 			spawn: true,
 			stepRate: 4,
 			scale: 1.0
 		}
 	};
+
+	var playerData:PlayerData;
 
 	var stageBackLayer:FlxSpriteGroup;
 	var stageFrontLayer:FlxSpriteGroup;
@@ -263,7 +264,7 @@ class PlayState extends ConductorState
 
 	function managePlayer()
 	{
-		player.maxVelocity.x = data.player.maxVelocityBase * scrollSpeed;
+		player.maxVelocity.x = playerData.config.maxVelocityBase * scrollSpeed;
 
 		if (FlxG.keys.anyPressed([A, LEFT]) || (FlxG.mouse.pressed && FlxG.mouse.x < player.x))
 			move(-1);
@@ -305,7 +306,7 @@ class PlayState extends ConductorState
 			shiftThing *= 2 * (player.x / FlxG.mouse.x);
 
 		player.flipX = mult > -1;
-		player.velocity.x += (data.player.speed * shiftThing) * mult;
+		player.velocity.x += (playerData.config.speed * shiftThing) * mult;
 
 		if (!playerStunned)
 			playerPlayAnim('move');
@@ -906,51 +907,39 @@ class PlayState extends ConductorState
 
 	function makePlayer()
 	{
-		data.player.skin = 'bro-regular';
-
-		var dimensionsSprite:Array<Int> = [64, 64];
-		var dimensionsHitbox:Array<Int> = [32, 32];
+		data.player = 'bro-regular';
 
 		switch ([song.id, song.variation])
 		{
 			case ['mental', defaultVariation]:
-				data.player.skin = 'bro-mental';
+				data.player = 'bro-mental';
 
 			case ['scroll down chinatown', resolved]:
-				data.player.skin = 'bro-chinatown-wanted';
+				data.player = 'bro-chinatown-wanted';
 
 			case ['lost media', defaultVariation]:
-				data.player.skin = 'jez-regular';
+				data.player = 'jez-regular';
 
 			case ['encapture', defaultVariation]:
-				data.player.skin = 'bro-captured';
+				data.player = 'bro-captured';
 
 			case ['train wreak', defaultVariation]:
-				data.player.skin = 'bro-chinatown-torn';
+				data.player = 'bro-chinatown-torn';
 
 			case ['scroll down chinatown', defaultVariation], ['train getaway', defaultVariation]:
-				data.player.skin = 'bro-chinatown';
+				data.player = 'bro-chinatown';
 
 			default:
 		}
 
-		var animFrames:Map<String, Dynamic> = [
-			'idleL' => {frames: [0]},
-			'idleR' => {frames: [0]},
-			'hurtL' => {frames: [1], fps: 2},
-			'hurtR' => {frames: [1], fps: 2},
-			'moveL' => {frames: [2, 3], fps: 6},
-			'moveR' => {frames: [2, 3], fps: 6},
-		];
+		playerData = Json.parse(Assets.getText(Paths.json('game/players/${data.player}')));
 
-		// player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
-		// player = new FlxSprite().loadGraphic(Paths.getImagePath('game/players/${data.player.skin}'), true, dimensionsSprite[0], dimensionsSprite[1]);
-		player = new RWSprite('game/players/${data.player.skin}', true, dimensionsSprite[0], dimensionsSprite[1]);
+		player = new RWSprite('game/players/${data.player}', true, playerData.config.dimensions.sprite[0], playerData.config.dimensions.sprite[1]);
 
-		for (thing => data in animFrames)
+		for (anim in playerData.animations)
 		{
-			trace('Player Anim "$thing" : $data');
-			player.addAnim(thing, data.frames, data?.fps ?? 24, false, data.flipX, data.flipY);
+			trace('Player Anim "${anim.name}" : $anim');
+			player.addAnim(anim.name, anim.frames, anim.fps, anim.looped, anim.flipX, anim.flipY);
 		}
 
 		playPlayerIdle();
@@ -970,12 +959,8 @@ class PlayState extends ConductorState
 		player.y = FlxG.height - player.height * 1.25;
 		player.camera = camGame;
 
-		// just realized this did not get scaled with the player and now im in a situation,
-		// cause I already got used to how it was before.
-		// shit.
-
-		playerCollision = new FlxSprite().makeGraphic(dimensionsHitbox[0], dimensionsHitbox[1], FlxColor.RED);
-		playerCollision.alpha = .25; // idk if i want it on i want it subtle
+		playerCollision = new FlxSprite().makeGraphic(playerData.config.dimensions.hitbox[0], playerData.config.dimensions.hitbox[1], FlxColor.RED);
+		playerCollision.alpha = .25;
 		playerCollision.visible = false;
 		playerCollision.camera = camGame;
 

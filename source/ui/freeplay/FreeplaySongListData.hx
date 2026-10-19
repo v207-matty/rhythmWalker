@@ -4,6 +4,8 @@ import ui.freeplay.FreeplaySongData;
 
 typedef FreeplaySongListData =
 {
-	?filters:Array<String>,
-	songs:Array<FreeplaySongData>,
+	@:optional
+	var filters:Array<String>;
+	
+	var songs:Array<FreeplaySongData>;
 }

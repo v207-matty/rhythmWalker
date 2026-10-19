@@ -50,6 +50,8 @@
 
     <haxelib name="hxcpp-debugger" />
 
+    <haxelib name="json2object" />
+
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
 	<!--Remove the legacy health system-->
