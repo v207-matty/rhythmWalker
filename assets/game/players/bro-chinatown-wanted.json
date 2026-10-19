@@ -1,0 +1,30 @@
+{
+    "animations": [
+        {
+            "name": "idle",
+            "frames": [
+                0,
+                1
+            ],
+            "createFlippedVarients": true
+        },
+        {
+            "name": "hurt",
+            "frames": [
+                2,
+                3
+            ],
+            "fps": 2,
+            "createFlippedVarients": true
+        },
+        {
+            "name": "move",
+            "frames": [
+                4,
+                5
+            ],
+            "fps": 6,
+            "createFlippedVarients": true
+        }
+    ]
+}

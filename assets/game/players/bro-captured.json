@@ -1,0 +1,48 @@
+{
+    "animations": [
+        {
+            "name": "idleL",
+            "frames": [
+                0
+            ]
+        },
+        {
+            "name": "idleR",
+            "frames": [
+                0
+            ],
+            "flipX": true
+        },
+        {
+            "name": "hurtL",
+            "frames": [
+                0
+            ],
+            "fps": 2
+        },
+        {
+            "name": "hurtR",
+            "frames": [
+                0
+            ],
+            "flipX": true,
+            "fps": 2
+        },
+        {
+            "name": "moveL",
+            "frames": [
+                2,
+                3
+            ],
+            "fps": 6
+        },
+        {
+            "name": "moveR",
+            "frames": [
+                4,
+                5
+            ],
+            "fps": 6
+        }
+    ]
+}

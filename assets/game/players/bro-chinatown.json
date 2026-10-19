@@ -1,0 +1,51 @@
+{
+    "animations": [
+        {
+            "name": "idle",
+            "frames": [
+                0
+            ],
+            "createFlippedVarients": true
+        },
+        {
+            "name": "hurt",
+            "frames": [
+                1
+            ],
+            "fps": 2,
+            "createFlippedVarients": true
+        },
+        {
+            "name": "move",
+            "frames": [
+                2,
+                3
+            ],
+            "fps": 6,
+            "createFlippedVarients": true
+        },
+        {
+            "name": "chinatown-bridge",
+            "frames": [
+                4
+            ]
+        },
+        {
+            "name": "chinatown-bridge-jump",
+            "frames": [
+                9
+            ]
+        },
+        {
+            "name": "chinatown-bridge-lookup",
+            "frames": [
+                4,
+                5,
+                6,
+                7,
+                8
+            ],
+            "fps": 6
+        }
+    ]
+}

@@ -943,45 +943,6 @@ class PlayState extends ConductorState
 			'moveR' => {frames: [2, 3], fps: 6},
 		];
 
-		switch (data.player.skin)
-		{
-			case 'bro-chinatown-wanted':
-				animFrames.get('idleL').frames = animFrames.get('idleR').frames = [0, 1];
-				animFrames.get('hurtL').frames = animFrames.get('hurtR').frames = [2, 3];
-				animFrames.get('moveL').frames = animFrames.get('moveR').frames = [4, 5];
-
-				animFrames.get('idleL')
-					.fps = animFrames.get('idleR')
-						.fps = animFrames.get('hurtL')
-							.fps = animFrames.get('hurtR')
-								.fps = 4;
-
-			case 'jez-regular':
-				dimensionsSprite = [96, 112];
-				data.player.maxVelocityBase = 250;
-				data.player.speed = 30;
-
-			case 'bro-captured':
-				animFrames.get('idleR').flipX = animFrames.get('hurtR').flipX = true;
-				animFrames.get('moveR').frames = [4, 5];
-
-			case 'bro-chinatown-torn':
-				animFrames.get('hurtR').flipX = true;
-				animFrames.get('moveR').frames = [4, 5];
-
-			case 'bro-chinatown':
-				animFrames.set('chinatown-bridge', {
-					frames: [4],
-				});
-				animFrames.set('chinatown-bridge-lookup', {
-					frames: [4, 5, 6, 7, 8],
-					fps: 6
-				});
-				animFrames.set('chinatown-bridge-jump', {
-					frames: [9],
-				});
-		}
-
 		// player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
 		// player = new FlxSprite().loadGraphic(Paths.getImagePath('game/players/${data.player.skin}'), true, dimensionsSprite[0], dimensionsSprite[1]);
 		player = new RWSprite('game/players/${data.player.skin}', true, dimensionsSprite[0], dimensionsSprite[1]);
