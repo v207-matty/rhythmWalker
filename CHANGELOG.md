@@ -1,5 +1,7 @@
 # 0.4.0 - 10/2026
 
+- The Train Wreak ending cutscene has all hud elements fade
+
 - Players are now JSON driven and not hardcoded!!
 - Added Time Bar
 

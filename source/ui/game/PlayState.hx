@@ -1077,6 +1077,7 @@ class PlayState extends ConductorState
 				idleAndDamp();
 
 				FlxTween.tween(camGame, {zoom: 1.1}, 4, {ease: FlxEase.quintOut});
+				FlxTween.tween(camHUD, {alpha: 0}, 4, {ease: FlxEase.quintOut});
 
 				FlxG.sound.play(Paths.getAudio('game/cutscenes/fuse'));
 
