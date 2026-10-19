@@ -17,6 +17,7 @@
     - The Lost Media stage sky color is now the intended color
 
     - And more!!!
+
 - Freeplay song texts has padding now when not centered
 - Gameplay now lets you click the screen to move (the player will move to where your cursor is)
 - Freeplay lets you swipe to change selection and volume

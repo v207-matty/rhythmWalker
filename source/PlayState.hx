@@ -1,5 +1,6 @@
 package;
 
+import ui.objects.Floor;
 import util.Constants;
 import ui.mobile.CornerButton;
 import util.Flag;
@@ -731,6 +732,8 @@ class PlayState extends ConductorState
 				floor.updateHitbox();
 				floor.camera = camGame;
 				floor.y = FlxG.height - floor.height;
+
+				stageBackLayer.add(new Floor(floor, 0xFF696A6A, camGame));
 				stageBackLayer.add(floor);
 
 				var label = new StageSprite('$stage/label');
@@ -739,7 +742,7 @@ class PlayState extends ConductorState
 				label.y = FlxG.height - label.height;
 				stageBackLayer.add(label);
 
-				var tubes = 2 * Math.floor(FlxG.width / 1280);
+				var tubes = 2 * Math.round(FlxG.width / 1280);
 
 				for (i in 0...tubes)
 				{
@@ -786,13 +789,7 @@ class PlayState extends ConductorState
 				ground.scrollFactor.set(.75, .75);
 				ground.camera = camGame;
 
-				var solidGround:RWSprite = new RWSprite(null);
-				solidGround.setCamera(camGame);
-				solidGround.makeGraphic(FlxG.width * 3, FlxG.height, 0xFF3B3E44);
-				solidGround.screenCenter();
-				solidGround.y = ground.y + ground.height;
-				stageBackLayer.add(solidGround);
-
+				stageBackLayer.add(new Floor(ground, 0xFF3B3E44, camGame));
 				stageBackLayer.add(ground);
 
 				var pieceList:Array<Dynamic> = [
