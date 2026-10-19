@@ -15,10 +15,10 @@ enum abstract Flag(Bool) from Bool to Bool
 
 	public static final IS_32BIT = new Flag('IS_32BIT', [DefineMacro.isDefined('_32bit'),]);
 	public static final IS_DEBUG = new Flag('IS_DEBUG', [DefineMacro.isDefined('debug'),]);
-	
-	public static final IS_MOBILE_MODE = new Flag('IS_MOBILE_MODE', [
-		DefineMacro.isDefined('MOBILE_MODE') || PLATFORM_WEB || PLATFORM_MOBILE
-	]);
+
+	public static final IS_MOBILE_MODE = new Flag('IS_MOBILE_MODE', [DefineMacro.isDefined('MOBILE_MODE')
+		|| PLATFORM_WEB
+		|| PLATFORM_MOBILE]);
 
 	public static final PLAY_SHADERS = new Flag('PLAY_SHADERS', [!DefineMacro.isDefined('DISABLE_PLAY_SHADERS')]);
 	public static final PLAY_IMMORTAL = new Flag('PLAY_IMMORTAL', [DefineMacro.isDefined('immortal') || DefineMacro.isDefined('IMMORTAL')]);
@@ -38,8 +38,8 @@ enum abstract Flag(Bool) from Bool to Bool
 	]);
 	public static final FREEPLAY_VISUALIZER_MULTICACHE = new Flag('FREEPLAY_VISUALIZER_MULTICACHE', [FREEPLAY_VISUALIZER, !PLATFORM_LINUX, !IS_32BIT,]);
 
-	public static final FREEPLAY_CENTER_LAYOUT = new Flag('FREEPLAY_CENTER_LAYOUT', [
-		DefineMacro.isDefined('FREEPLAY_CENTER_LAYOUT') || !FREEPLAY_VISUALIZER]);
+	public static final FREEPLAY_CENTER_LAYOUT = new Flag('FREEPLAY_CENTER_LAYOUT', [DefineMacro.isDefined('FREEPLAY_CENTER_LAYOUT')
+		|| !FREEPLAY_VISUALIZER]);
 
 	public static final FREEPLAY_LEFT_LAYOUT = new Flag('FREEPLAY_LEFT_LAYOUT', [
 		DefineMacro.isDefined('FREEPLAY_LEFT_LAYOUT') || IS_MOBILE_MODE,

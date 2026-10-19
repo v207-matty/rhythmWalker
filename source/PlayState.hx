@@ -780,11 +780,7 @@ class PlayState extends ConductorState
 					['crowds/randoms-left', 0.75],
 					['crowds/randoms-right', 0.75],
 
-					['crowds/dj', 0.8],
-					['crowds/tiago-mobmod', 0.85],
-					['crowds/marcella', 0.875],
-					['crowds/ocs', 0.9],
-					['crowds/super-eric', 0.95],
+					['crowds/center'],
 
 					['smoke', 1],
 					['trainSegment', 1],
@@ -802,10 +798,9 @@ class PlayState extends ConductorState
 					{
 						spr.setScale(1.75);
 						spr.screenCenter();
-						// spr.y -= spr.height * .1;
 					}
 
-					if (!onlyCenter.contains(piece[0]) && !isCrowd || piece[0] == 'crowds/randoms-left')
+					if (!onlyCenter.contains(piece[0]) && !isCrowd || isCrowd && isRandom && Std.string(piece[0]).endsWith('left'))
 					{
 						var pieceSprLEFT = new TrainWreakPiece(piece[0], camGame, piece[1]);
 						stageBackLayer.add(pieceSprLEFT);
@@ -823,28 +818,28 @@ class PlayState extends ConductorState
 						var pieceSprCENTER = new TrainWreakPiece(piece[0], camGame, piece[1]);
 						stageBackLayer.add(pieceSprCENTER);
 
-						if (isCrowd)
-						{
-							crowdSpriteShit(pieceSprCENTER);
-
-							if (Std.string(piece[0]).contains('dj') || Std.string(piece[0]).contains('ocs'))
-								pieceSprCENTER.x += pieceSprCENTER.width * .05;
-
-							if (Std.string(piece[0]).contains('marcella'))
-							{
-								pieceSprCENTER.x += pieceSprCENTER.width * .05;
-								pieceSprCENTER.y += pieceSprCENTER.height * .025;
-							}
-						}
-
 						if (piece[0] == 'smoke')
 						{
 							pieceSprCENTER.blend = OVERLAY;
 							pieceSprCENTER.alpha = 0.5;
 						}
+
+						if (!isCrowd)
+							continue;
+
+						crowdSpriteShit(pieceSprCENTER);
+
+						if (Std.string(piece[0]).contains('dj') || Std.string(piece[0]).contains('ocs'))
+							pieceSprCENTER.x += pieceSprCENTER.width * .05;
+
+						if (Std.string(piece[0]).contains('marcella'))
+						{
+							pieceSprCENTER.x += pieceSprCENTER.width * .05;
+							pieceSprCENTER.y += pieceSprCENTER.height * .025;
+						}
 					}
 
-					if (!onlyCenter.contains(piece[0]) && !isCrowd || piece[0] == 'crowds/randoms-right')
+					if (!onlyCenter.contains(piece[0]) && !isCrowd || isCrowd && isRandom && Std.string(piece[0]).endsWith('right'))
 					{
 						var pieceSprRIGHT = new TrainWreakPiece(piece[0], camGame, piece[1]);
 						stageBackLayer.add(pieceSprRIGHT);
@@ -990,8 +985,11 @@ class PlayState extends ConductorState
 				animFrames.get('hurtL').frames = animFrames.get('hurtR').frames = [2, 3];
 				animFrames.get('moveL').frames = animFrames.get('moveR').frames = [4, 5];
 
-				animFrames.get('idleL').fps = animFrames.get('idleR').fps = 4;
-				animFrames.get('hurtL').fps = animFrames.get('hurtR').fps = 4;
+				animFrames.get('idleL')
+					.fps = animFrames.get('idleR')
+						.fps = animFrames.get('hurtL')
+							.fps = animFrames.get('hurtR')
+								.fps = 4;
 
 			case 'jez-regular':
 				dimensionsSprite = [96, 112];
@@ -999,8 +997,7 @@ class PlayState extends ConductorState
 				data.player.speed = 30;
 
 			case 'bro-captured':
-				animFrames.get('idleR').flipX = true;
-				animFrames.get('hurtR').flipX = true;
+				animFrames.get('idleR').flipX = animFrames.get('hurtR').flipX = true;
 				animFrames.get('moveR').frames = [4, 5];
 
 			case 'bro-chinatown-torn':

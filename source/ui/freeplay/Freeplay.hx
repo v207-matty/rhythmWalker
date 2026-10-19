@@ -582,7 +582,7 @@ class Freeplay extends ConductorState
 			if (song.variation == null)
 				song.variation = defaultVariation;
 
-			var tXt:FlxText = new FlxText(0, i * 64, 0, '${song.song}', Constants.TEXT_SIZE * 2);
+			var tXt:FlxText = new FlxText(0, i * Constants.TEXT_SIZE * 4, 0, '${song.song}', Constants.TEXT_SIZE * 2);
 			var variationStr = song.variation.toString().toLowerCase();
 			var curSongRank:SongRank = Save.scores.get('${song.song.toLowerCase()}-${variationStr}')?.rank ?? NONE;
 
