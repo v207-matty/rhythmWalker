@@ -8,8 +8,6 @@ import ui.game.stage.*;
 import ui.game.player.*;
 import ui.game.song.*;
 import ui.freeplay.*;
-import lime.utils.Assets;
-import haxe.Json;
 import flixel.math.FlxPoint;
 import flixel.util.FlxGradient;
 import flixel.*;
