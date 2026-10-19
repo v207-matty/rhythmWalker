@@ -73,7 +73,7 @@ class Freeplay extends ConductorState
 	{
 		if (func == null || curWaveforms == null)
 			return;
-		
+
 		for (wf in curWaveforms)
 			func(wf, curWaveformsID[wf.ID]);
 	}
@@ -471,9 +471,6 @@ class Freeplay extends ConductorState
 				text.color = (textSongRank == NONE && Flag.FREEPLAY_DISPLAY_SONG_PLAYED) ? FlxColor.ORANGE : FlxColor.YELLOW;
 				camFollow.y = text.y;
 			}
-
-			if (!Flag.FREEPLAY_VISUALIZER_MULTICACHE && curWaveforms[0] == null)
-				text.screenCenter(X);
 		}
 
 		topSegText.text = '';
