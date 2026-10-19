@@ -165,7 +165,7 @@ class PlayState extends ConductorState
 		timeBar = new RWSprite(null);
 		timeBar.makeGraphic(1, 1);
 		add(timeBar);
-		timeBar.setScale(FlxG.width, Math.floor(Constants.TEXT_SIZE / 2));
+		timeBar.setScale(1, Math.floor(Constants.TEXT_SIZE / 2));
 		timeBar.y = FlxG.height - timeBar.height;
 		timeBar.color = FlxColor.LIME;
 		timeBar.setCamera(camHUD);
