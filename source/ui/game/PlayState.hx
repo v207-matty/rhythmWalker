@@ -1067,7 +1067,6 @@ class PlayState extends ConductorState
 		function idleAndDamp()
 		{
 			playPlayerIdle();
-
 			new FlxTimer().start(1 / FlxG.updateFramerate, t -> playerVelocityDamping(), FlxG.updateFramerate);
 		}
 
