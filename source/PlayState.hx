@@ -749,7 +749,7 @@ class PlayState extends ConductorState
 					stageBackLayer.add(tube);
 
 					if (i != tubes - 1)
-						return;
+						continue;
 
 					containment04_tubeSubject = tube;
 					containment04_tubeSubject.loadGraphic(Paths.getImagePath('game/stages/$stage/subject'), true, 128, 128);
