@@ -80,6 +80,7 @@ class PlayState extends ConductorState
 
 	var timeBar:RWSprite;
 	var timeBarSongLinked:Bool = false;
+	var timeBarTarget:Float = 0.0;
 
 	override public function new(song:String, ?variation:SongVariation = defaultVariation)
 	{
@@ -165,10 +166,11 @@ class PlayState extends ConductorState
 		timeBar = new RWSprite(null);
 		timeBar.makeGraphic(1, 1);
 		add(timeBar);
-		timeBar.setScale(1, Math.floor(Constants.TEXT_SIZE / 2));
+		timeBar.setScale(FlxG.width, Math.floor(Constants.TEXT_SIZE / 2));
 		timeBar.y = FlxG.height - timeBar.height;
 		timeBar.color = FlxColor.LIME;
 		timeBar.setCamera(camHUD);
+		timeBar.scale.x = 0;
 
 		timeBarSongLinked = true;
 
@@ -209,7 +211,9 @@ class PlayState extends ConductorState
 			manageBeatMonsters();
 
 		if (timeBarSongLinked)
-			timeBar.scale.x = FlxG.width * (conductor.musicPosition / conductor.musicLength);
+			timeBarTarget = FlxG.width * (conductor.musicPosition / conductor.musicLength);
+
+		timeBar.scale.x = FlxMath.lerp(timeBar.scale.x, timeBarTarget, 0.04);
 	}
 
 	function manageBeatMonsters()
