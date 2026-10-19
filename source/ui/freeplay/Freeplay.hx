@@ -1,5 +1,6 @@
 package ui.freeplay;
 
+import flixel.group.FlxSpriteGroup;
 import util.Constants;
 import flixel.math.FlxMath;
 import ui.objects.RWSprite;
@@ -95,6 +96,8 @@ class Freeplay extends ConductorState
 	var bgAudio:FlxSound;
 	var bgAudioVizFade:FlxTween;
 
+	var waveformLayer:FlxSpriteGroup;
+
 	var playButton:CornerButton;
 
 	public var songCode(get, never):String;
@@ -156,10 +159,12 @@ class Freeplay extends ConductorState
 		add(btmSegBG);
 		add(btmSegText);
 
+		add(waveformLayer = new FlxSpriteGroup());
+
 		runOnWaveforms((wave, waveID) ->
 		{
 			wave.alpha = 0;
-			add(wave);
+			waveformLayer.add(wave);
 		});
 
 		changeVolume(filterList.length);
@@ -308,7 +313,7 @@ class Freeplay extends ConductorState
 
 		runOnWaveforms((wave, waveID) ->
 		{
-			remove(wave);
+			waveformLayer.remove(wave);
 			wave.active = false;
 
 			if (!Flag.FREEPLAY_VISUALIZER_MULTICACHE)
@@ -416,7 +421,7 @@ class Freeplay extends ConductorState
 			{
 				curWaveforms.remove(wave);
 				curWaveformsID.remove(waveID);
-				remove(wave);
+				waveformLayer.remove(wave);
 				wave.destroy();
 			});
 
@@ -594,11 +599,9 @@ class Freeplay extends ConductorState
 			if (curWaveforms[i] == null && Flag.FREEPLAY_VISUALIZER_MULTICACHE)
 				makeWaveform(song, i);
 
-			if (!(Flag.FREEPLAY_VISUALIZER && (curWaveforms[i] != null && Flag.FREEPLAY_VISUALIZER_MULTICACHE)))
-				if (Flag.FREEPLAY_CENTER_LAYOUT)
-					tXt.screenCenter(X);
-
-			if (Flag.FREEPLAY_LEFT_LAYOUT)
+			if (Flag.FREEPLAY_CENTER_LAYOUT)
+				tXt.screenCenter(X);
+			else if (Flag.FREEPLAY_LEFT_LAYOUT)
 			{
 				tXt.alignment = LEFT;
 				tXt.x += tXt.size;
@@ -635,7 +638,7 @@ class Freeplay extends ConductorState
 				wave.ID = i;
 				curWaveformsID.remove(viz);
 				curWaveformsID.insert(i, viz);
-				add(wave);
+				waveformLayer.add(wave);
 			});
 
 			return;
@@ -687,7 +690,7 @@ class Freeplay extends ConductorState
 		}
 
 		bgAudioViz.ID = i;
-		add(bgAudioViz);
+		waveformLayer.add(bgAudioViz);
 
 		curWaveforms.push(bgAudioViz);
 		curWaveformsID.push(viz);
