@@ -1,3 +1,7 @@
 - [MOBILE] make it so less swipe has to be done to change selection
 - Add Time bar
 - Make Player characters json
+- Options menu
+    - Make waveform togglable
+    - Make waveform multicache togglable
+- remove flag system
