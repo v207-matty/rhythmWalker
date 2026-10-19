@@ -1086,7 +1086,7 @@ class PlayState extends ConductorState
 					camGame.flash(FlxColor.ORANGE, 10);
 					FlxG.sound.play(Paths.getAudio('game/cutscenes/explosion'));
 
-					forEach(basic -> basic.visible = false);
+					visible = false;
 				});
 
 				FlxTimer.wait(2, onSongEnd);
