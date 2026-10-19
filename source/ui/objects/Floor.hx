@@ -27,6 +27,6 @@ class Floor extends RWSprite
 		if (cam != null)
 			setCamera(cam);
 		
-		setScrollFactor(sf?.x ?? 0, sf?.y ?? 0);
+		setScrollFactor(sf?.x ?? 1, sf?.y ?? 0);
 	}
 }
