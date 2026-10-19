@@ -1,5 +1,6 @@
 # 0.4.0 - 10/2026
 
+- Added Time Bar
 
 - ADDED MOBILE SUPPORT!! (heres stuff that happens when on mobile:)
     - [MOBILE] Text gets sized up

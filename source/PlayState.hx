@@ -79,6 +79,8 @@ class PlayState extends ConductorState
 
 	var leaveButton:CornerButton;
 
+	var timeBar:RWSprite;
+
 	override public function new(song:String, ?variation:SongVariation = defaultVariation)
 	{
 		super(null, null);
@@ -160,6 +162,14 @@ class PlayState extends ConductorState
 		if (introCutscene())
 			inIntroCutscene = true;
 
+
+		timeBar = new RWSprite(null);
+		timeBar.makeGraphic(1,1);
+		add(timeBar);
+		timeBar.setScale(FlxG.width,Math.floor(Constants.TEXT_SIZE / 2));
+		timeBar.y = FlxG.height - timeBar.height;
+		timeBar.color = FlxColor.LIME;
+
 		if (Flag.IS_MOBILE_MODE)
 		{
 			leaveButton = new CornerButton('backBtn');
@@ -195,6 +205,11 @@ class PlayState extends ConductorState
 
 		if (beatMonsters != null)
 			manageBeatMonsters();
+
+		if (subState != null || inCutscene)
+			timeBar.scale.x = FlxG.width;
+		else
+			timeBar.scale.x = FlxG.width * (conductor.musicPosition / conductor.musicLength);
 	}
 
 	function manageBeatMonsters()
