@@ -930,9 +930,7 @@ class PlayState extends ConductorState
 		}
 
 		playPlayerIdle();
-
 		player.setScale(2);
-
 		player.animation.onFinish.add(animName ->
 		{
 			if (inCutscene)
@@ -944,13 +942,15 @@ class PlayState extends ConductorState
 
 		player.screenCenter();
 		player.y = FlxG.height - player.height * 1.25;
-		player.camera = camGame;
+		player.setCamera(camGame);
 
 		playerCollision = new FlxSprite().makeGraphic(playerData.config?.dimensions?.hitbox[0] ?? 32, playerData.config?.dimensions?.hitbox[1] ?? 32,
 			FlxColor.RED);
-		playerCollision.alpha = .25;
 		playerCollision.visible = false;
 		playerCollision.camera = camGame;
+
+		if (immortal)
+			player.alpha = .25;
 
 		add(player);
 		add(playerCollision);
