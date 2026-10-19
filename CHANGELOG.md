@@ -1,14 +1,14 @@
 # 0.4.0 - 10/2026
 
-<!--
-- Mobile Work
+
+- ADDED MOBILE SUPPORT!! (heres stuff that happens when on mobile:)
     - [MOBILE] Text gets sized up
     - [MOBILE] Results gets a leave button
     - [MOBILE] Gameplay gets a leave button
     - [MOBILE] Dialogue Scene gets 2 buttons for skipping and proceeding
     - [MOBILE] Freeplay gets a play button
     - [MOBILE] Freeplay layout flips
--->
+
 
 - Every stage that could get optimizations, changes, or fixes has gotten an optimization, change, or fix (You may notice slight differences cuz of this)
     - The Lost Media sky now stays

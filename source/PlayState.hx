@@ -137,7 +137,7 @@ class PlayState extends ConductorState
 
 		scoreText = new FlxText(0, 0, 0, 'BOB', Constants.TEXT_SIZE);
 		add(scoreText);
-		scoreText.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+		scoreText.setBorderStyle(OUTLINE, FlxColor.BLACK, Constants.TEXT_OUTLINE_SIZE);
 		scoreText.camera = camHUD;
 
 		generateStage();

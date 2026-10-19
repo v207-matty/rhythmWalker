@@ -40,9 +40,9 @@ class ResultsState extends ConductorState
 
 		windupText = new FlxText(0, 0, 0, '', Constants.TEXT_SIZE * 2);
 		add(windupText);
+		windupText.color = FlxColor.WHITE;
 
 		windupText.alignment = CENTER;
-		windupText.screenCenter();
 
 		FlxG.sound.play(Paths.getAudio('game/results/results'));
 
