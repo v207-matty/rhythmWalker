@@ -128,10 +128,11 @@ class PlayState extends ConductorState
 		add(stageFrontLayer);
 		stageFrontLayer.camera = camGame;
 
-		scoreText = new FlxText(0, 0, 0, 'BOB', Constants.TEXT_SIZE);
+		scoreText = new FlxText(0, 0, FlxG.width, 'BOB', Constants.TEXT_SIZE);
 		add(scoreText);
 		scoreText.setBorderStyle(OUTLINE, FlxColor.BLACK, Constants.TEXT_OUTLINE_SIZE);
 		scoreText.camera = camHUD;
+		scoreText.alignment = CENTER;
 
 		generateStage();
 
