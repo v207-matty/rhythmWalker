@@ -163,24 +163,23 @@ class PlayState extends ConductorState
 		if (introCutscene())
 			inIntroCutscene = true;
 
-
 		timeBar = new RWSprite(null);
-		timeBar.makeGraphic(1,1);
+		timeBar.makeGraphic(1, 1);
 		add(timeBar);
-		timeBar.setScale(FlxG.width,Math.floor(Constants.TEXT_SIZE / 2));
+		timeBar.setScale(FlxG.width, Math.floor(Constants.TEXT_SIZE / 2));
 		timeBar.y = FlxG.height - timeBar.height;
 		timeBar.color = FlxColor.LIME;
 
 		timeBarSongLinked = true;
 
-		if (Flag.IS_MOBILE_MODE)
-		{
-			leaveButton = new CornerButton('backBtn');
-			leaveButton.setCamera(camHUD);
-			add(leaveButton);
-			leaveButton.x = FlxG.width - leaveButton.width;
-			leaveButton.onClicked.add(leave);
-		}
+		if (!Flag.IS_MOBILE_MODE)
+			return;
+
+		leaveButton = new CornerButton('backBtn');
+		leaveButton.setCamera(camHUD);
+		add(leaveButton);
+		leaveButton.x = FlxG.width - leaveButton.width;
+		leaveButton.onClicked.add(leave);
 	}
 
 	override function update(elapsed:Float)
@@ -247,11 +246,11 @@ class PlayState extends ConductorState
 			}
 		}
 
-		if (beatMonsterSpawner != null)
-		{
-			beatMonsterSpawner.y = camGame.viewY;
-			beatMonsterSpawner.alpha = FlxMath.lerp(beatMonsterSpawner.alpha, (canSpawnMonster) ? 0.2 : 0, .1);
-		}
+		if (beatMonsterSpawner == null)
+			return;
+
+		beatMonsterSpawner.y = camGame.viewY;
+		beatMonsterSpawner.alpha = FlxMath.lerp(beatMonsterSpawner.alpha, (canSpawnMonster) ? 0.2 : 0, .1);
 	}
 
 	function playerPlayAnim(anim:String, hasFlippedVer:Bool = true)
@@ -313,16 +312,13 @@ class PlayState extends ConductorState
 	}
 
 	function playerVelocityDamping()
-	{
 		player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
-	}
 
 	var skipping:Bool = false;
 
 	function onSongEnd()
 	{
-		if (skipping)
-			seenIntroCutscene = seenEndCutscene = true;
+		seenIntroCutscene = seenEndCutscene = skipping;
 
 		timeBarSongLinked = false;
 
@@ -353,9 +349,7 @@ class PlayState extends ConductorState
 	public var canSpawnMonster(get, never):Bool;
 
 	function get_canSpawnMonster():Bool
-	{
 		return !inEndCutscene && data.beatMonsters.spawn;
-	}
 
 	override function onStepHit(step:Int, backward:Bool)
 	{
@@ -378,29 +372,20 @@ class PlayState extends ConductorState
 	{
 		super.onBeatHit(beat, backward);
 
-		stageBackLayer.forEach(sprite ->
+		for (layer in [stageBackLayer, stageFrontLayer,])
 		{
-			if (!Std.isOfType(sprite, StageSprite))
-				return;
+			layer.forEach(sprite ->
+			{
+				if (!Std.isOfType(sprite, StageSprite))
+					return;
 
-			var stageSprite = cast(sprite, StageSprite);
-			if (stageSprite == null)
-				return;
+				var stageSprite = cast(sprite, StageSprite);
+				if (stageSprite == null)
+					return;
 
-			stageSprite.dance();
-		});
-
-		stageFrontLayer.forEach(sprite ->
-		{
-			if (!Std.isOfType(sprite, StageSprite))
-				return;
-
-			var stageSprite = cast(sprite, StageSprite);
-			if (stageSprite == null)
-				return;
-
-			stageSprite.dance();
-		});
+				stageSprite.dance();
+			});
+		}
 
 		if (trainGetaway_sky != null && FlxG.sound.music.playing)
 		{
@@ -447,21 +432,21 @@ class PlayState extends ConductorState
 				playPlayerIdle();
 
 			case 'encapture-subjectbang':
-				if (song.id == 'encapture' && containment04_tubeSubject != null)
-				{
-					if (!inEndCutscene)
-					{
-						camGame.followLerp *= 0.1;
-						camGameFollow.setPosition(containment04_tubeSubject.getGraphicMidpoint().x, containment04_tubeSubject.getGraphicMidpoint().y);
+				if (song.id != 'encapture' || containment04_tubeSubject == null)
+					return;
 
-						FlxTween.tween(camGame, {zoom: 1.5}, (FlxG.sound.music.length - FlxG.sound.music.time) / 1000, {
-							ease: FlxEase.quartOut,
-						});
+				containment04_tubeSubject.animation.play('bang');
+				if (inEndCutscene)
+					return;
 
-						inEndCutscene = true;
-					}
-					containment04_tubeSubject.animation.play('bang');
-				}
+				camGame.followLerp *= 0.1;
+				camGameFollow.setPosition(containment04_tubeSubject.getGraphicMidpoint().x, containment04_tubeSubject.getGraphicMidpoint().y);
+
+				FlxTween.tween(camGame, {zoom: 1.5}, (FlxG.sound.music.length - FlxG.sound.music.time) / 1000, {
+					ease: FlxEase.quartOut,
+				});
+
+				inEndCutscene = true;
 
 			case 'song-end':
 				onSongEnd();
@@ -469,10 +454,6 @@ class PlayState extends ConductorState
 			case 'trainwreak-gun':
 				if (song.id == 'train wreak')
 					trainWreak_shooter.animation.play('shoot', true);
-
-			case 'traingetaway-swappeople':
-				if (song.id == 'train getaway')
-					return;
 
 			case 'traingetaway-reload':
 				if (song.id == 'train getaway')
@@ -549,19 +530,19 @@ class PlayState extends ConductorState
 
 					for (i in 0...inc)
 					{
-						if (!skip.contains(i))
-							if (jammed)
-								jammedSegs.push(start + incs[i]);
-							else
-								fireSegs.push(start + incs[i]);
+						if (skip.contains(i))
+							continue;
+
+						if (jammed)
+							jammedSegs.push(start + incs[i]);
+						else
+							fireSegs.push(start + incs[i]);
 					}
 				}
 
 				function addSeg(seg:Array<Float>)
-				{
 					for (thing in seg)
 						fireSegs.push(thing);
-				}
 
 				addIncrementSeg(3, 7, []);
 				addSeg([4.500, 4.781, 5.062, 5.343, 5.625]);
@@ -613,21 +594,16 @@ class PlayState extends ConductorState
 		if (stageBackLayer == null || stageFrontLayer == null)
 			return;
 
-		for (sprite in stageBackLayer.members)
+		for (layer in [stageBackLayer, stageFrontLayer,])
 		{
-			stageBackLayer.members.remove(sprite);
-			sprite.destroy();
+			for (sprite in layer.members)
+			{
+				stageBackLayer.members.remove(sprite);
+				sprite.destroy();
+			}
+
+			layer.clear();
 		}
-
-		stageBackLayer.clear();
-
-		for (sprite in stageFrontLayer.members)
-		{
-			stageFrontLayer.members.remove(sprite);
-			sprite.destroy();
-		}
-
-		stageFrontLayer.clear();
 
 		switch (stage.toLowerCase())
 		{
@@ -648,19 +624,6 @@ class PlayState extends ConductorState
 				stageBackLayer.add(spr);
 
 			case 'crash landing':
-				if (Flag.PLAY_SHADERS)
-				{
-					var charShader = new CustomShader('dropshadow');
-
-					charShader.setFloat('hue', -9.0);
-					charShader.setFloat('saturation', -15.0);
-					charShader.setFloat('brightness', -22.0);
-					charShader.setFloat('contrast', 0.0);
-
-					player.shader = charShader;
-					beatMonsters.shader = charShader;
-				}
-
 				camGame.bgColor = 0xFF0D0712;
 
 				var ship = new StageSprite('$stage/ship');
@@ -708,6 +671,18 @@ class PlayState extends ConductorState
 
 				data.beatMonsters.scale = 0.75;
 
+				if (!Flag.PLAY_SHADERS)
+					return;
+
+				var charShader = new CustomShader('dropshadow');
+
+				charShader.setFloat('hue', -9.0);
+				charShader.setFloat('saturation', -15.0);
+				charShader.setFloat('brightness', -22.0);
+				charShader.setFloat('contrast', 0.0);
+
+				player.shader = beatMonsters.shader = charShader;
+
 			case 'stage-withered':
 				var backdrop:StageSprite = new StageSprite(stage);
 				backdrop.setGraphicSize(FlxG.width, FlxG.height);
@@ -716,31 +691,31 @@ class PlayState extends ConductorState
 				stageBackLayer.add(backdrop);
 				backdrop.setCamera(camGame);
 
-				if (Flag.PLAY_SHADERS)
-				{
-					var bgShader = new CustomShader('dropshadow');
-					var charShader = new CustomShader('dropshadow');
-					var monsterShader = new CustomShader('dropshadow');
+				if (!Flag.PLAY_SHADERS)
+					return;
 
-					bgShader.setFloat('hue', -24.0);
-					bgShader.setFloat('saturation', -24.0);
-					bgShader.setFloat('brightness', -36.0);
-					bgShader.setFloat('contrast', 0.0);
+				var bgShader = new CustomShader('dropshadow');
+				var charShader = new CustomShader('dropshadow');
+				var monsterShader = new CustomShader('dropshadow');
 
-					charShader.setFloat('hue', -3.0);
-					charShader.setFloat('saturation', 7.0);
-					charShader.setFloat('brightness', -75.0);
-					charShader.setFloat('contrast', 0.0);
+				bgShader.setFloat('hue', -24.0);
+				bgShader.setFloat('saturation', -24.0);
+				bgShader.setFloat('brightness', -36.0);
+				bgShader.setFloat('contrast', 0.0);
 
-					monsterShader.setFloat('hue', -43.0);
-					monsterShader.setFloat('saturation', -51.0);
-					monsterShader.setFloat('brightness', -73.0);
-					monsterShader.setFloat('contrast', 0.0);
+				charShader.setFloat('hue', -3.0);
+				charShader.setFloat('saturation', 7.0);
+				charShader.setFloat('brightness', -75.0);
+				charShader.setFloat('contrast', 0.0);
 
-					backdrop.shader = bgShader;
-					player.shader = charShader;
-					beatMonsters.shader = monsterShader;
-				}
+				monsterShader.setFloat('hue', -43.0);
+				monsterShader.setFloat('saturation', -51.0);
+				monsterShader.setFloat('brightness', -73.0);
+				monsterShader.setFloat('contrast', 0.0);
+
+				backdrop.shader = bgShader;
+				player.shader = charShader;
+				beatMonsters.shader = monsterShader;
 
 			case 'containment-04':
 				camGame.bgColor = 0xFF595652;
@@ -752,7 +727,7 @@ class PlayState extends ConductorState
 				floor.camera = camGame;
 				floor.y = FlxG.height - floor.height;
 
-				stageBackLayer.add(new Floor(floor, 0xFF696A6A, camGame, FlxPoint.weak(1,0)));
+				stageBackLayer.add(new Floor(floor, 0xFF696A6A, camGame, FlxPoint.weak(1, 0)));
 				stageBackLayer.add(floor);
 
 				var label = new StageSprite('$stage/label');
@@ -773,14 +748,14 @@ class PlayState extends ConductorState
 
 					stageBackLayer.add(tube);
 
-					if (i == tubes - 1)
-					{
-						containment04_tubeSubject = tube;
-						containment04_tubeSubject.loadGraphic(Paths.getImagePath('game/stages/$stage/subject'), true, 128, 128);
-						containment04_tubeSubject.addAnim('idle', [0, 1], 2, true);
-						containment04_tubeSubject.addAnim('bang', [2, 3], 6, false);
-						containment04_tubeSubject.animation.play('idle');
-					}
+					if (i != tubes - 1)
+						return;
+
+					containment04_tubeSubject = tube;
+					containment04_tubeSubject.loadGraphic(Paths.getImagePath('game/stages/$stage/subject'), true, 128, 128);
+					containment04_tubeSubject.addAnim('idle', [0, 1], 2, true);
+					containment04_tubeSubject.addAnim('bang', [2, 3], 6, false);
+					containment04_tubeSubject.animation.play('idle');
 				}
 
 			case 'train-wreak':
@@ -1023,11 +998,11 @@ class PlayState extends ConductorState
 
 		player.animation.onFinish.add(animName ->
 		{
-			if (!inCutscene)
-			{
-				playPlayerIdle();
-				playerStunned = false;
-			}
+			if (inCutscene)
+				return;
+
+			playPlayerIdle();
+			playerStunned = false;
 		});
 
 		player.screenCenter();
@@ -1075,10 +1050,7 @@ class PlayState extends ConductorState
 					ease: FlxEase.backInOut,
 				});
 
-				FlxTimer.wait(1.75, () ->
-				{
-					inIntroCutscene = false;
-				});
+				FlxTimer.wait(1.75, () -> inIntroCutscene = false);
 
 				return true;
 
@@ -1091,29 +1063,25 @@ class PlayState extends ConductorState
 					ease: FlxEase.backInOut,
 				});
 
+				function onZoomed(t)
+				{
+					stageBackLayer.forEach(sprite ->
+					{
+						if (!Std.isOfType(sprite, StageSprite) || sprite == null || sprite.isOnScreen(sprite.camera))
+							return;
+
+						stageBackLayer.remove(sprite);
+						sprite.destroy();
+					});
+				}
+
 				FlxTween.tween(camGame, {zoom: 1}, 6, {
 					startDelay: 5,
 					ease: FlxEase.backInOut,
-					onComplete: t ->
-					{
-						stageBackLayer.forEach(sprite ->
-						{
-							if (!Std.isOfType(sprite, StageSprite) || sprite == null)
-								return;
-
-							if (!sprite.isOnScreen(sprite.camera))
-							{
-								stageBackLayer.remove(sprite);
-								sprite.destroy();
-							}
-						});
-					}
+					onComplete: onZoomed,
 				});
 
-				FlxTimer.wait(12, () ->
-				{
-					inIntroCutscene = false;
-				});
+				FlxTimer.wait(12, () -> inIntroCutscene = false);
 
 				return true;
 
@@ -1121,34 +1089,32 @@ class PlayState extends ConductorState
 				playerPlayAnim('chinatown-bridge', false);
 				player.y -= player.height * 0.5;
 
-				FlxTimer.wait(7.5, () ->
+				function partTwo()
+				{
+					spawnBeatMonster();
+					beatMonsterSpawner.alpha += .5;
+
+					FlxTween.tween(player, {x: player.x - 128, y: player.y + player.height * 0.5}, .4, {
+						ease: FlxEase.sineOut,
+						startDelay: .2,
+						onStart: t -> playerPlayAnim('chinatown-bridge-jump', false),
+						onComplete: t ->
+						{
+							playPlayerIdle();
+							inEndCutscene = inIntroCutscene = false;
+						}
+					});
+				}
+
+				function partOne()
 				{
 					inEndCutscene = true;
 
 					playerPlayAnim('chinatown-bridge-lookup', false);
-					player.animation.onFinish.add(animName ->
-					{
-						if (animName != 'chinatown-bridge-lookup')
-							return;
+					player.animation.onFinish.add(animName -> if (animName == 'chinatown-bridge-lookup') partTwo());
+				}
 
-						spawnBeatMonster();
-						beatMonsterSpawner.alpha += .5;
-
-						FlxTween.tween(player, {x: player.x - 128, y: player.y + player.height * 0.5}, .4, {
-							ease: FlxEase.sineOut,
-							startDelay: .2,
-							onStart: t ->
-							{
-								playerPlayAnim('chinatown-bridge-jump', false);
-							},
-							onComplete: t ->
-							{
-								playPlayerIdle();
-								inEndCutscene = inIntroCutscene = false;
-							}
-						});
-					});
-				});
+				FlxTimer.wait(7.5, partOne);
 
 				return true;
 
@@ -1168,10 +1134,7 @@ class PlayState extends ConductorState
 		{
 			playPlayerIdle();
 
-			new FlxTimer().start(1 / FlxG.updateFramerate, t ->
-			{
-				playerVelocityDamping();
-			}, FlxG.updateFramerate);
+			new FlxTimer().start(1 / FlxG.updateFramerate, t -> playerVelocityDamping(), FlxG.updateFramerate);
 		}
 
 		switch ([song.id, song.variation])
@@ -1188,10 +1151,7 @@ class PlayState extends ConductorState
 					camGame.flash(FlxColor.ORANGE, 10);
 					FlxG.sound.play(Paths.getAudio('game/cutscenes/explosion'));
 
-					forEach(basic ->
-					{
-						basic.visible = false;
-					});
+					forEach(basic -> basic.visible = false);
 				});
 
 				FlxTimer.wait(2, onSongEnd);
@@ -1206,10 +1166,7 @@ class PlayState extends ConductorState
 					player.flipX = true;
 
 					playerPlayAnim('move');
-					player.animation.onFinish.add(anim ->
-					{
-						playerPlayAnim('move');
-					});
+					player.animation.onFinish.add(anim -> playerPlayAnim('move'));
 
 					FlxTween.tween(player, {x: FlxG.width + (player.width * 2)}, 3, {
 						ease: FlxEase.sineIn,
