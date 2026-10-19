@@ -28,8 +28,13 @@ jobs:
                                           export/release/html5/obj/
                                   key: cache-build-html5
 
+                        
                         - name: Installing Libraries
-                          run: haxe --interp -cp ./actions/libs-installer -D analyzer-optimize -main Main
+                          run: |
+                                haxelib install hmm
+                                haxelib run hmm setup
+                                hmm install
+
                         - name: Create Version Tag
                           run: echo "${{github.run_id}}" > VERSION
 

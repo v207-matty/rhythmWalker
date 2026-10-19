@@ -1,7 +1,8 @@
 name: Deployed Web Builds
 
 on:
-        workflow_dispatch:
+  push:
+  workflow_dispatch:
 
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
@@ -41,7 +42,11 @@ jobs:
                                   key: cache-build-html5
 
                         - name: Installing Libraries
-                          run: haxe --interp -cp ./actions/libs-installer -D analyzer-optimize -main Main
+                          run: |
+                                haxelib install hmm
+                                haxelib run hmm setup
+                                hmm install
+
                         - name: Create Version Tag
                           run: echo "${{github.run_id}}" > VERSION
 
