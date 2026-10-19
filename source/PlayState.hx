@@ -161,6 +161,7 @@ class PlayState extends ConductorState
 		if (Flag.IS_MOBILE_MODE)
 		{
 			leaveButton = new CornerButton('backBtn');
+			leaveButton.setCamera(camHUD);
 			add(leaveButton);
 			leaveButton.x = FlxG.width - leaveButton.width;
 			leaveButton.onClicked.add(leave);
