@@ -71,9 +71,11 @@ class Freeplay extends ConductorState
 
 	public static function runOnWaveforms(func:FlxWaveform->String->Void)
 	{
-		if (func != null)
-			for (wf in curWaveforms)
-				func(wf, curWaveformsID[wf.ID]);
+		if (func == null || curWaveforms == null)
+			return;
+		
+		for (wf in curWaveforms)
+			func(wf, curWaveformsID[wf.ID]);
 	}
 
 	var randomTip:String = '';
@@ -361,13 +363,12 @@ class Freeplay extends ConductorState
 
 		runOnWaveforms((wave, waveID) ->
 		{
-			if (waveID == songCode)
-			{
-				wave.waveformTime = bgAudio.time;
+			if (waveID != songCode)
+				return;
+			wave.waveformTime = bgAudio.time;
 
-				FlxTween.cancelTweensOf(wave);
-				FlxTween.tween(wave, {alpha: 1}, .25, {ease: FlxEase.quartInOut});
-			}
+			FlxTween.cancelTweensOf(wave);
+			FlxTween.tween(wave, {alpha: 1}, .25, {ease: FlxEase.quartInOut});
 		});
 	}
 
@@ -383,17 +384,17 @@ class Freeplay extends ConductorState
 	{
 		super.onFocus();
 
-		if (bgAudio != null)
-		{
-			bgAudio.resume();
-			// trace(bgAudio.time);
+		if (bgAudio == null)
+			return;
 
-			runOnWaveforms((wave, waveID) ->
-			{
-				if (wave != null)
-					wave.waveformTime = bgAudio.time;
-			});
-		}
+		bgAudio.resume();
+		// trace(bgAudio.time);
+
+		runOnWaveforms((wave, waveID) ->
+		{
+			if (wave != null)
+				wave.waveformTime = bgAudio.time;
+		});
 	}
 
 	function loadSongAudio() @:privateAccess
@@ -427,6 +428,14 @@ class Freeplay extends ConductorState
 
 			makeWaveform(entries[selectedEntry]);
 		}
+
+		runOnWaveforms((wave, waveID) ->
+		{
+			if (waveID != songCode)
+				return;
+
+			wave.scrollFactor.set();
+		});
 
 		bgAudio.play();
 
@@ -666,7 +675,6 @@ class Freeplay extends ConductorState
 		{
 			bgAudioViz = new FlxWaveform(0, 0, Math.floor(FlxG.width / 4), Math.floor(FlxG.height - topSegBG.height - btmSegBG.height), FlxColor.WHITE,
 				FlxColor.TRANSPARENT);
-			bgAudioViz.scrollFactor.set();
 			bgAudioViz.y = topSegBG.height;
 
 			bgAudioViz.loadDataFromFlxSound(audio);
@@ -680,6 +688,7 @@ class Freeplay extends ConductorState
 
 			bgAudioViz.alpha = 0;
 
+			bgAudioViz.scrollFactor.set();
 			bgAudioViz.onWaveformBufferSet.add(function()
 			{
 				audioVizCache.set(viz, bgAudioViz);
@@ -688,6 +697,7 @@ class Freeplay extends ConductorState
 			if (Flag.FREEPLAY_LEFT_LAYOUT)
 				bgAudioViz.x = FlxG.width - bgAudioViz.width;
 		}
+		bgAudioViz.scrollFactor.set();
 
 		bgAudioViz.ID = i;
 		waveformLayer.add(bgAudioViz);
