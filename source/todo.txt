@@ -1,2 +1,3 @@
 - [MOBILE] make it so less swipe has to be done to change selection
 - Add Time bar
+- Make Player characters json

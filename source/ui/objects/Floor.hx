@@ -16,7 +16,6 @@ class Floor extends RWSprite
 		makeGraphic(1, 1);
 
 		setScale(FlxG.width, FlxG.height);
-		setScrollFactor(sf?.x ?? 0, sf?.y ?? 0);
 
 		screenCenter();
 
@@ -27,5 +26,7 @@ class Floor extends RWSprite
 
 		if (cam != null)
 			setCamera(cam);
+		
+		setScrollFactor(sf?.x ?? 0, sf?.y ?? 0);
 	}
 }
