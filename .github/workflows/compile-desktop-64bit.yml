@@ -1,4 +1,4 @@
-name: Auto-compiled builds (64bit Dekstop)
+name: Auto-compiled builds (Dekstop)
 
 on:
         push:
@@ -63,7 +63,7 @@ jobs:
                           with:
                                   name: linuxBuild
                                   path: export/64bit/release/linux/bin
-        buildWindows:
+        buildWindows64:
                 runs-on: windows-latest
 
                 steps:
@@ -120,6 +120,61 @@ jobs:
                           with:
                                   name: windowsBuild
                                   path: export/64bit/release/windows/bin
+        buildWindows32:
+                runs-on: windows-latest
+
+                steps:
+                        - uses: actions/checkout@main
+
+                        - uses: krdlab/setup-haxe@master
+                          with:
+                                  haxe-version: 4.3.7
+
+                        - name: Restore Previous Cache
+                          id: cache-build-restore
+                          uses: actions/cache/restore@main
+                          with:
+                                  path: |
+                                          .haxelib/
+                                          export/32bit/release/windows/haxe/
+                                          export/32bit/release/windows/obj/
+                                  key: cache-build-windows
+                        
+                        - name: Installing Libraries
+                          run: |
+                                haxelib install hmm
+                                haxelib run hmm install
+                                cd .haxelib/hxcpp/git/tools/hxcpp/
+                                haxe compile.hxml
+                                cd ../../../../../
+                                
+                        - name: Create Version Tag
+                          run: echo "${{github.run_id}}" > VERSION
+
+                        - name: Compile
+                          run: haxelib run lime build windows -32 -D_32bit
+
+                        - name: Clear Previous Cache
+                          uses: actions/github-script@main
+                          with:
+                                  script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-build-windows');
+
+                        - name: Save Current Cache
+                          uses: actions/cache@main
+                          with:
+                                  key: cache-build-windows
+                                  path: |
+                                          .haxelib/
+                                          export/32bit/release/windows/haxe/
+                                          export/32bit/release/windows/obj/
+                                  restore-keys: |
+                                          cache-build-windows
+
+                        - name: Upload Artifact
+                          uses: actions/upload-artifact@main
+                          with:
+                                  name: windowsBuild
+                                  path: export/32bit/release/windows/bin
         buildMac:
                 runs-on: macos-latest
 
