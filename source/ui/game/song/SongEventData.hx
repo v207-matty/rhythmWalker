@@ -1,4 +1,4 @@
-package song;
+package ui.game.song;
 
 typedef SongEventData =
 {

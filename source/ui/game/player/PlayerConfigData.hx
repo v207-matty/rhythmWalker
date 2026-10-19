@@ -2,13 +2,15 @@ package ui.game.player;
 
 typedef PlayerConfigData =
 {
+	@:default({
+        sprite: [64,64],
+        hitbox: [32,32],
+    })
 	var dimensions:PlayerConfigDimensionsData;
 
-    @:optional
-    @:default(200)
-	var maxVelocityBase:Float;
+	@:default(200)
+	var maxVelocityBase:Null<Float>;
 
-    @:optional
-    @:default(20)
-	var speed:Float;
+	@:default(20)
+	var speed:Null<Float>;
 }

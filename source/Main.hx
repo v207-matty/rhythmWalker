@@ -1,6 +1,6 @@
 package;
 
-import song.SongRank;
+import ui.game.song.SongRank;
 #if sys
 import sys.io.File;
 import sys.FileSystem;

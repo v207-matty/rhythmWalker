@@ -51,8 +51,10 @@
     },
     {
       "name": "json2object",
-      "type": "haxelib",
-      "version": null
+      "type": "git",
+      "dir": null,
+      "ref": "dc945d58c1239a6ab6e37e0a6c128387193c9af5",
+      "url": "https://github.com/FunkinCrew/json2object"
     }
   ]
 }

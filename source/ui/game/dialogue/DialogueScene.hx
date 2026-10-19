@@ -1,4 +1,4 @@
-package ui.dialogue;
+package ui.game.dialogue;
 
 import util.Constants;
 import util.Flag;
@@ -10,7 +10,7 @@ import flixel.text.FlxText;
 import haxe.Json;
 import lime.utils.Assets;
 import flixel.FlxG;
-import song.Song;
+import ui.game.song.Song;
 
 using StringTools;
 

@@ -1,4 +1,4 @@
-package song;
+package ui.game.song;
 
 enum abstract SongRank(String) from String to String
 {

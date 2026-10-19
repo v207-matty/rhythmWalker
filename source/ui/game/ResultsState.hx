@@ -12,7 +12,7 @@ import flixel.FlxG;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import song.SongRank;
+import ui.game.song.SongRank;
 
 class ResultsState extends ConductorState
 {

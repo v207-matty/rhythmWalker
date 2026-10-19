@@ -1,4 +1,4 @@
-package ui.dialogue;
+package ui.game.dialogue;
 
 import ui.objects.RWSprite;
 

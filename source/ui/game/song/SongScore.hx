@@ -1,6 +1,6 @@
-package song;
+package ui.game.song;
 
-import song.SongRank;
+import ui.game.song.SongRank;
 
 typedef SongScore =
 {

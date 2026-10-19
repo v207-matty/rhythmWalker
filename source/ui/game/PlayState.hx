@@ -13,7 +13,7 @@ import util.CustomShader;
 import flixel.util.FlxGradient;
 import ui.objects.RWSprite;
 import flixel.addons.transition.FlxTransitionableState;
-import ui.dialogue.DialogueScene;
+import ui.game.dialogue.DialogueScene;
 import stage.TrainWreakShooter;
 import flixel.FlxObject;
 import flixel.FlxCamera;
@@ -23,10 +23,8 @@ import flixel.addons.display.FlxBackdrop;
 import stage.StageSprite;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import song.SongVariation;
-import song.SongEventData;
+import ui.game.song.*;
 import flixel.util.FlxTimer;
-import song.Song;
 import flixel.addons.sound.FlxRhythmConductorUtil;
 import flixel.text.FlxText;
 import flixel.group.FlxSpriteGroup;
@@ -907,39 +905,23 @@ class PlayState extends ConductorState
 
 	function makePlayer()
 	{
-		data.player = 'bro-regular';
-
-		switch ([song.id, song.variation])
-		{
-			case ['mental', defaultVariation]:
-				data.player = 'bro-mental';
-
-			case ['scroll down chinatown', resolved]:
-				data.player = 'bro-chinatown-wanted';
-
-			case ['lost media', defaultVariation]:
-				data.player = 'jez-regular';
-
-			case ['encapture', defaultVariation]:
-				data.player = 'bro-captured';
-
-			case ['train wreak', defaultVariation]:
-				data.player = 'bro-chinatown-torn';
-
-			case ['scroll down chinatown', defaultVariation], ['train getaway', defaultVariation]:
-				data.player = 'bro-chinatown';
-
-			default:
-		}
-
-		playerData = Json.parse(Assets.getText(Paths.json('game/players/${data.player}')));
-
-		player = new RWSprite('game/players/${data.player}', true, playerData.config.dimensions.sprite[0], playerData.config.dimensions.sprite[1]);
+		playerData = new PlayerData(song.player);
+		player = new RWSprite('game/players/${playerData.id}', true, playerData.config.dimensions.sprite[0], playerData.config.dimensions.sprite[1]);
 
 		for (anim in playerData.animations)
 		{
+			if (anim == null || anim.name == null || anim.frames == null || anim.frames.length < 1)
+				continue;
+
 			trace('Player Anim "${anim.name}" : $anim');
-			player.addAnim(anim.name, anim.frames, anim.fps, anim.looped, anim.flipX, anim.flipY);
+
+			if (anim.createFlippedVarients)
+			{
+				player.addAnim(anim.name + 'L', anim.frames, anim.fps, anim.looped, anim.flipX, anim.flipY);
+				player.addAnim(anim.name + 'R', anim.frames, anim.fps, anim.looped, anim.flipX, anim.flipY);
+			}
+			else
+				player.addAnim(anim.name, anim.frames, anim.fps, anim.looped, anim.flipX, anim.flipY);
 		}
 
 		playPlayerIdle();
@@ -959,7 +941,8 @@ class PlayState extends ConductorState
 		player.y = FlxG.height - player.height * 1.25;
 		player.camera = camGame;
 
-		playerCollision = new FlxSprite().makeGraphic(playerData.config.dimensions.hitbox[0], playerData.config.dimensions.hitbox[1], FlxColor.RED);
+		playerCollision = new FlxSprite().makeGraphic(playerData.config?.dimensions?.hitbox[0] ?? 32, playerData.config?.dimensions?.hitbox[1] ?? 32,
+			FlxColor.RED);
 		playerCollision.alpha = .25;
 		playerCollision.visible = false;
 		playerCollision.camera = camGame;

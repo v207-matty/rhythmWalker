@@ -1,6 +1,6 @@
 package ui.freeplay;
 
-import song.SongVariation;
+import ui.game.song.SongVariation;
 
 typedef FreeplaySongData =
 {

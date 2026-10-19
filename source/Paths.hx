@@ -1,4 +1,4 @@
-import song.SongVariation;
+import ui.game.song.SongVariation;
 
 class Paths
 {

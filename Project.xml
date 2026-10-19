@@ -50,7 +50,7 @@
 
     <haxelib name="hxcpp-debugger" />
 
-    <haxelib name="json2object" />
+    <haxelib name="json2object" version="git" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 

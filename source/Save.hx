@@ -1,10 +1,10 @@
-import song.SongScore;
+import ui.game.song.SongScore;
 import flixel.util.FlxSave;
 import util.Flag;
 import flixel.math.FlxMath;
 import lime.app.Application;
 import flixel.FlxG;
-import song.SongRank;
+import ui.game.song.SongRank;
 
 using StringTools;
 
