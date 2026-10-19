@@ -31,8 +31,7 @@ jobs:
                         - name: Installing Libraries
                           run: |
                                 haxelib install hmm
-                                haxelib run hmm setup
-                                hmm install
+                                haxelib run hmm install
 
                         - name: Create Version Tag
                           run: echo "${{github.run_id}}" > VERSION
@@ -86,8 +85,7 @@ jobs:
                         - name: Installing Libraries
                           run: |
                                 haxelib install hmm
-                                haxelib run hmm setup
-                                hmm install
+                                haxelib run hmm install
                                 
                         - name: Create Version Tag
                           run: echo "${{github.run_id}}" > VERSION
@@ -139,8 +137,7 @@ jobs:
                         - name: Installing Libraries
                           run: |
                                 haxelib install hmm
-                                haxelib run hmm setup
-                                hmm install
+                                haxelib run hmm install
 
                         - name: Create Version Tag
                           run: echo "${{github.run_id}}" > VERSION
