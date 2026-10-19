@@ -1,4 +1,4 @@
-name: Auto-compiled builds (Dekstop)
+name: Auto-compiled builds (64bit Dekstop)
 
 on:
         push:
@@ -24,8 +24,8 @@ jobs:
                           with:
                                   path: |
                                           .haxelib/
-                                          export/release/linux/haxe/
-                                          export/release/linux/obj/
+                                          export/release/64bit/linux/haxe/
+                                          export/release/64bit/linux/obj/
                                   key: cache-build-linux
 
                         - name: Installing Libraries
@@ -37,7 +37,7 @@ jobs:
                           run: echo "${{github.run_id}}" > VERSION
 
                         - name: Compile
-                          run: haxelib run lime build linux -y
+                          run: haxelib run lime build linux
 
                         - name: Clear Previous Cache
                           uses: actions/github-script@main
@@ -50,8 +50,8 @@ jobs:
                                   key: cache-build-linux
                                   path: |
                                           .haxelib/
-                                          export/release/linux/haxe/
-                                          export/release/linux/obj/
+                                          export/release/64bit/linux/haxe/
+                                          export/release/64bit/linux/obj/
                                   restore-keys: |
                                           cache-build-linux
 
@@ -59,7 +59,7 @@ jobs:
                           uses: actions/upload-artifact@main
                           with:
                                   name: linuxBuild
-                                  path: export/release/linux/bin
+                                  path: export/release/64bit/linux/bin
         buildWindows:
                 runs-on: windows-latest
 
@@ -76,8 +76,8 @@ jobs:
                           with:
                                   path: |
                                           .haxelib/
-                                          export/release/windows/haxe/
-                                          export/release/windows/obj/
+                                          export/release/64bit/windows/haxe/
+                                          export/release/64bit/windows/obj/
                                   key: cache-build-windows
 
                         
@@ -91,7 +91,7 @@ jobs:
                           run: echo "${{github.run_id}}" > VERSION
 
                         - name: Compile
-                          run: haxelib run lime build windows -y
+                          run: haxelib run lime build windows
 
                         - name: Clear Previous Cache
                           uses: actions/github-script@main
@@ -104,8 +104,8 @@ jobs:
                                   key: cache-build-windows
                                   path: |
                                           .haxelib/
-                                          export/release/windows/haxe/
-                                          export/release/windows/obj/
+                                          export/release/64bit/windows/haxe/
+                                          export/release/64bit/windows/obj/
                                   restore-keys: |
                                           cache-build-windows
 
@@ -113,7 +113,7 @@ jobs:
                           uses: actions/upload-artifact@main
                           with:
                                   name: windowsBuild
-                                  path: export/release/windows/bin
+                                  path: export/release/64bit/windows/bin
         buildMac:
                 runs-on: macos-latest
 
@@ -130,8 +130,8 @@ jobs:
                           with:
                                   path: |
                                           .haxelib/
-                                          export/release/macos/haxe/
-                                          export/release/macos/obj/
+                                          export/release/64bit/macos/haxe/
+                                          export/release/64bit/macos/obj/
                                   key: cache-build-mac
 
                         - name: Installing Libraries
@@ -143,7 +143,7 @@ jobs:
                           run: echo "${{github.run_id}}" > VERSION
 
                         - name: Compile
-                          run: haxelib run lime build mac -y
+                          run: haxelib run lime build mac
 
                         - name: Clear Previous Cache
                           uses: actions/github-script@main
@@ -156,8 +156,8 @@ jobs:
                                   key: cache-build-mac
                                   path: |
                                           .haxelib/
-                                          export/release/macos/haxe/
-                                          export/release/macos/obj/
+                                          export/release/64bit/macos/haxe/
+                                          export/release/64bit/macos/obj/
                                   restore-keys: |
                                           cache-build-mac
 
@@ -165,4 +165,4 @@ jobs:
                           uses: actions/upload-artifact@main
                           with:
                                   name: macBuild
-                                  path: export/release/macos/bin
+                                  path: export/release/64bit/macos/bin
