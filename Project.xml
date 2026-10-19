@@ -96,6 +96,7 @@
 	<icon path="dev/icon.png" />
 
 	<haxedef name="lime_disable_assets_version"/>
+	<haxeflag name="--dce" value="full" unless="debug" />
 
     <haxedef name="HXCPP_DEBUGGER" />
     <haxedef name="HXCPP_STACK_TRACE" />
