@@ -36,18 +36,11 @@ class ResultsState extends ConductorState
 
 	override function create()
 	{
+		transIn = null;
+
 		super.create();
 
-		if (!Flag.PLATFORM_MOBILE)
-			beginResults();
-	}
-
-	override function finishTransIn()
-	{
-		super.finishTransIn();
-
-		if (Flag.PLATFORM_MOBILE)
-			beginResults();
+		beginResults();
 	}
 
 	function beginResults()
