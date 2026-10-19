@@ -35,7 +35,7 @@ class InitState extends FlxState
 	function proceed()
 	{
 		if (Flag.STARTINGSTATE_GAMEPLAY)
-			FlxG.switchState(() -> new ui.dialogue.DialogueScene(new song.Song('train wreak')));
+			FlxG.switchState(() -> new ui.dialogue.DialogueScene(new song.Song('train getaway')));
 		else if (Flag.STARTINGSTATE_DIALOGUE)
 			FlxG.switchState(() -> new ui.dialogue.DialogueScene(new song.Song('encapture')));
 		else if (Flag.STARTINGSTATE_RESULTS)

@@ -621,25 +621,11 @@ class PlayState extends ConductorState
 				sky.screenCenter();
 				stageBackLayer.add(sky);
 
-				var buildings = new StageSprite('chinatown/town/buildings');
-				buildings.setScale(2);
-				buildings.screenCenter();
-				stageBackLayer.add(buildings);
-
-				var backRedThings = new StageSprite('chinatown/town/backRedThings');
-				backRedThings.setScale(2);
-				backRedThings.screenCenter();
-				stageBackLayer.add(backRedThings);
-
-				var ground = new StageSprite('chinatown/town/ground');
-				ground.setScale(2);
-				ground.screenCenter();
-				stageBackLayer.add(ground);
-
-				var frontRedThings = new StageSprite('chinatown/town/frontRedThings');
-				frontRedThings.setScale(2);
-				frontRedThings.screenCenter();
-				stageBackLayer.add(frontRedThings);
+				var spr = new StageSprite('chinatown/town/town');
+				spr.setGraphicSize(FlxG.width, FlxG.height);
+				spr.updateHitbox();
+				spr.screenCenter();
+				stageBackLayer.add(spr);
 
 			case 'crash landing':
 				if (Flag.PLAY_SHADERS)
@@ -655,12 +641,7 @@ class PlayState extends ConductorState
 					beatMonsters.shader = charShader;
 				}
 
-				var sky = new FlxSprite().makeGraphic(1, 1, 0xFF0D0712);
-				sky.scale.set(FlxG.width, FlxG.height);
-				sky.updateHitbox();
-				sky.screenCenter();
-				sky.scrollFactor.set(0, 0);
-				stageBackLayer.add(sky);
+				camGame.bgColor = 0xFF0D0712;
 
 				var ship = new StageSprite('$stage/ship');
 				var mountains = new StageSprite('$stage/mountains');
@@ -676,15 +657,18 @@ class PlayState extends ConductorState
 
 				for (spr in [ship, mountains, hills, ground, frontHills])
 				{
+					spr.setGraphicSize(FlxG.width, FlxG.height);
+					spr.updateHitbox();
+					spr.screenCenter();
+
 					spr.setCamera(camGame);
-					spr.setScale(2);
 
 					if (spr != frontHills)
 						stageBackLayer.add(spr);
 				}
 				stageFrontLayer.add(frontHills);
 
-				ship.setScale(1);
+				ship.setScale(Math.floor(FlxG.width / 1280));
 				ship.alpha = .5;
 
 				ship.x += FlxG.width * 2;
@@ -706,6 +690,8 @@ class PlayState extends ConductorState
 
 			case 'stage-withered':
 				var backdrop:StageSprite = new StageSprite(stage);
+				backdrop.setGraphicSize(FlxG.width, FlxG.height);
+				backdrop.updateHitbox();
 				backdrop.screenCenter();
 				stageBackLayer.add(backdrop);
 				backdrop.setCamera(camGame);
@@ -737,13 +723,23 @@ class PlayState extends ConductorState
 				}
 
 			case 'containment-04':
-				var backdrop:StageSprite = new StageSprite('$stage/backdrop');
-				backdrop.setScale(2);
-				backdrop.screenCenter();
-				stageBackLayer.add(backdrop);
-				backdrop.setCamera(camGame);
+				camGame.bgColor = 0xFF595652;
 
-				var tubes = 2;
+				var floor:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/floor'), X);
+				floor.scale.set(2, 2);
+				floor.scrollFactor.set();
+				floor.updateHitbox();
+				floor.camera = camGame;
+				floor.y = FlxG.height - floor.height;
+				stageBackLayer.add(floor);
+
+				var label = new StageSprite('$stage/label');
+				label.setScale(2);
+				label.screenCenter(X);
+				label.y = FlxG.height - label.height;
+				stageBackLayer.add(label);
+
+				var tubes = 2 * Math.floor(FlxG.width / 1280);
 
 				for (i in 0...tubes)
 				{
@@ -751,7 +747,7 @@ class PlayState extends ConductorState
 					tube.setScale(2);
 
 					tube.y = FlxG.height - tube.height * 1.4 - 4;
-					tube.x = ((tube.width * 2.75) * (i)) + 32;
+					tube.x = ((tube.width * 2.75) * i) + 32;
 
 					stageBackLayer.add(tube);
 
@@ -856,9 +852,10 @@ class PlayState extends ConductorState
 				stageBackLayer.add(trainGetaway_sky);
 				trainGetaway_sky.camera = camGame;
 
-				var train:StageSprite = new StageSprite('$stage/train');
-				train.setScale(2);
-				train.screenCenter();
+				var train = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/train'), X);
+				train.scale.set(2, 2);
+				train.updateHitbox();
+				train.screenCenter(X);
 				train.y = FlxG.height - train.height;
 				stageBackLayer.add(train);
 				train.camera = camGame;
@@ -867,7 +864,7 @@ class PlayState extends ConductorState
 				player.updateHitbox();
 
 				player.screenCenter();
-				player.y = FlxG.height - player.height * 2.3;
+				player.y = train.y - player.height * 0.95;
 
 				data.beatMonsters.scale = 0.5;
 
@@ -896,13 +893,17 @@ class PlayState extends ConductorState
 				sky.screenCenter();
 				stageBackLayer.add(sky);
 
-				var bridge:StageSprite = new StageSprite('chinatown/bridge/bridge');
-				bridge.screenCenter();
-				stageBackLayer.add(bridge);
+				var bridge:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/chinatown/bridge/bridge'), X);
+				bridge.scale.set(4, 4);
+				bridge.updateHitbox();
 				bridge.camera = camGame;
+				bridge.y = FlxG.height - bridge.height;
+				stageBackLayer.add(bridge);
 
 			case 'stage', 'understage':
 				var backdrop:StageSprite = new StageSprite(stage);
+				backdrop.setGraphicSize(FlxG.width, FlxG.height);
+				backdrop.updateHitbox();
 				backdrop.screenCenter();
 				stageBackLayer.add(backdrop);
 				backdrop.setCamera(camGame);
@@ -910,9 +911,7 @@ class PlayState extends ConductorState
 	}
 
 	function playPlayerIdle()
-	{
 		playerPlayAnim('idle');
-	}
 
 	function makePlayer()
 	{

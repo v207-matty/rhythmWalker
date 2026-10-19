@@ -10,8 +10,13 @@
     - [MOBILE] Freeplay layout flips
 -->
 
-- Train Wreak stage has been modified cause I now have the crowd in one image + reprogrammed the creation of it so yeah
-- The Crash Landing stage sky color (i think) should be more accurate to what I intended
+- Every stage that could get optimizations, changes, or fixes has gotten an optimization, change, or fix (You may notice slight differences cuz of this)
+    - The Lost Media sky now stays
+    - Train Getaway stage has you lower now
+    - Train Wreak stage has been modified cause I now have the crowd in one image + reprogrammed the creation of it so yeah
+    - The Lost Media stage sky color is now the intended color
+
+    - And more!!!
 - Freeplay song texts has padding now when not centered
 - Gameplay now lets you click the screen to move (the player will move to where your cursor is)
 - Freeplay lets you swipe to change selection and volume
