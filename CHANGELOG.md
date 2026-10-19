@@ -10,6 +10,7 @@
     - [MOBILE] Freeplay layout flips
 -->
 
+- The Crash Landing stage sky color (i think) should be more accurate to what I intended
 - Freeplay song texts has padding now when not centered
 - Gameplay now lets you click the screen to move (the player will move to where your cursor is)
 - Freeplay lets you swipe to change selection and volume

@@ -34,18 +34,13 @@ class InitState extends FlxState
 
 	function proceed()
 	{
-		if (Flag.STARTINGSTATE_DIALOGUE)
-		{
+		if (Flag.STARTINGSTATE_GAMEPLAY)
+			FlxG.switchState(() -> new ui.dialogue.DialogueScene(new song.Song('train wreak')));
+		else if (Flag.STARTINGSTATE_DIALOGUE)
 			FlxG.switchState(() -> new ui.dialogue.DialogueScene(new song.Song('encapture')));
-			return;
-		}
-
-		if (Flag.STARTINGSTATE_RESULTS)
-		{
+		else if (Flag.STARTINGSTATE_RESULTS)
 			FlxG.switchState(() -> new ResultsState('train wreak-default'));
-			return;
-		}
-
-		FlxG.switchState(() -> new Freeplay());
+		else
+			FlxG.switchState(() -> new Freeplay());
 	}
 }

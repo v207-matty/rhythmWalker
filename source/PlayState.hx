@@ -655,7 +655,7 @@ class PlayState extends ConductorState
 					beatMonsters.shader = charShader;
 				}
 
-				var sky = new FlxSprite().makeGraphic(1, 1, 0x0d0712);
+				var sky = new FlxSprite().makeGraphic(1, 1, 0xFF0D0712);
 				sky.scale.set(FlxG.width, FlxG.height);
 				sky.updateHitbox();
 				sky.screenCenter();
@@ -768,98 +768,74 @@ class PlayState extends ConductorState
 			case 'train-wreak':
 				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/sky'));
 				sky.scale.set(2, 2);
+				sky.updateHitbox();
 				sky.velocity.x = 10;
 				sky.screenCenter(X);
 				sky.scrollFactor.set(.25, .25);
 				stageBackLayer.add(sky);
 				sky.camera = camGame;
 
-				var pieceList:Array<Dynamic> = [
-					['city', 0.5],
-					['ground', 0.75],
+				var city:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/city'), X);
+				city.scale.set(2, 2);
+				city.updateHitbox();
+				city.screenCenter(X);
+				city.scrollFactor.set(.5, .5);
+				stageBackLayer.add(city);
+				city.camera = camGame;
 
+				var ground:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/ground'), X);
+				ground.scale.set(2, 2);
+				ground.updateHitbox();
+				ground.screenCenter(X);
+				ground.scrollFactor.set(.75, .75);
+				ground.camera = camGame;
+
+				var solidGround:RWSprite = new RWSprite(null);
+				solidGround.setCamera(camGame);
+				solidGround.makeGraphic(FlxG.width * 3, FlxG.height, 0xFF3B3E44);
+				solidGround.screenCenter();
+				solidGround.y = ground.y + ground.height;
+				stageBackLayer.add(solidGround);
+
+				stageBackLayer.add(ground);
+
+				var pieceList:Array<Dynamic> = [
 					['crowds/randoms-left', 0.75],
 					['crowds/randoms-right', 0.75],
 
-					['crowds/center'],
+					['crowds/center', 0.8],
 
 					['smoke', 1],
 					['trainSegment', 1],
 					['trainGround', 1],
 				];
 
-				var onlyCenter:Array<String> = ['smoke', 'trainSegment', 'trainGround',];
-
 				for (piece in pieceList)
 				{
 					var isRandom:Bool = Std.string(piece[0]).startsWith('crowds/randoms-');
 					var isCrowd:Bool = Std.string(piece[0]).startsWith('crowds/');
 
-					function crowdSpriteShit(spr:TrainWreakPiece)
+					var pspr = new TrainWreakPiece(piece[0], camGame, piece[1]);
+					stageBackLayer.add(pspr);
+
+					if (isCrowd)
 					{
-						spr.setScale(1.75);
-						spr.screenCenter();
+						pspr.setScale(1.75);
+						pspr.screenCenter();
 					}
 
-					if (!onlyCenter.contains(piece[0]) && !isCrowd || isCrowd && isRandom && Std.string(piece[0]).endsWith('left'))
+					if (isRandom)
 					{
-						var pieceSprLEFT = new TrainWreakPiece(piece[0], camGame, piece[1]);
-						stageBackLayer.add(pieceSprLEFT);
-
-						if (isCrowd)
-							crowdSpriteShit(pieceSprLEFT);
-						pieceSprLEFT.x -= pieceSprLEFT.width;
-
-						if (isRandom)
-							pieceSprLEFT.x += pieceSprLEFT.width * 0.4;
+						pspr.x -= pspr.width * (1.4 * ((Std.string(piece[0]).endsWith('left')) ? 1 : -1));
+						continue;
 					}
 
-					if (!isRandom)
+					if (piece[0] == 'smoke')
 					{
-						var pieceSprCENTER = new TrainWreakPiece(piece[0], camGame, piece[1]);
-						stageBackLayer.add(pieceSprCENTER);
-
-						if (piece[0] == 'smoke')
-						{
-							pieceSprCENTER.blend = OVERLAY;
-							pieceSprCENTER.alpha = 0.5;
-						}
-
-						if (!isCrowd)
-							continue;
-
-						crowdSpriteShit(pieceSprCENTER);
-
-						if (Std.string(piece[0]).contains('dj') || Std.string(piece[0]).contains('ocs'))
-							pieceSprCENTER.x += pieceSprCENTER.width * .05;
-
-						if (Std.string(piece[0]).contains('marcella'))
-						{
-							pieceSprCENTER.x += pieceSprCENTER.width * .05;
-							pieceSprCENTER.y += pieceSprCENTER.height * .025;
-						}
-					}
-
-					if (!onlyCenter.contains(piece[0]) && !isCrowd || isCrowd && isRandom && Std.string(piece[0]).endsWith('right'))
-					{
-						var pieceSprRIGHT = new TrainWreakPiece(piece[0], camGame, piece[1]);
-						stageBackLayer.add(pieceSprRIGHT);
-
-						if (isCrowd)
-							crowdSpriteShit(pieceSprRIGHT);
-						pieceSprRIGHT.x += pieceSprRIGHT.width;
-
-						if (isRandom)
-							pieceSprRIGHT.x -= pieceSprRIGHT.width * 0.4;
+						pspr.blend = OVERLAY;
+						pspr.alpha = 0.5;
 					}
 				}
-
-				var solidGround:RWSprite = new RWSprite(null);
-				solidGround.setCamera(camGame);
-				solidGround.makeGraphic(FlxG.width * 3, FlxG.height, FlxColor.fromString('#3b3e44'));
-				solidGround.screenCenter();
-				solidGround.y = FlxG.height;
-				stageBackLayer.add(solidGround);
 
 				trainWreak_shooter = new TrainWreakShooter(camGame);
 				trainWreak_shooter.screenCenter();
@@ -869,8 +845,6 @@ class PlayState extends ConductorState
 
 				player.screenCenter();
 				player.y = FlxG.height - player.height * 1.15;
-
-				// data.beatMonsters.scale = 0.5;
 
 				persistentUpdate = true;
 
@@ -1112,9 +1086,7 @@ class PlayState extends ConductorState
 							if (!Std.isOfType(sprite, StageSprite) || sprite == null)
 								return;
 
-							if (sprite != trainWreak_shooter
-								&& (sprite.scale.x >= 2 && !cast(sprite, StageSprite).sprite.contains('randoms'))
-								&& (sprite.x != 0 || sprite.y != 0))
+							if (cast(sprite, StageSprite)?.sprite?.contains('randoms'))
 							{
 								stageBackLayer.remove(sprite);
 								sprite.destroy();

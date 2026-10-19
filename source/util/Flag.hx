@@ -47,6 +47,7 @@ enum abstract Flag(Bool) from Bool to Bool
 	]);
 	public static final FREEPLAY_RIGHT_LAYOUT = new Flag('FREEPLAY_RIGHT_LAYOUT', [!FREEPLAY_LEFT_LAYOUT, !FREEPLAY_CENTER_LAYOUT]);
 
+	public static final STARTINGSTATE_GAMEPLAY = new Flag('STARTINGSTATE_GAMEPLAY', [DefineMacro.isDefined('GAMEPLAY')]);
 	public static final STARTINGSTATE_DIALOGUE = new Flag('STARTINGSTATE_DIALOGUE', [DefineMacro.isDefined('DIALOGUE')]);
 	public static final STARTINGSTATE_RESULTS = new Flag('STARTINGSTATE_RESULTS', [DefineMacro.isDefined('RESULTS')]);
 
