@@ -1,5 +1,6 @@
 package ui.objects;
 
+import flixel.math.FlxPoint;
 import flixel.FlxCamera;
 import flixel.FlxObject;
 import flixel.FlxG;
@@ -8,18 +9,18 @@ import flixel.util.FlxColor;
 
 class Floor extends RWSprite
 {
-	override public function new(positionObject:FlxObject, color:FlxColor, ?cam:FlxCamera)
+	override public function new(positionObject:FlxObject, color:FlxColor, ?cam:FlxCamera, ?sf:FlxPoint)
 	{
 		super(null);
 
 		makeGraphic(1, 1);
 
 		setScale(FlxG.width, FlxG.height);
-        setScrollFactor(0);
+		setScrollFactor(sf?.x ?? 0, sf?.y ?? 0);
 
 		screenCenter();
 
-        this.color = color;
+		this.color = color;
 
 		if (positionObject != null)
 			this.y = positionObject.y + positionObject.height;

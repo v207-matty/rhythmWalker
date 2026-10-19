@@ -1,5 +1,6 @@
 package;
 
+import flixel.math.FlxPoint;
 import ui.objects.Floor;
 import util.Constants;
 import ui.mobile.CornerButton;
@@ -733,7 +734,7 @@ class PlayState extends ConductorState
 				floor.camera = camGame;
 				floor.y = FlxG.height - floor.height;
 
-				stageBackLayer.add(new Floor(floor, 0xFF696A6A, camGame));
+				stageBackLayer.add(new Floor(floor, 0xFF696A6A, camGame, FlxPoint.weak(1,0)));
 				stageBackLayer.add(floor);
 
 				var label = new StageSprite('$stage/label');
