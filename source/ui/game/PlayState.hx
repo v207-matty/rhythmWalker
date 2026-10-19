@@ -918,7 +918,7 @@ class PlayState extends ConductorState
 			if (anim == null || anim.name == null || anim.frames == null || anim.frames.length < 1)
 				continue;
 
-			trace('Player Anim "${anim.name}" : $anim');
+			trace('Player Anim : ${anim.name}');
 
 			if (anim.createFlippedVarients)
 			{
