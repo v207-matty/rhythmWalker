@@ -1,0 +1,77 @@
+name: Deployed Web Builds
+
+on:
+        workflow_dispatch:
+
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+        buildWeb:
+                environment:
+                        name: github-pages
+                        url: ${{ steps.deployment.outputs.page_url }}
+                runs-on: windows-latest
+
+                steps:
+                        - uses: actions/checkout@main
+
+                        - uses: krdlab/setup-haxe@master
+                          with:
+                                  haxe-version: 4.3.7
+
+                        - name: Restore Previous Cache
+                          id: cache-build-restore
+                          uses: actions/cache/restore@main
+                          with:
+                                  path: |
+                                          .haxelib/
+                                          export/release/html5/haxe/
+                                          export/release/html5/obj/
+                                  key: cache-build-html5
+
+                        - name: Installing Libraries
+                          run: haxe --interp -cp ./actions/libs-installer -D analyzer-optimize -main Main
+                        - name: Create Version Tag
+                          run: echo "${{github.run_id}}" > VERSION
+
+                        - name: Compile
+                          run: haxelib run lime build html5
+
+                        - name: Clear Previous Cache
+                          uses: actions/github-script@main
+                          with:
+                                  script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-build-html5');
+
+                        - name: Save Current Cache
+                          uses: actions/cache@main
+                          with:
+                                  key: cache-build-html5
+                                  path: |
+                                          .haxelib/
+                                          export/release/html5/haxe/
+                                          export/release/html5/obj/
+                                  restore-keys: |
+                                          cache-build-html5
+
+                        - name: Checkout
+                          uses: actions/checkout@v7.0.1
+                        - name: Setup Pages
+                          uses: actions/configure-pages@v6.0.0
+                        - name: Upload artifact
+                          uses: actions/upload-pages-artifact@v5.0.0
+                          with:
+                                path: export/release/html5/bin
+                        - name: Deploy to GitHub Pages
+                          id: deployment
+                          uses: actions/deploy-pages@v5.0.1
