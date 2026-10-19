@@ -38,8 +38,20 @@ class ResultsState extends ConductorState
 	{
 		super.create();
 
-		transitionIn();
+		if (!Flag.PLATFORM_MOBILE)
+			beginResults();
+	}
 
+	override function finishTransIn()
+	{
+		super.finishTransIn();
+
+		if (Flag.PLATFORM_MOBILE)
+			beginResults();
+	}
+
+	function beginResults()
+	{
 		windupText = new FlxText(0, 0, 0, '', Constants.TEXT_SIZE * 2);
 		add(windupText);
 		windupText.color = FlxColor.WHITE;
