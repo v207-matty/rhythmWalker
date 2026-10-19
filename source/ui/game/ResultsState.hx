@@ -1,5 +1,7 @@
+package ui.game;
+
 import util.Constants;
-import ui.mobile.CornerButton;
+import ui.objects.mobile.CornerButton;
 import util.Flag;
 import ui.objects.RWSprite;
 import ui.freeplay.Freeplay;

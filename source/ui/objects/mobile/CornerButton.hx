@@ -1,4 +1,4 @@
-package ui.mobile;
+package ui.objects.mobile;
 
 import util.Flag;
 import flixel.FlxG;

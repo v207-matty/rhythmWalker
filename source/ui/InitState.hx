@@ -1,6 +1,10 @@
+package ui;
+
 import util.Constants;
 import util.Flag;
-import ui.freeplay.Freeplay;
+import ui.game.*;
+import ui.dialogue.*;
+import ui.freeplay.*;
 import flixel.text.FlxText;
 import flixel.FlxG;
 import flixel.FlxState;
@@ -37,7 +41,7 @@ class InitState extends FlxState
 		if (Flag.STARTINGSTATE_GAMEPLAY)
 			FlxG.switchState(() -> new PlayState('encapture'));
 		else if (Flag.STARTINGSTATE_DIALOGUE)
-			FlxG.switchState(() -> new ui.dialogue.DialogueScene(new song.Song('encapture')));
+			FlxG.switchState(() -> new DialogueScene(new song.Song('encapture')));
 		else if (Flag.STARTINGSTATE_RESULTS)
 			FlxG.switchState(() -> new ResultsState('train wreak-default'));
 		else

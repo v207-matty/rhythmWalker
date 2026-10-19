@@ -1,9 +1,9 @@
-package;
+package ui.game;
 
 import flixel.math.FlxPoint;
 import ui.objects.Floor;
 import util.Constants;
-import ui.mobile.CornerButton;
+import ui.objects.mobile.CornerButton;
 import util.Flag;
 import ui.freeplay.Freeplay;
 import util.CustomShader;

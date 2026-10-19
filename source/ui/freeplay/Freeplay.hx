@@ -4,7 +4,7 @@ import flixel.group.FlxSpriteGroup;
 import util.Constants;
 import flixel.math.FlxMath;
 import ui.objects.RWSprite;
-import ui.mobile.CornerButton;
+import ui.objects.mobile.CornerButton;
 import util.Flag;
 import flixel.util.FlxSort;
 import openfl.media.Sound;

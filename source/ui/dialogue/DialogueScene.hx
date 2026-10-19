@@ -2,7 +2,7 @@ package ui.dialogue;
 
 import util.Constants;
 import util.Flag;
-import ui.mobile.CornerButton;
+import ui.objects.mobile.CornerButton;
 import flixel.math.FlxMath;
 import flixel.util.FlxTimer;
 import flixel.addons.text.FlxTypeText;
