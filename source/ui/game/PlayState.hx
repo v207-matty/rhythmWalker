@@ -168,6 +168,7 @@ class PlayState extends ConductorState
 		timeBar.setScale(FlxG.width, Math.floor(Constants.TEXT_SIZE / 2));
 		timeBar.y = FlxG.height - timeBar.height;
 		timeBar.color = FlxColor.LIME;
+		timeBar.setCamera(camHUD);
 
 		timeBarSongLinked = true;
 
