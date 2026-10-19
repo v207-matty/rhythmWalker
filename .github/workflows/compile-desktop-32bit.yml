@@ -24,8 +24,8 @@ jobs:
                           with:
                                   path: |
                                           .haxelib/
-                                          export/release/32bit/linux/haxe/
-                                          export/release/32bit/linux/obj/
+                                          export/32bit/release/linux/haxe/
+                                          export/32bit/release/linux/obj/
                                   key: cache-build-linux
 
                         - name: Installing Libraries
@@ -53,8 +53,8 @@ jobs:
                                   key: cache-build-linux
                                   path: |
                                           .haxelib/
-                                          export/release/32bit/linux/haxe/
-                                          export/release/32bit/linux/obj/
+                                          export/32bit/release/linux/haxe/
+                                          export/32bit/release/linux/obj/
                                   restore-keys: |
                                           cache-build-linux
 
@@ -62,7 +62,7 @@ jobs:
                           uses: actions/upload-artifact@main
                           with:
                                   name: linuxBuild
-                                  path: export/release/32bit/linux/bin
+                                  path: export/32bit/release/linux/bin
         buildWindows:
                 runs-on: windows-latest
 
@@ -79,8 +79,8 @@ jobs:
                           with:
                                   path: |
                                           .haxelib/
-                                          export/release/32bit/windows/haxe/
-                                          export/release/32bit/windows/obj/
+                                          export/32bit/release/windows/haxe/
+                                          export/32bit/release/windows/obj/
                                   key: cache-build-windows
 
                         
@@ -110,8 +110,8 @@ jobs:
                                   key: cache-build-windows
                                   path: |
                                           .haxelib/
-                                          export/release/32bit/windows/haxe/
-                                          export/release/32bit/windows/obj/
+                                          export/32bit/release/windows/haxe/
+                                          export/32bit/release/windows/obj/
                                   restore-keys: |
                                           cache-build-windows
 
@@ -119,7 +119,7 @@ jobs:
                           uses: actions/upload-artifact@main
                           with:
                                   name: windowsBuild
-                                  path: export/release/32bit/windows/bin
+                                  path: export/32bit/release/windows/bin
         buildMac:
                 runs-on: macos-latest
 
@@ -136,8 +136,8 @@ jobs:
                           with:
                                   path: |
                                           .haxelib/
-                                          export/release/32bit/macos/haxe/
-                                          export/release/32bit/macos/obj/
+                                          export/32bit/release/macos/haxe/
+                                          export/32bit/release/macos/obj/
                                   key: cache-build-mac
 
                         - name: Installing Libraries
@@ -165,8 +165,8 @@ jobs:
                                   key: cache-build-mac
                                   path: |
                                           .haxelib/
-                                          export/release/32bit/macos/haxe/
-                                          export/release/32bit/macos/obj/
+                                          export/32bit/release/macos/haxe/
+                                          export/32bit/release/macos/obj/
                                   restore-keys: |
                                           cache-build-mac
 
@@ -174,4 +174,4 @@ jobs:
                           uses: actions/upload-artifact@main
                           with:
                                   name: macBuild
-                                  path: export/release/32bit/macos/bin
+                                  path: export/32bit/release/macos/bin

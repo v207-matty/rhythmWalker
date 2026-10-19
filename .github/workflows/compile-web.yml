@@ -54,8 +54,8 @@ jobs:
                                   key: cache-build-html5
                                   path: |
                                           .haxelib/
-                                          export/release/64bit/html5/haxe/
-                                          export/release/64bit/html5/obj/
+                                          export/64bit/release/html5/haxe/
+                                          export/64bit/release/html5/obj/
                                   restore-keys: |
                                           cache-build-html5
 
@@ -63,4 +63,4 @@ jobs:
                           uses: actions/upload-artifact@main
                           with:
                                   name: webBuild
-                                  path: export/release/64bit/html5/bin
+                                  path: export/64bit/release/html5/bin

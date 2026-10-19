@@ -37,8 +37,8 @@ jobs:
                           with:
                                   path: |
                                           .haxelib/
-                                          export/release/64bit/html5/haxe/
-                                          export/release/64bit/html5/obj/
+                                          export/64bit/release/html5/haxe/
+                                          export/64bit/release/html5/obj/
                                   key: cache-build-html5
 
                         - name: Installing Libraries
@@ -66,8 +66,8 @@ jobs:
                                   key: cache-build-html5
                                   path: |
                                           .haxelib/
-                                          export/release/64bit/html5/haxe/
-                                          export/release/64bit/html5/obj/
+                                          export/64bit/release/html5/haxe/
+                                          export/64bit/release/html5/obj/
                                   restore-keys: |
                                           cache-build-html5
 
@@ -78,7 +78,7 @@ jobs:
                         - name: Upload artifact
                           uses: actions/upload-pages-artifact@v5.0.0
                           with:
-                                path: export/release/64bit/html5/bin
+                                path: export/64bit/release/html5/bin
                         - name: Deploy to GitHub Pages
                           id: deployment
                           uses: actions/deploy-pages@v5.0.1
