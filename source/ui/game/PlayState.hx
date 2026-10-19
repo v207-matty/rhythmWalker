@@ -1100,7 +1100,7 @@ class PlayState extends ConductorState
 					player.flipX = true;
 
 					playerPlayAnim('move');
-					player.animation.onFinish.add(anim -> playerPlayAnim('move'));
+					player.animation.curAnim.looped = true;
 
 					FlxTween.tween(player, {x: FlxG.width + (player.width * 2)}, 3, {
 						ease: FlxEase.sineIn,
