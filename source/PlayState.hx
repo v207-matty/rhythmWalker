@@ -826,7 +826,7 @@ class PlayState extends ConductorState
 
 					if (isRandom)
 					{
-						pspr.x -= pspr.width * (1.4 * ((Std.string(piece[0]).endsWith('left')) ? 1 : -1));
+						pspr.x -= pspr.width * (0.5 * ((Std.string(piece[0]).endsWith('left')) ? 1 : -1.25));
 						continue;
 					}
 
@@ -1086,7 +1086,7 @@ class PlayState extends ConductorState
 							if (!Std.isOfType(sprite, StageSprite) || sprite == null)
 								return;
 
-							if (cast(sprite, StageSprite)?.sprite?.contains('randoms'))
+							if (!sprite.isOnScreen(sprite.camera))
 							{
 								stageBackLayer.remove(sprite);
 								sprite.destroy();
