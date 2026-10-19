@@ -1,4 +1,4 @@
-package stage;
+package ui.game.stage;
 
 import flixel.FlxCamera;
 
