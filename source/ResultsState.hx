@@ -38,6 +38,8 @@ class ResultsState extends ConductorState
 	{
 		super.create();
 
+		transitionIn();
+
 		windupText = new FlxText(0, 0, 0, '', Constants.TEXT_SIZE * 2);
 		add(windupText);
 		windupText.color = FlxColor.WHITE;
