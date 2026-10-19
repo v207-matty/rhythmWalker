@@ -33,6 +33,7 @@ jobs:
                           run: |
                                 haxelib install hmm
                                 haxelib run hmm install
+                                haxelib run hxcpp setup
 
                         - name: Create Version Tag
                           run: echo "${{github.run_id}}" > VERSION
