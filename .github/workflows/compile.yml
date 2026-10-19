@@ -2,8 +2,8 @@ name: Auto-compile
 
 on:
         push:
-                # branches-ignore: [randomBranchName]
-        pull_request:
+                branches: [main]
+        # pull_request:
                 # branches-ignore: [randomBranchName]
         workflow_dispatch:
 
