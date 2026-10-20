@@ -1,6 +1,6 @@
 # 0.4.0 - 10/2026
 
-- The stages for songs are JSON driven now!! ([#6](https://github.com/v207-matty/rhythmWalker/issues/6)
+- The stages for songs are JSON driven now!! ([#6](https://github.com/v207-matty/rhythmWalker/issues/6))
     - Set the "stage" field in your song JSON
     - Sadly the stages are still hardcodedd, gotta work on that
 
