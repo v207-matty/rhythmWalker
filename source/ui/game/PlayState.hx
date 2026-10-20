@@ -192,7 +192,7 @@ class PlayState extends ConductorState
 
 		if (!inCutscene)
 			managePlayer();
-		else if (song.id == 'encapture')
+		else if (inCutscene && song.id == 'encapture')
 			playerVelocityDamping();
 
 		if (beatMonsters != null)
