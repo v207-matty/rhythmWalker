@@ -1,0 +1,12 @@
+{
+    "objects": [
+        {
+            "config": {
+                "layer": "back",
+                "type": "sprite",
+                "scaleToScreen": true
+            },
+            "graphic": "stage.png"
+        }
+    ]
+}
