@@ -34,5 +34,6 @@ class Floor extends RWSprite
 		super.update(elapsed);
 
 		setScale(this.camera.viewWidth, scale.y);
+		this.x = this.camera.viewX;
 	}
 }
