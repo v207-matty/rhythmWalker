@@ -592,6 +592,7 @@ class PlayState extends ConductorState
 				stageBackLayer.add(spr);
 
 			case 'crash landing':
+				// im so scared
 				camGame.bgColor = 0xFF0D0712;
 
 				var ship = new StageSprite('$stage/ship');
