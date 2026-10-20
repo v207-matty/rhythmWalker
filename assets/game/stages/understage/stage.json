@@ -1,11 +1,9 @@
 {
     "objects": [
         {
-            "config": {
-                "layer": "back",
-                "type": "sprite",
-                "scaleToScreen": true
-            },
+            "layer": "back",
+            "type": "sprite",
+            "scaleToScreen": true,
             "graphic": "understage.png"
         }
     ]

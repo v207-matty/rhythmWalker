@@ -1,155 +1,135 @@
 {
     "objects": [
         {
-            "config": {
-                "layer": "back",
-                "type": "backdrop",
-                "scale": {
-                    "x": 2,
-                    "y": 2
-                },
-                "velocity": {
-                    "x": "10"
-                },
-                "scrollFactor": {
-                    "x": 0.25,
-                    "y": 0.25
-                },
-                "center": "X"
+            "layer": "back",
+            "type": "backdrop",
+            "scale": {
+                "x": 2,
+                "y": 2
             },
+            "velocity": {
+                "x": "10"
+            },
+            "scrollFactor": {
+                "x": 0.25,
+                "y": 0.25
+            },
+            "center": "X",
             "graphic": "sky.png"
         },
         {
-            "config": {
-                "layer": "back",
-                "type": "backdrop",
-                "scale": {
-                    "x": 2,
-                    "y": 2
-                },
-                "scrollFactor": {
-                    "x": 0.5,
-                    "y": 0.5
-                },
-                "center": "X"
+            "layer": "back",
+            "type": "backdrop",
+            "scale": {
+                "x": 2,
+                "y": 2
             },
+            "scrollFactor": {
+                "x": 0.5,
+                "y": 0.5
+            },
+            "center": "X",
             "graphic": "city.png"
         },
         {
-            "config": {
-                "id": "ground",
-                "layer": "back",
-                "type": "backdrop",
-                "scale": {
-                    "x": 2,
-                    "y": 2
-                },
-                "scrollFactor": {
-                    "x": 0.75,
-                    "y": 0.75
-                },
-                "center": "X"
+            "id": "ground",
+            "layer": "back",
+            "type": "backdrop",
+            "scale": {
+                "x": 2,
+                "y": 2
             },
+            "scrollFactor": {
+                "x": 0.75,
+                "y": 0.75
+            },
+            "center": "X",
             "graphic": "ground.png"
         },
         {
-            "config": {
-                "layer": "back",
-                "type": "floor",
-                "color": "0xFF3B3E44",
-                "parent": "ground"
-            }
+            "layer": "back",
+            "type": "floor",
+            "color": "0xFF3B3E44",
+            "parent": "ground"
         },
         {
-            "config": {
-                "layer": "back",
-                "type": "sprite",
-                "scale": {
-                    "x": 1.75,
-                    "y": 1.75
-                },
-                "scrollFactor": {
-                    "x": 0.75,
-                    "y": 0.75
-                },
-                "center": "XY",
-                "position": {
-                    "x": "graphic_width * 0.5"
-                }
+            "layer": "back",
+            "type": "sprite",
+            "scale": {
+                "x": 1.75,
+                "y": 1.75
+            },
+            "scrollFactor": {
+                "x": 0.75,
+                "y": 0.75
+            },
+            "center": true,
+            "position": {
+                "x": "graphic_width * 0.5"
             },
             "graphic": "crowds/randoms-left.png"
         },
         {
-            "config": {
-                "layer": "back",
-                "type": "sprite",
-                "scale": {
-                    "x": 1.75,
-                    "y": 1.75
-                },
-                "scrollFactor": {
-                    "x": 0.75,
-                    "y": 0.75
-                },
-                "center": "XY",
-                "position": {
-                    "x": "graphic_width * (0.5 * -1.25)"
-                }
+            "layer": "back",
+            "type": "sprite",
+            "scale": {
+                "x": 1.75,
+                "y": 1.75
+            },
+            "scrollFactor": {
+                "x": 0.75,
+                "y": 0.75
+            },
+            "center": true,
+            "position": {
+                "x": "graphic_width * (0.5 * -1.25)"
             },
             "graphic": "crowds/randoms-right.png"
         },
         {
-            "config": {
-                "layer": "back",
-                "type": "sprite",
-                "scale": {
-                    "x": 1.75,
-                    "y": 1.75
-                },
-                "scrollFactor": {
-                    "x": 0.8,
-                    "y": 0.8
-                },
-                "center": "XY"
+            "layer": "back",
+            "type": "sprite",
+            "scale": {
+                "x": 1.75,
+                "y": 1.75
             },
+            "scrollFactor": {
+                "x": 0.8,
+                "y": 0.8
+            },
+            "center": true,
             "graphic": "crowds/center.png"
         },
         {
-            "config": {
-                "layer": "back",
-                "type": "sprite",
-                "scale": {
-                    "x": 2,
-                    "y": 2
-                },
-                "center": "XY",
-                "alpha": 0.5,
-                "blend": "OVERLAY"
+            "layer": "back",
+            "type": "sprite",
+            "scale": {
+                "x": 2,
+                "y": 2
             },
+            "center": true,
+            "alpha": 0.5,
+            "blend": "OVERLAY",
             "graphic": "smoke.png"
         },
         {
-            "config": {
-                "layer": "back",
-                "type": "sprite",
-                "scale": {
-                    "x": 2,
-                    "y": 2
-                },
-                "center": "XY"
+            "layer": "back",
+            "type": "sprite",
+            "scale": {
+                "x": 2,
+                "y": 2
             },
+            "center": true,
             "graphic": "trainSegment.png"
         },
         {
-            "config": {
-                "layer": "back",
-                "type": "sprite",
-                "scale": {
-                    "x": 2,
-                    "y": 2
-                },
-                "center": "XY"
+            "layer": "back",
+            "type": "sprite",
+            "scale": {
+                "x": 2,
+                "y": 2
             },
+            "center": true,
             "graphic": "trainGround.png"
         }
     ],

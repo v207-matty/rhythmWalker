@@ -1,7 +1,6 @@
 {
     "objects": [
         {
-            "config": {
                 "layer": "back",
                 "type": "backdrop",
                 "scale": {
@@ -11,11 +10,10 @@
                 "velocity": {
                     "x": 2
                 }
-            },
+            ,
             "graphic": "sky.png"
         },
         {
-            "config": {
                 "layer": "back",
                 "type": "backdrop",
                 "scale": {
@@ -25,7 +23,7 @@
                 "position": {
                     "y": "game_height - graphic_height"
                 }
-            },
+            ,
             "graphic": "bridge.png"
         }
     ]
