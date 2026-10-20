@@ -29,6 +29,7 @@
                 "y": 0.5
             },
             "center": "X",
+            "repeatAxes": "X",
             "graphic": "city.png"
         },
         {
@@ -44,6 +45,7 @@
                 "y": 0.75
             },
             "center": "X",
+            "repeatAxes": "X",
             "graphic": "ground.png"
         },
         {

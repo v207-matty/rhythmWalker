@@ -1,5 +1,13 @@
 package ui.game.player;
 
+import ui.objects.Floor;
+import util.CustomShader;
+import flixel.util.FlxColor;
+import util.Constants;
+import openfl.display.BlendMode;
+import flixel.FlxSprite;
+import flixel.util.FlxAxes;
+import flixel.addons.display.FlxBackdrop;
 import flixel.FlxBasic;
 import ui.game.stage.StageData;
 import json2object.JsonWriter;
@@ -97,9 +105,144 @@ class Stage
 	public function toString():String
 		return new JsonWriter<Stage>().write(this, '');
 
-	public function createStageProps(layer:StageObjectLayerData):Array<FlxBasic>
+	public function createStageProps(layer:StageObjectLayerData):Map<String, FlxSprite>
 	{
-		var props:Array<FlxBasic> = [];
+		if (objects == null || objects.length < 1)
+			return [];
+
+		var props:Map<String, FlxSprite> = [];
+		var floorQueue:Map<String, StageObjectData> = [];
+
+		for (i => object in objects)
+		{
+			if (object.layer != layer)
+				continue;
+
+			var res = createStageProp(i, object, props);
+
+			if (floorQueue.exists(object.id))
+			{
+				createStageProp(floorQueue.get(object.id));
+				floorQueue.remove(object.id);
+			}
+
+			if (res != null && object.type == floor)
+				floorQueue.set(object.id, res);
+		}
+
 		return props;
+	}
+
+	public function createStageProp(index:Int, object:StageObjectData, ?props:Map<String, FlxSprite>):StageObjectData
+	{
+		var graphic = (object.graphic == null) ? null : Paths.getImagePath('game/stages/$id/${object.graphic}');
+
+		var queue:StageObjectData = null;
+
+		var centerAxes:FlxAxes = (object.center is Bool) ? centerAxes = (object.center) ? XY : NONE : ((object.center is String) ? centerAxes = FlxAxes.fromString(object.center) : NONE);
+		var repeatAxes:FlxAxes = FlxAxes.fromString(object.repeatAxes) ?? XY;
+
+		function applyBasicStuff(object:FlxSprite, data:StageObjectData)
+		{
+			object.alpha = data.alpha;
+			object.blend = Constants.BLENDMODE_MAP.get(data.blend?.toLowerCase() ?? 'NORMAL') ?? NORMAL;
+			object.screenCenter(centerAxes);
+			object.color = FlxColor.fromString(object.color ?? '0xFFFFFFFF');
+
+			if (data.position != null)
+			{
+				object.x += data.position?.x ?? 0;
+				object.y += data.position?.y ?? 0;
+			}
+
+			if (data.scaleToScreen)
+				object.setGraphicSize(FlxG.width, FlxG.height);
+			else if (data.scale != null)
+				object.scale.set(data.scale.x, data.scale.y);
+
+			if (data.scrollFactor != null)
+			{
+				object.scrollFactor.x += data.scrollFactor?.x ?? 1;
+				object.scrollFactor.y += data.scrollFactor?.y ?? 1;
+			}
+
+			if (data.velocity != null)
+			{
+				object.velocity.x += data.velocity?.x ?? 0;
+				object.velocity.y += data.velocity?.y ?? 0;
+			}
+
+			var newShader = new CustomShader(data.shader?.shader ?? null);
+
+			if (!newShader.shaderFound)
+				return;
+
+			if (data.shader.config != null)
+				for (field in Reflect.fields(data.shader.config))
+				{
+					var value:Dynamic = Reflect.field(data.shader.config, field);
+
+					if (value is Bool)
+						newShader.setBool(field, value);
+					else if (value is Array<Bool>)
+						newShader.setBoolArray(field, value);
+					else if (value is Float)
+						newShader.setFloat(field, value);
+					else if (value is Array<Float>)
+						newShader.setFloatArray(field, value);
+					else if (value is Int)
+						newShader.setInt(field, value);
+					else if (value is Array<Int>)
+						newShader.setIntArray(field, value);
+					else
+						trace('Unimplemented value type (${value})');
+				}
+
+			object.shader = newShader;
+		}
+
+		switch (object.type)
+		{
+			case backdrop:
+				if (graphic == null)
+					continue;
+
+				var backdrop = new FlxBackdrop(graphic, repeatAxes);
+				applyBasicStuff(backdrop, object);
+				props.set(object?.id ?? '$index', backdrop);
+
+			case floor:
+				if (object.parent == null)
+					continue;
+				if (!props.exists(object.parent))
+				{
+					queue = object;
+					continue;
+				}
+
+				var floor = new Floor(props.get(object.parent), 0xFFFFFFFF, null, null);
+				applyBasicStuff(floor, object);
+				props.set(object?.id ?? '$index', floor);
+
+			case sprite:
+				if (graphic == null)
+					continue;
+
+				var spr = new StageSprite(graphic, object.animated, object.frame?.width, object.frame?.height,);
+				applyBasicStuff(spr, object);
+
+				if (object.animated)
+					for (index => animation in object.animations)
+					{
+						if (animation.frames == null || animation.frames.length < 1)
+							continue;
+
+						spr.addAnim(animation.name ?? index, animation.frames, animation?.fps ?? 24, animation.looped, animation.flipX, animation.flipY);
+					}
+
+				props.set(object?.id ?? '$index', spr);
+		}
+
+		return queue;
 	}
 }

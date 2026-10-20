@@ -15,6 +15,7 @@
             "position": {
                 "y": "game_height - graphic_height"
             },
+            "repeatAxes": "X",
             "graphic": "floor.png"
         },
         {

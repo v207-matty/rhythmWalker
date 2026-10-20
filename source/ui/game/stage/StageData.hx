@@ -49,6 +49,10 @@ typedef StageObjectData =
 	var center:OneOfTwo<Null<Bool>, String>;
 
 	@:optional
+	@:default(false)
+	var repeatAxes:String;
+
+	@:optional
 	@:default('0xFFFFFFFF')
 	var color:String;
 

@@ -1,22 +1,21 @@
 {
     "objects": [
         {
-                "layer": "back",
-                "type": "backdrop",
-                "scale": {
-                    "x": 2,
-                    "y": 2
-                },
-                "velocity": {
-                    "x": 2
-                },
+            "layer": "back",
+            "type": "backdrop",
+            "scale": {
+                "x": 2,
+                "y": 2
+            },
+            "velocity": {
+                "x": 2
+            },
             "graphic": "sky.png"
         },
         {
-                "layer": "back",
-                "type": "sprite",
-                "scaleToScreen": true
-            ,
+            "layer": "back",
+            "type": "sprite",
+            "scaleToScreen": true,
             "graphic": "town.png"
         }
     ]
