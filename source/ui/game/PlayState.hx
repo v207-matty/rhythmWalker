@@ -1082,4 +1082,3 @@ function endCutscene():Bool
 
 	return false;
 }
-}
