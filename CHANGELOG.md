@@ -1,5 +1,8 @@
 # 0.4.0 - 10/2026
 
+- Added "Quality Warning" screen that shows up to warn you that the music and gameplay aren't actually that good
+    - [WEB] This 'replaces' the Click Anywhere screen
+
 - The Train Wreak ending cutscene has all hud elements fade
 
 - Players are now JSON driven and not hardcoded!!

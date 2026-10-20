@@ -12,21 +12,23 @@ import flixel.FlxState;
 
 using StringTools;
 
-class InitState extends FlxState
+class QualityWarning extends FlxState
 {
 	override function create()
 	{
 		super.create();
 
-		if (!Flag.PLATFORM_WEB)
-		{
-			proceed();
-			return;
-		}
-
-		var clickForSync:FlxText = new FlxText(0, 0, 0, 'Click Here (Or anywhere!)', Constants.TEXT_SIZE);
-		add(clickForSync);
-		clickForSync.screenCenter();
+		var warning:FlxText = new FlxText(0, 0, 0,
+			'HELLO THERE!'
+			+ '\nWELCOME TO RHYTHM WALKER!'
+			+ '\n\nSorry to say this but if you actually think the songs are gonna sound good or that the gameplay will be good, you are mistaken :('
+			+ '\nI don\'t know much on making music and I\'m too stubborn to go through the effort of tutorials,'
+			+ '\nso I\'m legit just winging it with Kira Studio.'
+			+ '\n\nNevertheless I hope you atleast have some bit of fun.'
+			+ '\n\n(Click anywhere to proceed)',
+			Constants.TEXT_SIZE);
+		add(warning);
+		warning.screenCenter();
 	}
 
 	override function update(elapsed:Float)

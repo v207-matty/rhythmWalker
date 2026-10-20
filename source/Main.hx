@@ -31,7 +31,7 @@ class Main extends FlxGame
 {
 	public function new()
 	{
-		super(0, 0, InitState);
+		super(0, 0, QualityWarning);
 	}
 
 	override function create(_:Event)
