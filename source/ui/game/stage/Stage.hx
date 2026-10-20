@@ -1,4 +1,4 @@
-package ui.game.player;
+package ui.game.stage;
 
 import ui.objects.Floor;
 import util.CustomShader;
@@ -137,9 +137,7 @@ class Stage
 	{
 		var graphic = (object.graphic == null) ? null : Paths.getImagePath('game/stages/$id/${object.graphic}');
 
-		var queue:StageObjectData = null;
-
-		var centerAxes:FlxAxes = (object.center is Bool) ? centerAxes = (object.center) ? XY : NONE : ((object.center is String) ? centerAxes = FlxAxes.fromString(object.center) : NONE);
+		var centerAxes:FlxAxes = (object.center is Bool) ? (object.center) ? XY : NONE : ((object.center is String) ? FlxAxes.fromString(object.center) : NONE);
 		var repeatAxes:FlxAxes = FlxAxes.fromString(object.repeatAxes) ?? XY;
 
 		function applyBasicStuff(object:FlxSprite, data:StageObjectData)
@@ -147,7 +145,7 @@ class Stage
 			object.alpha = data.alpha;
 			object.blend = Constants.BLENDMODE_MAP.get(data.blend?.toLowerCase() ?? 'NORMAL') ?? NORMAL;
 			object.screenCenter(centerAxes);
-			object.color = FlxColor.fromString(object.color ?? '0xFFFFFFFF');
+			object.color = FlxColor.fromString(data.color ?? '0xFFFFFFFF');
 
 			if (data.position != null)
 			{
@@ -184,16 +182,24 @@ class Stage
 
 					if (value is Bool)
 						newShader.setBool(field, value);
-					else if (value is Array<Bool>)
-						newShader.setBoolArray(field, value);
 					else if (value is Float)
 						newShader.setFloat(field, value);
-					else if (value is Array<Float>)
-						newShader.setFloatArray(field, value);
 					else if (value is Int)
 						newShader.setInt(field, value);
-					else if (value is Array<Int>)
-						newShader.setIntArray(field, value);
+					else if (value is Array)
+					{
+						var elementUno = value[0];
+						var elementDos = value[1];
+
+						if (elementUno is Bool && elementDos is Bool)
+							newShader.setBoolArray(field, value);
+						else if (elementUno is Float && elementDos is Float)
+							newShader.setFloatArray(field, value);
+						else if (elementUno is Int && elementDos is Int)
+							newShader.setIntArray(field, value);
+						else
+							trace('Unimplemented array value type (${value})');
+					}
 					else
 						trace('Unimplemented value type (${value})');
 				}
@@ -205,7 +211,7 @@ class Stage
 		{
 			case backdrop:
 				if (graphic == null)
-					continue;
+					return null;
 
 				var backdrop = new FlxBackdrop(graphic, repeatAxes);
 				applyBasicStuff(backdrop, object);
@@ -213,12 +219,9 @@ class Stage
 
 			case floor:
 				if (object.parent == null)
-					continue;
+					return null;
 				if (!props.exists(object.parent))
-				{
-					queue = object;
-					continue;
-				}
+					return object;
 
 				var floor = new Floor(props.get(object.parent), 0xFFFFFFFF, null, null);
 				applyBasicStuff(floor, object);
@@ -226,7 +229,7 @@ class Stage
 
 			case sprite:
 				if (graphic == null)
-					continue;
+					return null;
 
 				var spr = new StageSprite(graphic, object.animated, object.frame?.width, object.frame?.height,);
 				applyBasicStuff(spr, object);
@@ -235,7 +238,7 @@ class Stage
 					for (index => animation in object.animations)
 					{
 						if (animation.frames == null || animation.frames.length < 1)
-							continue;
+							return null;
 
 						spr.addAnim(animation.name ?? '$index', animation.frames, animation?.fps ?? 24, animation.looped, animation.flipX, animation.flipY);
 					}
@@ -243,6 +246,6 @@ class Stage
 				props.set(object?.id ?? '$index', spr);
 		}
 
-		return queue;
+		return null;
 	}
 }

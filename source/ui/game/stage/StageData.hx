@@ -49,7 +49,7 @@ typedef StageObjectData =
 	var center:OneOfTwo<Null<Bool>, String>;
 
 	@:optional
-	@:default(false)
+	@:default('none')
 	var repeatAxes:String;
 
 	@:optional
