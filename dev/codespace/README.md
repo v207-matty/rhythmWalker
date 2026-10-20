@@ -22,3 +22,9 @@ haxelib run hmm install
 haxelib run lime setup
 haxelib run lime setup alias -y
 ```
+
+## Formatting with formatter
+
+```bash
+haxelib run formatter -s source
+```

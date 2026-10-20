@@ -1,12 +1,12 @@
 package ui.game.player;
 
-typedef PlayerConfigDimensionsData = 
+typedef PlayerConfigDimensionsData =
 {
-    @:optional
-    @:default([64,64])
-    var sprite:Array<Int>;
+	@:optional
+	@:default([64, 64])
+	var sprite:Array<Int>;
 
-    @:optional
-    @:default([32,32])
-    var hitbox:Array<Int>;
+	@:optional
+	@:default([32, 32])
+	var hitbox:Array<Int>;
 }

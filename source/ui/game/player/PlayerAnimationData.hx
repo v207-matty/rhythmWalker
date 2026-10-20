@@ -5,9 +5,9 @@ typedef PlayerAnimationData =
 	var name:String;
 	var frames:Array<Int>;
 
-    @:optional
+	@:optional
 	@:default(24)
-    var fps:Int;
+	var fps:Int;
 
 	@:optional
 	@:default(false)

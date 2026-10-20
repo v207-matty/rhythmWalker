@@ -22,7 +22,6 @@ import flixel.FlxG;
 import flixel.addons.transition.FlxTransitionableState;
 import openfl.events.Event;
 import flixel.FlxGame;
-
 import ui.*;
 
 using StringTools;

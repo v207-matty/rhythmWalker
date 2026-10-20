@@ -6,6 +6,6 @@ typedef FreeplaySongListData =
 {
 	@:optional
 	var filters:Array<String>;
-	
+
 	var songs:Array<FreeplaySongData>;
 }
