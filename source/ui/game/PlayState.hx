@@ -53,15 +53,18 @@ class PlayState extends ConductorState
 	var data = {
 		beatMonsters: {
 			spawn: true,
-			stepRate: 4,
-			scale: 1.0
+			stepRate: 4
 		}
 	};
 
 	var playerData:PlayerData;
+	var stageData:Stage;
 
 	var stageBackLayer:FlxSpriteGroup;
 	var stageFrontLayer:FlxSpriteGroup;
+
+	var stageBackLayerMap:Map<String, FlxSprite> = [];
+	var stageFrontLayerMap:Map<String, FlxSprite> = [];
 
 	var leaveButton:CornerButton;
 
@@ -494,6 +497,13 @@ class PlayState extends ConductorState
 		}
 	}
 
+	
+	var containment04_tubeSubject:StageSprite;
+	var trainGetaway_i:Float = 1;
+	var trainGetaway_sky:FlxBackdrop;
+	var trainGetaway_shooter:TrainGetawayShooter;
+	var trainWreak_shooter:TrainWreakShooter;
+
 	function generateStage()
 	{
 		if (song?.id == 'train getaway' && song?.variation == defaultVariation)
@@ -551,12 +561,6 @@ class PlayState extends ConductorState
 		makeStage(song?.stage ?? 'stage');
 	}
 
-	var containment04_tubeSubject:StageSprite;
-	var trainGetaway_i:Float = 1;
-	var trainGetaway_sky:FlxBackdrop;
-	var trainGetaway_shooter:TrainGetawayShooter;
-	var trainWreak_shooter:TrainWreakShooter;
-
 	function makeStage(?stage:String)
 	{
 		if (stageBackLayer == null || stageFrontLayer == null)
@@ -566,304 +570,22 @@ class PlayState extends ConductorState
 		{
 			for (sprite in layer.members)
 			{
-				stageBackLayer.members.remove(sprite);
+				layer.members.remove(sprite);
 				sprite.destroy();
 			}
 
 			layer.clear();
 		}
 
-		switch (stage.toLowerCase())
-		{
-			case 'chinatown':
-				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/chinatown/town/sky'));
-				sky.scale.set(2, 2);
-				sky.updateHitbox();
-				sky.camera = camGame;
+		stageData = new Stage(stage);
 
-				sky.velocity.x = 2;
-				sky.screenCenter();
-				stageBackLayer.add(sky);
+		stageFrontLayerMap = stageData.createStageProps(front);
 
-				var spr = new StageSprite('chinatown/town/town');
-				spr.setGraphicSize(FlxG.width, FlxG.height);
-				spr.updateHitbox();
-				spr.screenCenter();
-				stageBackLayer.add(spr);
+		for (prop in stageBackLayerMap = stageData.createStageProps(back))
+			stageBackLayer.add(prop);
 
-			case 'crash landing':
-				// im so scared
-				camGame.bgColor = 0xFF0D0712;
-
-				var ship = new StageSprite('$stage/ship');
-				var mountains = new StageSprite('$stage/mountains');
-				var hills = new StageSprite('$stage/hills');
-				var ground = new StageSprite('$stage/ground');
-				var frontHills = new StageSprite('$stage/frontHills');
-
-				ship.setScrollFactor(0.05);
-				mountains.setScrollFactor(0.1);
-				hills.setScrollFactor(0.25);
-				ground.setScrollFactor(0.75);
-				frontHills.setScrollFactor(0.9);
-
-				for (spr in [ship, mountains, hills, ground, frontHills])
-				{
-					spr.setGraphicSize(FlxG.width, FlxG.height);
-					spr.updateHitbox();
-					spr.screenCenter();
-
-					spr.setCamera(camGame);
-
-					if (spr != frontHills)
-						stageBackLayer.add(spr);
-				}
-				stageFrontLayer.add(frontHills);
-
-				ship.setScale(Math.floor(FlxG.width / 1280));
-				ship.alpha = .5;
-
-				ship.x += FlxG.width * 2;
-				ship.y += -FlxG.height * 2;
-
-				FlxTween.tween(ship, {x: -FlxG.width * 2, y: FlxG.height * 2}, 6, {
-					onComplete: t ->
-					{
-						stageBackLayer.remove(ship);
-						ship.destroy();
-					}
-				});
-
-				player.setScale(1.5);
-				player.screenCenter();
-				player.y = FlxG.height - player.height * 1.3;
-
-				data.beatMonsters.scale = 0.75;
-
-				if (!Flag.PLAY_SHADERS)
-					return;
-
-				var charShader = new CustomShader('dropshadow');
-
-				charShader.setFloat('hue', -9.0);
-				charShader.setFloat('saturation', -15.0);
-				charShader.setFloat('brightness', -22.0);
-				charShader.setFloat('contrast', 0.0);
-
-				player.shader = beatMonsters.shader = charShader;
-
-			case 'stage-withered':
-				var backdrop:StageSprite = new StageSprite(stage);
-				backdrop.setGraphicSize(FlxG.width, FlxG.height);
-				backdrop.updateHitbox();
-				backdrop.screenCenter();
-				stageBackLayer.add(backdrop);
-				backdrop.setCamera(camGame);
-
-				if (!Flag.PLAY_SHADERS)
-					return;
-
-				var bgShader = new CustomShader('dropshadow');
-				var charShader = new CustomShader('dropshadow');
-				var monsterShader = new CustomShader('dropshadow');
-
-				bgShader.setFloat('hue', -24.0);
-				bgShader.setFloat('saturation', -24.0);
-				bgShader.setFloat('brightness', -36.0);
-				bgShader.setFloat('contrast', 0.0);
-
-				charShader.setFloat('hue', -3.0);
-				charShader.setFloat('saturation', 7.0);
-				charShader.setFloat('brightness', -75.0);
-				charShader.setFloat('contrast', 0.0);
-
-				monsterShader.setFloat('hue', -43.0);
-				monsterShader.setFloat('saturation', -51.0);
-				monsterShader.setFloat('brightness', -73.0);
-				monsterShader.setFloat('contrast', 0.0);
-
-				backdrop.shader = bgShader;
-				player.shader = charShader;
-				beatMonsters.shader = monsterShader;
-
-			case 'containment-04':
-				camGame.bgColor = 0xFF595652;
-
-				var floor:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/floor'), X);
-				floor.scale.set(2, 2);
-				floor.scrollFactor.set();
-				floor.updateHitbox();
-				floor.camera = camGame;
-				floor.y = FlxG.height - floor.height;
-
-				stageBackLayer.add(new Floor(floor, 0xFF696A6A, camGame, FlxPoint.weak(1, 0)));
-				stageBackLayer.add(floor);
-
-				var label = new StageSprite('$stage/label');
-				label.setScale(2);
-				label.screenCenter(X);
-				label.y = FlxG.height - label.height;
-				stageBackLayer.add(label);
-
-				// shit
-				var tubes = 2 * Math.round(FlxG.width / 1280);
-
-				for (i in 0...tubes)
-				{
-					var tube = new StageSprite('$stage/tube');
-					tube.setScale(2);
-
-					tube.y = FlxG.height - tube.height * 1.4 - 4;
-					tube.x = ((tube.width * 2.75) * i) + 32;
-
-					stageBackLayer.add(tube);
-
-					if (i != tubes - 1)
-						continue;
-
-					containment04_tubeSubject = tube;
-					containment04_tubeSubject.loadGraphic(Paths.getImagePath('game/stages/$stage/subject'), true, 128, 128);
-					containment04_tubeSubject.addAnim('idle', [0, 1], 2, true);
-					containment04_tubeSubject.addAnim('bang', [2, 3], 6, false);
-					containment04_tubeSubject.animation.play('idle');
-				}
-
-			case 'train-wreak':
-				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/sky'));
-				sky.scale.set(2, 2);
-				sky.updateHitbox();
-				sky.velocity.x = 10;
-				sky.screenCenter(X);
-				sky.scrollFactor.set(.25, .25);
-				stageBackLayer.add(sky);
-				sky.camera = camGame;
-
-				var city:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/city'), X);
-				city.scale.set(2, 2);
-				city.updateHitbox();
-				city.screenCenter(X);
-				city.scrollFactor.set(.5, .5);
-				stageBackLayer.add(city);
-				city.camera = camGame;
-
-				var ground:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/ground'), X);
-				ground.scale.set(2, 2);
-				ground.updateHitbox();
-				ground.screenCenter(X);
-				ground.scrollFactor.set(.75, .75);
-				ground.camera = camGame;
-
-				stageBackLayer.add(new Floor(ground, 0xFF3B3E44, camGame));
-				stageBackLayer.add(ground);
-
-				var pieceList:Array<Dynamic> = [
-					['crowds/randoms-left', 0.75],
-					['crowds/randoms-right', 0.75],
-
-					['crowds/center', 0.8],
-
-					['smoke', 1],
-					['trainSegment', 1],
-					['trainGround', 1],
-				];
-
-				for (piece in pieceList)
-				{
-					var isRandom:Bool = Std.string(piece[0]).startsWith('crowds/randoms-');
-					var isCrowd:Bool = Std.string(piece[0]).startsWith('crowds/');
-
-					var pspr = new TrainWreakPiece(piece[0], camGame, piece[1]);
-					stageBackLayer.add(pspr);
-
-					if (isCrowd)
-					{
-						pspr.setScale(1.75);
-						pspr.screenCenter();
-					}
-
-					if (isRandom)
-						pspr.x -= pspr.width * (0.5 * ((Std.string(piece[0]).endsWith('left')) ? 1 : -1.25));
-
-					if (piece[0] == 'smoke')
-					{
-						pspr.blend = OVERLAY;
-						pspr.alpha = 0.5;
-					}
-				}
-
-				trainWreak_shooter = new TrainWreakShooter(camGame);
-				trainWreak_shooter.screenCenter();
-				trainWreak_shooter.x -= trainWreak_shooter.width * 0.25;
-				trainWreak_shooter.y -= trainWreak_shooter.width * 0.5;
-				stageBackLayer.add(trainWreak_shooter);
-
-				player.screenCenter();
-				player.y = FlxG.height - player.height * 1.15;
-
-				persistentUpdate = true;
-
-			case 'train-getaway':
-				trainGetaway_sky = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/sky'));
-				trainGetaway_sky.scale.set(2, 2);
-				trainGetaway_sky.velocity.x = 256 * -5;
-				trainGetaway_sky.screenCenter(X);
-				stageBackLayer.add(trainGetaway_sky);
-				trainGetaway_sky.camera = camGame;
-
-				var train = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/train'), X);
-				train.scale.set(2, 2);
-				train.updateHitbox();
-				train.screenCenter(X);
-				train.y = FlxG.height - train.height;
-				stageBackLayer.add(train);
-				train.camera = camGame;
-
-				player.setScale(1);
-				player.screenCenter();
-				player.y = train.y - player.height * 0.95;
-
-				data.beatMonsters.scale = 0.5;
-
-				persistentUpdate = true;
-
-				trainGetaway_shooter = new TrainGetawayShooter();
-				stageBackLayer.add(trainGetaway_shooter);
-				trainGetaway_shooter.camera = camGame;
-
-				trainGetaway_shooter.screenCenter();
-				trainGetaway_shooter.x = trainGetaway_shooter.width * -5;
-
-				FlxTween.tween(trainGetaway_shooter, {x: FlxG.width - trainGetaway_shooter.width}, 2.75, {
-					ease: FlxEase.sineInOut
-				});
-
-			case 'chinatown-bridge':
-				persistentUpdate = true;
-
-				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/chinatown/bridge/sky'));
-				sky.scale.set(4, 4);
-				sky.updateHitbox();
-				sky.camera = camGame;
-
-				sky.velocity.x = 2;
-				sky.screenCenter();
-				stageBackLayer.add(sky);
-
-				var bridge:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/chinatown/bridge/bridge'), X);
-				bridge.scale.set(4, 4);
-				bridge.updateHitbox();
-				bridge.camera = camGame;
-				bridge.y = FlxG.height - bridge.height;
-				stageBackLayer.add(bridge);
-
-			case 'stage', 'understage':
-				var backdrop:StageSprite = new StageSprite(stage);
-				backdrop.setGraphicSize(FlxG.width, FlxG.height);
-				backdrop.updateHitbox();
-				backdrop.screenCenter();
-				stageBackLayer.add(backdrop);
-				backdrop.setCamera(camGame);
-		}
+		for (prop in stageFrontLayerMap = stageData.createStageProps(front))
+			stageBackLayer.add(prop);
 	}
 
 	function makePlayer()
