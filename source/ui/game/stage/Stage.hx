@@ -237,7 +237,7 @@ class Stage
 						if (animation.frames == null || animation.frames.length < 1)
 							continue;
 
-						spr.addAnim(animation.name ?? index, animation.frames, animation?.fps ?? 24, animation.looped, animation.flipX, animation.flipY);
+						spr.addAnim(animation.name ?? '$index', animation.frames, animation?.fps ?? 24, animation.looped, animation.flipX, animation.flipY);
 					}
 
 				props.set(object?.id ?? '$index', spr);
