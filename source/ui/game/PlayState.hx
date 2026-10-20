@@ -579,13 +579,23 @@ class PlayState extends ConductorState
 
 		stageData = new Stage(stage);
 
-		stageFrontLayerMap = stageData.createStageProps(front);
+		camGame.bgColor = FlxColor.fromString(stageData.config?.bgColor ?? '0xFFFFFFFF');
 
 		for (prop in stageBackLayerMap = stageData.createStageProps(back))
 			stageBackLayer.add(prop);
 
 		for (prop in stageFrontLayerMap = stageData.createStageProps(front))
 			stageBackLayer.add(prop);
+
+		player.setScale(stageData.config?.player?.scale?.x ?? 2, stageData.config?.player?.scale?.x ?? 2);
+
+		if (stageData.config?.player?.position != null)
+		{
+			player.setPosition();
+
+			player.x += stageData.config?.player?.position?.x ?? 0;
+			player.y += stageData.config?.player?.position?.y ?? 0;
+		}
 	}
 
 	function makePlayer()
