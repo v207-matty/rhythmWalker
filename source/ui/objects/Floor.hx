@@ -29,4 +29,10 @@ class Floor extends RWSprite
 		
 		setScrollFactor(sf?.x ?? 0, sf?.y ?? 0);
 	}
+
+	override function update(elapsed:Float) {
+		super.update(elapsed);
+
+		setScale(this.camera.viewWidth, scale.y);
+	}
 }
