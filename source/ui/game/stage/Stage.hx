@@ -175,7 +175,7 @@ class Stage
 			if (!newShader.shaderFound)
 				return;
 
-			if (data.shader.config != null)
+			if (data.shader?.config != null)
 				for (field in Reflect.fields(data.shader.config))
 				{
 					var value:Dynamic = Reflect.field(data.shader.config, field);
