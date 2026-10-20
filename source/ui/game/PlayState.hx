@@ -423,7 +423,7 @@ class PlayState extends ConductorState
 		switch (event.id.toLowerCase())
 		{
 			case 'player-idle':
-				playPlayerIdle();
+				playerPlayAnim('idle');
 
 			case 'encapture-subjectbang':
 				if (song.id != 'encapture' || containment04_tubeSubject == null)
@@ -895,9 +895,6 @@ class PlayState extends ConductorState
 		}
 	}
 
-	function playPlayerIdle()
-		playerPlayAnim('idle');
-
 	function makePlayer()
 	{
 		playerData = new PlayerData(song.player);
@@ -919,14 +916,14 @@ class PlayState extends ConductorState
 				player.addAnim(anim.name, anim.frames, anim.fps, anim.looped, anim.flipX, anim.flipY);
 		}
 
-		playPlayerIdle();
+		playerPlayAnim('idle');
 		player.setScale(2);
 		player.animation.onFinish.add(animName ->
 		{
 			if (inCutscene)
 				return;
 
-			playPlayerIdle();
+			playerPlayAnim('idle');
 			playerStunned = false;
 		});
 
@@ -1024,7 +1021,7 @@ class PlayState extends ConductorState
 						onStart: t -> playerPlayAnim('chinatown-bridge-jump', false),
 						onComplete: t ->
 						{
-							playPlayerIdle();
+							playerPlayAnim('idle');
 							inEndCutscene = inIntroCutscene = false;
 						}
 					});
@@ -1056,7 +1053,7 @@ class PlayState extends ConductorState
 
 		function idleAndDamp()
 		{
-			playPlayerIdle();
+			playerPlayAnim('idle');
 			new FlxTimer().start(1 / FlxG.updateFramerate, t -> playerVelocityDamping(), FlxG.updateFramerate);
 		}
 
