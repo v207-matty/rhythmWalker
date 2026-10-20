@@ -135,8 +135,6 @@ class Stage
 
 	public function createStageProp(index:Int, object:StageObjectData, ?props:Map<String, FlxSprite>):StageObjectData
 	{
-		var graphic = (object.graphic == null) ? null : Paths.getImagePath('game/stages/$id/${object.graphic}');
-
 		var centerAxes:FlxAxes = (object.center is Bool) ? (object.center) ? XY : NONE : ((object.center is String) ? FlxAxes.fromString(object.center) : NONE);
 		var repeatAxes:FlxAxes = FlxAxes.fromString(object.repeatAxes) ?? XY;
 
@@ -210,10 +208,10 @@ class Stage
 		switch (object.type)
 		{
 			case backdrop:
-				if (graphic == null)
+				if (object.graphic == null)
 					return null;
 
-				var backdrop = new FlxBackdrop(graphic, repeatAxes);
+				var backdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$id/${object.graphic}'), repeatAxes);
 				applyBasicStuff(backdrop, object);
 				props.set(object?.id ?? '$index', backdrop);
 
@@ -228,10 +226,10 @@ class Stage
 				props.set(object?.id ?? '$index', floor);
 
 			case sprite:
-				if (graphic == null)
+				if (object.graphic == null)
 					return null;
 
-				var spr = new StageSprite(graphic, object.animated, object.frame?.width, object.frame?.height,);
+				var spr = new StageSprite(object.graphic, object.animated, object.frame?.width, object.frame?.height,);
 				applyBasicStuff(spr, object);
 
 				if (object.animated)
