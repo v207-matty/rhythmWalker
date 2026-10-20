@@ -122,7 +122,7 @@ class Stage
 
 			if (floorQueue.exists(object.id))
 			{
-				createStageProp(floorQueue.get(object.id));
+				createStageProp(i, floorQueue.get(object.id), props);
 				floorQueue.remove(object.id);
 			}
 

@@ -394,9 +394,9 @@ class PlayState extends ConductorState
 
 	function spawnBeatMonster()
 	{
-		var beatMonster:FlxSprite = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
-		beatMonster.scale.y = beatMonster.scale.x = data.beatMonsters.scale;
-		beatMonster.updateHitbox();
+		var beatMonster:RWSprite = new RWSprite(null);
+		beatMonster.makeGraphic(32, 32, FlxColor.RED);
+		beatMonster.setScale(stageData.config?.beatmonsters?.scale ?? 1);
 
 		beatMonster.x = player.getGraphicMidpoint().x - (beatMonster.width / 2);
 		beatMonster.y = beatMonster.height * -2;
