@@ -9,3 +9,10 @@ sudo apt-get install haxe -y
 ```
 
 It will (proobably) prompt you for somethin about extra data, accept it
+
+do these next:
+```bash
+haxelib setup dev/codespace/.haxelib
+haxelib install hmm
+haxelib run hmm install
+```
