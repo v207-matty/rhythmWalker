@@ -4,18 +4,18 @@
             "layer": "back",
             "type": "sprite",
             "scaleToScreen": true,
-            "graphic": "stage-withered.png"
+            "graphic": "stage-withered.png",
+            "shader": {
+                "shader": "dropshadow",
+                "config": {
+                    "hue": -24.0,
+                    "saturation": -24.0,
+                    "brightness": -36.0
+                }
+            }
         }
     ],
     "shaders": {
-        "bg": {
-            "shader": "dropshadow",
-            "config": {
-                "hue": -24.0,
-                "saturation": -24.0,
-                "brightness": -36.0
-            }
-        },
         "char": {
             "shader": "dropshadow",
             "config": {

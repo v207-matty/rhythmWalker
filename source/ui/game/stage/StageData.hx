@@ -1,18 +1,6 @@
 package ui.game.stage;
 
 import flixel.util.typeLimit.OneOfTwo;
-import flixel.util.typeLimit.OneOfThree;
-
-typedef StageData =
-{
-	var objects:Array<StageObjectData>;
-
-	@:optional
-	var shaders:StageShadersData;
-
-	@:optional
-	var config:StageConfigData;
-}
 
 enum abstract StageObjectLayerData(String) from String to String
 {
@@ -29,14 +17,14 @@ enum abstract StageObjectTypeData(String) from String to String
 
 typedef StageObjectData =
 {
-	@:default('back')
+	@:default(back)
 	var layer:StageObjectLayerData;
 
 	var type:StageObjectTypeData;
 
 	@:optional
 	@:default(false)
-	var scaleToScreen:Bool;
+	var scaleToScreen:Null<Bool>;
 
 	@:optional
 	var id:String;
@@ -58,7 +46,7 @@ typedef StageObjectData =
 
 	@:optional
 	@:default(false)
-	var center:OneOfTwo<Bool, String>;
+	var center:OneOfTwo<Null<Bool>, String>;
 
 	@:optional
 	@:default('0xFFFFFFFF')
@@ -73,7 +61,7 @@ typedef StageObjectData =
 
 	@:optional
 	@:default(1.0)
-	var alpha:Float;
+	var alpha:Null<Float>;
 
 	@:optional
 	@:default('NORMAL')
@@ -81,7 +69,7 @@ typedef StageObjectData =
 
 	@:optional
 	@:default(false)
-	var animated:Bool;
+	var animated:Null<Bool>;
 
 	@:optional
 	var frame:StageObjectFrameData;
@@ -89,20 +77,23 @@ typedef StageObjectData =
 	@:optional
 	@:default([])
 	var animations:Array<StageObjectAnimationData>;
+
+	@:optional
+	var shader:StageShaderConfigData;
 }
 
 typedef StageXYParam =
 {
 	@:optional
-	var x:OneOfTwo<String, Float>;
+	var x:OneOfTwo<String, Null<Float>>;
 	@:optional
-	var y:OneOfTwo<String, Float>;
+	var y:OneOfTwo<String, Null<Float>>;
 }
 
 typedef StageObjectFrameData =
 {
-	var width:Int;
-	var height:Int;
+	var width:Null<Int>;
+	var height:Null<Int>;
 }
 
 typedef StageObjectAnimationData =
@@ -112,25 +103,23 @@ typedef StageObjectAnimationData =
 
 	@:optional
 	@:default(24)
-	var fps:Int;
+	var fps:Null<Int>;
 
 	@:optional
 	@:default(false)
-	var flipX:Bool;
+	var flipX:Null<Bool>;
 
 	@:optional
 	@:default(false)
-	var flipY:Bool;
+	var flipY:Null<Bool>;
 
 	@:optional
 	@:default(false)
-	var looped:Bool;
+	var looped:Null<Bool>;
 }
 
 typedef StageShadersData =
 {
-	@:optional
-	var bg:StageShaderConfigData;
 	@:optional
 	var char:StageShaderConfigData;
 	@:optional
@@ -154,7 +143,7 @@ typedef StageConfigData =
 	var beatmonsters:StageConfigBMData;
 
 	@:optional
-	@:default('0x00000000')
+	@:default('0xFF000000')
 	var bgColor:String;
 }
 
@@ -171,5 +160,5 @@ typedef StageConfigBMData =
 {
 	@:optional
 	@:default(1.0)
-	var scale:Float;
+	var scale:Null<Float>;
 }
