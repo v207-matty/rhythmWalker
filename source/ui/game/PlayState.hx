@@ -310,6 +310,8 @@ class PlayState extends ConductorState
 
 	function onSongEnd()
 	{
+		if (inCutscene) return;
+
 		seenIntroCutscene = seenEndCutscene = skipping;
 
 		timeBarSongLinked = false;
@@ -1058,6 +1060,13 @@ class PlayState extends ConductorState
 			new FlxTimer().start(1 / FlxG.updateFramerate, t -> playerVelocityDamping(), FlxG.updateFramerate);
 		}
 
+		function ending()
+		{
+
+					inEndCutscene = false;
+					onSongEnd();
+		}
+
 		switch ([song.id, song.variation])
 		{
 			case ['train wreak', defaultVariation]:
@@ -1076,7 +1085,7 @@ class PlayState extends ConductorState
 					visible = false;
 				});
 
-				FlxTimer.wait(2, onSongEnd);
+				FlxTimer.wait(2, ending);
 
 				return true;
 
@@ -1095,7 +1104,7 @@ class PlayState extends ConductorState
 					});
 				});
 
-				FlxTimer.wait(4, onSongEnd);
+				FlxTimer.wait(4, ending);
 
 				return true;
 
