@@ -780,10 +780,7 @@ class PlayState extends ConductorState
 					}
 
 					if (isRandom)
-					{
 						pspr.x -= pspr.width * (0.5 * ((Std.string(piece[0]).endsWith('left')) ? 1 : -1.25));
-						continue;
-					}
 
 					if (piece[0] == 'smoke')
 					{
@@ -820,8 +817,6 @@ class PlayState extends ConductorState
 				train.camera = camGame;
 
 				player.setScale(1);
-				player.updateHitbox();
-
 				player.screenCenter();
 				player.y = train.y - player.height * 0.95;
 
