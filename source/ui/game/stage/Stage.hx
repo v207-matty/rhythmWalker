@@ -1,5 +1,6 @@
 package ui.game.player;
 
+import flixel.FlxBasic;
 import ui.game.stage.StageData;
 import json2object.JsonWriter;
 import hxjsonast.Json;
@@ -78,12 +79,12 @@ class Stage
 
 		this.config.player.position ??= {
 			x: null,
-			y:null,
+			y: null,
 		};
 
 		this.config.player.scale ??= {
 			x: null,
-			y:null,
+			y: null,
 		};
 
 		this.config.beatmonsters ??= {
@@ -95,4 +96,10 @@ class Stage
 
 	public function toString():String
 		return new JsonWriter<Stage>().write(this, '');
+
+	public function createStageProps(layer:StageObjectLayerData):Array<FlxBasic>
+	{
+		var props:Array<FlxBasic> = [];
+		return props;
+	}
 }
