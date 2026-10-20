@@ -13,7 +13,7 @@
     - Set the "player" field in your song JSON and make sure that player has a graphic and json in "assets/game/players" with that name
 - Added Time Bar
 
-- ADDED MOBILE SUPPORT!! (heres stuff that happens when on mobile:)
+- ADDED MOBILE SUPPORT!! (heres stuff that happens when on mobile)
     - [MOBILE] Text gets sized up
     - [MOBILE] Results gets a leave button
     - [MOBILE] Gameplay gets a leave button
