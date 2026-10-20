@@ -127,5 +127,6 @@
             "id": "song-end"
         }
     ],
-    "player": "bro-chinatown-torn"
+    "player": "bro-chinatown-torn",
+    "stage": "train-wreak"
 }

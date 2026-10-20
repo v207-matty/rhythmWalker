@@ -80,5 +80,6 @@
             "id": "beatmonsters-stop"
         }
     ],
-    "player": "bro-chinatown"
+    "player": "bro-chinatown",
+    "stage": "chinatown-bridge"
 }

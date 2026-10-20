@@ -23,7 +23,9 @@ class Song
 	];
 	public var events(default, null):Array<SongEventData> = [];
 	public var scrollSpeed(default, null):Null<Float> = 1;
+
 	public var player(default, null):String = 'bro-regular';
+	public var stage(default, null):String = 'stage';
 
 	public function new(nid:String, nvariation:SongVariation = defaultVariation, ?loadFile:Bool = true)
 	{
@@ -61,6 +63,7 @@ class Song
 		this.events = json?.events ?? [];
 		this.scrollSpeed = json?.scrollSpeed ?? 1;
 		this.player = json?.player ?? 'bro-regular';
+		this.stage = json?.stage ?? 'stage';
 	}
 
 	public function toString():String

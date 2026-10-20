@@ -30,5 +30,6 @@
             "id": "beatmonsters-stop"
         }
     ],
-    "player": "jez-regular"
+    "player": "jez-regular",
+    "stage": "crash landing"
 }

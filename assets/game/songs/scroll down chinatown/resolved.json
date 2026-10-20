@@ -24,5 +24,6 @@
             "id": "beatmonsters-stop"
         }
     ],
-    "player": "bro-chinatown-wanted"
+    "player": "bro-chinatown-wanted",
+    "stage": "chinatown"
 }

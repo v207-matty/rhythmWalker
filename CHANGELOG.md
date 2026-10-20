@@ -1,11 +1,16 @@
 # 0.4.0 - 10/2026
 
+- The stages for songs are JSON driven now!!
+    - Set the "stage" field in your song JSON
+    - Sadly the stages are still hardcodedd, gotta work on that
+
 - Added "Quality Warning" screen that shows up to warn you that the music and gameplay aren't actually that good
     - [WEB] This 'replaces' the Click Anywhere screen
 
 - The Train Wreak ending cutscene has all hud elements fade
 
 - Players are now JSON driven and not hardcoded!!
+    - Set the "player" field in your song JSON and make sure that player has a graphic and json in "assets/game/players" with that name
 - Added Time Bar
 
 - ADDED MOBILE SUPPORT!! (heres stuff that happens when on mobile:)

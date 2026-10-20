@@ -58,5 +58,6 @@
             "id": "encapture-subjectBang"
         }
     ],
-    "player": "bro-captured"
+    "player": "bro-captured",
+    "stage": "containment-04"
 }
