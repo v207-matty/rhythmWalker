@@ -229,7 +229,7 @@ class Stage
 				if (object.graphic == null)
 					return null;
 
-				var spr = new StageSprite(object.graphic, object.animated, object.frame?.width, object.frame?.height,);
+				var spr = new StageSprite('$id/${object.graphic}', object.animated, object.frame?.width, object.frame?.height,);
 				applyBasicStuff(spr, object);
 
 				if (object.animated)
