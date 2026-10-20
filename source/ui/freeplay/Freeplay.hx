@@ -227,16 +227,16 @@ class Freeplay extends ConductorState
 
 				trace('dist: ${swipe.distance}', 'deg: ${swipe.degrees}', 'left: $left', 'down: $down', 'up: $up', 'right: $right');
 
-				final range = [0.8, 1.2];
+				final range_vertical = [0.5, 1.5];
 
 				final range_left_1 = [0.7, 1.5];
 				final range_left_2 = [-0.7, -1.5];
 
 				final range_right = [-0.2, 1.2];
 
-				if (up >= range[0] && up <= range[1])
+				if (up >= range_vertical[0] && up <= range_vertical[1])
 					changeSel(1);
-				else if (down >= range[0] && down <= range[1])
+				else if (down >= range_vertical[0] && down <= range_vertical[1])
 					changeSel(-1);
 				else if ((left >= range_left_1[0] && left <= range_left_1[1]) || (left <= range_left_2[0] && left >= range_left_2[1]))
 					changeVolume(-1);
