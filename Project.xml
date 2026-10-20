@@ -52,6 +52,9 @@
 
     <haxelib name="json2object" version="git" />
 
+	<!-- https://lib.haxe.org/p/haxpression/ -->
+	<haxelib name="haxpression" />
+
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
 	<!--Remove the legacy health system-->
