@@ -4,7 +4,7 @@
             "layer": "back",
             "type": "sprite",
             "scaleToScreen": true,
-            "graphic": "understage.png"
+            "graphic": "understage"
         }
     ]
 }

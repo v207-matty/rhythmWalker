@@ -4,7 +4,7 @@
             "layer": "back",
             "type": "sprite",
             "scaleToScreen": true,
-            "graphic": "stage-withered.png",
+            "graphic": "stage-withered",
             "shader": {
                 "shader": "dropshadow",
                 "config": {

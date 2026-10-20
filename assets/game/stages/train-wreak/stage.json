@@ -15,7 +15,7 @@
                 "y": 0.25
             },
             "center": "X",
-            "graphic": "sky.png"
+            "graphic": "sky"
         },
         {
             "layer": "back",
@@ -30,7 +30,7 @@
             },
             "center": "X",
             "repeatAxes": "X",
-            "graphic": "city.png"
+            "graphic": "city"
         },
         {
             "id": "ground",
@@ -46,7 +46,7 @@
             },
             "center": "X",
             "repeatAxes": "X",
-            "graphic": "ground.png"
+            "graphic": "ground"
         },
         {
             "layer": "back",
@@ -69,7 +69,7 @@
             "position": {
                 "x": "graphic_width * 0.5"
             },
-            "graphic": "crowds/randoms-left.png"
+            "graphic": "crowds/randoms-left"
         },
         {
             "layer": "back",
@@ -86,7 +86,7 @@
             "position": {
                 "x": "graphic_width * (0.5 * -1.25)"
             },
-            "graphic": "crowds/randoms-right.png"
+            "graphic": "crowds/randoms-right"
         },
         {
             "layer": "back",
@@ -100,7 +100,7 @@
                 "y": 0.8
             },
             "center": true,
-            "graphic": "crowds/center.png"
+            "graphic": "crowds/center"
         },
         {
             "layer": "back",
@@ -112,7 +112,7 @@
             "center": true,
             "alpha": 0.5,
             "blend": "OVERLAY",
-            "graphic": "smoke.png"
+            "graphic": "smoke"
         },
         {
             "layer": "back",
@@ -122,7 +122,7 @@
                 "y": 2
             },
             "center": true,
-            "graphic": "trainSegment.png"
+            "graphic": "trainSegment"
         },
         {
             "layer": "back",
@@ -132,7 +132,7 @@
                 "y": 2
             },
             "center": true,
-            "graphic": "trainGround.png"
+            "graphic": "trainGround"
         }
     ],
     "config": {

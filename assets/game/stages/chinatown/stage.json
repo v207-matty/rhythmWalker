@@ -10,13 +10,13 @@
             "velocity": {
                 "x": 2
             },
-            "graphic": "sky.png"
+            "graphic": "sky"
         },
         {
             "layer": "back",
             "type": "sprite",
             "scaleToScreen": true,
-            "graphic": "town.png"
+            "graphic": "town"
         }
     ]
 }

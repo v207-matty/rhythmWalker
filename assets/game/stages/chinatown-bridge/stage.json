@@ -10,7 +10,7 @@
             "velocity": {
                 "x": 2
             },
-            "graphic": "sky.png"
+            "graphic": "sky"
         },
         {
             "layer": "back",
@@ -23,7 +23,7 @@
                 "y": "game_height - graphic_height"
             },
             "repeatAxes": "X",
-            "graphic": "bridge.png"
+            "graphic": "bridge"
         }
     ]
 }

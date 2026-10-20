@@ -11,7 +11,7 @@
             "velocity": {
                 "x": "265 * -5"
             },
-            "graphic": "sky.png"
+            "graphic": "sky"
         },
         {
             "id": "train",
@@ -21,7 +21,7 @@
                 "x": 2,
                 "y": 2
             },
-            "graphic": "train.png"
+            "graphic": "train"
         },
         {
             "id": "shooter",
@@ -90,7 +90,7 @@
                     "fps": 8
                 }
             ],
-            "graphic": "train.png"
+            "graphic": "train"
         }
     ],
     "config": {
