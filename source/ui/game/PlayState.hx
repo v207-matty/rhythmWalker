@@ -51,7 +51,6 @@ class PlayState extends ConductorState
 	var beatMonsterSpawner:FlxSprite;
 
 	var data = {
-		player: 'bro-regular',
 		beatMonsters: {
 			spawn: true,
 			stepRate: 4,
