@@ -118,7 +118,7 @@ jobs:
                         - name: Upload Artifact
                           uses: actions/upload-artifact@main
                           with:
-                                  name: windowsBuild
+                                  name: windowsBuild-64
                                   path: export/64bit/release/windows/bin
         buildWindows32:
                 runs-on: windows-latest
@@ -173,7 +173,7 @@ jobs:
                         - name: Upload Artifact
                           uses: actions/upload-artifact@main
                           with:
-                                  name: windowsBuild
+                                  name: windowsBuild-32
                                   path: export/32bit/release/windows/bin
         buildMac:
                 runs-on: macos-latest
