@@ -1,0 +1,26 @@
+{
+    "objects": [
+        {
+            "config": {
+                "layer": "back",
+                "type": "backdrop",
+                "scale": {
+                    "x": 2,
+                    "y": 2
+                },
+                "velocity": {
+                    "x": 2
+                }
+            },
+            "graphic": "sky.png"
+        },
+        {
+            "config": {
+                "layer": "back",
+                "type": "sprite",
+                "scaleToScreen": true
+            },
+            "graphic": "town.png"
+        }
+    ]
+}
