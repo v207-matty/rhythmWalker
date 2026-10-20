@@ -1,0 +1,141 @@
+{
+    "objects": [
+        {
+            "config": {
+                "id": "floor",
+                "layer": "back",
+                "type": "backdrop",
+                "scale": {
+                    "x": 2,
+                    "y": 2
+                },
+                "scrollFactor": {
+                    "x": 0,
+                    "y": 0
+                },
+                "position": {
+                    "y": "game_height - graphic_height"
+                }
+            },
+            "graphic": "floor.png"
+        },
+        {
+            "config": {
+                "layer": "back",
+                "type": "floor",
+                "color": "0xFF696A6A",
+                "parent": "floor",
+                "scrollFactor": {
+                    "x": 1
+                }
+            }
+        },
+        {
+            "config": {
+                "layer": "back",
+                "type": "sprite",
+                "scale": {
+                    "x": 2,
+                    "y": 2
+                },
+                "scrollFactor": {
+                    "x": 0.75,
+                    "y": 0.75
+                },
+                "center": "X",
+                "position": {
+                    "y": "game_height - graphic_height"
+                }
+            },
+            "graphic": "label.png"
+        },
+        {
+            "config": {
+                "layer": "back",
+                "type": "sprite",
+                "scale": {
+                    "x": 2,
+                    "y": 2
+                },
+                "position": {
+                    "x": "(game_width / 4)",
+                    "y": "game_height - floor_height - tube_height"
+                }
+            },
+            "graphic": "tube.png"
+        },
+        {
+            "config": {
+                "layer": "back",
+                "type": "sprite",
+                "scale": {
+                    "x": 2,
+                    "y": 2
+                },
+                "position": {
+                    "x": "(game_width / 4) * 2",
+                    "y": "game_height - floor_height - tube_height"
+                }
+            },
+            "graphic": "tube.png"
+        },
+        {
+            "config": {
+                "layer": "back",
+                "type": "sprite",
+                "scale": {
+                    "x": 2,
+                    "y": 2
+                },
+                "position": {
+                    "x": "(game_width / 4) * 3",
+                    "y": "game_height - floor_height - tube_height"
+                }
+            },
+            "graphic": "tube.png"
+        },
+        {
+            "config": {
+                "id": "jez",
+                "layer": "back",
+                "type": "sprite",
+                "scale": {
+                    "x": 2,
+                    "y": 2
+                },
+                "position": {
+                    "x": "(game_width / 4) * 4",
+                    "y": "game_height - floor_height - tube_height"
+                },
+                "animated": true,
+                "frame": {
+                    "width": 128,
+                    "height": 128
+                },
+                "animations": [
+                    {
+                        "name": "idle",
+                        "frames": [
+                            0,
+                            1
+                        ],
+                        "fps": 2,
+                        "looped": true
+                    },
+                    {
+                        "name": "idle",
+                        "frames": [
+                            2,
+                            3
+                        ],
+                        "fps": 6
+                    }
+                ]
+            },
+            "graphic": "tube-jez.png"
+        }
+    ],
+    "config": {
+        "bgColor": "0xFF595652"
+    }
+}

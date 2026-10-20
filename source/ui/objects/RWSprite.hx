@@ -11,13 +11,13 @@ class RWSprite extends FlxSprite
 	{
 		super();
 
-		if (sprite != null)
-		{
-			this.sprite = sprite;
-			loadGraphic(Paths.getImagePath(sprite), animated, fw, fh);
+		if (sprite == null)
+			return;
 
-			setScale(4);
-		}
+		this.sprite = sprite;
+		loadGraphic(Paths.getImagePath(sprite), animated, fw, fh);
+
+		setScale(4);
 	}
 
 	public function setScale(?x:Float, ?y:Float)

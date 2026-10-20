@@ -704,6 +704,7 @@ class PlayState extends ConductorState
 				label.y = FlxG.height - label.height;
 				stageBackLayer.add(label);
 
+				// shit
 				var tubes = 2 * Math.round(FlxG.width / 1280);
 
 				for (i in 0...tubes)
