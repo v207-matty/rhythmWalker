@@ -19,4 +19,6 @@ do these next:
 haxelib setup dev/codespace/.haxelib
 haxelib install hmm
 haxelib run hmm install
+haxelib run lime setup
+haxelib run lime setup alias -y
 ```
