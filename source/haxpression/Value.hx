@@ -32,7 +32,10 @@ abstract Value(ValueType)
 		else if (Std.isOfType(value, String))
 			return fromString(value);
 		else
-			return throw 'invalid type for $value';
+		{
+			trace('invalid type for $value');
+			return null;
+		}
 	}
 
 	@:from
