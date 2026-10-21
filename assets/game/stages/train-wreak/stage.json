@@ -67,7 +67,7 @@
             },
             "center": true,
             "position": {
-                "x": "graphic_width * 0.5"
+                "x": "((game_width - graphic_width) / 2) + (graphic_width * 0.5)"
             },
             "graphic": "crowds/randoms-left"
         },
@@ -84,7 +84,7 @@
             },
             "center": true,
             "position": {
-                "x": "graphic_width * (0.5 * -1.25)"
+                "x": "((game_width - graphic_width) / 2) + (graphic_width * (0.5 * -1.25))"
             },
             "graphic": "crowds/randoms-right"
         },
@@ -112,6 +112,23 @@
             "center": true,
             "alpha": 0.5,
             "blend": "OVERLAY",
+            "animated": true,
+            "frame": {
+                "width": 640,
+                "height": 360
+            },
+            "animations": [
+                {
+                    "name": "idle",
+                    "frames": [
+                        0,
+                        1,
+                        2
+                    ],
+                    "fps": 2,
+                    "looped": true
+                }
+            ],
             "graphic": "smoke"
         },
         {

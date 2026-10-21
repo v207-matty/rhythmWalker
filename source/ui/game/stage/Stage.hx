@@ -4,7 +4,6 @@ import flixel.util.typeLimit.OneOfTwo;
 import haxpression.Expression;
 import haxpression.Value;
 import haxpression.Expressions;
-import ui.objects.Floor;
 import util.CustomShader;
 import flixel.util.FlxColor;
 import util.Constants;
@@ -124,14 +123,16 @@ class Stage
 	public function createStageProp(index:Int, object:StageObjectData, ?props:Map<String, FlxSprite>):StageObjectData
 	{
 		var graphic = Paths.getImagePath('game/stages/$id/${object.graphic}');
-		var centerAxes:FlxAxes = (object.center is Bool) ? (object.center) ? XY : NONE : ((object.center is String) ? FlxAxes.fromString(object.center) : NONE);
 
 		function applyBasicStuff(object:FlxSprite, data:StageObjectData)
 		{
 			object.ID = index;
 			object.alpha = data.alpha;
 			object.blend = Constants.BLENDMODE_MAP.get(data.blend?.toLowerCase() ?? 'NORMAL') ?? NORMAL;
+
+			var centerAxes:FlxAxes = (data.center is Bool) ? (data.center) ? XY : NONE : ((data.center is String) ? FlxAxes.fromString(data.center) : NONE);
 			object.screenCenter(centerAxes);
+
 			object.color = FlxColor.fromString(data.color ?? '0xFFFFFFFF');
 
 			if (data.scaleToScreen)
@@ -236,7 +237,17 @@ class Stage
 				if (!props.exists(object.parent))
 					return object;
 
-				var floor = new Floor(props.get(object.parent), 0xFFFFFFFF, null, null);
+				var parent = props.get(object.parent);
+
+				if (parent == null)
+					return null;
+
+				if (object.position != null)
+					object.position = null;
+
+				var floor = new FlxBackdrop(new FlxSprite().makeGraphic(1, 1, 0xFFFFFFFF).graphic, X);
+				floor.height = FlxG.width;
+				floor.y = parent.y + parent.height + floor.height;
 				applyBasicStuff(floor, object);
 				addObject(object?.id ?? '$index', floor);
 

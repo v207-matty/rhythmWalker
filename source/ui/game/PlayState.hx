@@ -588,7 +588,7 @@ class PlayState extends ConductorState
 				player.setScale(stageData.applyFloatOrString(x) ?? 2, stageData.applyFloatOrString(y) ?? 2);
 			}
 
-			player.screenCenter();
+			player.screenCenter(X);
 			player.y = FlxG.height - player.height * 1.25;
 
 			stageData.addExpressionVariable('player_width', player.width);

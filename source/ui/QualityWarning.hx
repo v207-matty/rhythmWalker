@@ -1,5 +1,6 @@
 package ui;
 
+import flixel.addons.ui.FlxUIState;
 import util.Constants;
 import util.Flag;
 import ui.game.*;
@@ -12,7 +13,7 @@ import flixel.FlxState;
 
 using StringTools;
 
-class QualityWarning extends FlxState
+class QualityWarning extends FlxUIState
 {
 	override function create()
 	{
