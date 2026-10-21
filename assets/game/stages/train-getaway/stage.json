@@ -21,6 +21,9 @@
                 "x": 2,
                 "y": 2
             },
+            "position": {
+                "y": "game_height - graphic_height"
+            },
             "repeatAxes": "X",
             "graphic": "train"
         },
@@ -91,7 +94,11 @@
                     "fps": 8
                 }
             ],
-            "graphic": "train"
+            "center": "Y",
+            "position": {
+                "x": "graphic_width * -5"
+            },
+            "graphic": "shooter"
         }
     ],
     "config": {

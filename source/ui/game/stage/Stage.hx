@@ -274,7 +274,7 @@ class Stage
 		expressionVariableMap.remove(name);
 
 	public function applyExpressionShit(expression:Expression)
-		return Expressions.evaluate([expression], expressionVariableMap)[0];
+		return Expressions.evaluate([expression.toString().replace('.', '_')], expressionVariableMap)[0];
 
 	public function applyFloatOrString(a:OneOfTwo<String, Null<Float>>):Float
 		return (a is Float) ? a : (a is String) ? applyExpressionShit(Expression.fromString(a)) : 0;

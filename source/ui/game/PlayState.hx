@@ -499,7 +499,7 @@ class PlayState extends ConductorState
 	}
 
 	var containment04_tubeSubject:StageSprite;
-	
+
 	var trainGetaway_i:Float = 1;
 	var trainGetaway_sky:FlxBackdrop;
 	var trainGetaway_shooter:TrainGetawayShooter;
@@ -641,6 +641,13 @@ class PlayState extends ConductorState
 			case ['train-getaway', defaultVariation]:
 				trainGetaway_sky = cast stageBackLayerMap.get('sky');
 				trainGetaway_shooter = cast stageBackLayerMap.get('shooter');
+
+				if (trainGetaway_shooter != null)
+					FlxTween.tween(trainGetaway_shooter, {x: FlxG.width - trainGetaway_shooter.width}, 2.75, {
+						ease: FlxEase.sineInOut
+					});
+
+				trace(trainGetaway_shooter);
 
 			default:
 		}
