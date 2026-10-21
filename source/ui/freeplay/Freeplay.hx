@@ -62,13 +62,15 @@ class Freeplay extends ConductorState
 		return list;
 	}
 
-	public static var audioCache:Map<String, Sound> = [];
-	public static var audioVizCache:Map<String, FlxWaveform> = [];
+	static var audioCache:Map<String, Sound> = [];
+	
+	#if FREEPLAY_VISUALIZER
+	static var audioVizCache:Map<String, FlxWaveform> = [];
 
-	public static var curWaveforms:Array<FlxWaveform> = [];
-	public static var curWaveformsID:Array<String> = [];
+	static var curWaveforms:Array<FlxWaveform> = [];
+	static var curWaveformsID:Array<String> = [];
 
-	public static function runOnWaveforms(func:FlxWaveform->String->Void)
+	static function runOnWaveforms(func:FlxWaveform->String->Void)
 	{
 		if (func == null || curWaveforms == null)
 			return;
@@ -76,6 +78,7 @@ class Freeplay extends ConductorState
 		for (wf in curWaveforms)
 			func(wf, curWaveformsID[wf.ID]);
 	}
+	#end
 
 	var randomTip:String = '';
 
@@ -162,11 +165,13 @@ class Freeplay extends ConductorState
 
 		add(waveformLayer = new FlxSpriteGroup());
 
+		#if FREEPLAY_VISUALIZER
 		runOnWaveforms((wave, waveID) ->
 		{
 			wave.alpha = 0;
 			waveformLayer.add(wave);
 		});
+		#end
 
 		changeVolume(filterList.length);
 		changeSel(0);
@@ -259,27 +264,27 @@ class Freeplay extends ConductorState
 			bgAudio.volume = FlxG.sound.volume;
 
 		FlxG.watch.addQuick('songCode', songCode);
+
+		#if FREEPLAY_VISUALIZER
 		runOnWaveforms((wave, waveID) ->
 		{
-			if (wave == null)
-				return;
-			if (wave.waveformBuffer == null)
+			if (wave == null || wave.waveformBuffer == null)
 				return;
 
 			FlxG.watch.addQuick('waveform-${wave.ID}', waveID);
 
-			if (waveID != songCode)
+			if (waveID != songCode || bgAudio == null)
 			{
-				wave.active = false;
+				wave.active = wave.visible = false;
 				return;
 			}
 
-			wave.active = true;
-			wave.waveformTime += elapsed * 1000;
+			wave.visible = wave.active = true;
 
-			if (bgAudio != null && wave.waveformTime > bgAudio.length)
-				wave.waveformTime = 0;
+			if (wave.waveformTime != bgAudio.time)
+				wave.waveformTime = bgAudio.time;
 		});
+		#end
 	}
 
 	function proceed()
@@ -310,6 +315,7 @@ class Freeplay extends ConductorState
 	{
 		super.finishTransOut();
 
+		#if FREEPLAY_VISUALIZER
 		runOnWaveforms((wave, waveID) ->
 		{
 			waveformLayer.remove(wave);
@@ -333,22 +339,22 @@ class Freeplay extends ConductorState
 
 		audioVizCache.clear();
 		#end
+		#end
 	}
 
 	function onVolumeChange(vol:Float) @:privateAccess
 	{
-		if (bgAudio != null)
-		{
-			if (bgAudio.fadeTween?.active)
-				bgAudio.fadeTween.cancel();
+		#if FREEPLAY_VISUALIZER
+		runOnWaveforms((wave, waveID) -> wave.waveformGainMultiplier = FlxG.sound.volume);
+		#end
 
-			bgAudio.volume = FlxG.sound.volume;
-		}
+		if (bgAudio == null)
+			return;
 
-		runOnWaveforms((wave, waveID) ->
-		{
-			wave.waveformGainMultiplier = FlxG.sound.volume;
-		});
+		if (bgAudio.fadeTween?.active)
+			bgAudio.fadeTween.cancel();
+
+		bgAudio.volume = FlxG.sound.volume;
 	}
 
 	function fadeinVisualizer()
@@ -356,6 +362,7 @@ class Freeplay extends ConductorState
 		if (bgAudio?.volume < 0.1 || bgAudio == null || bgAudio.length < 1)
 			return;
 
+		#if FREEPLAY_VISUALIZER
 		runOnWaveforms((wave, waveID) ->
 		{
 			if (waveID != songCode)
@@ -365,6 +372,7 @@ class Freeplay extends ConductorState
 			FlxTween.cancelTweensOf(wave);
 			FlxTween.tween(wave, {alpha: 1}, .25, {ease: FlxEase.quartInOut});
 		});
+		#end
 	}
 
 	override function onFocusLost()
@@ -383,13 +391,14 @@ class Freeplay extends ConductorState
 			return;
 
 		bgAudio.resume();
-		// trace(bgAudio.time);
 
+		#if FREEPLAY_VISUALIZER
 		runOnWaveforms((wave, waveID) ->
 		{
 			if (wave != null)
 				wave.waveformTime = bgAudio.time;
 		});
+		#end
 	}
 
 	function loadSongAudio() @:privateAccess
@@ -411,7 +420,7 @@ class Freeplay extends ConductorState
 			bgAudio.load(audioCache.get(songCode));
 		bgAudio.looped = true;
 
-		#if !FREEPLAY_VISUALIZER_MULTICACHE
+		#if (FREEPLAY_VISUALIZER && !FREEPLAY_VISUALIZER_MULTICACHE)
 		runOnWaveforms((wave, waveID) ->
 		{
 			curWaveforms.remove(wave);
@@ -423,13 +432,9 @@ class Freeplay extends ConductorState
 		makeWaveform(entries[selectedEntry]);
 		#end
 
-		runOnWaveforms((wave, waveID) ->
-		{
-			if (waveID != songCode)
-				return;
-
-			wave.scrollFactor.set();
-		});
+		#if FREEPLAY_VISUALIZER
+		runOnWaveforms((wave, waveID) -> wave.scrollFactor.set());
+		#end
 
 		bgAudio.play();
 
@@ -458,11 +463,13 @@ class Freeplay extends ConductorState
 			final code = '${entries[i].song}-${(entries[i].variation ?? defaultVariation)}'.toLowerCase();
 			var textSongRank:SongRank = Save.scores.get(code)?.rank ?? NONE;
 
-			text.color = #if FREEPLAY_DISPLAY_SCORE (textSongRank == NONE) ? FlxColor.RED : #end FlxColor.WHITE;
+			text.color = #if FREEPLAY_DISPLAY_SCORE (textSongRank == NONE) ? FlxColor.RED : #end
+			FlxColor.WHITE;
 
 			if (i == selectedEntry)
 			{
-				text.color = #if FREEPLAY_DISPLAY_SCORE (textSongRank == NONE) ? FlxColor.ORANGE : #end FlxColor.YELLOW;
+				text.color = #if FREEPLAY_DISPLAY_SCORE (textSongRank == NONE) ? FlxColor.ORANGE : #end
+				FlxColor.YELLOW;
 				camFollow.y = text.y;
 			}
 		}
@@ -495,26 +502,27 @@ class Freeplay extends ConductorState
 	{
 		if (bgAudio == null || !bgAudio.playing)
 		{
-			runOnWaveforms((wave, waveID) ->
-			{
-				wave.alpha = 0;
-			});
+			#if FREEPLAY_VISUALIZER
+			runOnWaveforms((wave, waveID) -> wave.alpha = 0);
+			#end
 
 			loadSongAudio();
-		}
-		else
-		{
-			runOnWaveforms((wave, waveID) ->
-			{
-				FlxTween.cancelTweensOf(wave);
-				FlxTween.tween(wave, {alpha: 0}, .25, {ease: FlxEase.quartInOut});
-			});
 
-			bgAudio.fadeOut(.25, 0, t ->
-			{
-				loadSongAudio();
-			});
+			return;
 		}
+
+		#if FREEPLAY_VISUALIZER
+		runOnWaveforms((wave, waveID) ->
+		{
+			FlxTween.cancelTweensOf(wave);
+			FlxTween.tween(wave, {alpha: 0}, .25, {ease: FlxEase.quartInOut});
+		});
+		#end
+
+		bgAudio.fadeOut(.25, 0, t ->
+		{
+			loadSongAudio();
+		});
 	}
 
 	function changeVolume(amount:Int)
@@ -584,7 +592,7 @@ class Freeplay extends ConductorState
 				tXt.text += ' (Unplayed)';
 			#end
 
-			#if FREEPLAY_VISUALIZER_MULTICACHE
+			#if (FREEPLAY_VISUALIZER && FREEPLAY_VISUALIZER_MULTICACHE)
 			if (curWaveforms[i] == null)
 				makeWaveform(song, i);
 			#end
@@ -607,9 +615,9 @@ class Freeplay extends ConductorState
 		changeSel(entries.length);
 	}
 
+	#if FREEPLAY_VISUALIZER
 	function makeWaveform(song:FreeplaySongData, ?i:Null<Int>) @:privateAccess
 	{
-		#if FREEPLAY_VISUALIZER
 		if (i == null)
 			i = curWaveforms.length;
 
@@ -683,6 +691,6 @@ class Freeplay extends ConductorState
 
 		curWaveforms.push(bgAudioViz);
 		curWaveformsID.push(viz);
-		#end
 	}
+	#end
 }
