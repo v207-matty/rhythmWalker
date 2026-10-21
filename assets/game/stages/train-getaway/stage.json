@@ -21,6 +21,7 @@
                 "x": 2,
                 "y": 2
             },
+            "repeatAxes": "X",
             "graphic": "train"
         },
         {

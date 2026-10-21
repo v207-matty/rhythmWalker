@@ -50,5 +50,6 @@
             "id": "traingetaway-reload"
         }
     ],
-    "player": "bro-chinatown"
+    "player": "bro-chinatown",
+    "stage": "train-getaway"
 }

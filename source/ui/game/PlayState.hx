@@ -451,19 +451,19 @@ class PlayState extends ConductorState
 				onSongEnd();
 
 			case 'trainwreak-gun':
-				if (song.id == 'train wreak')
+				if (trainWreak_shooter != null)
 					trainWreak_shooter.animation.play('shoot', true);
 
 			case 'traingetaway-reload':
-				if (song.id == 'train getaway')
+				if (trainGetaway_shooter != null)
 					trainGetaway_shooter.animation.play('reload', true);
 
 			case 'traingetaway-gunjammed':
-				if (song.id == 'train getaway')
+				if (trainGetaway_shooter != null)
 					trainGetaway_shooter.animation.play('jammed', true);
 
 			case 'traingetaway-gun':
-				if (song.id == 'train getaway')
+				if (trainGetaway_shooter != null)
 					trainGetaway_shooter.animation.play('shoot${FlxG.random.int(1, 2)}', true);
 
 			case 'camera-off', 'cam-off':
@@ -633,6 +633,15 @@ class PlayState extends ConductorState
 			layer.sort((s, a, b) -> FlxSort.byValues(s, a.ID, b.ID), FlxSort.ASCENDING);
 
 		applyPlayerData();
+
+		switch ([song.id, song.variation])
+		{
+			case ['train-getaway', defaultVariation]:
+				trainGetaway_sky = cast stageBackLayerMap.get('sky');
+				trainGetaway_shooter = cast stageBackLayerMap.get('shooter');
+
+			default:
+		}
 	}
 
 	function makePlayer()

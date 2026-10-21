@@ -202,9 +202,7 @@ class Stage
 
 		function addObject(id:String, obj:FlxSprite)
 		{
-			if (id == null)
-				return;
-			if (obj == null)
+			if (id == null || obj == null || props.exists(id))
 				return;
 
 			addExpressionVariable(id + '_alpha', obj.alpha);
