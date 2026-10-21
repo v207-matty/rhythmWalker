@@ -15,7 +15,7 @@
 
 ## Gameplay Related
 
-- All cutscenes had the hud gone and fade back in or visible and fade out
+- All cutscenes have the hud gone and fade back in or visible and fade out
 
 - bro-mental no longer has a flippable idle (Just like the other bruised bro skins)
 
