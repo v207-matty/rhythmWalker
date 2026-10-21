@@ -499,9 +499,11 @@ class PlayState extends ConductorState
 	}
 
 	var containment04_tubeSubject:StageSprite;
+	
 	var trainGetaway_i:Float = 1;
 	var trainGetaway_sky:FlxBackdrop;
 	var trainGetaway_shooter:TrainGetawayShooter;
+
 	var trainWreak_shooter:TrainWreakShooter;
 
 	function generateStage()
