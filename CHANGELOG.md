@@ -41,6 +41,8 @@
 
 ## UX
 
+- Now using logarithmic sound curves
+
 - ADDED MOBILE SUPPORT!! (heres stuff that happens when on mobile)
     - [MOBILE] Text gets sized up
     - [MOBILE] Results gets a leave button

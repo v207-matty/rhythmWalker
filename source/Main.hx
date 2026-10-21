@@ -49,6 +49,17 @@ class Main extends FlxGame
 
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrashing);
 
+		FlxG.sound.applySoundCurve = (volume:Float) ->
+		{
+			final clampedVolume = Math.max(0, Math.min(1, volume));
+			return Math.exp(Math.log(0.001) * (1 - clampedVolume));
+		}
+		FlxG.sound.reverseSoundCurve = (volume:Float) ->
+		{
+			final clampedVolume = Math.max(0.001, Math.min(1, volume));
+			return 1 - (Math.log(clampedVolume) / Math.log(0.001));
+		}
+
 		super.create(_);
 
 		FlxG.console.registerClass(Paths);
