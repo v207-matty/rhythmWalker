@@ -580,48 +580,55 @@ class PlayState extends ConductorState
 
 		camGame.bgColor = FlxColor.fromString(stageData.config?.bgColor ?? '0xFFFFFFFF');
 
-		if (stageData.config?.player?.scale != null)
+		function applyPlayerData()
 		{
-			var x = stageData.config?.player?.scale?.x;
-			var y = stageData.config?.player?.scale?.y;
+			if (stageData.config?.player?.scale != null)
+			{
+				var x = stageData.config?.player?.scale?.x;
+				var y = stageData.config?.player?.scale?.y;
 
-			if (x == null || y == null)
-				return;
+				if (x == null || y == null)
+					return;
 
-			player.setScale();
+				player.setScale();
 
-			player.x += stageData.applyFloatOrString(x);
-			player.y += stageData.applyFloatOrString(y);
+				player.x += stageData.applyFloatOrString(x);
+				player.y += stageData.applyFloatOrString(y);
+			}
+
+			player.screenCenter();
+
+			if (stageData.config?.player?.position != null)
+			{
+				var x = stageData.config?.player?.position?.x;
+				var y = stageData.config?.player?.position?.y;
+
+				if (x == null || y == null)
+					return;
+
+				player.setPosition();
+
+				player.x += stageData.applyFloatOrString(x);
+				player.y += stageData.applyFloatOrString(y);
+			}
+
+			player.y = FlxG.height - player.height * 1.25;
+
+			stageData.addExpressionVariable('player_width', player.width);
+			stageData.addExpressionVariable('player_height', player.height);
+			stageData.addExpressionVariable('player_x', player.x);
+			stageData.addExpressionVariable('player_y', player.y);
 		}
 
-		player.screenCenter();
-
-		if (stageData.config?.player?.position != null)
-		{
-			var x = stageData.config?.player?.position?.x;
-			var y = stageData.config?.player?.position?.y;
-
-			if (x == null || y == null)
-				return;
-
-			player.setPosition();
-
-			player.x += stageData.applyFloatOrString(x);
-			player.y += stageData.applyFloatOrString(y);
-		}
-
-		player.y = FlxG.height - player.height * 1.25;
-
-		stageData.addExpressionVariable('player_width', player.width);
-		stageData.addExpressionVariable('player_height', player.height);
-		stageData.addExpressionVariable('player_x', player.x);
-		stageData.addExpressionVariable('player_y', player.y);
+		applyPlayerData();
 
 		for (prop in stageBackLayerMap = stageData.createStageProps(back))
 			stageBackLayer.add(prop);
 
 		for (prop in stageFrontLayerMap = stageData.createStageProps(front))
 			stageFrontLayer.add(prop);
+
+		applyPlayerData();
 
 		trace(stageData.expressionVariableMap);
 	}
