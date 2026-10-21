@@ -124,7 +124,6 @@ class Stage
 	public function createStageProp(index:Int, object:StageObjectData, ?props:Map<String, FlxSprite>):StageObjectData
 	{
 		var centerAxes:FlxAxes = (object.center is Bool) ? (object.center) ? XY : NONE : ((object.center is String) ? FlxAxes.fromString(object.center) : NONE);
-		var repeatAxes:FlxAxes = FlxAxes.fromString(object.repeatAxes) ?? XY;
 
 		function applyBasicStuff(object:FlxSprite, data:StageObjectData)
 		{
@@ -210,7 +209,7 @@ class Stage
 
 			addExpressionVariable(id + '_x', obj.x);
 			addExpressionVariable(id + '_y', obj.y);
-			
+
 			addExpressionVariable(id + '_width', obj.width);
 			addExpressionVariable(id + '_height', obj.height);
 
@@ -223,8 +222,12 @@ class Stage
 				if (object.graphic == null)
 					return null;
 
+				var repeatAxes:FlxAxes = FlxAxes.fromString(object?.repeatAxes ?? 'XY') ?? XY;
+
 				var backdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$id/${object.graphic}'), repeatAxes);
 				applyBasicStuff(backdrop, object);
+				trace(backdrop is FlxBackdrop);
+				trace(backdrop is FlxSprite);
 				addObject(object?.id ?? '$index', backdrop);
 
 			case floor:
