@@ -16,7 +16,7 @@
         {
             "id": "train",
             "layer": "back",
-            "type": "backdrop",
+            "type": "sprite",
             "scale": {
                 "x": 2,
                 "y": 2

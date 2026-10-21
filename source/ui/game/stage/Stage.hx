@@ -222,9 +222,10 @@ class Stage
 				if (object.graphic == null)
 					return null;
 
-				var repeatAxes:FlxAxes = FlxAxes.fromString(object?.repeatAxes ?? 'XY') ?? XY;
+				var repeatAxes:FlxAxes = FlxAxes.fromString(object.repeatAxes) ?? XY;
 
-				var backdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$id/${object.graphic}'), repeatAxes);
+				var backdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$id/${object.graphic}'));
+				backdrop.repeatAxes = repeatAxes;
 				applyBasicStuff(backdrop, object);
 				addObject(object?.id ?? '$index', backdrop);
 
