@@ -629,8 +629,6 @@ class PlayState extends ConductorState
 			stageFrontLayer.add(prop);
 
 		applyPlayerData();
-
-		trace(stageData.expressionVariableMap);
 	}
 
 	function makePlayer()
