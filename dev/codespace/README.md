@@ -12,7 +12,7 @@ sudo apt update
 sudo apt install haxe -y
 ```
 
-It will (proobably) prompt you for stuff, accept it
+It will (probably) prompt you for stuff during this, accept the stuff
 
 do these next:
 ```bash
