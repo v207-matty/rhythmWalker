@@ -28,10 +28,7 @@ class PlayState extends ConductorState
 	var immortal:Bool = #if immortal true #else false #end;
 
 	var player:Player;
-
 	var beatMonsters:FlxSpriteGroup;
-
-	var scrollSpeed:Float = 1;
 
 	var song:Song;
 	var songEvents:Array<FlxTimer> = [];
@@ -89,8 +86,6 @@ class PlayState extends ConductorState
 		camHUD = new FlxCamera();
 		FlxG.cameras.add(camHUD, false);
 		camHUD.bgColor.alpha = 0;
-
-		scrollSpeed = song.scrollSpeed;
 
 		resetConductor();
 
@@ -191,7 +186,7 @@ class PlayState extends ConductorState
 
 		for (monster in beatMonsters)
 		{
-			monster.y += monster.height * (.2 * scrollSpeed);
+			monster.y += monster.height * (.2 * song.scrollSpeed);
 
 			if (monster.y > FlxG.height + monster.height)
 			{
@@ -231,7 +226,7 @@ class PlayState extends ConductorState
 
 	function managePlayer()
 	{
-		player.maxVelocity.x = player.data.config.maxVelocityBase * scrollSpeed;
+		player.maxVelocity.x = player.data.config.maxVelocityBase * song.scrollSpeed;
 
 		if (FlxG.keys.anyPressed([A, LEFT]) || (FlxG.mouse.pressed && FlxG.mouse.x < player.x)) move(-1);
 		else if (FlxG.keys.anyPressed([D, RIGHT]) || (FlxG.mouse.pressed && FlxG.mouse.x > player.x)) move(1);
