@@ -10,14 +10,12 @@ class WindowUtil
 	{
 		FlxG.stage.window.title = 'Rhythm Walker';
 
-		if (includeVersion)
-			appendVersion();
+		if (includeVersion) appendVersion();
 	}
 
 	public static function appendToTitle(str:String)
 	{
-		if (str.trim().length < 1)
-			return;
+		if (str.trim().length < 1) return;
 
 		FlxG.stage.window.title += ' $str';
 	}

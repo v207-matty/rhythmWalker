@@ -132,8 +132,7 @@ class PlayState extends ConductorState
 
 		beatMonsterSpawner.shader = beatMonsters.shader;
 
-		for (event in song.events)
-			addEvent(event);
+		for (event in song.events) addEvent(event);
 
 		if (FlxG.sound.music.length < 1)
 		{
@@ -143,8 +142,7 @@ class PlayState extends ConductorState
 
 		transitionIn();
 
-		if (introCutscene())
-			inIntroCutscene = true;
+		if (introCutscene()) inIntroCutscene = true;
 
 		timeBar = new RWSprite(null);
 		timeBar.makeGraphic(1, 1);
@@ -178,16 +176,12 @@ class PlayState extends ConductorState
 			scoreText.screenCenter(X);
 		}
 
-		if (!inCutscene)
-			managePlayer();
-		else if (inCutscene && song.id == 'encapture')
-			playerVelocityDamping();
+		if (!inCutscene) managePlayer();
+		else if (inCutscene && song.id == 'encapture') playerVelocityDamping();
 
-		if (beatMonsters != null)
-			manageBeatMonsters();
+		if (beatMonsters != null) manageBeatMonsters();
 
-		if (timeBarSongLinked)
-			timeBarTarget = FlxG.width * (conductor.musicPosition / conductor.musicLength);
+		if (timeBarSongLinked) timeBarTarget = FlxG.width * (conductor.musicPosition / conductor.musicLength);
 
 		timeBar.scale.x = FlxMath.lerp(timeBar.scale.x, timeBarTarget, 0.04);
 	}
@@ -221,8 +215,7 @@ class PlayState extends ConductorState
 			}
 		}
 
-		if (beatMonsterSpawner == null)
-			return;
+		if (beatMonsterSpawner == null) return;
 
 		beatMonsterSpawner.y = camGame.viewY;
 		beatMonsterSpawner.alpha = FlxMath.lerp(beatMonsterSpawner.alpha, (canSpawnMonster) ? 0.2 : 0, .1);
@@ -230,22 +223,17 @@ class PlayState extends ConductorState
 
 	function playerPlayAnim(anim:String, hasFlippedVer:Bool = true)
 	{
-		if (hasFlippedVer)
-			player.animation.play(anim + ((player.flipX) ? 'R' : 'L'));
-		else
-			player.animation.play(anim);
+		if (hasFlippedVer) player.animation.play(anim + ((player.flipX) ? 'R' : 'L'));
+		else player.animation.play(anim);
 	}
 
 	function managePlayer()
 	{
 		player.maxVelocity.x = player.data.config.maxVelocityBase * scrollSpeed;
 
-		if (FlxG.keys.anyPressed([A, LEFT]) || (FlxG.mouse.pressed && FlxG.mouse.x < player.x))
-			move(-1);
-		else if (FlxG.keys.anyPressed([D, RIGHT]) || (FlxG.mouse.pressed && FlxG.mouse.x > player.x))
-			move(1);
-		else
-			playerVelocityDamping();
+		if (FlxG.keys.anyPressed([A, LEFT]) || (FlxG.mouse.pressed && FlxG.mouse.x < player.x)) move(-1);
+		else if (FlxG.keys.anyPressed([D, RIGHT]) || (FlxG.mouse.pressed && FlxG.mouse.x > player.x)) move(1);
+		else playerVelocityDamping();
 
 		if (player.x < player.width)
 		{
@@ -259,8 +247,7 @@ class PlayState extends ConductorState
 			player.velocity.x = 0;
 		}
 
-		if (FlxG.keys.justPressed.ESCAPE)
-			leave();
+		if (FlxG.keys.justPressed.ESCAPE) leave();
 	}
 
 	function leave()
@@ -274,27 +261,22 @@ class PlayState extends ConductorState
 	{
 		var shiftThing:Float = 1;
 
-		if (FlxG.keys.pressed.SHIFT)
-			shiftThing *= 2;
-		else if (FlxG.mouse.pressed)
-			shiftThing *= 2 * (player.x / FlxG.mouse.x);
+		if (FlxG.keys.pressed.SHIFT) shiftThing *= 2;
+		else if (FlxG.mouse.pressed) shiftThing *= 2 * (player.x / FlxG.mouse.x);
 
 		player.flipX = mult > -1;
 		player.velocity.x += (player.data.config.speed * shiftThing) * mult;
 
-		if (!playerStunned)
-			playerPlayAnim('move');
+		if (!playerStunned) playerPlayAnim('move');
 	}
 
-	function playerVelocityDamping()
-		player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
+	function playerVelocityDamping() player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
 
 	var skipping:Bool = false;
 
 	function onSongEnd()
 	{
-		if (inCutscene)
-			return;
+		if (inCutscene) return;
 
 		seenIntroCutscene = seenEndCutscene = skipping;
 
@@ -314,20 +296,18 @@ class PlayState extends ConductorState
 
 		trace('Yay we done');
 
-		if (!immortal && !skipping)
-			if (Save.saveSongScore(songCode, score, totalScore))
-			{
-				FlxG.switchState(() -> new ResultsState(songCode));
-				return;
-			}
+		if (!immortal && !skipping) if (Save.saveSongScore(songCode, score, totalScore))
+		{
+			FlxG.switchState(() -> new ResultsState(songCode));
+			return;
+		}
 
 		FlxG.switchState(() -> new Freeplay());
 	}
 
 	public var canSpawnMonster(get, never):Bool;
 
-	function get_canSpawnMonster():Bool
-		return !inEndCutscene && data.beatMonsters.spawn;
+	function get_canSpawnMonster():Bool return !inEndCutscene && data.beatMonsters.spawn;
 
 	override function onStepHit(step:Int, backward:Bool)
 	{
@@ -338,12 +318,10 @@ class PlayState extends ConductorState
 			var scoreInc:Int = 25;
 
 			totalScore += scoreInc;
-			if (!playerStunned)
-				score += scoreInc;
+			if (!playerStunned) score += scoreInc;
 		}
 
-		if (canSpawnMonster && Math.floor(step % data.beatMonsters.stepRate) == 0)
-			spawnBeatMonster();
+		if (canSpawnMonster && Math.floor(step % data.beatMonsters.stepRate) == 0) spawnBeatMonster();
 	}
 
 	override function onBeatHit(beat:Int, backward:Bool)
@@ -354,12 +332,10 @@ class PlayState extends ConductorState
 		{
 			layer.forEach(sprite ->
 			{
-				if (!Std.isOfType(sprite, StageSprite))
-					return;
+				if (!Std.isOfType(sprite, StageSprite)) return;
 
 				var stageSprite = cast(sprite, StageSprite);
-				if (stageSprite == null)
-					return;
+				if (stageSprite == null) return;
 
 				stageSprite.dance();
 			});
@@ -407,16 +383,13 @@ class PlayState extends ConductorState
 
 		switch (event.id.toLowerCase())
 		{
-			case 'player-idle':
-				playerPlayAnim('idle');
+			case 'player-idle': playerPlayAnim('idle');
 
 			case 'encapture-subjectbang':
-				if (song.id != 'encapture' || containment04_tubeSubject == null)
-					return;
+				if (song.id != 'encapture' || containment04_tubeSubject == null) return;
 
 				containment04_tubeSubject.animation.play('bang');
-				if (inEndCutscene)
-					return;
+				if (inEndCutscene) return;
 
 				camGame.followLerp *= 0.1;
 				camGameFollow.setPosition(containment04_tubeSubject.getGraphicMidpoint().x, containment04_tubeSubject.getGraphicMidpoint().y);
@@ -427,54 +400,39 @@ class PlayState extends ConductorState
 
 				inEndCutscene = true;
 
-			case 'song-end':
-				onSongEnd();
+			case 'song-end': onSongEnd();
 
-			case 'trainwreak-gun':
-				if (song.id == 'train wreak')
-					trainWreak_shooter.animation.play('shoot', true);
+			case 'trainwreak-gun': if (song.id == 'train wreak') trainWreak_shooter.animation.play('shoot', true);
 
-			case 'traingetaway-reload':
-				if (song.id == 'train getaway')
-					trainGetaway_shooter.animation.play('reload', true);
+			case 'traingetaway-reload': if (song.id == 'train getaway') trainGetaway_shooter.animation.play('reload', true);
 
-			case 'traingetaway-gunjammed':
-				if (song.id == 'train getaway')
-					trainGetaway_shooter.animation.play('jammed', true);
+			case 'traingetaway-gunjammed': if (song.id == 'train getaway') trainGetaway_shooter.animation.play('jammed', true);
 
-			case 'traingetaway-gun':
-				if (song.id == 'train getaway')
-					trainGetaway_shooter.animation.play('shoot${FlxG.random.int(1, 2)}', true);
+			case 'traingetaway-gun': if (song.id == 'train getaway') trainGetaway_shooter.animation.play('shoot${FlxG.random.int(1, 2)}', true);
 
-			case 'camera-off', 'cam-off':
-				camGame.visible = false;
+			case 'camera-off', 'cam-off': camGame.visible = false;
 
-			case 'camera-on', 'cam-on':
-				camGame.visible = true;
+			case 'camera-on', 'cam-on': camGame.visible = true;
 
-			case 'stage-switch', 'stage-change':
-				if (event.data != null)
-					makeStage(Std.string(event.data));
+			case 'stage-switch', 'stage-change': if (event.data != null) makeStage(Std.string(event.data));
 
-			case 'beatmonsters-spawnmonster':
-				spawnBeatMonster();
+			case 'beatmonsters-spawnmonster': spawnBeatMonster();
 
-			case 'beatmonsters-stop':
-				data.beatMonsters.spawn = false;
+			case 'beatmonsters-stop': data.beatMonsters.spawn = false;
 
-			case 'beatmonsters-resume':
-				data.beatMonsters.spawn = true;
+			case 'beatmonsters-resume': data.beatMonsters.spawn = true;
 
 			// the old beat system
-			case 'beatmonsters-setrate', 'beatmonsters-rate', 'beatmonsters-setbeatrate', 'beatmonsters-beatrate':
-				if (event.data != null
-					&& (Std.isOfType(event.data, Float) || Std.isOfType(event.data, Int) || Std.isOfType(event.data, String)))
-					data.beatMonsters.stepRate = Math.floor((Std.parseFloat(Std.string(event.data)) ?? 1.0) * 4);
+			case 'beatmonsters-setrate', 'beatmonsters-rate', 'beatmonsters-setbeatrate', 'beatmonsters-beatrate': if (event.data != null
+					&& (Std.isOfType(event.data,
+						Float) || Std.isOfType(event.data,
+							Int) || Std.isOfType(event.data,
+							String))) data.beatMonsters.stepRate = Math.floor((Std.parseFloat(Std.string(event.data)) ?? 1.0) * 4);
 
-			case 'beatmonsters-setsteprate', 'beatmonsters-steprate':
-				if (event.data != null
-					&& (Std.isOfType(event.data, Float) || Std.isOfType(event.data, Int) || Std.isOfType(event.data, String)))
-					data.beatMonsters.stepRate = Math.floor((Std.parseFloat(Std.string(event.data)) ?? 1));
+			case 'beatmonsters-setsteprate', 'beatmonsters-steprate': if (event.data != null
+					&& (Std.isOfType(event.data,
+						Float) || Std.isOfType(event.data,
+							Int) || Std.isOfType(event.data, String))) data.beatMonsters.stepRate = Math.floor((Std.parseFloat(Std.string(event.data)) ?? 1));
 		}
 	}
 
@@ -491,19 +449,14 @@ class PlayState extends ConductorState
 
 				for (i in 0...inc)
 				{
-					if (skip.contains(i))
-						continue;
+					if (skip.contains(i)) continue;
 
-					if (jammed)
-						jammedSegs.push(start + incs[i]);
-					else
-						fireSegs.push(start + incs[i]);
+					if (jammed) jammedSegs.push(start + incs[i]);
+					else fireSegs.push(start + incs[i]);
 				}
 			}
 
-			function addSeg(seg:Array<Float>)
-				for (thing in seg)
-					fireSegs.push(thing);
+			function addSeg(seg:Array<Float>) for (thing in seg) fireSegs.push(thing);
 
 			addIncrementSeg(3, 7, []);
 			addSeg([4.500, 4.781, 5.062, 5.343, 5.625]);
@@ -519,17 +472,15 @@ class PlayState extends ConductorState
 			addIncrementSeg(30, 7, [3]);
 			addIncrementSeg(33, 7, [3]);
 
-			for (time in fireSegs)
-				addEvent({
-					time: time * 1000,
-					id: 'traingetaway-gun'
-				});
+			for (time in fireSegs) addEvent({
+				time: time * 1000,
+				id: 'traingetaway-gun'
+			});
 
-			for (time in jammedSegs)
-				addEvent({
-					time: time * 1000,
-					id: 'traingetaway-gunJammed'
-				});
+			for (time in jammedSegs) addEvent({
+				time: time * 1000,
+				id: 'traingetaway-gunJammed'
+			});
 		}
 
 		makeStage(song?.stage ?? 'stage');
@@ -544,8 +495,7 @@ class PlayState extends ConductorState
 	// TODO: Class system?
 	function makeStage(?stage:String)
 	{
-		if (stageBackLayer == null || stageFrontLayer == null)
-			return;
+		if (stageBackLayer == null || stageFrontLayer == null) return;
 
 		for (layer in [stageBackLayer, stageFrontLayer,])
 		{
@@ -599,8 +549,7 @@ class PlayState extends ConductorState
 
 					spr.setCamera(camGame);
 
-					if (spr != frontHills)
-						stageBackLayer.add(spr);
+					if (spr != frontHills) stageBackLayer.add(spr);
 				}
 				stageFrontLayer.add(frontHills);
 
@@ -697,8 +646,7 @@ class PlayState extends ConductorState
 
 					stageBackLayer.add(tube);
 
-					if (i != tubes - 1)
-						continue;
+					if (i != tubes - 1) continue;
 
 					containment04_tubeSubject = tube;
 					containment04_tubeSubject.loadGraphic(Paths.getImagePath('game/stages/$stage/subject'), true, 128, 128);
@@ -857,8 +805,7 @@ class PlayState extends ConductorState
 		playerPlayAnim('idle');
 		player.animation.onFinish.add(animName ->
 		{
-			if (inCutscene)
-				return;
+			if (inCutscene) return;
 
 			playerPlayAnim('idle');
 			playerStunned = false;
@@ -868,8 +815,7 @@ class PlayState extends ConductorState
 		player.y = FlxG.height - player.height * 1.25;
 		player.setCamera(camGame);
 
-		if (immortal)
-			player.alpha = .25;
+		if (immortal) player.alpha = .25;
 
 		add(player);
 	}
@@ -878,16 +824,14 @@ class PlayState extends ConductorState
 	var inEndCutscene:Bool = false;
 	var inCutscene(get, never):Bool;
 
-	function get_inCutscene():Bool
-		return inIntroCutscene || inEndCutscene;
+	function get_inCutscene():Bool return inIntroCutscene || inEndCutscene;
 
 	var seenEndCutscene:Bool = false;
 	var seenIntroCutscene:Bool = false;
 
 	function introCutscene():Bool
 	{
-		if (seenIntroCutscene)
-			return false;
+		if (seenIntroCutscene) return false;
 
 		seenIntroCutscene = true;
 
@@ -918,8 +862,7 @@ class PlayState extends ConductorState
 				{
 					stageBackLayer.forEach(sprite ->
 					{
-						if (!Std.isOfType(sprite, StageSprite) || sprite == null || sprite.isOnScreen(sprite.camera))
-							return;
+						if (!Std.isOfType(sprite, StageSprite) || sprite == null || sprite.isOnScreen(sprite.camera)) return;
 
 						stageBackLayer.remove(sprite);
 						sprite.destroy();
@@ -976,8 +919,7 @@ class PlayState extends ConductorState
 
 	function endCutscene():Bool
 	{
-		if (seenEndCutscene)
-			return false;
+		if (seenEndCutscene) return false;
 
 		seenEndCutscene = true;
 

@@ -25,8 +25,7 @@ class CornerButton extends RWSprite
 	{
 		super.update(elapsed);
 
-		if (FlxG.mouse.overlaps(this) && FlxG.mouse.justPressed)
-			onClicked.dispatch();
+		if (FlxG.mouse.overlaps(this) && FlxG.mouse.justPressed) onClicked.dispatch();
 	}
 
 	override function draw()

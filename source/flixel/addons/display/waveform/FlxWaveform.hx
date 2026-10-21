@@ -307,8 +307,7 @@ class FlxWaveform extends FlxSprite
 		_drawPointsLeft = null;
 		_drawPointsRight = null;
 
-		if (waveformBuffer?.autoDestroy)
-			FlxDestroyUtil.destroy(waveformBuffer);
+		if (waveformBuffer?.autoDestroy) FlxDestroyUtil.destroy(waveformBuffer);
 	}
 
 	@:inheritDoc(FlxSprite.draw)
@@ -387,8 +386,7 @@ class FlxWaveform extends FlxSprite
 	 */
 	public function loadDataFromFlxWaveformBuffer(buffer:FlxWaveformBuffer):Void
 	{
-		if (waveformBuffer?.autoDestroy)
-			FlxDestroyUtil.destroy(waveformBuffer);
+		if (waveformBuffer?.autoDestroy) FlxDestroyUtil.destroy(waveformBuffer);
 
 		waveformBuffer = buffer;
 		if (waveformBuffer == null)
@@ -401,26 +399,23 @@ class FlxWaveform extends FlxSprite
 
 		_drawPointsLeft = [];
 
-		if (_stereo)
-			_drawPointsRight = [];
+		if (_stereo) _drawPointsRight = [];
 
 		// todo : this feels really jank.
-		if (waveformDuration <= 0)
-			waveformDuration = 5000;
+		if (waveformDuration <= 0) waveformDuration = 5000;
 
 		_drawDataDirty = true;
 
-		if (waveformBuffer != null)
-			if (onWaveformBufferSet == null)
-			{
-				onWaveformBufferSet = new FlxSignal();
-				FlxG.log.add('[FlxWaveform] Re-initalized `onWaveformBufferSet`');
-			}
-			else
-			{
-				onWaveformBufferSet.dispatch();
-				onWaveformBufferSet.removeAll();
-			}
+		if (waveformBuffer != null) if (onWaveformBufferSet == null)
+		{
+			onWaveformBufferSet = new FlxSignal();
+			FlxG.log.add('[FlxWaveform] Re-initalized `onWaveformBufferSet`');
+		}
+		else
+		{
+			onWaveformBufferSet.dispatch();
+			onWaveformBufferSet.removeAll();
+		}
 		else if (onWaveformBufferSetNull == null)
 		{
 			onWaveformBufferSetNull = new FlxSignal();
@@ -455,8 +450,7 @@ class FlxWaveform extends FlxSprite
 		// pixels.fillRect(new Rectangle(0, 0, waveformWidth, waveformHeight), waveformBg);
 		pixels.fillRect(new Rectangle(0, 0, pixels.width, pixels.height), waveformBgColor);
 
-		if (waveformDrawBaseline)
-			drawBaseline();
+		if (waveformDrawBaseline) drawBaseline();
 
 		drawPeaks();
 	}
@@ -487,8 +481,7 @@ class FlxWaveform extends FlxSprite
 
 		_drawDataDirty = true;
 
-		if (autoUpdateBitmap)
-			_waveformDirty = true;
+		if (autoUpdateBitmap) _waveformDirty = true;
 	}
 
 	/**
@@ -514,96 +507,84 @@ class FlxWaveform extends FlxSprite
 		var halfHeight:Float = waveformHeight / 2;
 		var timeOffset:Float = _timeSamples / samplesPerPixel;
 
-		if (_drawPointsLeft != null && _drawPointsLeft?.length > 0)
-			switch (waveformDrawMode)
-			{
-				case COMBINED:
-					for (i in 0..._effectiveSize)
+		if (_drawPointsLeft != null && _drawPointsLeft?.length > 0) switch (waveformDrawMode)
+		{
+			case COMBINED:
+				for (i in 0..._effectiveSize)
+				{
+					var sampleIndex:Int = Math.round(timeOffset + i);
+
+					var segmentLeft:WaveformSegment = _drawPointsLeft[sampleIndex];
+					var segmentRight:WaveformSegment = null;
+					if (_stereo) segmentRight = _drawPointsRight[sampleIndex];
+
+					if ((!_stereo && segmentLeft == null) || (_stereo && segmentLeft == null && segmentRight == null)) continue;
+					if ((!_stereo && segmentLeft.silent) || (_stereo && segmentLeft.silent && segmentRight.silent)) continue;
+
+					// merge only if we have both
+					var peakest:WaveformSegment = segmentRight != null ? WaveformSegment.merge(segmentLeft, segmentRight) : segmentLeft;
+					var x:Float = i * (waveformBarSize + waveformBarPadding);
+
+					pixels.fillRect(getPeakRect(x, 0, waveformBarSize, waveformOrientation == HORIZONTAL ? waveformHeight : waveformWidth, peakest),
+						waveformColor);
+
+					if (waveformDrawRMS) pixels.fillRect(getRMSRect(x, 0, waveformBarSize, waveformOrientation == HORIZONTAL ? waveformHeight : waveformWidth,
+						peakest), waveformRMSColor);
+				}
+
+			case SPLIT_CHANNELS:
+				for (i in 0..._effectiveSize)
+				{
+					var sampleIndex:Int = Math.round(timeOffset + i);
+
+					var segmentLeft:WaveformSegment = _drawPointsLeft[sampleIndex];
+					var segmentRight:WaveformSegment = null;
+					if (_stereo) segmentRight = _drawPointsRight[sampleIndex];
+
+					if ((!_stereo && segmentLeft == null) || (_stereo && segmentLeft == null && segmentRight == null)) continue;
+					if ((!_stereo && segmentLeft.silent) || (_stereo && segmentLeft.silent && segmentRight.silent)) continue;
+
+					var x:Float = i * (waveformBarSize + waveformBarPadding);
+
+					var y1:Float = waveformChannelPadding;
+					var w1:Float = waveformBarSize;
+					var h1:Float = (waveformOrientation == HORIZONTAL ? halfHeight : halfWidth) - waveformChannelPadding * 2;
+
+					var y2:Float = (waveformOrientation == HORIZONTAL ? halfHeight : halfWidth) + waveformChannelPadding;
+					var w2:Float = waveformBarSize;
+					var h2:Float = (waveformOrientation == HORIZONTAL ? halfHeight : halfWidth) - waveformChannelPadding * 2;
+
+					pixels.fillRect(getPeakRect(x, y1, w1, h1, segmentLeft), waveformColor);
+					if (segmentRight != null) pixels.fillRect(getPeakRect(x, y2, w2, h2, segmentRight), waveformColor);
+
+					if (waveformDrawRMS)
 					{
-						var sampleIndex:Int = Math.round(timeOffset + i);
-
-						var segmentLeft:WaveformSegment = _drawPointsLeft[sampleIndex];
-						var segmentRight:WaveformSegment = null;
-						if (_stereo)
-							segmentRight = _drawPointsRight[sampleIndex];
-
-						if ((!_stereo && segmentLeft == null) || (_stereo && segmentLeft == null && segmentRight == null))
-							continue;
-						if ((!_stereo && segmentLeft.silent) || (_stereo && segmentLeft.silent && segmentRight.silent))
-							continue;
-
-						// merge only if we have both
-						var peakest:WaveformSegment = segmentRight != null ? WaveformSegment.merge(segmentLeft, segmentRight) : segmentLeft;
-						var x:Float = i * (waveformBarSize + waveformBarPadding);
-
-						pixels.fillRect(getPeakRect(x, 0, waveformBarSize, waveformOrientation == HORIZONTAL ? waveformHeight : waveformWidth, peakest),
-							waveformColor);
-
-						if (waveformDrawRMS)
-							pixels.fillRect(getRMSRect(x, 0, waveformBarSize, waveformOrientation == HORIZONTAL ? waveformHeight : waveformWidth, peakest),
-								waveformRMSColor);
+						pixels.fillRect(getRMSRect(x, y1, w1, h1, segmentLeft), waveformRMSColor);
+						if (segmentRight != null) pixels.fillRect(getRMSRect(x, y2, w2, h2, segmentRight), waveformRMSColor);
 					}
+				}
 
-				case SPLIT_CHANNELS:
-					for (i in 0..._effectiveSize)
+			case SINGLE_CHANNEL(channel):
+				for (i in 0..._effectiveSize)
+				{
+					var sampleIndex:Int = Math.round(timeOffset + i);
+
+					var segment:WaveformSegment = channel == 0 ? _drawPointsLeft[sampleIndex] : _drawPointsRight[sampleIndex];
+
+					if (segment == null) continue;
+					if (segment.silent) continue;
+
+					var x:Float = i * (waveformBarSize + waveformBarPadding);
+
+					pixels.fillRect(getPeakRect(x, 0, waveformBarSize, waveformOrientation == HORIZONTAL ? waveformHeight : waveformWidth, segment),
+						waveformColor);
+					if (waveformDrawRMS)
 					{
-						var sampleIndex:Int = Math.round(timeOffset + i);
-
-						var segmentLeft:WaveformSegment = _drawPointsLeft[sampleIndex];
-						var segmentRight:WaveformSegment = null;
-						if (_stereo)
-							segmentRight = _drawPointsRight[sampleIndex];
-
-						if ((!_stereo && segmentLeft == null) || (_stereo && segmentLeft == null && segmentRight == null))
-							continue;
-						if ((!_stereo && segmentLeft.silent) || (_stereo && segmentLeft.silent && segmentRight.silent))
-							continue;
-
-						var x:Float = i * (waveformBarSize + waveformBarPadding);
-
-						var y1:Float = waveformChannelPadding;
-						var w1:Float = waveformBarSize;
-						var h1:Float = (waveformOrientation == HORIZONTAL ? halfHeight : halfWidth) - waveformChannelPadding * 2;
-
-						var y2:Float = (waveformOrientation == HORIZONTAL ? halfHeight : halfWidth) + waveformChannelPadding;
-						var w2:Float = waveformBarSize;
-						var h2:Float = (waveformOrientation == HORIZONTAL ? halfHeight : halfWidth) - waveformChannelPadding * 2;
-
-						pixels.fillRect(getPeakRect(x, y1, w1, h1, segmentLeft), waveformColor);
-						if (segmentRight != null)
-							pixels.fillRect(getPeakRect(x, y2, w2, h2, segmentRight), waveformColor);
-
-						if (waveformDrawRMS)
-						{
-							pixels.fillRect(getRMSRect(x, y1, w1, h1, segmentLeft), waveformRMSColor);
-							if (segmentRight != null)
-								pixels.fillRect(getRMSRect(x, y2, w2, h2, segmentRight), waveformRMSColor);
-						}
+						pixels.fillRect(getRMSRect(x, 0, waveformBarSize, waveformOrientation == HORIZONTAL ? waveformHeight : waveformWidth, segment),
+							waveformRMSColor);
 					}
-
-				case SINGLE_CHANNEL(channel):
-					for (i in 0..._effectiveSize)
-					{
-						var sampleIndex:Int = Math.round(timeOffset + i);
-
-						var segment:WaveformSegment = channel == 0 ? _drawPointsLeft[sampleIndex] : _drawPointsRight[sampleIndex];
-
-						if (segment == null)
-							continue;
-						if (segment.silent)
-							continue;
-
-						var x:Float = i * (waveformBarSize + waveformBarPadding);
-
-						pixels.fillRect(getPeakRect(x, 0, waveformBarSize, waveformOrientation == HORIZONTAL ? waveformHeight : waveformWidth, segment),
-							waveformColor);
-						if (waveformDrawRMS)
-						{
-							pixels.fillRect(getRMSRect(x, 0, waveformBarSize, waveformOrientation == HORIZONTAL ? waveformHeight : waveformWidth, segment),
-								waveformRMSColor);
-						}
-					}
-			}
+				}
+		}
 	}
 
 	/**
@@ -621,22 +602,16 @@ class FlxWaveform extends FlxSprite
 			switch (waveformAlignment)
 			{
 				case TOP:
-					if (waveformOrientation == VERTICAL)
-						rect.setTo(waveformWidth - 1, 0, 1, waveformHeight);
-					else
-						rect.setTo(0, 0, waveformWidth, 1);
+					if (waveformOrientation == VERTICAL) rect.setTo(waveformWidth - 1, 0, 1, waveformHeight);
+					else rect.setTo(0, 0, waveformWidth, 1);
 
 				case BOTTOM:
-					if (waveformOrientation == VERTICAL)
-						rect.setTo(0, 0, 1, waveformHeight);
-					else
-						rect.setTo(0, waveformHeight - 1, waveformWidth, 1);
+					if (waveformOrientation == VERTICAL) rect.setTo(0, 0, 1, waveformHeight);
+					else rect.setTo(0, waveformHeight - 1, waveformWidth, 1);
 
 				case CENTER(symmetrical):
-					if (waveformOrientation == VERTICAL)
-						rect.setTo(halfWidth, 0, 1, waveformHeight);
-					else
-						rect.setTo(0, halfHeight, waveformWidth, 1);
+					if (waveformOrientation == VERTICAL) rect.setTo(halfWidth, 0, 1, waveformHeight);
+					else rect.setTo(0, halfHeight, waveformWidth, 1);
 			}
 
 			pixels.fillRect(rect, waveformColor);
@@ -644,10 +619,8 @@ class FlxWaveform extends FlxSprite
 
 		switch (waveformDrawMode)
 		{
-			case COMBINED:
-				drawSingleBaseline();
-			case SINGLE_CHANNEL(channel):
-				drawSingleBaseline();
+			case COMBINED: drawSingleBaseline();
+			case SINGLE_CHANNEL(channel): drawSingleBaseline();
 			case SPLIT_CHANNELS:
 				var rect2:Rectangle = new Rectangle();
 				var centerX:Float = waveformWidth / 4;
@@ -704,13 +677,11 @@ class FlxWaveform extends FlxSprite
 	{
 		switch (waveformDrawMode)
 		{
-			case SINGLE_CHANNEL(channel):
-				prepareDrawData(channel);
+			case SINGLE_CHANNEL(channel): prepareDrawData(channel);
 
 			default:
 				prepareDrawData(0);
-				if (_stereo)
-					prepareDrawData(1);
+				if (_stereo) prepareDrawData(1);
 		}
 	}
 
@@ -720,23 +691,19 @@ class FlxWaveform extends FlxSprite
 	 */
 	function prepareDrawData(channel:Int):Void
 	{
-		if (waveformBuffer == null)
-			return;
+		if (waveformBuffer == null) return;
 
 		var drawPoints:Array<WaveformSegment> = null;
 
 		// todo: put in a function?
-		if (channel == 0)
-			drawPoints = _drawPointsLeft;
-		else if (channel == 1)
-			drawPoints = _drawPointsRight;
+		if (channel == 0) drawPoints = _drawPointsLeft;
+		else if (channel == 1) drawPoints = _drawPointsRight;
 
 		var arrayLength:Int = Math.ceil(waveformBuffer.length / _durationSamples) * _effectiveSize;
 		drawPoints.resize(arrayLength);
 		resetDrawArray(drawPoints);
 
-		if (channel < waveformBuffer.numChannels)
-			buildDrawData(channel, drawPoints, true, true);
+		if (channel < waveformBuffer.numChannels) buildDrawData(channel, drawPoints, true, true);
 	}
 
 	/**
@@ -760,11 +727,9 @@ class FlxWaveform extends FlxSprite
 			for (i in 0..._effectiveSize)
 			{
 				var index:Int = Math.round((full ? samplesGenerated : _timeSamples) / samplesPerPixel) + i;
-				if (index < 0)
-					continue;
+				if (index < 0) continue;
 
-				if (!forceRefresh && !points[index].silent)
-					continue;
+				if (!forceRefresh && !points[index].silent) continue;
 
 				var startIndex:Int = (full ? samplesGenerated : _timeSamples) + i * step;
 				var endIndex:Int = Std.int(Math.min(startIndex + step, waveformBuffer.length));
@@ -805,31 +770,23 @@ class FlxWaveform extends FlxSprite
 		switch (waveformAlignment)
 		{
 			case TOP:
-				if (waveformOrientation == VERTICAL)
-					rect.setTo(y + (height - segmentHeight), x, segmentHeight, width);
-				else
-					rect.setTo(x, y, width, segmentHeight);
+				if (waveformOrientation == VERTICAL) rect.setTo(y + (height - segmentHeight), x, segmentHeight, width);
+				else rect.setTo(x, y, width, segmentHeight);
 
 			case BOTTOM:
-				if (waveformOrientation == VERTICAL)
-					rect.setTo(y, x, segmentHeight, width);
-				else
-					rect.setTo(x, y + (height - segmentHeight), width, segmentHeight);
+				if (waveformOrientation == VERTICAL) rect.setTo(y, x, segmentHeight, width);
+				else rect.setTo(x, y + (height - segmentHeight), width, segmentHeight);
 
 			case CENTER(symmetrical):
 				if (symmetrical)
 				{
-					if (waveformOrientation == VERTICAL)
-						rect.setTo(y + (half - segmentHeight / 2), x, segmentHeight, width);
-					else
-						rect.setTo(x, y + (half - segmentHeight / 2), width, segmentHeight);
+					if (waveformOrientation == VERTICAL) rect.setTo(y + (half - segmentHeight / 2), x, segmentHeight, width);
+					else rect.setTo(x, y + (half - segmentHeight / 2), width, segmentHeight);
 				}
 				else
 				{
-					if (waveformOrientation == VERTICAL)
-						rect.setTo(y + (half - top), x, segmentHeight, width);
-					else
-						rect.setTo(x, y + (half - top), width, segmentHeight);
+					if (waveformOrientation == VERTICAL) rect.setTo(y + (half - top), x, segmentHeight, width);
+					else rect.setTo(x, y + (half - top), width, segmentHeight);
 				}
 		}
 
@@ -863,31 +820,23 @@ class FlxWaveform extends FlxSprite
 		switch (waveformAlignment)
 		{
 			case TOP:
-				if (waveformOrientation == VERTICAL)
-					rect.setTo(y + (height - segmentHeight), x, segmentHeight, width);
-				else
-					rect.setTo(x, y, width, segmentHeight);
+				if (waveformOrientation == VERTICAL) rect.setTo(y + (height - segmentHeight), x, segmentHeight, width);
+				else rect.setTo(x, y, width, segmentHeight);
 
 			case BOTTOM:
-				if (waveformOrientation == VERTICAL)
-					rect.setTo(y, x, segmentHeight, width);
-				else
-					rect.setTo(x, y + (height - segmentHeight), width, segmentHeight);
+				if (waveformOrientation == VERTICAL) rect.setTo(y, x, segmentHeight, width);
+				else rect.setTo(x, y + (height - segmentHeight), width, segmentHeight);
 
 			case CENTER(symmetrical):
 				if (symmetrical)
 				{
-					if (waveformOrientation == VERTICAL)
-						rect.setTo(y + (half - segmentHeight / 2), x, segmentHeight, width);
-					else
-						rect.setTo(x, y + (half - segmentHeight / 2), width, segmentHeight);
+					if (waveformOrientation == VERTICAL) rect.setTo(y + (half - segmentHeight / 2), x, segmentHeight, width);
+					else rect.setTo(x, y + (half - segmentHeight / 2), width, segmentHeight);
 				}
 				else
 				{
-					if (waveformOrientation == VERTICAL)
-						rect.setTo(y + (half - top), x, segmentHeight, width);
-					else
-						rect.setTo(x, y + (half - top), width, segmentHeight);
+					if (waveformOrientation == VERTICAL) rect.setTo(y + (half - top), x, segmentHeight, width);
+					else rect.setTo(x, y + (half - top), width, segmentHeight);
 				}
 		}
 
@@ -916,8 +865,7 @@ class FlxWaveform extends FlxSprite
 	 */
 	inline overload extern function resetDrawArray(array:Array<Float>):Void
 	{
-		for (i in 0...array.length)
-			array[i] = 0.0;
+		for (i in 0...array.length) array[i] = 0.0;
 	}
 
 	/**
@@ -926,13 +874,12 @@ class FlxWaveform extends FlxSprite
 	 */
 	inline overload extern function resetDrawArray(array:Array<WaveformSegment>):Void
 	{
-		for (i in 0...array.length)
-			array[i] = {
-				numSamples: 0,
-				max: 0,
-				min: 0,
-				rms: 0
-			};
+		for (i in 0...array.length) array[i] = {
+			numSamples: 0,
+			max: 0,
+			min: 0,
+			rms: 0
+		};
 	}
 
 	@:noCompletion function get_waveformWidth():Int
@@ -958,8 +905,7 @@ class FlxWaveform extends FlxSprite
 
 	@:noCompletion function set_waveformHeight(value:Int):Int
 	{
-		if (waveformHeight != value)
-			resize(waveformWidth, value);
+		if (waveformHeight != value) resize(waveformWidth, value);
 
 		return waveformHeight;
 	}
@@ -970,8 +916,7 @@ class FlxWaveform extends FlxSprite
 		{
 			waveformBgColor = value;
 
-			if (autoUpdateBitmap)
-				_waveformDirty = true;
+			if (autoUpdateBitmap) _waveformDirty = true;
 		}
 
 		return waveformBgColor;
@@ -983,8 +928,7 @@ class FlxWaveform extends FlxSprite
 		{
 			waveformColor = value;
 
-			if (autoUpdateBitmap)
-				_waveformDirty = true;
+			if (autoUpdateBitmap) _waveformDirty = true;
 		}
 
 		return waveformColor;
@@ -996,8 +940,7 @@ class FlxWaveform extends FlxSprite
 		{
 			waveformRMSColor = value;
 
-			if (autoUpdateBitmap)
-				_waveformDirty = true;
+			if (autoUpdateBitmap) _waveformDirty = true;
 		}
 
 		return waveformRMSColor;
@@ -1011,8 +954,7 @@ class FlxWaveform extends FlxSprite
 
 			switch (waveformDrawMode)
 			{
-				case SINGLE_CHANNEL(channel):
-					if (channel != 0 && channel != 1)
+				case SINGLE_CHANNEL(channel): if (channel != 0 && channel != 1)
 						FlxG.log.error('[FlxWaveform] Invalid SINGLE_CHANNEL argument: $channel (must be 0 or 1)');
 
 				default:
@@ -1020,8 +962,7 @@ class FlxWaveform extends FlxSprite
 
 			_drawDataDirty = true;
 
-			if (autoUpdateBitmap)
-				_waveformDirty = true;
+			if (autoUpdateBitmap) _waveformDirty = true;
 		}
 
 		return waveformDrawMode;
@@ -1033,8 +974,7 @@ class FlxWaveform extends FlxSprite
 		{
 			waveformDrawBaseline = value;
 
-			if (autoUpdateBitmap)
-				_waveformDirty = true;
+			if (autoUpdateBitmap) _waveformDirty = true;
 		}
 
 		return waveformDrawBaseline;
@@ -1042,8 +982,7 @@ class FlxWaveform extends FlxSprite
 
 	@:noCompletion function set_autoUpdateBitmap(value:Bool):Bool
 	{
-		if (value)
-			_waveformDirty = true;
+		if (value) _waveformDirty = true;
 
 		return autoUpdateBitmap = value;
 	}
@@ -1056,8 +995,7 @@ class FlxWaveform extends FlxSprite
 
 			_drawDataDirty = true;
 
-			if (autoUpdateBitmap)
-				_waveformDirty = true;
+			if (autoUpdateBitmap) _waveformDirty = true;
 		}
 
 		return waveformDrawRMS;
@@ -1080,8 +1018,7 @@ class FlxWaveform extends FlxSprite
 
 			_drawDataDirty = true;
 
-			if (autoUpdateBitmap)
-				_waveformDirty = true;
+			if (autoUpdateBitmap) _waveformDirty = true;
 		}
 
 		return waveformBarSize;
@@ -1104,8 +1041,7 @@ class FlxWaveform extends FlxSprite
 
 			_drawDataDirty = true;
 
-			if (autoUpdateBitmap)
-				_waveformDirty = true;
+			if (autoUpdateBitmap) _waveformDirty = true;
 		}
 
 		return waveformBarPadding;
@@ -1125,8 +1061,7 @@ class FlxWaveform extends FlxSprite
 
 			_timeSamples = Std.int((value / 1000) * waveformBuffer.sampleRate);
 
-			if (autoUpdateBitmap)
-				_waveformDirty = true;
+			if (autoUpdateBitmap) _waveformDirty = true;
 		}
 
 		return waveformTime;
@@ -1134,8 +1069,7 @@ class FlxWaveform extends FlxSprite
 
 	@:noCompletion function set_waveformDuration(value:Float):Float
 	{
-		if (waveformBuffer == null)
-			return waveformDuration;
+		if (waveformBuffer == null) return waveformDuration;
 
 		if (waveformDuration != value)
 		{
@@ -1153,8 +1087,7 @@ class FlxWaveform extends FlxSprite
 
 			_drawDataDirty = true;
 
-			if (autoUpdateBitmap)
-				_waveformDirty = true;
+			if (autoUpdateBitmap) _waveformDirty = true;
 		}
 
 		return waveformDuration;
@@ -1175,8 +1108,7 @@ class FlxWaveform extends FlxSprite
 				_drawDataDirty = true;
 			}
 
-			if (autoUpdateBitmap)
-				_waveformDirty = true;
+			if (autoUpdateBitmap) _waveformDirty = true;
 		}
 
 		return waveformOrientation;
@@ -1194,8 +1126,7 @@ class FlxWaveform extends FlxSprite
 
 			waveformChannelPadding = value;
 
-			if (autoUpdateBitmap)
-				_waveformDirty = true;
+			if (autoUpdateBitmap) _waveformDirty = true;
 		}
 
 		return waveformChannelPadding;
@@ -1213,8 +1144,7 @@ class FlxWaveform extends FlxSprite
 
 			waveformGainMultiplier = value;
 
-			if (autoUpdateBitmap)
-				_waveformDirty = true;
+			if (autoUpdateBitmap) _waveformDirty = true;
 		}
 
 		return waveformGainMultiplier;
@@ -1226,8 +1156,7 @@ class FlxWaveform extends FlxSprite
 		{
 			waveformAlignment = value;
 
-			if (autoUpdateBitmap)
-				_waveformDirty = true;
+			if (autoUpdateBitmap) _waveformDirty = true;
 		}
 
 		return waveformAlignment;

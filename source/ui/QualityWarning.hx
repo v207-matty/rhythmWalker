@@ -37,8 +37,7 @@ class QualityWarning extends FlxUIState
 	{
 		super.update(elapsed);
 
-		if (FlxG.mouse.justPressed)
-			proceed();
+		if (FlxG.mouse.justPressed) proceed();
 	}
 
 	function proceed()

@@ -18,8 +18,7 @@ class PlayerData
 	{
 		this.id = id;
 
-		if (loadFile)
-			this.loadFile();
+		if (loadFile) this.loadFile();
 	}
 
 	function loadFile()
@@ -37,8 +36,7 @@ class PlayerData
 
 	function loadData(json:PlayerData)
 	{
-		if (json == null)
-			throw 'Null JSON Data';
+		if (json == null) throw 'Null JSON Data';
 
 		this.config = json?.config ?? null;
 		this.animations = json?.animations ?? null;
@@ -63,6 +61,5 @@ class PlayerData
 		this.config.maxVelocityBase ??= 200;
 	}
 
-	public function toString():String
-		return new JsonWriter<PlayerData>().write(this, '');
+	public function toString():String return new JsonWriter<PlayerData>().write(this, '');
 }

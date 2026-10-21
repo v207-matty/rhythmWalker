@@ -31,8 +31,7 @@ class DialogueScene extends ConductorState
 		var path = Paths.json('game/cutscenes/dialogue/${song.id.replace(' ', '-')}-${song.variation ?? defaultVariation}');
 		trace(path);
 
-		if (!Assets.exists(path))
-			leave();
+		if (!Assets.exists(path)) leave();
 
 		try
 		{
@@ -120,18 +119,15 @@ class DialogueScene extends ConductorState
 	{
 		super.update(elapsed);
 
-		if (dialogue == null || leaving)
-			return;
+		if (dialogue == null || leaving) return;
 
 		dialogueText.screenCenter(X);
 
 		proceedText.alpha = FlxMath.lerp(proceedText.alpha, ((dialogueFinished) ? 1 : 0), .1);
 
-		if (FlxG.keys.justPressed.ESCAPE)
-			leave();
+		if (FlxG.keys.justPressed.ESCAPE) leave();
 
-		if (FlxG.keys.justPressed.ENTER && dialogueFinished)
-			proceed();
+		if (FlxG.keys.justPressed.ENTER && dialogueFinished) proceed();
 	}
 
 	var leaving:Bool = false;
@@ -140,10 +136,8 @@ class DialogueScene extends ConductorState
 	{
 		currentLine++;
 
-		if (currentLine > dialogue.lines.length - 1)
-			leave();
-		else
-			startDialogue();
+		if (currentLine > dialogue.lines.length - 1) leave();
+		else startDialogue();
 	}
 
 	function startDialogue()
@@ -152,22 +146,18 @@ class DialogueScene extends ConductorState
 
 		proceedInTimer.cancel();
 
-		for (event in line?.events ?? [])
-			parseEvent(event);
+		for (event in line?.events ?? []) parseEvent(event);
 
 		dialogueFinished = false;
 
 		dialogueText.resetText(line?.text ?? '');
 		dialogueText.start(0.04);
 
-		if (line?.text?.trim()?.length < 1 && !proceedInTimer.active)
-			dialogueFinished = true;
+		if (line?.text?.trim()?.length < 1 && !proceedInTimer.active) dialogueFinished = true;
 
-		if (characterLeft != null)
-			characterLeft.alpha = (line?.speaker == 1) ? 1 : 0.5;
+		if (characterLeft != null) characterLeft.alpha = (line?.speaker == 1) ? 1 : 0.5;
 
-		if (characterRight != null)
-			characterRight.alpha = (line?.speaker == 2) ? 1 : 0.5;
+		if (characterRight != null) characterRight.alpha = (line?.speaker == 2) ? 1 : 0.5;
 	}
 
 	var proceedInTimer:FlxTimer;
@@ -177,22 +167,17 @@ class DialogueScene extends ConductorState
 		switch (event.id.toLowerCase())
 		{
 			case 'playsound':
-				if (event.data == null)
-					return;
+				if (event.data == null) return;
 
 				FlxG.sound.play(Paths.getAudio('game/cutscenes/${event.data}'));
 			case 'characterswitch':
-				if (event.data == null)
-					return;
+				if (event.data == null) return;
 
-				if (Reflect.fields(event.data).contains('left'))
-					characterLeft.switchPortrait(event.data.left);
+				if (Reflect.fields(event.data).contains('left')) characterLeft.switchPortrait(event.data.left);
 
-				if (Reflect.fields(event.data).contains('right'))
-					characterRight.switchPortrait(event.data.right);
+				if (Reflect.fields(event.data).contains('right')) characterRight.switchPortrait(event.data.right);
 			case 'proceedin':
-				if (event.data == null)
-					return;
+				if (event.data == null) return;
 
 				proceedInTimer.start(Std.parseFloat(Std.string(event.data)), t ->
 				{

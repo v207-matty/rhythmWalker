@@ -18,11 +18,9 @@ class Save
 
 	public static var game(get, set):SaveData;
 
-	static function get_game():SaveData
-		return FlxG.save.data.game;
+	static function get_game():SaveData return FlxG.save.data.game;
 
-	static function set_game(value:SaveData):SaveData
-		return FlxG.save.data.game = value;
+	static function set_game(value:SaveData):SaveData return FlxG.save.data.game = value;
 
 	public static function init()
 	{
@@ -82,8 +80,7 @@ class Save
 			newHS = true;
 		}
 
-		if (songRank == NONE)
-			songRank = BAD;
+		if (songRank == NONE) songRank = BAD;
 
 		scores.set(id, {
 			percent: FlxMath.roundDecimal(songRankPercent, 2),

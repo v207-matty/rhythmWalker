@@ -68,8 +68,7 @@ class ResultsState extends ConductorState
 
 			windupScore = v;
 
-			if (Math.floor(windupScore) != prev)
-				FlxG.sound.play(Paths.getAudio('game/results/resultsTick'), 0.2);
+			if (Math.floor(windupScore) != prev) FlxG.sound.play(Paths.getAudio('game/results/resultsTick'), 0.2);
 
 			windupText.text = 'Score:\n${Math.floor(windupScore)}';
 			windupText.screenCenter();
@@ -119,17 +118,14 @@ class ResultsState extends ConductorState
 	{
 		super.update(elapsed);
 
-		if (!leaveTimer.finished && FlxG.keys.anyJustPressed([ENTER, ESCAPE]))
-			leave();
+		if (!leaveTimer.finished && FlxG.keys.anyJustPressed([ENTER, ESCAPE])) leave();
 	}
 
 	function leave()
 	{
-		if (!windupDone)
-			return;
+		if (!windupDone) return;
 
-		if (!leaveTimer.finished)
-			leaveTimer.cancel();
+		if (!leaveTimer.finished) leaveTimer.cancel();
 		FlxG.switchState(() -> new Freeplay());
 	}
 }

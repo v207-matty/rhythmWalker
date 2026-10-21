@@ -21,7 +21,6 @@ import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.text.FlxText;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
-
 #if FREEPLAY_VISUALIZER
 import flixel.addons.display.waveform.FlxWaveform;
 import flixel.addons.display.waveform.FlxWaveformBuffer;
@@ -35,8 +34,7 @@ class Freeplay extends ConductorState
 
 	public static var songs(get, never):Array<FreeplaySongData>;
 
-	static function get_songs():Array<FreeplaySongData>
-		return songList.songs;
+	static function get_songs():Array<FreeplaySongData> return songList.songs;
 
 	public static var tips:Array<String> = ['No tips'];
 
@@ -50,15 +48,11 @@ class Freeplay extends ConductorState
 		{
 			if (!list.contains(filter.toLowerCase()))
 			{
-				if (songs.filter(s -> return s.filters.contains(filter.toLowerCase())).length > 0)
-					list.push(filter.toLowerCase());
+				if (songs.filter(s -> return s.filters.contains(filter.toLowerCase())).length > 0) list.push(filter.toLowerCase());
 			}
 		}
 
-		for (song in songs)
-			for (filter in song?.filters)
-				if (!list.contains(filter.toLowerCase()))
-					list.push(filter.toLowerCase());
+		for (song in songs) for (filter in song?.filters) if (!list.contains(filter.toLowerCase())) list.push(filter.toLowerCase());
 
 		list.insert(0, 'all');
 
@@ -75,11 +69,9 @@ class Freeplay extends ConductorState
 
 	static function runOnWaveforms(func:FlxWaveform->String->Void)
 	{
-		if (func == null || curWaveforms == null)
-			return;
+		if (func == null || curWaveforms == null) return;
 
-		for (wf in curWaveforms)
-			func(wf, curWaveformsID[wf.ID]);
+		for (wf in curWaveforms) func(wf, curWaveformsID[wf.ID]);
 	}
 	#end
 
@@ -113,8 +105,7 @@ class Freeplay extends ConductorState
 	{
 		var sng = entries[selectedEntry];
 
-		if (sng == null)
-			return null;
+		if (sng == null) return null;
 
 		return '${sng.song.toLowerCase()}-${(sng.variation ?? defaultVariation).toString().toLowerCase()}';
 	}
@@ -196,8 +187,7 @@ class Freeplay extends ConductorState
 		add(playButton);
 		#end
 
-		if (transIn == null)
-			finishTransIn();
+		if (transIn == null) finishTransIn();
 	}
 
 	override function finishTransIn()
@@ -215,14 +205,11 @@ class Freeplay extends ConductorState
 		{
 			for (i => swipe in FlxG.swipes)
 			{
-				if (swipe.duration == 0)
-					continue;
+				if (swipe.duration == 0) continue;
 
-				if (i > 0)
-					continue;
+				if (i > 0) continue;
 
-				if (swipe.distance == 0)
-					continue;
+				if (swipe.distance == 0) continue;
 
 				final up = FlxMath.roundDecimal(swipe.degrees / -90, 2);
 				final down = FlxMath.roundDecimal(swipe.degrees / 90, 2);
@@ -239,40 +226,30 @@ class Freeplay extends ConductorState
 
 				final range_right = [-0.2, 1.2];
 
-				if (up >= range_vertical[0] && up <= range_vertical[1])
-					changeSel(1);
-				else if (down >= range_vertical[0] && down <= range_vertical[1])
-					changeSel(-1);
-				else if ((left >= range_left_1[0] && left <= range_left_1[1]) || (left <= range_left_2[0] && left >= range_left_2[1]))
-					changeVolume(-1);
-				else if (right >= range_right[0] && right <= range_right[1])
-					changeVolume(1);
+				if (up >= range_vertical[0] && up <= range_vertical[1]) changeSel(1);
+				else if (down >= range_vertical[0] && down <= range_vertical[1]) changeSel(-1);
+				else if ((left >= range_left_1[0] && left <= range_left_1[1])
+					|| (left <= range_left_2[0] && left >= range_left_2[1])) changeVolume(-1);
+				else if (right >= range_right[0] && right <= range_right[1]) changeVolume(1);
 			}
 
-			if (FlxG.keys.anyJustPressed([W, UP]))
-				changeSel(-1);
-			if (FlxG.keys.anyJustPressed([S, DOWN]))
-				changeSel(1);
+			if (FlxG.keys.anyJustPressed([W, UP])) changeSel(-1);
+			if (FlxG.keys.anyJustPressed([S, DOWN])) changeSel(1);
 
-			if (FlxG.keys.anyJustPressed([A, LEFT]))
-				changeVolume(-1);
-			if (FlxG.keys.anyJustPressed([D, RIGHT]))
-				changeVolume(1);
+			if (FlxG.keys.anyJustPressed([A, LEFT])) changeVolume(-1);
+			if (FlxG.keys.anyJustPressed([D, RIGHT])) changeVolume(1);
 
-			if (FlxG.keys.justPressed.ENTER)
-				proceed();
+			if (FlxG.keys.justPressed.ENTER) proceed();
 		}
 
-		if (bgAudio != null && bgAudio.volume > FlxG.sound.volume)
-			bgAudio.volume = FlxG.sound.volume;
+		if (bgAudio != null && bgAudio.volume > FlxG.sound.volume) bgAudio.volume = FlxG.sound.volume;
 
 		FlxG.watch.addQuick('songCode', songCode);
 
 		#if FREEPLAY_VISUALIZER
 		runOnWaveforms((wave, waveID) ->
 		{
-			if (wave == null || wave.waveformBuffer == null)
-				return;
+			if (wave == null || wave.waveformBuffer == null) return;
 
 			FlxG.watch.addQuick('waveform-${wave.ID}', waveID);
 
@@ -284,8 +261,7 @@ class Freeplay extends ConductorState
 
 			wave.visible = wave.active = true;
 
-			if (wave.waveformTime != bgAudio.time)
-				wave.waveformTime = bgAudio.time;
+			if (wave.waveformTime != bgAudio.time) wave.waveformTime = bgAudio.time;
 		});
 		#end
 	}
@@ -300,15 +276,14 @@ class Freeplay extends ConductorState
 		}
 		trace(song);
 
-		if (bgAudio != null && bgAudio.playing)
-			bgAudio.fadeOut(.25, 0, t ->
-			{
-				FlxG.sound.onVolumeChange.remove(onVolumeChange);
+		if (bgAudio != null && bgAudio.playing) bgAudio.fadeOut(.25, 0, t ->
+		{
+			FlxG.sound.onVolumeChange.remove(onVolumeChange);
 
-				bgAudio.stop();
-				bgAudio.destroy();
-				bgAudio = null;
-			});
+			bgAudio.stop();
+			bgAudio.destroy();
+			bgAudio = null;
+		});
 
 		DialogueScene.seenIntroCutscene = false;
 		FlxG.switchState(() -> new DialogueScene(new Song(song.song, song.variation)));
@@ -351,25 +326,21 @@ class Freeplay extends ConductorState
 		runOnWaveforms((wave, waveID) -> wave.waveformGainMultiplier = FlxG.sound.volume);
 		#end
 
-		if (bgAudio == null)
-			return;
+		if (bgAudio == null) return;
 
-		if (bgAudio.fadeTween?.active)
-			bgAudio.fadeTween.cancel();
+		if (bgAudio.fadeTween?.active) bgAudio.fadeTween.cancel();
 
 		bgAudio.volume = FlxG.sound.volume;
 	}
 
 	function fadeinVisualizer()
 	{
-		if (bgAudio?.volume < 0.1 || bgAudio == null || bgAudio.length < 1)
-			return;
+		if (bgAudio?.volume < 0.1 || bgAudio == null || bgAudio.length < 1) return;
 
 		#if FREEPLAY_VISUALIZER
 		runOnWaveforms((wave, waveID) ->
 		{
-			if (waveID != songCode)
-				return;
+			if (waveID != songCode) return;
 			wave.waveformTime = bgAudio.time;
 
 			FlxTween.cancelTweensOf(wave);
@@ -382,45 +353,38 @@ class Freeplay extends ConductorState
 	{
 		super.onFocusLost();
 
-		if (bgAudio != null)
-			bgAudio.pause();
+		if (bgAudio != null) bgAudio.pause();
 	}
 
 	override function onFocus()
 	{
 		super.onFocus();
 
-		if (bgAudio == null)
-			return;
+		if (bgAudio == null) return;
 
 		bgAudio.resume();
 
 		#if FREEPLAY_VISUALIZER
 		runOnWaveforms((wave, waveID) ->
 		{
-			if (wave != null)
-				wave.waveformTime = bgAudio.time;
+			if (wave != null) wave.waveformTime = bgAudio.time;
 		});
 		#end
 	}
 
 	function loadSongAudio() @:privateAccess
 	{
-		if (bgAudio != null)
-			bgAudio.stop();
-		else
-			return;
+		if (bgAudio != null) bgAudio.stop();
+		else return;
 
-		if (entries[selectedEntry] == null)
-			return;
+		if (entries[selectedEntry] == null) return;
 
 		if (!audioCache.exists(songCode))
 		{
 			bgAudio.load(Paths.getSong(entries[selectedEntry].song, entries[selectedEntry]?.variation ?? defaultVariation));
 			audioCache.set(songCode, bgAudio._sound);
 		}
-		else
-			bgAudio.load(audioCache.get(songCode));
+		else bgAudio.load(audioCache.get(songCode));
 		bgAudio.looped = true;
 
 		#if (FREEPLAY_VISUALIZER && !FREEPLAY_VISUALIZER_MULTICACHE)
@@ -451,10 +415,8 @@ class Freeplay extends ConductorState
 
 		selectedEntry += Math.round(amount);
 
-		if (selectedEntry < 0)
-			selectedEntry = entries.length - 1;
-		if (selectedEntry > entries.length - 1)
-			selectedEntry = 0;
+		if (selectedEntry < 0) selectedEntry = entries.length - 1;
+		if (selectedEntry > entries.length - 1) selectedEntry = 0;
 
 		var score = Save.scores.get(songCode);
 		var curSongScore:Int = score?.score ?? 0;
@@ -534,10 +496,8 @@ class Freeplay extends ConductorState
 
 		selectedVolume += amount;
 
-		if (selectedVolume < 0)
-			selectedVolume = filterList.length - 1;
-		if (selectedVolume > filterList.length - 1)
-			selectedVolume = 0;
+		if (selectedVolume < 0) selectedVolume = filterList.length - 1;
+		if (selectedVolume > filterList.length - 1) selectedVolume = 0;
 
 		btmSegText.text = 'Volume: ${filterList[selectedVolume]?.toUpperCase()}';
 		btmSegText.screenCenter(X);
@@ -561,11 +521,9 @@ class Freeplay extends ConductorState
 
 		switch (f.toLowerCase())
 		{
-			case 'all':
-				entries = songs;
+			case 'all': entries = songs;
 
-			default:
-				entries = songs.filter(s -> return s.filters.contains(f.toLowerCase()));
+			default: entries = songs.filter(s -> return s.filters.contains(f.toLowerCase()));
 		}
 
 		if (texts.members.length > 0)
@@ -581,23 +539,19 @@ class Freeplay extends ConductorState
 
 		for (i => song in entries)
 		{
-			if (song.variation == null)
-				song.variation = defaultVariation;
+			if (song.variation == null) song.variation = defaultVariation;
 
 			var tXt:FlxText = new FlxText(0, i * Constants.TEXT_SIZE * 4, 0, '${song.song}', Constants.TEXT_SIZE * 2);
 			var variationStr = song.variation.toString().toLowerCase();
 			var curSongRank:SongRank = Save.scores.get('${song.song.toLowerCase()}-${variationStr}')?.rank ?? NONE;
 
-			if (song.variation != defaultVariation)
-				tXt.text += ' (${variationStr.substr(0, 1).toUpperCase()}${variationStr.substr(1)})';
+			if (song.variation != defaultVariation) tXt.text += ' (${variationStr.substr(0, 1).toUpperCase()}${variationStr.substr(1)})';
 			#if FREEPLAY_DISPLAY_SCORE
-			if (curSongRank == NONE)
-				tXt.text += ' (Unplayed)';
+			if (curSongRank == NONE) tXt.text += ' (Unplayed)';
 			#end
 
 			#if (FREEPLAY_VISUALIZER && FREEPLAY_VISUALIZER_MULTICACHE)
-			if (curWaveforms[i] == null)
-				makeWaveform(song, i);
+			if (curWaveforms[i] == null) makeWaveform(song, i);
 			#end
 
 			#if FREEPLAY_CENTER_LAYOUT
@@ -621,8 +575,7 @@ class Freeplay extends ConductorState
 	#if FREEPLAY_VISUALIZER
 	function makeWaveform(song:FreeplaySongData, ?i:Null<Int>) @:privateAccess
 	{
-		if (i == null)
-			i = curWaveforms.length;
+		if (i == null) i = curWaveforms.length;
 
 		var viz:String = '${song.song.toLowerCase()}-${(song.variation ?? defaultVariation).toString().toLowerCase()}';
 
@@ -630,8 +583,7 @@ class Freeplay extends ConductorState
 		{
 			runOnWaveforms((wave, waveID) ->
 			{
-				if (waveID != viz)
-					return;
+				if (waveID != viz) return;
 
 				wave.ID = i;
 				curWaveformsID.remove(viz);
@@ -643,8 +595,7 @@ class Freeplay extends ConductorState
 		}
 
 		var audio:FlxSound;
-		if (audioCache.exists(viz))
-			audio = new FlxSound().load(audioCache.get(viz));
+		if (audioCache.exists(viz)) audio = new FlxSound().load(audioCache.get(viz));
 		else
 		{
 			audio = new FlxSound().load(Paths.getSong(song.song, song.variation));
@@ -653,13 +604,11 @@ class Freeplay extends ConductorState
 			audioCache.set(viz, audio._sound);
 		}
 
-		if (audio == null)
-			return;
+		if (audio == null) return;
 
 		var bgAudioViz:FlxWaveform;
 
-		if (audioVizCache.exists(viz) && audioVizCache.get(viz) != null)
-			bgAudioViz = audioVizCache.get(viz);
+		if (audioVizCache.exists(viz) && audioVizCache.get(viz) != null) bgAudioViz = audioVizCache.get(viz);
 		else
 		{
 			bgAudioViz = new FlxWaveform(0, 0, Math.floor(FlxG.width / 4), Math.floor(FlxG.height - topSegBG.height - btmSegBG.height), FlxColor.WHITE,
@@ -668,8 +617,7 @@ class Freeplay extends ConductorState
 
 			bgAudioViz.loadDataFromFlxSound(audio);
 
-			if (bgAudioViz.waveformBuffer != null)
-				bgAudioViz.waveformBuffer.autoDestroy = false;
+			if (bgAudioViz.waveformBuffer != null) bgAudioViz.waveformBuffer.autoDestroy = false;
 			bgAudioViz.waveformDuration = 125;
 
 			bgAudioViz.waveformOrientation = VERTICAL;

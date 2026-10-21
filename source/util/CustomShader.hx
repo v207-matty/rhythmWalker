@@ -14,14 +14,11 @@ class CustomShader extends FlxRuntimeShader
 		var fragCode:String = null;
 		var vertCode:String = null;
 
-		if (Assets.exists(fragPath))
-			fragCode = Assets.getText(fragPath);
+		if (Assets.exists(fragPath)) fragCode = Assets.getText(fragPath);
 
-		if (Assets.exists(vertPath))
-			vertCode = Assets.getText(vertPath);
+		if (Assets.exists(vertPath)) vertCode = Assets.getText(vertPath);
 
-		if (fragCode == null && vertCode == null)
-			FlxG.stage.window.alert('Shader "$name" couldn\'t be found.');
+		if (fragCode == null && vertCode == null) FlxG.stage.window.alert('Shader "$name" couldn\'t be found.');
 
 		super(fragCode, vertCode);
 	}

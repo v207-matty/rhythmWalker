@@ -34,8 +34,7 @@ class TrainGetawayShooter extends StageSprite
 	{
 		super.dance();
 
-		if (animation.name != 'idle' && !animation.finished)
-			return;
+		if (animation.name != 'idle' && !animation.finished) return;
 
 		animation.play('idle');
 	}

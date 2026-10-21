@@ -17,8 +17,7 @@ class Player extends RWSprite
 
 		for (anim in data.animations)
 		{
-			if (anim == null || anim.name == null || anim.frames == null || anim.frames.length < 1)
-				continue;
+			if (anim == null || anim.name == null || anim.frames == null || anim.frames.length < 1) continue;
 
 			trace('Player Anim : ${anim.name}');
 
@@ -42,8 +41,7 @@ class Player extends RWSprite
 	{
 		super.update(elapsed);
 
-		if (collision == null)
-			return;
+		if (collision == null) return;
 
 		collision.x = getGraphicMidpoint().x - (collision.width / 2);
 		collision.y = getGraphicMidpoint().y - (collision.height / 2);

@@ -21,11 +21,9 @@ class Floor extends RWSprite
 
 		this.color = color;
 
-		if (positionObject != null)
-			this.y = positionObject.y + positionObject.height;
+		if (positionObject != null) this.y = positionObject.y + positionObject.height;
 
-		if (cam != null)
-			setCamera(cam);
+		if (cam != null) setCamera(cam);
 
 		setScrollFactor(sf?.x ?? 0, sf?.y ?? 0);
 	}

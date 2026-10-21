@@ -72,8 +72,7 @@ class Main extends FlxGame
 	{
 		super.update();
 
-		if (FlxG.keys.pressed.F4)
-			throw 'Debug Crash';
+		if (FlxG.keys.pressed.F4) throw 'Debug Crash';
 	}
 
 	function onCrashing(e:UncaughtErrorEvent)
@@ -93,30 +92,23 @@ class Main extends FlxGame
 			{
 				case FilePos(innerStackItem, file, line, column):
 					error += ' in ${file}#${line}';
-					if (column != null)
-						error += ':${column}';
-				case CFunction:
-					error += '[Function] ';
-				case Module(m):
-					error += '[Module(${m})] ';
-				case Method(classname, method):
-					error += '[Function(${classname}.${method})] ';
-				case LocalFunction(v):
-					error += '[LocalFunction(${v})] ';
+					if (column != null) error += ':${column}';
+				case CFunction: error += '[Function] ';
+				case Module(m): error += '[Module(${m})] ';
+				case Method(classname, method): error += '[Function(${classname}.${method})] ';
+				case LocalFunction(v): error += '[LocalFunction(${v})] ';
 			}
 			error += '\n';
 		}
 
-		for (stackItem in stack)
-			pushStack(stackItem);
+		for (stackItem in stack) pushStack(stackItem);
 
 		error += '\n\nPlease report this on the github: https://github.com/v207-matty/rhythmWalker/issues';
 
 		#if sys
 		var timestamp = Date.now().getTime();
 
-		if (!FileSystem.exists('crash'))
-			FileSystem.createDirectory('crash');
+		if (!FileSystem.exists('crash')) FileSystem.createDirectory('crash');
 
 		File.saveContent('crash/$timestamp.txt', error);
 
@@ -139,16 +131,12 @@ class Main extends FlxGame
 		var songList = Paths.json('game/songs/list');
 		var tipsList = Paths.txt('game/tips');
 
-		if (Assets.exists(songList))
-			Freeplay.songList = Json.parse(Assets.getText(songList));
-		else
-			throw 'SONG LIST IS MISSING, GAME WILL DIE NOW.';
+		if (Assets.exists(songList)) Freeplay.songList = Json.parse(Assets.getText(songList));
+		else throw 'SONG LIST IS MISSING, GAME WILL DIE NOW.';
 
-		if (Assets.exists(tipsList))
-			Freeplay.tips = [
-				for (line in Assets.getText(tipsList).split('\n'))
-					if (line.trim().length > 0) line.trim()
-			];
+		if (Assets.exists(tipsList)) Freeplay.tips = [
+			for (line in Assets.getText(tipsList).split('\n')) if (line.trim().length > 0) line.trim()
+		];
 	}
 
 	function getDefaultTransition():TransitionData

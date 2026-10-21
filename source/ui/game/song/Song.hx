@@ -32,11 +32,9 @@ class Song
 		this.id = nid.toLowerCase();
 		this.variation = new SongVariation(nvariation?.toString()?.toLowerCase() ?? SongVariation.defaultVariation.toString());
 
-		if (variation?.toString()?.trim()?.length < 1 || variation == null)
-			variation = defaultVariation;
+		if (variation?.toString()?.trim()?.length < 1 || variation == null) variation = defaultVariation;
 
-		if (loadFile)
-			this.loadFile();
+		if (loadFile) this.loadFile();
 	}
 
 	public function loadFile()
@@ -54,8 +52,7 @@ class Song
 
 	public function loadData(json:Song)
 	{
-		if (json == null)
-			throw 'Null JSON Data';
+		if (json == null) throw 'Null JSON Data';
 
 		this.id = json?.id?.toLowerCase() ?? 'idk';
 		this.variation = new SongVariation(json?.variation) ?? defaultVariation;
@@ -66,6 +63,5 @@ class Song
 		this.stage = json?.stage ?? 'stage';
 	}
 
-	public function toString():String
-		return 'Song($id-$variation)';
+	public function toString():String return 'Song($id-$variation)';
 }

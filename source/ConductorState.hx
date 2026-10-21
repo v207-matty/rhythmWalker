@@ -6,8 +6,7 @@ class ConductorState extends FlxUIState
 {
 	var conductor(get, never):FlxRhythmConductor;
 
-	function get_conductor():FlxRhythmConductor
-		return FlxRhythmConductor.instance;
+	function get_conductor():FlxRhythmConductor return FlxRhythmConductor.instance;
 
 	function resetConductor()
 	{

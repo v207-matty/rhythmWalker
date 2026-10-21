@@ -12,20 +12,15 @@ enum abstract SongRank(String) from String to String
 
 	public static function getRankFromPercent(percent:Float):SongRank
 	{
-		if (percent >= 1)
-			return PERFECT;
+		if (percent >= 1) return PERFECT;
 
-		if (percent >= 0.8)
-			return EXCELLENT;
+		if (percent >= 0.8) return EXCELLENT;
 
-		if (percent >= 0.7)
-			return GREAT;
+		if (percent >= 0.7) return GREAT;
 
-		if (percent >= 0.6)
-			return GOOD;
+		if (percent >= 0.6) return GOOD;
 
-		if (percent >= 0.5)
-			return OK;
+		if (percent >= 0.5) return OK;
 
 		return BAD;
 	}

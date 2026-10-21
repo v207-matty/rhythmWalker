@@ -12,10 +12,8 @@ class DialogueCharacter extends RWSprite
 
 	public function switchPortrait(portrait:String)
 	{
-		if (portrait == null)
-			visible = false;
-		else
-			loadGraphic(Paths.getImagePath('game/cutscenes/dialogue/portraits/$portrait'));
+		if (portrait == null) visible = false;
+		else loadGraphic(Paths.getImagePath('game/cutscenes/dialogue/portraits/$portrait'));
 
 		setGraphicSize(256, 256);
 		updateHitbox();
