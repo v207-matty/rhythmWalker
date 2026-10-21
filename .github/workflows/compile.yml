@@ -60,63 +60,63 @@ jobs:
                           with:
                                   name: linuxBuild-64
                                   path: export/64bit/release/linux/bin
-        buildLinux32:
-                runs-on: ubuntu-latest
+        # buildLinux32:
+        #         runs-on: ubuntu-latest
 
-                steps:
-                        - uses: actions/checkout@main
+        #         steps:
+        #                 - uses: actions/checkout@main
 
-                        - uses: krdlab/setup-haxe@master
-                          with:
-                                  haxe-version: 4.3.7
+        #                 - uses: krdlab/setup-haxe@master
+        #                   with:
+        #                           haxe-version: 4.3.7
 
-                        - name: Restore Previous Cache
-                          id: cache-build-restore
-                          uses: actions/cache/restore@main
-                          with:
-                                  path: |
-                                          .haxelib/
-                                          export/32bit/release/linux/haxe/
-                                          export/32bit/release/linux/obj/
-                                  key: cache-build-linux-32
+        #                 - name: Restore Previous Cache
+        #                   id: cache-build-restore
+        #                   uses: actions/cache/restore@main
+        #                   with:
+        #                           path: |
+        #                                   .haxelib/
+        #                                   export/32bit/release/linux/haxe/
+        #                                   export/32bit/release/linux/obj/
+        #                           key: cache-build-linux-32
 
-                        - name: Installing Libraries
-                          run: |
-                                haxelib install hmm
-                                haxelib run hmm install
-                                cd .haxelib/hxcpp/git/tools/hxcpp/
-                                haxe compile.hxml
-                                cd ../../../../../
-                                sudo apt-get install libgl1-mesa-dev libglu1-mesa-dev g++ g++-multilib gcc-multilib
-                                haxelib run lime rebuild linux
+        #                 - name: Installing Libraries
+        #                   run: |
+        #                         haxelib install hmm
+        #                         haxelib run hmm install
+        #                         cd .haxelib/hxcpp/git/tools/hxcpp/
+        #                         haxe compile.hxml
+        #                         cd ../../../../../
+        #                         sudo apt-get install libgl1-mesa-dev libglu1-mesa-dev g++ g++-multilib gcc-multilib
+        #                         haxelib run lime rebuild linux
 
-                        - name: Create Version Tag
-                          run: echo "${{github.run_id}}" > VERSION
+        #                 - name: Create Version Tag
+        #                   run: echo "${{github.run_id}}" > VERSION
 
-                        - name: Compile
-                          run: haxelib run lime build linux -32 -D_32bit
+        #                 - name: Compile
+        #                   run: haxelib run lime build linux -32 -D_32bit
 
-                        - name: Clear Previous Cache
-                          uses: actions/github-script@main
-                          with:
-                                  script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-build-linux');
+        #                 - name: Clear Previous Cache
+        #                   uses: actions/github-script@main
+        #                   with:
+        #                           script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-build-linux');
 
-                        - name: Save Current Cache
-                          uses: actions/cache@main
-                          with:
-                                  key: cache-build-linux-32
-                                  path: |
-                                          .haxelib/
-                                          export/32bit/release/linux/haxe/
-                                          export/32bit/release/linux/obj/
-                                  restore-keys: |
-                                          cache-build-linux-32
+        #                 - name: Save Current Cache
+        #                   uses: actions/cache@main
+        #                   with:
+        #                           key: cache-build-linux-32
+        #                           path: |
+        #                                   .haxelib/
+        #                                   export/32bit/release/linux/haxe/
+        #                                   export/32bit/release/linux/obj/
+        #                           restore-keys: |
+        #                                   cache-build-linux-32
 
-                        - name: Publish Artifact
-                          uses: actions/upload-artifact@main
-                          with:
-                                  name: linuxBuild-32
-                                  path: export/32bit/release/linux/bin
+        #                 - name: Publish Artifact
+        #                   uses: actions/upload-artifact@main
+        #                   with:
+        #                           name: linuxBuild-32
+        #                           path: export/32bit/release/linux/bin
         buildWindows64:
                 runs-on: windows-latest
 
