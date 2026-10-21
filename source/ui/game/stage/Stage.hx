@@ -1,5 +1,7 @@
 package ui.game.stage;
 
+import ui.game.song.SongEventData;
+
 class Stage
 {
 	public var stage:String;
@@ -12,6 +14,8 @@ class Stage
 	public function new(stage:String) { this.stage = stage; }
 
 	public function build() {}
+
+	public function onEvent(event:SongEventData) {}
 
 	public function update(elapsed:Float) {}
 }
