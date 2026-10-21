@@ -127,24 +127,26 @@ class Stage
 
 		function applyBasicStuff(object:FlxSprite, data:StageObjectData)
 		{
-			addExpressionVariable('graphic_width', object.width);
-			addExpressionVariable('graphic_height', object.height);
-
+			object.ID = index;
 			object.alpha = data.alpha;
 			object.blend = Constants.BLENDMODE_MAP.get(data.blend?.toLowerCase() ?? 'NORMAL') ?? NORMAL;
 			object.screenCenter(centerAxes);
 			object.color = FlxColor.fromString(data.color ?? '0xFFFFFFFF');
+
+			if (data.scaleToScreen)
+				object.setGraphicSize(FlxG.width, FlxG.height);
+			else if (data.scale != null)
+				object.scale.set(applyFloatOrString(data.scale.x), applyFloatOrString(data.scale.y));
+			object.updateHitbox();
+
+			addExpressionVariable('graphic_width', object.width);
+			addExpressionVariable('graphic_height', object.height);
 
 			if (data.position != null)
 			{
 				object.x += applyFloatOrString(data.position?.x ?? 0);
 				object.y += applyFloatOrString(data.position?.y ?? 0);
 			}
-
-			if (data.scaleToScreen)
-				object.setGraphicSize(FlxG.width, FlxG.height);
-			else if (data.scale != null)
-				object.scale.set(applyFloatOrString(data.scale.x), applyFloatOrString(data.scale.y));
 
 			if (data.scrollFactor != null)
 			{

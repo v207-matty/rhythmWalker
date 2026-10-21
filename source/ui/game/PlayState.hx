@@ -1,5 +1,6 @@
 package ui.game;
 
+import flixel.util.FlxSort;
 import util.*;
 import ui.objects.mobile.*;
 import ui.objects.*;
@@ -627,6 +628,9 @@ class PlayState extends ConductorState
 
 		for (prop in stageFrontLayerMap = stageData.createStageProps(front))
 			stageFrontLayer.add(prop);
+
+		for (layer in [stageBackLayer, stageFrontLayer,])
+			layer.sort((s, a, b) -> FlxSort.byValues(s, a.ID, b.ID), FlxSort.ASCENDING);
 
 		applyPlayerData();
 	}
