@@ -300,8 +300,8 @@ jobs:
                           with:
                                   path: |
                                           .haxelib/
-                                          export/release/html5/haxe/
-                                          export/release/html5/obj/
+                                          export/64bit/release/html5/haxe/
+                                          export/64bit/release/html5/obj/
                                   key: cache-build-html5
 
                         
