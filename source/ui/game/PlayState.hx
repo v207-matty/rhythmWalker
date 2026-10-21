@@ -543,6 +543,8 @@ class PlayState extends ConductorState
 		switch ([song.id, song.variation])
 		{
 			case ['lost media', defaultVariation]:
+				camHUD.alpha = 0;
+
 				camGameFollow.y -= FlxG.height * 2;
 				camGame.focusOn(camGameFollow.getPosition());
 
@@ -550,17 +552,27 @@ class PlayState extends ConductorState
 					ease: FlxEase.backInOut,
 				});
 
+				FlxTween.tween(camHUD, {alpha: 1}, 1.5, {
+					ease: FlxEase.backInOut
+				});
+
 				FlxTimer.wait(1.75, () -> inIntroCutscene = false);
 
 				return true;
 
 			case ['train wreak', defaultVariation]:
+				camHUD.alpha = 0;
+
 				camGameFollow.y -= FlxG.height * 2;
 				camGame.zoom = 0.5;
 				camGame.focusOn(camGameFollow.getPosition());
 
 				FlxTween.tween(camGameFollow, {y: FlxG.height / 2}, 6, {
 					ease: FlxEase.backInOut,
+				});
+
+				FlxTween.tween(camHUD, {alpha: 1}, 6, {
+					ease: FlxEase.backInOut
 				});
 
 				function onZoomed(t)
@@ -585,6 +597,8 @@ class PlayState extends ConductorState
 				return true;
 
 			case ['scroll down chinatown', defaultVariation]:
+				camHUD.alpha = 0;
+
 				playerPlayAnim('chinatown-bridge', false);
 				player.y -= player.height * 0.5;
 
@@ -592,6 +606,10 @@ class PlayState extends ConductorState
 				{
 					spawnBeatMonster();
 					beatMonsterSpawner.alpha += .5;
+
+					FlxTween.tween(camHUD, {alpha: 1}, .4, {
+						ease: FlxEase.sineOut
+					});
 
 					FlxTween.tween(player, {x: player.x - 128, y: player.y + player.height * 0.5}, .4, {
 						ease: FlxEase.sineOut,
@@ -678,6 +696,7 @@ class PlayState extends ConductorState
 				});
 
 				FlxTimer.wait(4, ending);
+				FlxTween.tween(camHUD, {alpha: 0}, 4, {ease: FlxEase.quintOut});
 
 				return true;
 

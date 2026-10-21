@@ -15,11 +15,11 @@
 
 ## Gameplay Related
 
+- All cutscenes had the hud gone and fade back in or visible and fade out
+
 - bro-mental no longer has a flippable idle (Just like the other bruised bro skins)
 
 - First Steps (Resolved) and Shift Around (Resolved) now have faded Beat Monsters
-
-- The Train Wreak ending cutscene has all hud elements fade
 
 - Every stage that could get optimizations, changes, or fixes has gotten an optimization, change, or fix (You may notice slight differences cuz of this)
     - The Lost Media sky now stays
