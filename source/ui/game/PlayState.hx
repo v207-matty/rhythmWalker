@@ -578,8 +578,6 @@ class PlayState extends ConductorState
 
 		stageData = new Stage(stage);
 
-		player.screenCenter();
-		
 		if (stageData.config?.player?.scale != null)
 		{
 			var x = stageData.config?.player?.scale?.x;
@@ -593,6 +591,8 @@ class PlayState extends ConductorState
 			player.x += stageData.applyFloatOrString(x);
 			player.y += stageData.applyFloatOrString(y);
 		}
+
+		player.screenCenter();
 
 		if (stageData.config?.player?.position != null)
 		{
