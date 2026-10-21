@@ -578,31 +578,37 @@ class PlayState extends ConductorState
 
 		stageData = new Stage(stage);
 
+		player.screenCenter();
+		
 		if (stageData.config?.player?.scale != null)
 		{
 			var x = stageData.config?.player?.scale?.x;
 			var y = stageData.config?.player?.scale?.y;
 
-			if (x == null || y == null) return;
+			if (x == null || y == null)
+				return;
 
 			player.setScale();
 
 			player.x += stageData.applyFloatOrString(x);
 			player.y += stageData.applyFloatOrString(y);
 		}
-		
+
 		if (stageData.config?.player?.position != null)
 		{
 			var x = stageData.config?.player?.position?.x;
 			var y = stageData.config?.player?.position?.y;
 
-			if (x == null || y == null) return;
+			if (x == null || y == null)
+				return;
 
 			player.setPosition();
 
 			player.x += stageData.applyFloatOrString(x);
 			player.y += stageData.applyFloatOrString(y);
 		}
+
+		player.y = FlxG.height - player.height * 1.25;
 
 		stageData.addExpressionVariable('player_width', player.width);
 		stageData.addExpressionVariable('player_height', player.height);
@@ -652,8 +658,6 @@ class PlayState extends ConductorState
 			playerStunned = false;
 		});
 
-		player.screenCenter();
-		player.y = FlxG.height - player.height * 1.25;
 		player.setCamera(camGame);
 
 		playerCollision = new FlxSprite().makeGraphic(playerData.config?.dimensions?.hitbox[0] ?? 32, playerData.config?.dimensions?.hitbox[1] ?? 32,
