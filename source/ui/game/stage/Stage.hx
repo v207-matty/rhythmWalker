@@ -1,5 +1,6 @@
 package ui.game.stage;
 
+import haxpression.Expression;
 import haxpression.Value;
 import haxpression.Expressions;
 import ui.objects.Floor;
@@ -264,8 +265,6 @@ class Stage
 		}
 	}
 
-	public function applyExpressionShit(expression:String)
-	{
+	public function applyExpressionShit(expression:Expression)
 		return Expressions.evaluate([expression], expressionVariableMap);
-	}
 }
