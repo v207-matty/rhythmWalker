@@ -29,26 +29,26 @@ class PlayState extends ConductorState
 
 	public var immortal(default, null):Bool = #if immortal true #else false #end;
 
-	public var player(default,null):Player;
-	public var beatMonsters(default,null):FlxSpriteGroup;
-	public var stage(default,null):Stage;
+	public var player(default, null):Player;
+	public var beatMonsters(default, null):FlxSpriteGroup;
+	public var stage(default, null):Stage;
 
-	public var song(default,null):Song;
+	public var song(default, null):Song;
 	public var songEvents:Array<FlxTimer> = [];
 
-	public var scoreText(default,null):FlxText;
+	public var scoreText(default, null):FlxText;
 	public var totalScore:Int = 0;
 	public var score:Int = 0;
 	public var hits:Int = 0;
 
-	public var camGame(default,null):FlxCamera;
-	public var camGameFollow(default,null):FlxObject;
+	public var camGame(default, null):FlxCamera;
+	public var camGameFollow(default, null):FlxObject;
 
-	public var camHUD(default,null):FlxCamera;
+	public var camHUD(default, null):FlxCamera;
 
-	public var beatMonsterSpawner(default,null):FlxSprite;
+	public var beatMonsterSpawner(default, null):FlxSprite;
 
-	public var data(default,null) = {
+	public var data(default, null) = {
 		beatMonsters: {
 			spawn: true,
 			stepRate: 4,
@@ -56,10 +56,10 @@ class PlayState extends ConductorState
 		}
 	};
 
-	public var stageBackLayer(default,null):FlxSpriteGroup;
-	public var stageFrontLayer(default,null):FlxSpriteGroup;
+	public var stageBackLayer(default, null):FlxSpriteGroup;
+	public var stageFrontLayer(default, null):FlxSpriteGroup;
 
-	public var timeBar(default,null):RWSprite;
+	public var timeBar(default, null):RWSprite;
 	public var timeBarSongLinked:Bool = false;
 	public var timeBarTarget:Float = 0.0;
 
@@ -500,6 +500,8 @@ class PlayState extends ConductorState
 				id: 'traingetaway-gunJammed'
 			});
 		}
+
+		if (song.variation == resolved && (song.id == 'first steps' || song.id == 'shift around')) beatMonsters.alpha = 0.5;
 	}
 
 	var containment04_tubeSubject:StageSprite;
@@ -526,22 +528,6 @@ class PlayState extends ConductorState
 
 		switch (stage.toLowerCase())
 		{
-			case 'chinatown':
-				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/chinatown/town/sky'));
-				sky.scale.set(2, 2);
-				sky.updateHitbox();
-				sky.camera = camGame;
-
-				sky.velocity.x = 2;
-				sky.screenCenter();
-				stageBackLayer.add(sky);
-
-				var spr = new StageSprite('chinatown/town/town');
-				spr.setGraphicSize(FlxG.width, FlxG.height);
-				spr.updateHitbox();
-				spr.screenCenter();
-				stageBackLayer.add(spr);
-
 			case 'crash landing':
 				camGame.bgColor = 0xFF0D0712;
 
@@ -605,31 +591,6 @@ class PlayState extends ConductorState
 				backdrop.screenCenter();
 				stageBackLayer.add(backdrop);
 				backdrop.setCamera(camGame);
-
-				beatMonsters.alpha = 0.5;
-
-				var bgShader = new CustomShader('dropshadow');
-				var charShader = new CustomShader('dropshadow');
-				var monsterShader = new CustomShader('dropshadow');
-
-				bgShader.setFloat('hue', -24.0);
-				bgShader.setFloat('saturation', -24.0);
-				bgShader.setFloat('brightness', -36.0);
-				bgShader.setFloat('contrast', 0.0);
-
-				charShader.setFloat('hue', -3.0);
-				charShader.setFloat('saturation', 7.0);
-				charShader.setFloat('brightness', -75.0);
-				charShader.setFloat('contrast', 0.0);
-
-				monsterShader.setFloat('hue', -43.0);
-				monsterShader.setFloat('saturation', -51.0);
-				monsterShader.setFloat('brightness', -73.0);
-				monsterShader.setFloat('contrast', 0.0);
-
-				backdrop.shader = bgShader;
-				player.shader = charShader;
-				beatMonsters.shader = monsterShader;
 
 			case 'containment-04':
 				camGame.bgColor = 0xFF595652;
@@ -803,14 +764,6 @@ class PlayState extends ConductorState
 				bridge.camera = camGame;
 				bridge.y = FlxG.height - bridge.height;
 				stageBackLayer.add(bridge);
-
-			case 'stage', 'understage':
-				var backdrop:StageSprite = new StageSprite(stage);
-				backdrop.setGraphicSize(FlxG.width, FlxG.height);
-				backdrop.updateHitbox();
-				backdrop.screenCenter();
-				stageBackLayer.add(backdrop);
-				backdrop.setCamera(camGame);
 		}
 	}
 

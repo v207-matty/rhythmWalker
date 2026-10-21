@@ -4,8 +4,19 @@ class StageManager
 {
 	public static function get(stage:String)
 	{
-		switch (stage) {}
+		return switch (stage.toLowerCase())
+		{
+			case 'chinatown':
+				new StageChinatown();
 
-		return new Stage();
+			case 'stage-withered':
+				new StageMainWithered();
+
+			case 'stage' | 'understage':
+				new StageMain(stage);
+
+			default:
+				new Stage(stage);
+		}
 	}
 }
