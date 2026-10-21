@@ -45,9 +45,6 @@ class Main extends FlxGame
 		WindowUtil.appendToTitle('(Debug)');
 		#end
 
-		for (id => flag in Flag.list)
-			trace('Flag "${id}" : $flag');
-
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrashing);
 
 		FlxG.sound.applySoundCurve = (volume:Float) ->

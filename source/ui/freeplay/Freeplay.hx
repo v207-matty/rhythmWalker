@@ -459,24 +459,27 @@ class Freeplay extends ConductorState
 			final code = '${entries[i].song}-${(entries[i].variation ?? defaultVariation)}'.toLowerCase();
 			var textSongRank:SongRank = Save.scores.get(code)?.rank ?? NONE;
 
-			text.color = (textSongRank == NONE && Flag.FREEPLAY_DISPLAY_SCORE) ? FlxColor.RED : FlxColor.WHITE;
+			#if FREEPLAY_DISPLAY_SCORE
+			text.color = (textSongRank == NONE) ? FlxColor.RED : FlxColor.WHITE;
+			#end
 
 			if (i == selectedEntry)
 			{
-				text.color = (textSongRank == NONE && Flag.FREEPLAY_DISPLAY_SCORE) ? FlxColor.ORANGE : FlxColor.YELLOW;
+				#if FREEPLAY_DISPLAY_SCORE
+				text.color = (textSongRank == NONE) ? FlxColor.ORANGE : FlxColor.YELLOW;
+				#end
 				camFollow.y = text.y;
 			}
 		}
 
 		topSegText.text = '';
 
-		if (Flag.FREEPLAY_DISPLAY_SCORE)
-		{
-			topSegText.text += 'Score: ${curSongScore}';
-			topSegText.text += ' | ';
-			topSegText.text += 'Rank: ${curSongRank} (${Math.floor(curSongRankPercent * 100)}%)';
-			topSegText.text += '\n\n';
-		}
+		#if FREEPLAY_DISPLAY_SCORE
+		topSegText.text += 'Score: ${curSongScore}';
+		topSegText.text += ' | ';
+		topSegText.text += 'Rank: ${curSongRank} (${Math.floor(curSongRankPercent * 100)}%)';
+		topSegText.text += '\n\n';
+		#end
 
 		topSegText.text += 'Random Tip:\n$randomTip';
 
@@ -581,8 +584,10 @@ class Freeplay extends ConductorState
 
 			if (song.variation != defaultVariation)
 				tXt.text += ' (${variationStr.substr(0, 1).toUpperCase()}${variationStr.substr(1)})';
-			if (curSongRank == NONE && Flag.FREEPLAY_DISPLAY_SCORE)
+			#if FREEPLAY_DISPLAY_SCORE
+			if (curSongRank == NONE)
 				tXt.text += ' (Unplayed)';
+			#end
 
 			#if FREEPLAY_VISUALIZER_MULTICACHE
 			if (curWaveforms[i] == null)
