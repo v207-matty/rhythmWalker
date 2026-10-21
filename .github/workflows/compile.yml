@@ -2,10 +2,6 @@ name: Auto-compile
 
 on:
         push:
-                paths:
-                        - '**.png'
-                        - '**.json'
-                        - '**.hx'
         workflow_dispatch:
 
 jobs:
@@ -91,6 +87,7 @@ jobs:
                                 cd .haxelib/hxcpp/git/tools/hxcpp/
                                 haxe compile.hxml
                                 cd ../../../../../
+                                sudo apt-get install libgl1-mesa-dev libglu1-mesa-dev g++ g++-multilib gcc-multilib
                                 haxelib run lime rebuild linux
 
                         - name: Create Version Tag
