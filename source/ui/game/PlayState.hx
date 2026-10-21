@@ -109,6 +109,8 @@ class PlayState extends ConductorState
 		{
 			skipping = true;
 			onSongEnd();
+
+			return;
 		}
 
 		FlxRhythmConductorUtil.loadMeta(conductor, FlxRhythmConductorUtil.parseTimeChanges(song.bpmChanges));

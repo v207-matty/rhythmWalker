@@ -71,6 +71,7 @@
 
 ## Bug Fixes
 
+- Fixed when you have a less than 1 millisecond long song it would still make the entire game scene
 - Fixed beat monsters not being able to hit you while the game camera opacity is less then 10%
     - I accidentally used an and operator instead of an or
 
