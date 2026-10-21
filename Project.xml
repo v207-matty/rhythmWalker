@@ -30,8 +30,6 @@
 
 	<haxedef name="FREEPLAY_VISUALIZER" unless="web || FREEPLAY_CENTER_LAYOUT || DISABLE_FREEPLAY_VISUALIZER"/>
 	<haxedef name="FREEPLAY_VISUALIZER_MULTICACHE" if="FREEPLAY_VISUALIZER" unless="linux || _32bit || web || MOBILE_MODE"/>
-	
-	<echo value="FREEPLAY_VISUALIZER" if="FREEPLAY_VISUALIZER" />
 
 	<!-- _________________________ Application Settings _________________________ -->
 
@@ -76,7 +74,7 @@
 	<haxelib name="flixel-addons" />
 	<haxelib name="flixel-ui" />
 	
-	<haxelib name="flixel-waveform" />
+	<haxelib name="flixel-waveform" if="FREEPLAY_VISUALIZER" />
 	<haxelib name="flxrhythmconductor" />
 
     <haxelib name="hxcpp-debugger" />
