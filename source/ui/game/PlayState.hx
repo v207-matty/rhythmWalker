@@ -28,7 +28,6 @@ class PlayState extends ConductorState
 	var immortal:Bool = #if immortal true #else false #end;
 
 	var player:Player;
-	var playerStunned:Bool = false;
 
 	var beatMonsters:FlxSpriteGroup;
 
@@ -194,25 +193,28 @@ class PlayState extends ConductorState
 		{
 			monster.y += monster.height * (.2 * scrollSpeed);
 
-			if (!immortal && !inCutscene && monster.overlaps(player.collision) && !playerStunned && camGame.visible && camGame.alpha >= 0.1)
-			{
-				playerStunned = true;
-				playerPlayAnim('hurt');
-				player.velocity.x = 0;
-
-				beatMonsters.remove(monster);
-				monster.destroy();
-
-				FlxG.sound.play(Paths.getAudio('game/hurt'));
-
-				hits++;
-			}
-
 			if (monster.y > FlxG.height + monster.height)
 			{
 				beatMonsters.remove(monster);
 				monster.destroy();
+
+				continue;
 			}
+
+			if (!monster.overlaps(player.collision)) continue;
+			if (immortal || inCutscene || player.stunned) continue;
+			if (!camGame.visible || camGame.alpha < 0.1) continue;
+
+			player.stunned = true;
+			playerPlayAnim('hurt');
+			player.velocity.x = 0;
+
+			beatMonsters.remove(monster);
+			monster.destroy();
+
+			FlxG.sound.play(Paths.getAudio('game/hurt'));
+
+			hits++;
 		}
 
 		if (beatMonsterSpawner == null) return;
@@ -267,7 +269,7 @@ class PlayState extends ConductorState
 		player.flipX = mult > -1;
 		player.velocity.x += (player.data.config.speed * shiftThing) * mult;
 
-		if (!playerStunned) playerPlayAnim('move');
+		if (!player.stunned) playerPlayAnim('move');
 	}
 
 	function playerVelocityDamping() player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
@@ -318,7 +320,7 @@ class PlayState extends ConductorState
 			var scoreInc:Int = 25;
 
 			totalScore += scoreInc;
-			if (!playerStunned) score += scoreInc;
+			if (!player.stunned) score += scoreInc;
 		}
 
 		if (canSpawnMonster && Math.floor(step % data.beatMonsters.stepRate) == 0) spawnBeatMonster();
@@ -423,13 +425,15 @@ class PlayState extends ConductorState
 			case 'beatmonsters-resume': data.beatMonsters.spawn = true;
 
 			// the old beat system
-			case 'beatmonsters-setrate', 'beatmonsters-rate', 'beatmonsters-setbeatrate', 'beatmonsters-beatrate': if (event.data != null
+			case 'beatmonsters-setrate', 'beatmonsters-rate', 'beatmonsters-setbeatrate', 'beatmonsters-beatrate':
+				if (event.data != null
 					&& (Std.isOfType(event.data,
 						Float) || Std.isOfType(event.data,
 							Int) || Std.isOfType(event.data,
 							String))) data.beatMonsters.stepRate = Math.floor((Std.parseFloat(Std.string(event.data)) ?? 1.0) * 4);
 
-			case 'beatmonsters-setsteprate', 'beatmonsters-steprate': if (event.data != null
+			case 'beatmonsters-setsteprate', 'beatmonsters-steprate':
+				if (event.data != null
 					&& (Std.isOfType(event.data,
 						Float) || Std.isOfType(event.data,
 							Int) || Std.isOfType(event.data, String))) data.beatMonsters.stepRate = Math.floor((Std.parseFloat(Std.string(event.data)) ?? 1));
@@ -438,6 +442,8 @@ class PlayState extends ConductorState
 
 	function generateStage()
 	{
+		makeStage(song?.stage ?? 'stage');
+
 		if (song?.id == 'train getaway' && song?.variation == defaultVariation)
 		{
 			var fireSegs:Array<Float> = [];
@@ -482,8 +488,6 @@ class PlayState extends ConductorState
 				id: 'traingetaway-gunJammed'
 			});
 		}
-
-		makeStage(song?.stage ?? 'stage');
 	}
 
 	var containment04_tubeSubject:StageSprite;
@@ -808,7 +812,7 @@ class PlayState extends ConductorState
 			if (inCutscene) return;
 
 			playerPlayAnim('idle');
-			playerStunned = false;
+			player.stunned = false;
 		});
 
 		player.screenCenter();

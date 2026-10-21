@@ -9,6 +9,8 @@ class Player extends RWSprite
 	public var data(default, null):PlayerData;
 	public var collision(default, null):FlxSprite;
 
+	public var stunned:Bool = false;
+
 	override public function new(player:String)
 	{
 		data = new PlayerData(player);

@@ -71,6 +71,9 @@
 
 ## Bug Fixes
 
+- Fixed beat monsters not being able to hit you while the game camera opacity is less then 10%
+    - I accidentally used an and operator instead of an or
+
 - Fixed being able to change selection or volume in freeplay while transitioning
 - Fixed Scroll Down Chinatown last 2 lines of dialogue being associated with the wrong speaker
 - Fixed freeplay crashes relating to null song audio
