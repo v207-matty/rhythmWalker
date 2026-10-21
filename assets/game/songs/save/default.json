@@ -1,0 +1,12 @@
+{
+    "id": "save",
+    "variation": "default",
+    "scrollSpeed": 6,
+    "bpmChanges": [
+        {
+            "t": 0,
+            "bpm": 260
+        }
+    ],
+    "events": []
+}

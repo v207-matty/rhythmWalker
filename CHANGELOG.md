@@ -2,8 +2,8 @@
 
 ## Songs
 
-- TBA: Chase
-- TBA: Save
+- Chase
+- Save
 
 - TBA: Planning
 - TBA: Ambush

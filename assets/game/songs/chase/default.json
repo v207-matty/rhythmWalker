@@ -1,0 +1,12 @@
+{
+    "id": "chase",
+    "variation": "default",
+    "scrollSpeed": 4,
+    "bpmChanges": [
+        {
+            "t": 0,
+            "bpm": 120
+        }
+    ],
+    "events": []
+}

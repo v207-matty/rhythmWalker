@@ -63,6 +63,20 @@
             ]
         },
         {
+            "song": "Chase",
+            "filters": [
+                "volume4",
+                "day3"
+            ]
+        },
+        {
+            "song": "Save",
+            "filters": [
+                "volume4",
+                "day3"
+            ]
+        },
+        {
             "song": "First Steps",
             "filters": [
                 "volume3",
