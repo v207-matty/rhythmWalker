@@ -31,6 +31,7 @@ class PlayState extends ConductorState
 
 	public var player(default,null):Player;
 	public var beatMonsters(default,null):FlxSpriteGroup;
+	public var stage(default,null):Stage;
 
 	public var song(default,null):Song;
 	public var songEvents:Array<FlxTimer> = [];
@@ -104,6 +105,12 @@ class PlayState extends ConductorState
 		FlxG.sound.playMusic(Paths.getSong(song.id, song.variation), 1, false);
 		FlxG.sound.music.onComplete = onSongEnd;
 
+		if (FlxG.sound.music.length < 1)
+		{
+			skipping = true;
+			onSongEnd();
+		}
+
 		FlxRhythmConductorUtil.loadMeta(conductor, FlxRhythmConductorUtil.parseTimeChanges(song.bpmChanges));
 
 		trace('song len: ${FlxG.sound.music.length / 1000}s');
@@ -139,12 +146,6 @@ class PlayState extends ConductorState
 		beatMonsterSpawner.shader = beatMonsters.shader;
 
 		for (event in song.events) addEvent(event);
-
-		if (FlxG.sound.music.length < 1)
-		{
-			skipping = true;
-			onSongEnd();
-		}
 
 		transitionIn();
 
@@ -449,7 +450,9 @@ class PlayState extends ConductorState
 
 	function generateStage()
 	{
-		makeStage(song?.stage ?? 'stage');
+		stage = StageManager.get(song?.stage ?? 'stage');
+
+		if (stage != null) stage.build();
 
 		if (song?.id == 'train getaway' && song?.variation == defaultVariation)
 		{
