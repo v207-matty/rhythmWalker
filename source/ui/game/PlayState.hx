@@ -25,27 +25,29 @@ using StringTools;
 
 class PlayState extends ConductorState
 {
-	var immortal:Bool = #if immortal true #else false #end;
+	public static var instance:PlayState;
 
-	var player:Player;
-	var beatMonsters:FlxSpriteGroup;
+	public var immortal(default, null):Bool = #if immortal true #else false #end;
 
-	var song:Song;
-	var songEvents:Array<FlxTimer> = [];
+	public var player(default,null):Player;
+	public var beatMonsters(default,null):FlxSpriteGroup;
 
-	var scoreText:FlxText;
-	var totalScore:Int = 0;
-	var score:Int = 0;
-	var hits:Int = 0;
+	public var song(default,null):Song;
+	public var songEvents:Array<FlxTimer> = [];
 
-	var camGame:FlxCamera;
-	var camHUD:FlxCamera;
+	public var scoreText(default,null):FlxText;
+	public var totalScore:Int = 0;
+	public var score:Int = 0;
+	public var hits:Int = 0;
 
-	var camGameFollow:FlxObject;
+	public var camGame(default,null):FlxCamera;
+	public var camGameFollow(default,null):FlxObject;
 
-	var beatMonsterSpawner:FlxSprite;
+	public var camHUD(default,null):FlxCamera;
 
-	var data = {
+	public var beatMonsterSpawner(default,null):FlxSprite;
+
+	public var data(default,null) = {
 		beatMonsters: {
 			spawn: true,
 			stepRate: 4,
@@ -53,12 +55,12 @@ class PlayState extends ConductorState
 		}
 	};
 
-	var stageBackLayer:FlxSpriteGroup;
-	var stageFrontLayer:FlxSpriteGroup;
+	public var stageBackLayer(default,null):FlxSpriteGroup;
+	public var stageFrontLayer(default,null):FlxSpriteGroup;
 
-	var timeBar:RWSprite;
-	var timeBarSongLinked:Bool = false;
-	var timeBarTarget:Float = 0.0;
+	public var timeBar(default,null):RWSprite;
+	public var timeBarSongLinked:Bool = false;
+	public var timeBarTarget:Float = 0.0;
 
 	override public function new(song:String, ?variation:SongVariation = defaultVariation)
 	{
@@ -69,11 +71,21 @@ class PlayState extends ConductorState
 		FlxG.log.add(song);
 	}
 
+	override function destroy()
+	{
+		super.destroy();
+
+		instance = null;
+	}
+
 	override function create()
 	{
 		FlxTransitionableState.skipNextTransIn = true;
 
 		super.create();
+
+		instance = null;
+		instance = this;
 
 		camGameFollow = new FlxObject(FlxG.width / 2, FlxG.height / 2);
 		add(camGameFollow);
