@@ -326,7 +326,8 @@ abstract Expression(ExpressionType)
 			case EIdentifier(name):
 				if (!variables.exists(name))
 				{
-					throw new Error('cannot evaluate expression with unset variable: $name');
+					trace('cannot evaluate expression with unset variable: $name');
+					return 0;
 				}
 				variables.get(name);
 			case EUnary(op, operand):

@@ -123,6 +123,7 @@ class Stage
 
 	public function createStageProp(index:Int, object:StageObjectData, ?props:Map<String, FlxSprite>):StageObjectData
 	{
+		var graphic = Paths.getImagePath('game/stages/$id/${object.graphic}');
 		var centerAxes:FlxAxes = (object.center is Bool) ? (object.center) ? XY : NONE : ((object.center is String) ? FlxAxes.fromString(object.center) : NONE);
 
 		function applyBasicStuff(object:FlxSprite, data:StageObjectData)
@@ -219,12 +220,12 @@ class Stage
 		switch (object.type)
 		{
 			case backdrop:
-				if (object.graphic == null)
+				if (graphic == null)
 					return null;
 
 				var repeatAxes:FlxAxes = FlxAxes.fromString(object.repeatAxes) ?? XY;
 
-				var backdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$id/${object.graphic}'));
+				var backdrop = new FlxBackdrop(graphic);
 				backdrop.repeatAxes = repeatAxes;
 				applyBasicStuff(backdrop, object);
 				addObject(object?.id ?? '$index', backdrop);
@@ -240,11 +241,11 @@ class Stage
 				addObject(object?.id ?? '$index', floor);
 
 			case sprite:
-				if (object.graphic == null)
+				if (graphic == null)
 					return null;
 
-				var spr = new StageSprite('$id/${object.graphic}', object.animated, object.frame?.width, object.frame?.height,);
-				applyBasicStuff(spr, object);
+				var spr = new FlxSprite();
+				spr.loadGraphic(graphic, object.animated, object.frame?.width, object.frame?.height);
 
 				if (object.animated)
 					for (index => animation in object.animations)
@@ -252,8 +253,14 @@ class Stage
 						if (animation.frames == null || animation.frames.length < 1)
 							return null;
 
-						spr.addAnim(animation.name ?? '$index', animation.frames, animation?.fps ?? 24, animation.looped, animation.flipX, animation.flipY);
+						spr.animation.add(animation.name ?? '$index', animation.frames, animation?.fps ?? 24, animation.looped, animation.flipX,
+							animation.flipY);
+
+						if (index == 0)
+							spr.animation.play(animation.name ?? '$index');
 					}
+
+				applyBasicStuff(spr, object);
 
 				addObject(object?.id ?? '$index', spr);
 		}
@@ -265,16 +272,16 @@ class Stage
 
 	public function getExpressionVariablesFrom(name:String, d:Dynamic)
 		for (field in Reflect.fields(d))
-			addExpressionVariable('${name}_${field}', Reflect.getProperty(d, field));
+			addExpressionVariable('$name.$field', Reflect.getProperty(d, field));
 
 	public function addExpressionVariable(name:String, value:Dynamic)
-		expressionVariableMap.set(name, Value.fromDynamic(value));
+		expressionVariableMap.set(name.replace('.', '_'), Value.fromDynamic(value));
 
 	public function removeExpressionVariable(name:String)
 		expressionVariableMap.remove(name);
 
 	public function applyExpressionShit(expression:Expression)
-		return Expressions.evaluate([expression.toString().replace('.', '_')], expressionVariableMap)[0];
+		return Expressions.evaluate([expression], expressionVariableMap)[0];
 
 	public function applyFloatOrString(a:OneOfTwo<String, Null<Float>>):Float
 		return (a is Float) ? a : (a is String) ? applyExpressionShit(Expression.fromString(a)) : 0;

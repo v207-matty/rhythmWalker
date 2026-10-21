@@ -1,8 +1,13 @@
 # 0.4.0 - 11/1/2026
 
-- The stages are JSON driven now!! ([#6](https://github.com/v207-matty/rhythmWalker/issues/6) & [#5](https://github.com/v207-matty/rhythmWalker/issues/5))
+- The stages are JSON driven now!! (You may notice differences cuz of this) ([#6](https://github.com/v207-matty/rhythmWalker/issues/6) & [#5](https://github.com/v207-matty/rhythmWalker/issues/5))
     - Set the "stage" field in your song JSON
     - Make sure that stage has a json exists "assets/game/stages/the stage" with the filename "stage.json"
+    - Every possible optimization, change, or fix was applied to each stags aswell
+        - Train Getaway stage has you lower now
+        - Train Wreak stage has been modified cause I now have the crowd in one image + reprogrammed the creation of it so yeah
+        - The Lost Media stage sky color is now the intended color and not black
+        - And more!!!
 
 - Added "Quality Warning" screen that shows up to warn you that the music and gameplay aren't actually that good ([#8](https://github.com/v207-matty/rhythmWalker/issues/8))
     - [WEB] This 'replaces' the Click Anywhere screen
@@ -21,13 +26,6 @@
     - [MOBILE] Dialogue Scene gets 2 buttons for skipping and proceeding
     - [MOBILE] Freeplay gets a play button
     - [MOBILE] Freeplay layout flips
-
-- Every stage that could get optimizations, changes, or fixes has gotten an optimization, change, or fix (You may notice slight differences cuz of this)
-    - The Lost Media sky now stays
-    - Train Getaway stage has you lower now
-    - Train Wreak stage has been modified cause I now have the crowd in one image + reprogrammed the creation of it so yeah
-    - The Lost Media stage sky color is now the intended color
-    - And more!!!
 
 - Freeplay song texts has padding now when not centered
 - Gameplay now lets you click the screen to move (the player will move to where your cursor is)

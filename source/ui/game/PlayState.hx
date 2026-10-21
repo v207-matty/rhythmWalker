@@ -375,14 +375,9 @@ class PlayState extends ConductorState
 		{
 			layer.forEach(sprite ->
 			{
-				if (!Std.isOfType(sprite, StageSprite))
+				if (sprite == null || !sprite.animation.exists('idle') || sprite.animation.name != 'idle' && !sprite.animation.finished)
 					return;
-
-				var stageSprite = cast(sprite, StageSprite);
-				if (stageSprite == null)
-					return;
-
-				stageSprite.dance();
+				sprite.animation.play('idle');
 			});
 		}
 
@@ -498,13 +493,13 @@ class PlayState extends ConductorState
 		}
 	}
 
-	var containment04_tubeSubject:StageSprite;
+	var containment04_tubeSubject:FlxSprite;
 
 	var trainGetaway_i:Float = 1;
 	var trainGetaway_sky:FlxBackdrop;
-	var trainGetaway_shooter:TrainGetawayShooter;
+	var trainGetaway_shooter:FlxSprite;
 
-	var trainWreak_shooter:TrainWreakShooter;
+	var trainWreak_shooter:FlxSprite;
 
 	function generateStage()
 	{
@@ -590,46 +585,38 @@ class PlayState extends ConductorState
 				var x = stageData.config?.player?.scale?.x;
 				var y = stageData.config?.player?.scale?.y;
 
-				if (x == null || y == null)
-					return;
-
-				player.setScale();
-
-				player.x += stageData.applyFloatOrString(x);
-				player.y += stageData.applyFloatOrString(y);
+				player.setScale(stageData.applyFloatOrString(x) ?? 2, stageData.applyFloatOrString(y) ?? 2);
 			}
 
 			player.screenCenter();
+			player.y = FlxG.height - player.height * 1.25;
+
+			stageData.addExpressionVariable('player_width', player.width);
+			stageData.addExpressionVariable('player_height', player.height);
 
 			if (stageData.config?.player?.position != null)
 			{
 				var x = stageData.config?.player?.position?.x;
 				var y = stageData.config?.player?.position?.y;
 
-				if (x == null || y == null)
-					return;
-
-				player.setPosition();
-
-				player.x += stageData.applyFloatOrString(x);
-				player.y += stageData.applyFloatOrString(y);
+				player.setPosition(stageData.applyFloatOrString(x) ?? player.x, stageData.applyFloatOrString(y) ?? player.y);
 			}
 
-			player.y = FlxG.height - player.height * 1.25;
-
-			stageData.addExpressionVariable('player_width', player.width);
-			stageData.addExpressionVariable('player_height', player.height);
 			stageData.addExpressionVariable('player_x', player.x);
 			stageData.addExpressionVariable('player_y', player.y);
 		}
 
-		applyPlayerData();
-
 		for (prop in stageBackLayerMap = stageData.createStageProps(back))
+		{
+			prop.camera = camGame;
 			stageBackLayer.add(prop);
+		}
 
 		for (prop in stageFrontLayerMap = stageData.createStageProps(front))
+		{
+			prop.camera = camGame;
 			stageFrontLayer.add(prop);
+		}
 
 		for (layer in [stageBackLayer, stageFrontLayer,])
 			layer.sort((s, a, b) -> FlxSort.byValues(s, a.ID, b.ID), FlxSort.ASCENDING);
@@ -638,16 +625,18 @@ class PlayState extends ConductorState
 
 		switch ([song.id, song.variation])
 		{
-			case ['train-getaway', defaultVariation]:
-				trainGetaway_sky = cast stageBackLayerMap.get('sky');
-				trainGetaway_shooter = cast stageBackLayerMap.get('shooter');
+			case ['train getaway', defaultVariation]:
+				trainGetaway_sky = cast(stageBackLayerMap.get('sky'), FlxBackdrop);
+				trainGetaway_shooter = stageBackLayerMap.get('shooter');
 
-				if (trainGetaway_shooter != null)
-					FlxTween.tween(trainGetaway_shooter, {x: FlxG.width - trainGetaway_shooter.width}, 2.75, {
-						ease: FlxEase.sineInOut
-					});
+				if (trainGetaway_shooter == null)
+					return;
 
-				trace(trainGetaway_shooter);
+				trainGetaway_shooter.animation.play('idle');
+
+				FlxTween.tween(trainGetaway_shooter, {x: FlxG.width - trainGetaway_shooter.width}, 2.75, {
+					ease: FlxEase.sineInOut
+				});
 
 			default:
 		}
@@ -743,7 +732,7 @@ class PlayState extends ConductorState
 				{
 					stageBackLayer.forEach(sprite ->
 					{
-						if (!Std.isOfType(sprite, StageSprite) || sprite == null || sprite.isOnScreen(sprite.camera))
+						if (sprite == null || sprite.isOnScreen(sprite.camera))
 							return;
 
 						stageBackLayer.remove(sprite);
