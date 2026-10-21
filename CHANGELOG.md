@@ -13,7 +13,9 @@
 - TBA: Train Wreak (Resolved)
 - TBA: Encapture (Resolved)
 
-## Gameplay
+## Gameplay Related
+
+- bro-mental no longer has a flippable idle (Just like the other bruised bro skins)
 
 - First Steps (Resolved) and Shift Around (Resolved) now have faded Beat Monsters
 

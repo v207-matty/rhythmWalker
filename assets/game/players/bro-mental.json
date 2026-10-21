@@ -1,11 +1,17 @@
 {
     "animations": [
         {
-            "name": "idle",
+            "name": "idleL",
+            "frames": [
+                0
+            ]
+        },
+        {
+            "name": "idleR",
             "frames": [
                 0
             ],
-            "createFlippedVarients": true
+            "flipX": true
         },
         {
             "name": "hurt",
