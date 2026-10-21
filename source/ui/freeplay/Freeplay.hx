@@ -458,15 +458,11 @@ class Freeplay extends ConductorState
 			final code = '${entries[i].song}-${(entries[i].variation ?? defaultVariation)}'.toLowerCase();
 			var textSongRank:SongRank = Save.scores.get(code)?.rank ?? NONE;
 
-			#if FREEPLAY_DISPLAY_SCORE
-			text.color = (textSongRank == NONE) ? FlxColor.RED : FlxColor.WHITE;
-			#end
+			text.color = #if FREEPLAY_DISPLAY_SCORE (textSongRank == NONE) ? FlxColor.RED : #end FlxColor.WHITE;
 
 			if (i == selectedEntry)
 			{
-				#if FREEPLAY_DISPLAY_SCORE
-				text.color = (textSongRank == NONE) ? FlxColor.ORANGE : FlxColor.YELLOW;
-				#end
+				text.color = #if FREEPLAY_DISPLAY_SCORE (textSongRank == NONE) ? FlxColor.ORANGE : #end FlxColor.YELLOW;
 				camFollow.y = text.y;
 			}
 		}
