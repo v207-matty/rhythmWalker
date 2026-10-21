@@ -8,6 +8,6 @@ Cool music game where you avoid projectiles falling towards you that spawn to th
 
 ## Credits
 
-[Maki (Me!)](https://www.youtube.com/@sphis-sinco) : Director, Programming, Art, Music
+[Matty (Me!)](https://www.youtube.com/@MattyV207) : Director, Programming, Art, Animation, Music
 
 [Nathan Gibson](https://nathangibson.myportfolio.com) : Menu UI Sounds
