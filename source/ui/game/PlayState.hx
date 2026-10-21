@@ -578,6 +578,8 @@ class PlayState extends ConductorState
 
 		stageData = new Stage(stage);
 
+		camGame.bgColor = FlxColor.fromString(stageData.config?.bgColor ?? '0xFFFFFFFF');
+
 		if (stageData.config?.player?.scale != null)
 		{
 			var x = stageData.config?.player?.scale?.x;
@@ -614,8 +616,6 @@ class PlayState extends ConductorState
 		stageData.addExpressionVariable('player_height', player.height);
 		stageData.addExpressionVariable('player_x', player.x);
 		stageData.addExpressionVariable('player_y', player.y);
-
-		camGame.bgColor = FlxColor.fromString(stageData.config?.bgColor ?? '0xFFFFFFFF');
 
 		for (prop in stageBackLayerMap = stageData.createStageProps(back))
 			stageBackLayer.add(prop);

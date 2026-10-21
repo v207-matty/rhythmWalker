@@ -86,29 +86,6 @@ class Stage
 			bgColor: null
 		};
 
-		this.config.bgColor ??= '0xFF000000';
-
-		this.config.player ??= {
-			scale: null,
-			position: null,
-		};
-
-		this.config.player.position ??= {
-			x: null,
-			y: null,
-		};
-
-		this.config.player.scale ??= {
-			x: null,
-			y: null,
-		};
-
-		this.config.beatmonsters ??= {
-			scale: null
-		};
-
-		this.config.beatmonsters.scale ??= 1.0;
-
 		addExpressionVariable('game_width', FlxG.width);
 		addExpressionVariable('game_height', FlxG.height);
 	}
