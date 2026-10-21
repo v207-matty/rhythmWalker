@@ -1,5 +1,6 @@
 package ui;
 
+import flixel.addons.ui.FlxUIState;
 import util.Constants;
 import util.Flag;
 import ui.game.*;
