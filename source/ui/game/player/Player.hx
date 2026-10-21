@@ -33,8 +33,6 @@ class Player extends RWSprite
 			addAnim(anim.name + 'R', anim.frames, anim.fps, anim.looped, anim.flipX, anim.flipY);
 		}
 
-		setScale(2);
-
 		collision = new FlxSprite().makeGraphic(data.config?.dimensions?.hitbox[0] ?? 32, data.config?.dimensions?.hitbox[1] ?? 32, FlxColor.RED);
 		collision.visible = false;
 	}

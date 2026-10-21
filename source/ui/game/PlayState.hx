@@ -515,6 +515,7 @@ class PlayState extends ConductorState
 			player.stunned = false;
 		});
 
+		player.setScale(2);
 		player.screenCenter();
 		player.y = FlxG.height - player.height * 1.25;
 		player.setCamera(camGame);
