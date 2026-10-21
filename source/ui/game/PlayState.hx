@@ -497,7 +497,6 @@ class PlayState extends ConductorState
 		}
 	}
 
-	
 	var containment04_tubeSubject:StageSprite;
 	var trainGetaway_i:Float = 1;
 	var trainGetaway_sky:FlxBackdrop;
@@ -579,23 +578,46 @@ class PlayState extends ConductorState
 
 		stageData = new Stage(stage);
 
+		if (stageData.config?.player?.scale != null)
+		{
+			var x = stageData.config?.player?.scale?.x;
+			var y = stageData.config?.player?.scale?.y;
+
+			if (x == null || y == null) return;
+
+			player.setScale();
+
+			player.x += stageData.applyFloatOrString(x);
+			player.y += stageData.applyFloatOrString(y);
+		}
+		
+		if (stageData.config?.player?.position != null)
+		{
+			var x = stageData.config?.player?.position?.x;
+			var y = stageData.config?.player?.position?.y;
+
+			if (x == null || y == null) return;
+
+			player.setPosition();
+
+			player.x += stageData.applyFloatOrString(x);
+			player.y += stageData.applyFloatOrString(y);
+		}
+
+		stageData.addExpressionVariable('player_width', player.width);
+		stageData.addExpressionVariable('player_height', player.height);
+		stageData.addExpressionVariable('player_x', player.x);
+		stageData.addExpressionVariable('player_y', player.y);
+
 		camGame.bgColor = FlxColor.fromString(stageData.config?.bgColor ?? '0xFFFFFFFF');
 
 		for (prop in stageBackLayerMap = stageData.createStageProps(back))
 			stageBackLayer.add(prop);
 
 		for (prop in stageFrontLayerMap = stageData.createStageProps(front))
-			stageBackLayer.add(prop);
+			stageFrontLayer.add(prop);
 
-		player.setScale(stageData.config?.player?.scale?.x ?? 2, stageData.config?.player?.scale?.x ?? 2);
-
-		if (stageData.config?.player?.position != null)
-		{
-			player.setPosition();
-
-			player.x += stageData.config?.player?.position?.x ?? 0;
-			player.y += stageData.config?.player?.position?.y ?? 0;
-		}
+		trace(stageData.expressionVariableMap);
 	}
 
 	function makePlayer()

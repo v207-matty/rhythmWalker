@@ -1,5 +1,6 @@
 package ui.game.stage;
 
+import flixel.util.typeLimit.OneOfTwo;
 import haxpression.Expression;
 import haxpression.Value;
 import haxpression.Expressions;
@@ -18,6 +19,8 @@ import hxjsonast.Json;
 import json2object.JsonParser;
 import flixel.FlxG;
 import lime.utils.Assets;
+
+using StringTools;
 
 class Stage
 {
@@ -105,6 +108,9 @@ class Stage
 		};
 
 		this.config.beatmonsters.scale ??= 1.0;
+
+		addExpressionVariable('game_width', FlxG.width);
+		addExpressionVariable('game_height', FlxG.height);
 	}
 
 	public function toString():String
@@ -145,6 +151,9 @@ class Stage
 
 		function applyBasicStuff(object:FlxSprite, data:StageObjectData)
 		{
+			addExpressionVariable('graphic_width', object.width);
+			addExpressionVariable('graphic_height', object.height);
+
 			object.alpha = data.alpha;
 			object.blend = Constants.BLENDMODE_MAP.get(data.blend?.toLowerCase() ?? 'NORMAL') ?? NORMAL;
 			object.screenCenter(centerAxes);
@@ -152,26 +161,29 @@ class Stage
 
 			if (data.position != null)
 			{
-				object.x += data.position?.x ?? 0;
-				object.y += data.position?.y ?? 0;
+				object.x += applyFloatOrString(data.position?.x ?? 0);
+				object.y += applyFloatOrString(data.position?.y ?? 0);
 			}
 
 			if (data.scaleToScreen)
 				object.setGraphicSize(FlxG.width, FlxG.height);
 			else if (data.scale != null)
-				object.scale.set(data.scale.x, data.scale.y);
+				object.scale.set(applyFloatOrString(data.scale.x), applyFloatOrString(data.scale.y));
 
 			if (data.scrollFactor != null)
 			{
-				object.scrollFactor.x += data.scrollFactor?.x ?? 1;
-				object.scrollFactor.y += data.scrollFactor?.y ?? 1;
+				object.scrollFactor.x += applyFloatOrString(data.scrollFactor?.x ?? 1);
+				object.scrollFactor.y += applyFloatOrString(data.scrollFactor?.y ?? 1);
 			}
 
 			if (data.velocity != null)
 			{
-				object.velocity.x += data.velocity?.x ?? 0;
-				object.velocity.y += data.velocity?.y ?? 0;
+				object.velocity.x += applyFloatOrString(data.velocity?.x ?? 0);
+				object.velocity.y += applyFloatOrString(data.velocity?.y ?? 0);
 			}
+
+			removeExpressionVariable('graphic_width');
+			removeExpressionVariable('graphic_height');
 
 			var newShader = new CustomShader(data.shader?.shader ?? null);
 
@@ -210,6 +222,24 @@ class Stage
 			object.shader = newShader;
 		}
 
+		function addObject(id:String, obj:FlxSprite)
+		{
+			if (id == null)
+				return;
+			if (obj == null)
+				return;
+
+			addExpressionVariable(id + '_alpha', obj.alpha);
+
+			addExpressionVariable(id + '_x', obj.x);
+			addExpressionVariable(id + '_y', obj.y);
+			
+			addExpressionVariable(id + '_width', obj.width);
+			addExpressionVariable(id + '_height', obj.height);
+
+			props.set(id, obj);
+		}
+
 		switch (object.type)
 		{
 			case backdrop:
@@ -218,7 +248,7 @@ class Stage
 
 				var backdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$id/${object.graphic}'), repeatAxes);
 				applyBasicStuff(backdrop, object);
-				props.set(object?.id ?? '$index', backdrop);
+				addObject(object?.id ?? '$index', backdrop);
 
 			case floor:
 				if (object.parent == null)
@@ -228,7 +258,7 @@ class Stage
 
 				var floor = new Floor(props.get(object.parent), 0xFFFFFFFF, null, null);
 				applyBasicStuff(floor, object);
-				props.set(object?.id ?? '$index', floor);
+				addObject(object?.id ?? '$index', floor);
 
 			case sprite:
 				if (object.graphic == null)
@@ -246,25 +276,27 @@ class Stage
 						spr.addAnim(animation.name ?? '$index', animation.frames, animation?.fps ?? 24, animation.looped, animation.flipX, animation.flipY);
 					}
 
-				props.set(object?.id ?? '$index', spr);
+				addObject(object?.id ?? '$index', spr);
 		}
 
 		return null;
 	}
 
-	var expressionVariableMap(default, null):Map<String, Value> = [];
+	public var expressionVariableMap(default, null):Map<String, Value> = [];
 
-	public function getExpressionVariablesFrom(d:Dynamic)
-	{
+	public function getExpressionVariablesFrom(name:String, d:Dynamic)
 		for (field in Reflect.fields(d))
-		{
-			var value = Reflect.getProperty(d, field);
+			addExpressionVariable('${name}_${field}', Reflect.getProperty(d, field));
 
-			if (value is Float || value is Int || value is String || value is Bool)
-				expressionVariableMap.set('${d}_${field}', value);
-		}
-	}
+	public function addExpressionVariable(name:String, value:Dynamic)
+		expressionVariableMap.set(name, Value.fromDynamic(value));
+
+	public function removeExpressionVariable(name:String)
+		expressionVariableMap.remove(name);
 
 	public function applyExpressionShit(expression:Expression)
-		return Expressions.evaluate([expression], expressionVariableMap);
+		return Expressions.evaluate([expression], expressionVariableMap)[0];
+
+	public function applyFloatOrString(a:OneOfTwo<String, Null<Float>>):Float
+		return (a is Float) ? a : (a is String) ? applyExpressionShit(Expression.fromString(a)) : 0;
 }

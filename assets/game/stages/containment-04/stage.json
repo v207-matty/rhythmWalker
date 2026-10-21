@@ -53,7 +53,7 @@
             },
             "position": {
                 "x": "(game_width / 4)",
-                "y": "game_height - floor_height - tube_height"
+                "y": "game_height - floor_height - graphic_height"
             },
             "graphic": "tube"
         },
@@ -66,7 +66,7 @@
             },
             "position": {
                 "x": "(game_width / 4) * 2",
-                "y": "game_height - floor_height - tube_height"
+                "y": "game_height - floor_height - graphic_height"
             },
             "graphic": "tube"
         },
@@ -79,7 +79,7 @@
             },
             "position": {
                 "x": "(game_width / 4) * 3",
-                "y": "game_height - floor_height - tube_height"
+                "y": "game_height - floor_height - graphic_height"
             },
             "graphic": "tube"
         },
@@ -93,7 +93,7 @@
             },
             "position": {
                 "x": "(game_width / 4) * 4",
-                "y": "game_height - floor_height - tube_height"
+                "y": "game_height - floor_height - graphic_height"
             },
             "animated": true,
             "frame": {
