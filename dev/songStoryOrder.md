@@ -54,8 +54,8 @@
 
 # Day 9
 
-- [0.4.x] Lost Media (Resolved) : Bro runs to Jez for help and Jez protects Bro from the cops
-- [0.4.x] Mental (Resolved) : Jez is knocked out by a cop and is in a nightmare coma
+- [0.5.0] Lost Media (Resolved) : Bro runs to Jez for help and Jez protects Bro from the cops
+- [0.5.0] Mental (Resolved) : Jez is knocked out by a cop and is in a nightmare coma
 
 # Day 10
 
