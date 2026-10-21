@@ -19,7 +19,7 @@ class QualityWarning extends FlxUIState
 	{
 		super.create();
 
-		var warning:FlxText = new FlxText(0, 0, 0,
+		var warning:FlxText = new FlxText(0, 0, FlxG.width,
 			'HELLO THERE!'
 			+ '\nWELCOME TO RHYTHM WALKER!'
 			+ '\n\nSorry to say this but if you actually think the songs are gonna sound good or that the gameplay will be good, you are mistaken :('
@@ -28,6 +28,7 @@ class QualityWarning extends FlxUIState
 			+ '\n\nNevertheless I hope you atleast have some bit of fun.'
 			+ '\n\n(Click anywhere to proceed)',
 			Constants.TEXT_SIZE);
+		warning.alignment = CENTER;
 		add(warning);
 		warning.screenCenter();
 	}
