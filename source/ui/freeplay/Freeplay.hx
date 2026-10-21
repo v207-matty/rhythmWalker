@@ -7,10 +7,8 @@ import ui.objects.RWSprite;
 import ui.objects.mobile.CornerButton;
 import flixel.util.FlxSort;
 import openfl.media.Sound;
-import flixel.addons.display.waveform.FlxWaveformBuffer;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.addons.display.waveform.FlxWaveform;
 import flixel.sound.FlxSound;
 import ui.game.song.Song;
 import ui.game.dialogue.DialogueScene;
@@ -23,6 +21,11 @@ import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.text.FlxText;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
+
+#if FREEPLAY_VISUALIZER
+import flixel.addons.display.waveform.FlxWaveform;
+import flixel.addons.display.waveform.FlxWaveformBuffer;
+#end
 
 using StringTools;
 
@@ -63,7 +66,7 @@ class Freeplay extends ConductorState
 	}
 
 	static var audioCache:Map<String, Sound> = [];
-	
+
 	#if FREEPLAY_VISUALIZER
 	static var audioVizCache:Map<String, FlxWaveform> = [];
 
