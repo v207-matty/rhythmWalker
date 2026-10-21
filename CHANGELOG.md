@@ -1,6 +1,17 @@
-# 0.4.0 (Memory Bundle) - 11/1/2026
+# 0.4.0 : Gloomy Days (Memory Bundle 1) - 11/1/2026
 
 ## Songs
+
+- TBA: Chase
+- TBA: Save
+
+- TBA: Planning
+- TBA: Ambush
+- TBA: Lu
+
+- TBA: Train Getaway (Resolved)
+- TBA: Train Wreak (Resolved)
+- TBA: Encapture (Resolved)
 
 ## Gameplay
 
