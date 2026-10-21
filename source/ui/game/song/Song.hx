@@ -1,67 +1,13 @@
 package ui.game.song;
 
-import json2object.JsonParser;
-import json2object.JsonWriter;
-import flixel.addons.sound.MusicTimeChangeEvent;
-import flixel.FlxG;
-import openfl.net.FileReference;
-import haxe.Json;
-import lime.utils.Assets;
-
-using StringTools;
-
-class Song
+class Song extends PlayableComponent
 {
-	public var id(default, null):String;
-	public var variation(default, null):SongVariation;
+	public var song(default, null):String;
 
-	public var bpmChanges(default, null):Array<MusicTimeChangeData> = [
-		{
-			t: 0.0,
-			bpm: 0.0,
-		}
-	];
-	public var events(default, null):Array<SongEventData> = [];
-	public var scrollSpeed(default, null):Null<Float> = 1;
-
-	public var player(default, null):String = 'bro-regular';
-	public var stage(default, null):String = 'stage';
-
-	public function new(nid:String, nvariation:SongVariation = defaultVariation, ?loadFile:Bool = true)
+	override public function new(song:String)
 	{
-		this.id = nid.toLowerCase();
-		this.variation = new SongVariation(nvariation?.toString()?.toLowerCase() ?? SongVariation.defaultVariation.toString());
+		super();
 
-		if (variation?.toString()?.trim()?.length < 1 || variation == null) variation = defaultVariation;
-
-		if (loadFile) this.loadFile();
+		this.song = song;
 	}
-
-	public function loadFile()
-	{
-		try
-		{
-			var path:String = Paths.json('game/songs/$id/$variation');
-			loadData(new JsonParser<Song>().fromJson(Assets.getText(path), path));
-		}
-		catch (e)
-		{
-			FlxG.stage.window.alert('Song File Loading Error: ${e.message}');
-		}
-	}
-
-	public function loadData(json:Song)
-	{
-		if (json == null) throw 'Null JSON Data';
-
-		this.id = json?.id?.toLowerCase() ?? 'idk';
-		this.variation = new SongVariation(json?.variation) ?? defaultVariation;
-		this.bpmChanges = json?.bpmChanges ?? [];
-		this.events = json?.events ?? [];
-		this.scrollSpeed = json?.scrollSpeed ?? 1;
-		this.player = json?.player ?? 'bro-regular';
-		this.stage = json?.stage ?? 'stage';
-	}
-
-	public function toString():String return 'Song($id-$variation)';
 }

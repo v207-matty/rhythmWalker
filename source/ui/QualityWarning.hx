@@ -45,7 +45,7 @@ class QualityWarning extends FlxUIState
 		#if GAMEPLAY
 		FlxG.switchState(() -> new PlayState('train wreak'));
 		#elseif DIALOGUE
-		FlxG.switchState(() -> new DialogueScene(new Song('encapture')));
+		FlxG.switchState(() -> new DialogueScene(new SongData('encapture')));
 		#elseif RESULTS
 		FlxG.switchState(() -> new ResultsState('train wreak-default'));
 		#elseif PLAYER_VIEWER

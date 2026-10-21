@@ -33,7 +33,8 @@ class PlayState extends ConductorState
 	public var beatMonsters(default, null):FlxSpriteGroup;
 	public var stage(default, null):Stage;
 
-	public var song(default, null):Song;
+	public var song(default,null):Song;
+	public var songData(default, null):SongData;
 	public var songEvents:Array<FlxTimer> = [];
 
 	public var scoreText(default, null):FlxText;
@@ -67,7 +68,7 @@ class PlayState extends ConductorState
 	{
 		super(null, null);
 
-		this.song = new Song(song, variation ?? defaultVariation);
+		this.songData = new SongData(song, variation ?? defaultVariation);
 
 		FlxG.log.add(song);
 	}
@@ -102,7 +103,7 @@ class PlayState extends ConductorState
 
 		resetConductor();
 
-		FlxG.sound.playMusic(Paths.getSong(song.id, song.variation), 1, false);
+		FlxG.sound.playMusic(Paths.getSong(songData.id, songData.variation), 1, false);
 		FlxG.sound.music.onComplete = onSongEnd;
 
 		if (FlxG.sound.music.length < 1)
@@ -113,7 +114,7 @@ class PlayState extends ConductorState
 			return;
 		}
 
-		FlxRhythmConductorUtil.loadMeta(conductor, FlxRhythmConductorUtil.parseTimeChanges(song.bpmChanges));
+		FlxRhythmConductorUtil.loadMeta(conductor, FlxRhythmConductorUtil.parseTimeChanges(songData.bpmChanges));
 
 		trace('song len: ${FlxG.sound.music.length / 1000}s');
 
@@ -143,11 +144,11 @@ class PlayState extends ConductorState
 		scoreText.camera = camHUD;
 		scoreText.alignment = CENTER;
 
-		generateSongStuff();
+		generateSong();
 
 		beatMonsterSpawner.shader = beatMonsters.shader;
 
-		for (event in song.events) addEvent(event);
+		for (event in songData.events) addEvent(event);
 
 		transitionIn();
 
@@ -189,7 +190,7 @@ class PlayState extends ConductorState
 		}
 
 		if (!inCutscene) managePlayer();
-		else if (inCutscene && song.id == 'encapture') playerVelocityDamping();
+		else if (inCutscene && songData.id == 'encapture') playerVelocityDamping();
 
 		if (beatMonsters != null) manageBeatMonsters();
 
@@ -204,7 +205,7 @@ class PlayState extends ConductorState
 
 		for (monster in beatMonsters)
 		{
-			monster.y += monster.height * (.2 * song.scrollSpeed);
+			monster.y += monster.height * (.2 * songData.scrollSpeed);
 
 			if (monster.y > FlxG.height + monster.height)
 			{
@@ -244,7 +245,7 @@ class PlayState extends ConductorState
 
 	function managePlayer()
 	{
-		player.maxVelocity.x = player.data.config.maxVelocityBase * song.scrollSpeed;
+		player.maxVelocity.x = player.data.config.maxVelocityBase * songData.scrollSpeed;
 
 		if (FlxG.keys.anyPressed([A, LEFT]) || (FlxG.mouse.pressed && FlxG.mouse.x < player.x)) move(-1);
 		else if (FlxG.keys.anyPressed([D, RIGHT]) || (FlxG.mouse.pressed && FlxG.mouse.x > player.x)) move(1);
@@ -307,7 +308,7 @@ class PlayState extends ConductorState
 			return;
 		}
 
-		final songCode = '${song.id}-${song.variation}';
+		final songCode = '${songData.id}-${songData.variation}';
 
 		trace('Yay we done');
 
@@ -430,11 +431,13 @@ class PlayState extends ConductorState
 		stage?.onEvent(event);
 	}
 
-	function generateSongStuff()
+	function generateSong()
 	{
-		makeStage(song?.stage ?? 'stage');
+		song = new Song(songData?.id ??'');
 
-		if (song?.id == 'train getaway' && song?.variation == defaultVariation)
+		makeStage(songData?.stage ?? 'stage');
+
+		if (songData?.id == 'train getaway' && songData?.variation == defaultVariation)
 		{
 			var fireSegs:Array<Float> = [];
 			var jammedSegs:Array<Float> = [];
@@ -479,7 +482,7 @@ class PlayState extends ConductorState
 			});
 		}
 
-		if (song.variation == resolved && (song.id == 'first steps' || song.id == 'shift around')) beatMonsters.alpha = 0.5;
+		if (songData.variation == resolved && (songData.id == 'first steps' || songData.id == 'shift around')) beatMonsters.alpha = 0.5;
 	}
 
 	function makeStage(stage:String)
@@ -504,7 +507,7 @@ class PlayState extends ConductorState
 
 	function makePlayer()
 	{
-		player = new Player(song.player);
+		player = new Player(songData.player);
 
 		playerPlayAnim('idle');
 		player.animation.onFinish.add(animName ->
@@ -540,7 +543,7 @@ class PlayState extends ConductorState
 
 		seenIntroCutscene = true;
 
-		switch ([song.id, song.variation])
+		switch ([songData.id, songData.variation])
 		{
 			case ['lost media', defaultVariation]:
 				camHUD.alpha = 0;
@@ -658,7 +661,7 @@ class PlayState extends ConductorState
 			onSongEnd();
 		}
 
-		switch ([song.id, song.variation])
+		switch ([songData.id, songData.variation])
 		{
 			case ['train wreak', defaultVariation]:
 				idleAndDamp();

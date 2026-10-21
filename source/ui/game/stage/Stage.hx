@@ -1,27 +1,13 @@
 package ui.game.stage;
 
-import ui.game.song.SongEventData;
-
-class Stage
+class Stage extends PlayableComponent
 {
-	public var stage:String;
+	public var stage(default, null):String;
 
-	public var game(get, never):PlayState;
-
-	function get_game():PlayState return PlayState.instance;
-
-	public function new(stage:String)
+	override public function new(stage:String)
 	{
+		super();
+
 		this.stage = stage;
 	}
-
-	public function build() {}
-
-	public function onEvent(event:SongEventData) {}
-
-	public function onBeatHit(beat:Int, backward:Bool) {}
-
-	public function onStepHit(step:Int, backward:Bool) {}
-
-	public function update(elapsed:Float) {}
 }

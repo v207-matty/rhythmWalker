@@ -9,7 +9,7 @@ import flixel.text.FlxText;
 import haxe.Json;
 import lime.utils.Assets;
 import flixel.FlxG;
-import ui.game.song.Song;
+import ui.game.song.SongData;
 
 using StringTools;
 
@@ -17,10 +17,10 @@ class DialogueScene extends ConductorState
 {
 	public static var seenIntroCutscene:Bool = false;
 
-	var song:Song;
+	var song:SongData;
 	var dialogue:DialogueData;
 
-	override public function new(song:Song)
+	override public function new(song:SongData)
 	{
 		super();
 

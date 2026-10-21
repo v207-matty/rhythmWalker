@@ -10,7 +10,7 @@ import openfl.media.Sound;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.sound.FlxSound;
-import ui.game.song.Song;
+import ui.game.song.SongData;
 import ui.game.dialogue.DialogueScene;
 import ui.game.song.SongRank;
 import haxe.Json;
@@ -286,7 +286,7 @@ class Freeplay extends ConductorState
 		});
 
 		DialogueScene.seenIntroCutscene = false;
-		FlxG.switchState(() -> new DialogueScene(new Song(song.song, song.variation)));
+		FlxG.switchState(() -> new DialogueScene(new SongData(song.song, song.variation)));
 	}
 
 	override function finishTransOut()

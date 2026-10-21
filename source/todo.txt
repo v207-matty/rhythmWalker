@@ -5,6 +5,7 @@
     - Make playstate shaders togglable
 
 - Make PlayState as modular as possible
+    - Class System Songs
     - Class System Events
     - Class System Beat Monsters
         - Means Beat Monsters are more customizable
