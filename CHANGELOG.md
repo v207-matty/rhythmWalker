@@ -1,17 +1,30 @@
 # 0.4.0 - 11/1/2026
 
+## Gameplay
+
+- The Train Wreak ending cutscene has all hud elements fade
+
+- Every stage that could get optimizations, changes, or fixes has gotten an optimization, change, or fix (You may notice slight differences cuz of this)
+    - The Lost Media sky now stays
+    - Train Getaway stage has you lower now
+    - Train Wreak stage has been modified cause I now have the crowd in one image + reprogrammed the creation of it so yeah
+    - The Lost Media stage sky color is now the intended color
+    - And more!!!
+
+## Backend
+
 - The stages for songs are JSON driven now!! ([#6](https://github.com/v207-matty/rhythmWalker/issues/6))
     - Set the "stage" field in your song JSON
     - Sadly the stages are still hardcodedd, gotta work on that
 
-- Added "Quality Warning" screen that shows up to warn you that the music and gameplay aren't actually that good ([#8](https://github.com/v207-matty/rhythmWalker/issues/8))
-    - [WEB] This 'replaces' the Click Anywhere screen
-
-- The Train Wreak ending cutscene has all hud elements fade
-
 - Players are now JSON driven and not hardcoded!!
     - Set the "player" field in your song JSON and make sure that player has a graphic and json in "assets/game/players" with that name
-- Added Time Bar
+
+- SAVE SHIT HAS BEEN CHANGED ( No conversion, sorry :( )
+    - New Path
+    - Scores are saved different
+
+## UX
 
 - ADDED MOBILE SUPPORT!! (heres stuff that happens when on mobile)
     - [MOBILE] Text gets sized up
@@ -21,25 +34,23 @@
     - [MOBILE] Freeplay gets a play button
     - [MOBILE] Freeplay layout flips
 
-- Every stage that could get optimizations, changes, or fixes has gotten an optimization, change, or fix (You may notice slight differences cuz of this)
-    - The Lost Media sky now stays
-    - Train Getaway stage has you lower now
-    - Train Wreak stage has been modified cause I now have the crowd in one image + reprogrammed the creation of it so yeah
-    - The Lost Media stage sky color is now the intended color
-    - And more!!!
+- Added crash handler
+
+## UI
+
+- Added "Quality Warning" screen that shows up to warn you that the music and gameplay aren't actually that good ([#8](https://github.com/v207-matty/rhythmWalker/issues/8))
+    - [WEB] This 'replaces' the Click Anywhere screen
+
+- Added Time Bar
 
 - Freeplay song texts has padding now when not centered
 - Gameplay now lets you click the screen to move (the player will move to where your cursor is)
 - Freeplay lets you swipe to change selection and volume
 
-- SAVE SHIT HAS BEEN CHANGED ( No conversion, sorry :( )
-    - New Path
-    - Scores are saved different
-
-- Added crash handler
-
 - Dialogue Scenes can now have null portraits (they just turn invisible)
 - Rephrased Dialogue Scene "ESCAPE to leave" and it is now "ESCAPE to skip"
+
+## Bug Fixes
 
 - Fixed being able to change selection or volume in freeplay while transitioning
 - Fixed Scroll Down Chinatown last 2 lines of dialogue being associated with the wrong speaker
