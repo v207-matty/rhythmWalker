@@ -1,4 +1,4 @@
-package ui.game.stage;
+package ui.game.stages;
 
 import util.CustomShader;
 
@@ -32,7 +32,7 @@ class StageMainWithered extends StageMain
 		monsterShader.setFloat('brightness', -73.0);
 		monsterShader.setFloat('contrast', 0.0);
 
-	    game.stageBackLayer.members[0].shader = bgShader;
+		game.stageBackLayer.members[0].shader = bgShader;
 		game.player.shader = charShader;
 		game.beatMonsters.shader = monsterShader;
 	}

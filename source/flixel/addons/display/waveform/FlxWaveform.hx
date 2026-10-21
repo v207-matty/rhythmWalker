@@ -601,16 +601,13 @@ class FlxWaveform extends FlxSprite
 		{
 			switch (waveformAlignment)
 			{
-				case TOP:
-					if (waveformOrientation == VERTICAL) rect.setTo(waveformWidth - 1, 0, 1, waveformHeight);
+				case TOP: if (waveformOrientation == VERTICAL) rect.setTo(waveformWidth - 1, 0, 1, waveformHeight);
 					else rect.setTo(0, 0, waveformWidth, 1);
 
-				case BOTTOM:
-					if (waveformOrientation == VERTICAL) rect.setTo(0, 0, 1, waveformHeight);
+				case BOTTOM: if (waveformOrientation == VERTICAL) rect.setTo(0, 0, 1, waveformHeight);
 					else rect.setTo(0, waveformHeight - 1, waveformWidth, 1);
 
-				case CENTER(symmetrical):
-					if (waveformOrientation == VERTICAL) rect.setTo(halfWidth, 0, 1, waveformHeight);
+				case CENTER(symmetrical): if (waveformOrientation == VERTICAL) rect.setTo(halfWidth, 0, 1, waveformHeight);
 					else rect.setTo(0, halfHeight, waveformWidth, 1);
 			}
 
@@ -769,12 +766,10 @@ class FlxWaveform extends FlxSprite
 
 		switch (waveformAlignment)
 		{
-			case TOP:
-				if (waveformOrientation == VERTICAL) rect.setTo(y + (height - segmentHeight), x, segmentHeight, width);
+			case TOP: if (waveformOrientation == VERTICAL) rect.setTo(y + (height - segmentHeight), x, segmentHeight, width);
 				else rect.setTo(x, y, width, segmentHeight);
 
-			case BOTTOM:
-				if (waveformOrientation == VERTICAL) rect.setTo(y, x, segmentHeight, width);
+			case BOTTOM: if (waveformOrientation == VERTICAL) rect.setTo(y, x, segmentHeight, width);
 				else rect.setTo(x, y + (height - segmentHeight), width, segmentHeight);
 
 			case CENTER(symmetrical):
@@ -819,12 +814,10 @@ class FlxWaveform extends FlxSprite
 
 		switch (waveformAlignment)
 		{
-			case TOP:
-				if (waveformOrientation == VERTICAL) rect.setTo(y + (height - segmentHeight), x, segmentHeight, width);
+			case TOP: if (waveformOrientation == VERTICAL) rect.setTo(y + (height - segmentHeight), x, segmentHeight, width);
 				else rect.setTo(x, y, width, segmentHeight);
 
-			case BOTTOM:
-				if (waveformOrientation == VERTICAL) rect.setTo(y, x, segmentHeight, width);
+			case BOTTOM: if (waveformOrientation == VERTICAL) rect.setTo(y, x, segmentHeight, width);
 				else rect.setTo(x, y + (height - segmentHeight), width, segmentHeight);
 
 			case CENTER(symmetrical):

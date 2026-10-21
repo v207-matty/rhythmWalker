@@ -1,6 +1,7 @@
-package ui.game.stage;
+package ui.game.stages.train_wreak;
 
 import flixel.FlxCamera;
+import ui.game.stage.StageSprite;
 
 class TrainWreakPiece extends StageSprite
 {

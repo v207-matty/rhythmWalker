@@ -1,5 +1,7 @@
 package ui.game.stage;
 
+import ui.game.stages.*;
+
 class StageManager
 {
 	public static function get(stage:String)
@@ -8,14 +10,29 @@ class StageManager
 		{
 			case 'chinatown':
 				new StageChinatown();
+			case 'chinatown-bridge':
+				new StageChinatownBridge();
 
-			case 'stage-withered':
-				new StageMainWithered();
+			case 'containment-04':
+				new StageContainment04();
+
+			case 'crash landing':
+				new StageCrashLanding();
 
 			case 'stage' | 'understage':
 				new StageMain(stage);
 
+			case 'stage-withered':
+				new StageMainWithered();
+
+			case 'train-getaway':
+				new StageTrainGetaway();
+
+			case 'train-wreak':
+				new StageTrainWreak();
+
 			default:
+				trace('Unimplemented stage case : $stage');
 				new Stage(stage);
 		}
 	}

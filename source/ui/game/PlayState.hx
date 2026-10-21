@@ -143,7 +143,7 @@ class PlayState extends ConductorState
 		scoreText.camera = camHUD;
 		scoreText.alignment = CENTER;
 
-		generateStage();
+		generateSongStuff();
 
 		beatMonsterSpawner.shader = beatMonsters.shader;
 
@@ -171,6 +171,8 @@ class PlayState extends ConductorState
 		leaveButton.x = FlxG.width - leaveButton.width;
 		leaveButton.onClicked.add(leave);
 		#end
+
+		persistentUpdate = true;
 	}
 
 	override function update(elapsed:Float)
@@ -335,6 +337,8 @@ class PlayState extends ConductorState
 		}
 
 		if (canSpawnMonster && Math.floor(step % data.beatMonsters.stepRate) == 0) spawnBeatMonster();
+
+		stage?.onStepHit(step, backward);
 	}
 
 	override function onBeatHit(beat:Int, backward:Bool)
@@ -354,11 +358,7 @@ class PlayState extends ConductorState
 			});
 		}
 
-		if (trainGetaway_sky != null && FlxG.sound.music.playing)
-		{
-			trainGetaway_sky.velocity.x -= trainGetaway_i;
-			trainGetaway_i += 0.25;
-		}
+		stage?.onBeatHit(beat, backward);
 	}
 
 	function spawnBeatMonster()
@@ -400,14 +400,6 @@ class PlayState extends ConductorState
 
 			case 'song-end': onSongEnd();
 
-			case 'trainwreak-gun': if (song.id == 'train wreak') trainWreak_shooter.animation.play('shoot', true);
-
-			case 'traingetaway-reload': if (song.id == 'train getaway') trainGetaway_shooter.animation.play('reload', true);
-
-			case 'traingetaway-gunjammed': if (song.id == 'train getaway') trainGetaway_shooter.animation.play('jammed', true);
-
-			case 'traingetaway-gun': if (song.id == 'train getaway') trainGetaway_shooter.animation.play('shoot${FlxG.random.int(1, 2)}', true);
-
 			case 'camera-off', 'cam-off': camGame.visible = false;
 
 			case 'camera-on', 'cam-on': camGame.visible = true;
@@ -438,11 +430,9 @@ class PlayState extends ConductorState
 		stage?.onEvent(event);
 	}
 
-	function generateStage()
+	function generateSongStuff()
 	{
-		stage = StageManager.get(song?.stage ?? 'stage');
-
-		if (stage != null) stage.build();
+		makeStage(song?.stage ?? 'stage');
 
 		if (song?.id == 'train getaway' && song?.variation == defaultVariation)
 		{
@@ -492,13 +482,7 @@ class PlayState extends ConductorState
 		if (song.variation == resolved && (song.id == 'first steps' || song.id == 'shift around')) beatMonsters.alpha = 0.5;
 	}
 
-	var trainGetaway_i:Float = 1;
-	var trainGetaway_sky:FlxBackdrop;
-	var trainGetaway_shooter:TrainGetawayShooter;
-	var trainWreak_shooter:TrainWreakShooter;
-
-	// TODO: Class system?
-	function makeStage(?stage:String)
+	function makeStage(stage:String)
 	{
 		if (stageBackLayer == null || stageFrontLayer == null) return;
 
@@ -513,143 +497,9 @@ class PlayState extends ConductorState
 			layer.clear();
 		}
 
-		switch (stage.toLowerCase())
-		{
-			case 'containment-04':
+		this.stage = StageManager.get(stage ?? 'stage');
 
-			case 'train-wreak':
-				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/sky'));
-				sky.scale.set(2, 2);
-				sky.updateHitbox();
-				sky.velocity.x = 10;
-				sky.screenCenter(X);
-				sky.scrollFactor.set(.25, .25);
-				stageBackLayer.add(sky);
-				sky.camera = camGame;
-
-				var city:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/city'), X);
-				city.scale.set(2, 2);
-				city.updateHitbox();
-				city.screenCenter(X);
-				city.scrollFactor.set(.5, .5);
-				stageBackLayer.add(city);
-				city.camera = camGame;
-
-				var ground:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/ground'), X);
-				ground.scale.set(2, 2);
-				ground.updateHitbox();
-				ground.screenCenter(X);
-				ground.scrollFactor.set(.75, .75);
-				ground.camera = camGame;
-
-				stageBackLayer.add(new Floor(ground, 0xFF3B3E44, camGame));
-				stageBackLayer.add(ground);
-
-				var pieceList:Array<Dynamic> = [
-					['crowds/randoms-left', 0.75],
-					['crowds/randoms-right', 0.75],
-
-					['crowds/center', 0.8],
-
-					['smoke', 1],
-					['trainSegment', 1],
-					['trainGround', 1],
-				];
-
-				for (piece in pieceList)
-				{
-					var isRandom:Bool = Std.string(piece[0]).startsWith('crowds/randoms-');
-					var isCrowd:Bool = Std.string(piece[0]).startsWith('crowds/');
-
-					var pspr = new TrainWreakPiece(piece[0], camGame, piece[1]);
-					stageBackLayer.add(pspr);
-
-					if (isCrowd)
-					{
-						pspr.setScale(1.75);
-						pspr.screenCenter();
-					}
-
-					if (isRandom)
-					{
-						pspr.x -= pspr.width * (0.5 * ((Std.string(piece[0]).endsWith('left')) ? 1 : -1.25));
-						continue;
-					}
-
-					if (piece[0] == 'smoke')
-					{
-						pspr.blend = OVERLAY;
-						pspr.alpha = 0.5;
-					}
-				}
-
-				trainWreak_shooter = new TrainWreakShooter(camGame);
-				trainWreak_shooter.screenCenter();
-				trainWreak_shooter.x -= trainWreak_shooter.width * 0.25;
-				trainWreak_shooter.y -= trainWreak_shooter.width * 0.5;
-				stageBackLayer.add(trainWreak_shooter);
-
-				player.screenCenter();
-				player.y = FlxG.height - player.height * 1.15;
-
-				persistentUpdate = true;
-
-			case 'train-getaway':
-				trainGetaway_sky = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/sky'));
-				trainGetaway_sky.scale.set(2, 2);
-				trainGetaway_sky.velocity.x = 256 * -5;
-				trainGetaway_sky.screenCenter(X);
-				stageBackLayer.add(trainGetaway_sky);
-				trainGetaway_sky.camera = camGame;
-
-				var train = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/train'), X);
-				train.scale.set(2, 2);
-				train.updateHitbox();
-				train.screenCenter(X);
-				train.y = FlxG.height - train.height;
-				stageBackLayer.add(train);
-				train.camera = camGame;
-
-				player.setScale(1);
-				player.updateHitbox();
-
-				player.screenCenter();
-				player.y = train.y - player.height * 0.95;
-
-				data.beatMonsters.scale = 0.5;
-
-				persistentUpdate = true;
-
-				trainGetaway_shooter = new TrainGetawayShooter();
-				stageBackLayer.add(trainGetaway_shooter);
-				trainGetaway_shooter.camera = camGame;
-
-				trainGetaway_shooter.screenCenter();
-				trainGetaway_shooter.x = trainGetaway_shooter.width * -5;
-
-				FlxTween.tween(trainGetaway_shooter, {x: FlxG.width - trainGetaway_shooter.width}, 2.75, {
-					ease: FlxEase.sineInOut
-				});
-
-			case 'chinatown-bridge':
-				persistentUpdate = true;
-
-				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/chinatown/bridge/sky'));
-				sky.scale.set(4, 4);
-				sky.updateHitbox();
-				sky.camera = camGame;
-
-				sky.velocity.x = 2;
-				sky.screenCenter();
-				stageBackLayer.add(sky);
-
-				var bridge:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/chinatown/bridge/bridge'), X);
-				bridge.scale.set(4, 4);
-				bridge.updateHitbox();
-				bridge.camera = camGame;
-				bridge.y = FlxG.height - bridge.height;
-				stageBackLayer.add(bridge);
-		}
+		if (this.stage != null) this.stage.build();
 	}
 
 	function makePlayer()
@@ -674,14 +524,14 @@ class PlayState extends ConductorState
 		add(player);
 	}
 
-	var inIntroCutscene:Bool = false;
-	var inEndCutscene:Bool = false;
-	var inCutscene(get, never):Bool;
+	public var inIntroCutscene:Bool = false;
+	public var inEndCutscene:Bool = false;
+	public var inCutscene(get, never):Bool;
 
 	function get_inCutscene():Bool return inIntroCutscene || inEndCutscene;
 
-	var seenEndCutscene:Bool = false;
-	var seenIntroCutscene:Bool = false;
+	public var seenEndCutscene:Bool = false;
+	public var seenIntroCutscene:Bool = false;
 
 	function introCutscene():Bool
 	{

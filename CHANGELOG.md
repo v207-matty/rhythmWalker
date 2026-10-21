@@ -30,9 +30,11 @@
 
 ## Backend
 
+- Stages are now in a class system now!
+
 - The stages for songs are JSON driven now!! ([#6](https://github.com/v207-matty/rhythmWalker/issues/6))
     - Set the "stage" field in your song JSON
-    - Sadly the stages are still hardcodedd, gotta work on that
+    - Stages still hardcoded so uh yeah sories
 
 - Players are now JSON driven and not hardcoded!!
     - Set the "player" field in your song JSON and make sure that player has a graphic and json in "assets/game/players" with that name

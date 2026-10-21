@@ -1,4 +1,4 @@
-package ui.game.stage;
+package ui.game.stages;
 
 import flixel.FlxG;
 
