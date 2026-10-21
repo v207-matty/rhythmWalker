@@ -17,7 +17,7 @@
 	<define name="openfl_enable_handle_error" />
 
 	<haxedef name="MOBILE_PLATFORM" if="android || ios" />
-	<haxedef name="MOBILE_MODE" if="MOBILE_PLATFORM || web" /> 
+	<haxedef name="MOBILE_MODE" if="MOBILE_PLATFORM || web" />
 
 	<haxedef name="FREEPLAY_DISPLAY_SCORE" unless="web" />
 
