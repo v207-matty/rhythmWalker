@@ -1,4 +1,6 @@
-# 0.4.0 (DAY 4 UPDATE) - 11/1/2026
+# 0.4.0 (Memory Bundle) - 11/1/2026
+
+## Songs
 
 ## Gameplay
 
