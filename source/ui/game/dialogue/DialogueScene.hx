@@ -1,7 +1,6 @@
 package ui.game.dialogue;
 
 import util.Constants;
-import util.Flag;
 import ui.objects.mobile.CornerButton;
 import flixel.math.FlxMath;
 import flixel.util.FlxTimer;

@@ -1,6 +1,5 @@
 package ui.objects.mobile;
 
-import util.Flag;
 import flixel.FlxG;
 import flixel.util.FlxSignal;
 import ui.objects.RWSprite;

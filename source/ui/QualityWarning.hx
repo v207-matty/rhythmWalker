@@ -2,7 +2,6 @@ package ui;
 
 import flixel.addons.ui.FlxUIState;
 import util.Constants;
-import util.Flag;
 import ui.debug.*;
 import ui.game.*;
 import ui.game.song.*;

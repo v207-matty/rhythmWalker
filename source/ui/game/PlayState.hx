@@ -200,12 +200,7 @@ class PlayState extends ConductorState
 		{
 			monster.y += monster.height * (.2 * scrollSpeed);
 
-			if (!immortal
-				&& !inCutscene
-				&& monster.overlaps(player.collision)
-				&& !playerStunned
-				&& camGame.visible
-				&& camGame.alpha >= 0.1)
+			if (!immortal && !inCutscene && monster.overlaps(player.collision) && !playerStunned && camGame.visible && camGame.alpha >= 0.1)
 			{
 				playerStunned = true;
 				playerPlayAnim('hurt');

@@ -1,6 +1,5 @@
 import ui.game.song.SongScore;
 import flixel.util.FlxSave;
-import util.Flag;
 import flixel.math.FlxMath;
 import lime.app.Application;
 import flixel.FlxG;

@@ -2,7 +2,6 @@ package ui.game;
 
 import util.Constants;
 import ui.objects.mobile.CornerButton;
-import util.Flag;
 import ui.objects.RWSprite;
 import ui.freeplay.Freeplay;
 import flixel.util.FlxTimer;
