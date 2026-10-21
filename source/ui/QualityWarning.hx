@@ -12,7 +12,7 @@ import flixel.FlxState;
 
 using StringTools;
 
-class QualityWarning extends FlxState
+class QualityWarning extends FlxUIState
 {
 	override function create()
 	{
