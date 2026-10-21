@@ -7,8 +7,6 @@
 
 	<haxeflag name="--dce" value="full" unless="debug" />
 
-	<icon path="dev/icon.png" />
-
 	<haxedef name="lime_disable_assets_version" />
 
 	<haxedef name="HXCPP_DEBUGGER" />
@@ -35,6 +33,7 @@
 	<haxedef name="FREEPLAY_VISUALIZER_MULTICACHE" if="FREEPLAY_VISUALIZER"
 		unless="linux || _32bit || web || MOBILE_MODE" />
 
+	<icon path="dev/icon.png" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
