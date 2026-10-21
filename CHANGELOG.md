@@ -1,6 +1,8 @@
-# 0.4.0 - 11/1/2026
+# 0.4.0 (DAY 4 UPDATE) - 11/1/2026
 
 ## Gameplay
+
+- First Steps (Resolved) and Shift Around (Resolved) now have faded Beat Monsters
 
 - The Train Wreak ending cutscene has all hud elements fade
 

@@ -659,6 +659,8 @@ class PlayState extends ConductorState
 				stageBackLayer.add(backdrop);
 				backdrop.setCamera(camGame);
 
+				beatMonsters.alpha = 0.5;
+
 				if (!Flag.PLAY_SHADERS)
 					return;
 
