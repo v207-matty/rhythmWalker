@@ -2,9 +2,10 @@ name: Auto-compile
 
 on:
         push:
-                # branches: [main]
-        # pull_request:
-                # branches-ignore: [randomBranchName]
+                paths:
+                        - '**.png'
+                        - '**.json'
+                        - '**.hx'
         workflow_dispatch:
 
 jobs:
