@@ -27,9 +27,8 @@ class PlayState extends ConductorState
 {
 	var immortal:Bool = Flag.PLAY_IMMORTAL;
 
-	var player:RWSprite;
+	var player:Player;
 	var playerStunned:Bool = false;
-	var playerCollision:FlxSprite;
 
 	var beatMonsters:FlxSpriteGroup;
 
@@ -57,8 +56,6 @@ class PlayState extends ConductorState
 			scale: 1.0
 		}
 	};
-
-	var playerData:PlayerData;
 
 	var stageBackLayer:FlxSpriteGroup;
 	var stageFrontLayer:FlxSpriteGroup;
@@ -184,12 +181,6 @@ class PlayState extends ConductorState
 			scoreText.screenCenter(X);
 		}
 
-		if (playerCollision != null)
-		{
-			playerCollision.x = player.getGraphicMidpoint().x - (playerCollision.width / 2);
-			playerCollision.y = player.getGraphicMidpoint().y - (playerCollision.height / 2);
-		}
-
 		if (!inCutscene)
 			managePlayer();
 		else if (inCutscene && song.id == 'encapture')
@@ -214,7 +205,7 @@ class PlayState extends ConductorState
 
 			if (!immortal
 				&& !inCutscene
-				&& monster.overlaps(playerCollision)
+				&& monster.overlaps(player.collision)
 				&& !playerStunned
 				&& camGame.visible
 				&& camGame.alpha >= 0.1)
@@ -255,7 +246,7 @@ class PlayState extends ConductorState
 
 	function managePlayer()
 	{
-		player.maxVelocity.x = playerData.config.maxVelocityBase * scrollSpeed;
+		player.maxVelocity.x = player.data.config.maxVelocityBase * scrollSpeed;
 
 		if (FlxG.keys.anyPressed([A, LEFT]) || (FlxG.mouse.pressed && FlxG.mouse.x < player.x))
 			move(-1);
@@ -297,7 +288,7 @@ class PlayState extends ConductorState
 			shiftThing *= 2 * (player.x / FlxG.mouse.x);
 
 		player.flipX = mult > -1;
-		player.velocity.x += (playerData.config.speed * shiftThing) * mult;
+		player.velocity.x += (player.data.config.speed * shiftThing) * mult;
 
 		if (!playerStunned)
 			playerPlayAnim('move');
@@ -417,6 +408,7 @@ class PlayState extends ConductorState
 		});
 	}
 
+	// TODO: Def could do a class system here
 	function parseEvent(event:SongEventData)
 	{
 		trace(event);
@@ -557,6 +549,7 @@ class PlayState extends ConductorState
 	var trainGetaway_shooter:TrainGetawayShooter;
 	var trainWreak_shooter:TrainWreakShooter;
 
+	// TODO: Class system?
 	function makeStage(?stage:String)
 	{
 		if (stageBackLayer == null || stageFrontLayer == null)
@@ -873,27 +866,9 @@ class PlayState extends ConductorState
 
 	function makePlayer()
 	{
-		playerData = new PlayerData(song.player);
-		player = new RWSprite('game/players/${playerData.id}', true, playerData.config.dimensions.sprite[0], playerData.config.dimensions.sprite[1]);
-
-		for (anim in playerData.animations)
-		{
-			if (anim == null || anim.name == null || anim.frames == null || anim.frames.length < 1)
-				continue;
-
-			trace('Player Anim : ${anim.name}');
-
-			if (anim.createFlippedVarients)
-			{
-				player.addAnim(anim.name + 'L', anim.frames, anim.fps, anim.looped, anim.flipX, anim.flipY);
-				player.addAnim(anim.name + 'R', anim.frames, anim.fps, anim.looped, anim.flipX, anim.flipY);
-			}
-			else
-				player.addAnim(anim.name, anim.frames, anim.fps, anim.looped, anim.flipX, anim.flipY);
-		}
+		player = new Player(song.player);
 
 		playerPlayAnim('idle');
-		player.setScale(2);
 		player.animation.onFinish.add(animName ->
 		{
 			if (inCutscene)
@@ -907,16 +882,10 @@ class PlayState extends ConductorState
 		player.y = FlxG.height - player.height * 1.25;
 		player.setCamera(camGame);
 
-		playerCollision = new FlxSprite().makeGraphic(playerData.config?.dimensions?.hitbox[0] ?? 32, playerData.config?.dimensions?.hitbox[1] ?? 32,
-			FlxColor.RED);
-		playerCollision.visible = false;
-		playerCollision.camera = camGame;
-
 		if (immortal)
 			player.alpha = .25;
 
 		add(player);
-		add(playerCollision);
 	}
 
 	var inIntroCutscene:Bool = false;
