@@ -1,5 +1,7 @@
 package ui.game.stage;
 
+import haxpression.Value;
+import haxpression.Expressions;
 import ui.objects.Floor;
 import util.CustomShader;
 import flixel.util.FlxColor;
@@ -54,6 +56,8 @@ class Stage
 	{
 		if (json == null)
 			throw 'Null JSON Data';
+
+		this.expressionVariableMap = [];
 
 		this.objects = json?.objects ?? [];
 		this.shaders = json?.shaders ?? null;
@@ -245,5 +249,23 @@ class Stage
 		}
 
 		return null;
+	}
+
+	var expressionVariableMap(default, null):Map<String, Value> = [];
+
+	public function getExpressionVariablesFrom(d:Dynamic)
+	{
+		for (field in Reflect.fields(d))
+		{
+			var value = Reflect.getProperty(d, field);
+
+			if (value is Float || value is Int || value is String || value is Bool)
+				expressionVariableMap.set('${d}_${field}', value);
+		}
+	}
+
+	public function applyExpressionShit(expression:String)
+	{
+		return Expressions.evaluate([expression], expressionVariableMap);
 	}
 }
