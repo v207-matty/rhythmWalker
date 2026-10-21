@@ -43,8 +43,9 @@ class Save
 
 		game.scores ??= [];
 
-		if (!Flag.SAVE_CLEAR)
-			scores = game.scores;
+		#if !(SAVE_CLEAR || clear)
+		scores = game.scores;
+		#end
 
 		trace(game);
 	}

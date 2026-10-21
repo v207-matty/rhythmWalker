@@ -2,4 +2,3 @@
 - Options menu
     - Make waveform togglable
     - Make waveform multicache togglable
-- remove flag system

@@ -28,8 +28,8 @@ class ConductorState extends FlxUIState
 
 	function onStepHit(step:Int, backward:Bool) {}
 
-	var mouseEnabled:Bool = Flag.IS_MOBILE_MODE;
-	var mouseVisible:Bool = Flag.IS_MOBILE_MODE && !Flag.PLATFORM_MOBILE;
+	var mouseEnabled:Bool = #if MOBILE_MODE true #else false #end;
+	var mouseVisible:Bool = #if (MOBILE_MODE && !MOBILE_PLATFORM) true #else false #end;
 
 	override function update(elapsed:Float)
 	{

@@ -25,7 +25,7 @@ using StringTools;
 
 class PlayState extends ConductorState
 {
-	var immortal:Bool = Flag.PLAY_IMMORTAL;
+	var immortal:Bool = #if immortal true #else false #end;
 
 	var player:Player;
 	var playerStunned:Bool = false;
@@ -59,8 +59,6 @@ class PlayState extends ConductorState
 
 	var stageBackLayer:FlxSpriteGroup;
 	var stageFrontLayer:FlxSpriteGroup;
-
-	var leaveButton:CornerButton;
 
 	var timeBar:RWSprite;
 	var timeBarSongLinked:Bool = false;
@@ -159,14 +157,13 @@ class PlayState extends ConductorState
 
 		timeBarSongLinked = true;
 
-		if (!Flag.IS_MOBILE_MODE)
-			return;
-
-		leaveButton = new CornerButton('backBtn');
+		#if MOBILE_MODE
+		var leaveButton = new CornerButton('backBtn');
 		leaveButton.setCamera(camHUD);
 		add(leaveButton);
 		leaveButton.x = FlxG.width - leaveButton.width;
 		leaveButton.onClicked.add(leave);
+		#end
 	}
 
 	override function update(elapsed:Float)
@@ -632,9 +629,6 @@ class PlayState extends ConductorState
 
 				data.beatMonsters.scale = 0.75;
 
-				if (!Flag.PLAY_SHADERS)
-					return;
-
 				var charShader = new CustomShader('dropshadow');
 
 				charShader.setFloat('hue', -9.0);
@@ -653,9 +647,6 @@ class PlayState extends ConductorState
 				backdrop.setCamera(camGame);
 
 				beatMonsters.alpha = 0.5;
-
-				if (!Flag.PLAY_SHADERS)
-					return;
 
 				var bgShader = new CustomShader('dropshadow');
 				var charShader = new CustomShader('dropshadow');

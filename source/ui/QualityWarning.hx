@@ -3,6 +3,7 @@ package ui;
 import flixel.addons.ui.FlxUIState;
 import util.Constants;
 import util.Flag;
+import ui.debug.*;
 import ui.game.*;
 import ui.game.song.*;
 import ui.game.dialogue.*;
@@ -43,13 +44,16 @@ class QualityWarning extends FlxUIState
 
 	function proceed()
 	{
-		if (Flag.STARTINGSTATE_GAMEPLAY)
-			FlxG.switchState(() -> new PlayState('train wreak'));
-		else if (Flag.STARTINGSTATE_DIALOGUE)
-			FlxG.switchState(() -> new DialogueScene(new Song('encapture')));
-		else if (Flag.STARTINGSTATE_RESULTS)
-			FlxG.switchState(() -> new ResultsState('train wreak-default'));
-		else
-			FlxG.switchState(() -> new Freeplay());
+		#if GAMEPLAY
+		FlxG.switchState(() -> new PlayState('train wreak'));
+		#elseif DIALOGUE
+		FlxG.switchState(() -> new DialogueScene(new Song('encapture')));
+		#elseif RESULTS
+		FlxG.switchState(() -> new ResultsState('train wreak-default'));
+		#elseif PLAYER_VIEWER
+		FlxG.switchState(() -> new PlayerViewer());
+		#else
+		FlxG.switchState(() -> new Freeplay());
+		#end
 	}
 }

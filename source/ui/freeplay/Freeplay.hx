@@ -173,22 +173,21 @@ class Freeplay extends ConductorState
 		changeSel(0);
 		filter('all');
 
-		if (Flag.IS_MOBILE_MODE)
-		{
-			playButton = new CornerButton('playBtn');
+		#if MOBILE_MODE
+		playButton = new CornerButton('playBtn');
 
-			playButton.y = FlxG.height - playButton.height;
-			playButton.x = FlxG.width - playButton.width;
+		playButton.y = FlxG.height - playButton.height;
+		playButton.x = FlxG.width - playButton.width;
 
-			playButton.setScrollFactor(0);
+		playButton.setScrollFactor(0);
 
-			playButton.back.angle = 90;
-			playButton.offsetBy(-16 * playButton.scale.x, -64 * playButton.scale.y);
+		playButton.back.angle = 90;
+		playButton.offsetBy(-16 * playButton.scale.x, -64 * playButton.scale.y);
 
-			playButton.onClicked.add(proceed);
+		playButton.onClicked.add(proceed);
 
-			add(playButton);
-		}
+		add(playButton);
+		#end
 
 		if (transIn == null)
 			finishTransIn();
@@ -198,8 +197,7 @@ class Freeplay extends ConductorState
 	{
 		super.finishTransIn();
 
-		if (Flag.FREEPLAY_BGAUDIO)
-			changeBGAudio();
+		changeBGAudio();
 	}
 
 	override function update(elapsed:Float)
@@ -318,26 +316,24 @@ class Freeplay extends ConductorState
 			waveformLayer.remove(wave);
 			wave.active = false;
 
-			if (!Flag.FREEPLAY_VISUALIZER_MULTICACHE)
-			{
-				curWaveforms.remove(wave);
-				curWaveformsID.remove(waveID);
-				wave.destroy();
-				wave = null;
-			}
+			#if !FREEPLAY_VISUALIZER_MULTICACHE
+			curWaveforms.remove(wave);
+			curWaveformsID.remove(waveID);
+			wave.destroy();
+			wave = null;
+			#end
 		});
 
-		if (Flag.FREEPLAY_VISUALIZER_MULTICACHE && Flag.FREEPLAY_VISUALIZER)
+		#if FREEPLAY_VISUALIZER_MULTICACHE
+		for (id => waveform in audioVizCache)
 		{
-			for (id => waveform in audioVizCache)
-			{
-				audioVizCache.remove(id);
-				waveform.destroy();
-				waveform = null;
-			}
-
-			audioVizCache.clear();
+			audioVizCache.remove(id);
+			waveform.destroy();
+			waveform = null;
 		}
+
+		audioVizCache.clear();
+		#end
 	}
 
 	function onVolumeChange(vol:Float) @:privateAccess
@@ -416,18 +412,17 @@ class Freeplay extends ConductorState
 			bgAudio.load(audioCache.get(songCode));
 		bgAudio.looped = true;
 
-		if (!Flag.FREEPLAY_VISUALIZER_MULTICACHE)
+		#if !FREEPLAY_VISUALIZER_MULTICACHE
+		runOnWaveforms((wave, waveID) ->
 		{
-			runOnWaveforms((wave, waveID) ->
-			{
-				curWaveforms.remove(wave);
-				curWaveformsID.remove(waveID);
-				waveformLayer.remove(wave);
-				wave.destroy();
-			});
+			curWaveforms.remove(wave);
+			curWaveformsID.remove(waveID);
+			waveformLayer.remove(wave);
+			wave.destroy();
+		});
 
-			makeWaveform(entries[selectedEntry]);
-		}
+		makeWaveform(entries[selectedEntry]);
+		#end
 
 		runOnWaveforms((wave, waveID) ->
 		{
@@ -464,35 +459,26 @@ class Freeplay extends ConductorState
 			final code = '${entries[i].song}-${(entries[i].variation ?? defaultVariation)}'.toLowerCase();
 			var textSongRank:SongRank = Save.scores.get(code)?.rank ?? NONE;
 
-			text.color = (textSongRank == NONE && Flag.FREEPLAY_DISPLAY_SONG_PLAYED) ? FlxColor.RED : FlxColor.WHITE;
+			text.color = (textSongRank == NONE && Flag.FREEPLAY_DISPLAY_SCORE) ? FlxColor.RED : FlxColor.WHITE;
 
 			if (i == selectedEntry)
 			{
-				text.color = (textSongRank == NONE && Flag.FREEPLAY_DISPLAY_SONG_PLAYED) ? FlxColor.ORANGE : FlxColor.YELLOW;
+				text.color = (textSongRank == NONE && Flag.FREEPLAY_DISPLAY_SCORE) ? FlxColor.ORANGE : FlxColor.YELLOW;
 				camFollow.y = text.y;
 			}
 		}
 
 		topSegText.text = '';
 
-		if (Flag.FREEPLAY_DISPLAY_SONG_SCORE)
+		if (Flag.FREEPLAY_DISPLAY_SCORE)
 		{
 			topSegText.text += 'Score: ${curSongScore}';
-
-			if (Flag.FREEPLAY_DISPLAY_SONG_RANK)
-				topSegText.text += ' | ';
-		}
-
-		if (Flag.FREEPLAY_DISPLAY_SONG_RANK)
+			topSegText.text += ' | ';
 			topSegText.text += 'Rank: ${curSongRank} (${Math.floor(curSongRankPercent * 100)}%)';
-
-		if (Flag.FREEPLAY_DISPLAY_TIP)
-		{
-			if (Flag.FREEPLAY_DISPLAY_SONG_SCORE || Flag.FREEPLAY_DISPLAY_SONG_RANK)
-				topSegText.text += '\n\n';
-
-			topSegText.text += 'Random Tip:\n$randomTip';
+			topSegText.text += '\n\n';
 		}
+
+		topSegText.text += 'Random Tip:\n$randomTip';
 
 		topSegText.updateHitbox();
 		topSegText.screenCenter(X);
@@ -503,9 +489,7 @@ class Freeplay extends ConductorState
 		if (selectedEntry != prevSel || amount == 0)
 		{
 			FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
-
-			if (Flag.FREEPLAY_BGAUDIO)
-				changeBGAudio();
+			changeBGAudio();
 		}
 	}
 
@@ -558,9 +542,7 @@ class Freeplay extends ConductorState
 			FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
 
 			filter(filterList[selectedVolume]);
-
-			if (Flag.FREEPLAY_BGAUDIO)
-				changeBGAudio();
+			changeBGAudio();
 		}
 	}
 
@@ -599,24 +581,25 @@ class Freeplay extends ConductorState
 
 			if (song.variation != defaultVariation)
 				tXt.text += ' (${variationStr.substr(0, 1).toUpperCase()}${variationStr.substr(1)})';
-			if (curSongRank == NONE && Flag.FREEPLAY_DISPLAY_SONG_PLAYED)
+			if (curSongRank == NONE && Flag.FREEPLAY_DISPLAY_SCORE)
 				tXt.text += ' (Unplayed)';
 
-			if (curWaveforms[i] == null && Flag.FREEPLAY_VISUALIZER_MULTICACHE)
+			#if FREEPLAY_VISUALIZER_MULTICACHE
+			if (curWaveforms[i] == null)
 				makeWaveform(song, i);
+			#end
 
-			if (Flag.FREEPLAY_CENTER_LAYOUT)
-				tXt.screenCenter(X);
-			else if (Flag.FREEPLAY_LEFT_LAYOUT)
-			{
-				tXt.alignment = LEFT;
-				tXt.x += tXt.size;
-			}
-			else if (Flag.FREEPLAY_RIGHT_LAYOUT)
-			{
-				tXt.alignment = RIGHT;
-				tXt.x = FlxG.width - tXt.width - tXt.size;
-			}
+			#if FREEPLAY_CENTER_LAYOUT
+			tXt.screenCenter(X);
+			#elseif FREEPLAY_LEFT_LAYOUT
+			tXt.alignment = LEFT;
+			tXt.x += tXt.size;
+			#elseif FREEPLAY_RIGHT_LAYOUT
+			tXt.alignment = RIGHT;
+			tXt.x = FlxG.width - tXt.width - tXt.size;
+			#else
+			trace('No freeplay layout defined, wtf');
+			#end
 
 			texts.add(tXt);
 		}
@@ -626,9 +609,7 @@ class Freeplay extends ConductorState
 
 	function makeWaveform(song:FreeplaySongData, ?i:Null<Int>) @:privateAccess
 	{
-		if (!Flag.FREEPLAY_VISUALIZER)
-			return;
-
+		#if FREEPLAY_VISUALIZER
 		if (i == null)
 			i = curWaveforms.length;
 
@@ -691,8 +672,9 @@ class Freeplay extends ConductorState
 				audioVizCache.set(viz, bgAudioViz);
 			});
 
-			if (Flag.FREEPLAY_LEFT_LAYOUT)
-				bgAudioViz.x = FlxG.width - bgAudioViz.width;
+			#if FREEPLAY_LEFT_LAYOUT
+			bgAudioViz.x = FlxG.width - bgAudioViz.width;
+			#end
 		}
 		bgAudioViz.scrollFactor.set();
 
@@ -701,5 +683,6 @@ class Freeplay extends ConductorState
 
 		curWaveforms.push(bgAudioViz);
 		curWaveformsID.push(viz);
+		#end
 	}
 }

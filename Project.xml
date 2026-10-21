@@ -2,6 +2,33 @@
 <project xmlns="http://lime.openfl.org/project/1.0.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://lime.openfl.org/project/1.0.4 http://lime.openfl.org/xsd/project-1.0.4.xsd">
 
+	<!-- _________________________________ Custom _______________________________ -->
+
+	<haxeflag name="--dce" value="full" unless="debug" />
+
+	<icon path="dev/icon.png" />
+
+	<haxedef name="lime_disable_assets_version"/>
+
+    <haxedef name="HXCPP_DEBUGGER" />
+    <haxedef name="HXCPP_STACK_TRACE" />
+    <haxedef name="HXCPP_STACK_LINE" />
+    <haxedef name="HXCPP_CHECK_POINTER" />
+
+    <define name="openfl_enable_handle_error" />
+
+	<haxedef name="MOBILE_PLATFORM" if="android || ios" />
+	<haxedef name="MOBILE_MODE" if="MOBILE_PLATFORM" />
+
+	<haxedef name="FREEPLAY_CENTER_LAYOUT" if="linux || web || DISABLE_FREEPLAY_VISUALIZER" />
+	<haxedef name="FREEPLAY_LEFT_LAYOUT" if="MOBILE_MODE" unless="FREEPLAY_CENTER_LAYOUT" />
+	<haxedef name="FREEPLAY_RIGHT_LAYOUT" unless="FREEPLAY_CENTER_LAYOUT || FREEPLAY_LEFT_LAYOUT" />
+
+	<haxedef name="FREEPLAY_CENTER_LAYOUT" unless="FREEPLAY_LEFT_LAYOUT || FREEPLAY_RIGHT_LAYOUT" />
+
+	<haxedef name="FREEPLAY_VISUALIZER" unless="DISABLE_FREEPLAY_VISUALIZER || FREEPLAY_CENTER_LAYOUT"/>
+	<haxedef name="FREEPLAY_VISUALIZER_MULTICACHE" if="FREEPLAY_VISUALIZER" unless="linux || _32bit || web || MOBILE_MODE"/>
+	
 	<!-- _________________________ Application Settings _________________________ -->
 
 	<app title="Rhythm Walker" file="rhythmWalker" main="Main" version="0.4.0" company="Matty" />
@@ -91,20 +118,4 @@
 	<!-- pretty (haxeflixel default), indent, classic (haxe compiler default) -->
 	<haxedef name="message.reporting" value="pretty" />
 
-	<!-- _________________________________ Custom _______________________________ -->
-
-	<!--Place custom nodes like icons here-->
-
-	<icon path="dev/icon.png" />
-
-	<haxedef name="lime_disable_assets_version"/>
-	<haxeflag name="--dce" value="full" unless="debug" />
-
-    <haxedef name="HXCPP_DEBUGGER" />
-    <haxedef name="HXCPP_STACK_TRACE" />
-    <haxedef name="HXCPP_STACK_LINE" />
-    <haxedef name="HXCPP_CHECK_POINTER" />
-
-    <define name="openfl_enable_handle_error" />
-	
 </project>

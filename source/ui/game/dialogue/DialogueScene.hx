@@ -55,9 +55,6 @@ class DialogueScene extends ConductorState
 
 	var proceedText:FlxText;
 
-	var leaveButton:CornerButton;
-	var proceedButton:CornerButton;
-
 	override function create()
 	{
 		super.create();
@@ -98,22 +95,21 @@ class DialogueScene extends ConductorState
 		proceedText.alpha = 0;
 		proceedText.alignment = CENTER;
 
-		if (Flag.IS_MOBILE_MODE)
-		{
-			leaveButton = new CornerButton('backBtn');
-			add(leaveButton);
-			leaveButton.back.flipX = true;
-			leaveButton.offsetBy(24, 0);
-			leaveButton.onClicked.add(leave);
+		#if MOBILE_MODE
+		var leaveButton = new CornerButton('backBtn');
+		add(leaveButton);
+		leaveButton.back.flipX = true;
+		leaveButton.offsetBy(24, 0);
+		leaveButton.onClicked.add(leave);
 
-			proceedButton = new CornerButton('proceedBtn');
-			add(proceedButton);
-			proceedButton.x = FlxG.width - leaveButton.width;
-			proceedButton.offsetBy(-8, 0);
-			proceedButton.onClicked.add(() -> if (dialogueFinished) proceed());
+		var proceedButton = new CornerButton('proceedBtn');
+		add(proceedButton);
+		proceedButton.x = FlxG.width - leaveButton.width;
+		proceedButton.offsetBy(-8, 0);
+		proceedButton.onClicked.add(() -> if (dialogueFinished) proceed());
 
-			proceedText.text = 'ENTER or the play button to proceed\nESCAPE or the back button to skip';
-		}
+		proceedText.text = 'ENTER or the play button to proceed\nESCAPE or the back button to skip';
+		#end
 
 		proceedText.screenCenter();
 		proceedText.y = FlxG.height - proceedText.height;

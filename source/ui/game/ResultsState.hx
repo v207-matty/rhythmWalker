@@ -34,8 +34,6 @@ class ResultsState extends ConductorState
 	var windupScore:Float = 0;
 	var windupText:FlxText;
 
-	var leaveButton:CornerButton;
-
 	override function create()
 	{
 		transIn = null;
@@ -106,13 +104,12 @@ class ResultsState extends ConductorState
 			leave();
 		});
 
-		if (Flag.IS_MOBILE_MODE)
-		{
-			leaveButton = new CornerButton('backBtn');
-			add(leaveButton);
-			leaveButton.x = FlxG.width - leaveButton.width;
-			leaveButton.onClicked.add(leave);
-		}
+		#if MOBILE_MODE
+		var leaveButton = new CornerButton('backBtn');
+		add(leaveButton);
+		leaveButton.x = FlxG.width - leaveButton.width;
+		leaveButton.onClicked.add(leave);
+		#end
 	}
 
 	var windupDone = false;

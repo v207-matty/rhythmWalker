@@ -17,7 +17,7 @@ class CornerButton extends RWSprite
 
 		back = new RWSprite('ui/mobile/cornerButtonBG');
 
-		setScale(Flag.PLATFORM_MOBILE ? 1 : 0.5);
+		setScale(#if MOBILE_PLATFORM 1 #else 0.5 #end);
 
 		onClicked = new FlxSignal();
 	}

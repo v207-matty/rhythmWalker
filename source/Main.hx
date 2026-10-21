@@ -41,8 +41,9 @@ class Main extends FlxGame
 
 		WindowUtil.resetTitle(true);
 
-		if (Flag.IS_DEBUG)
-			WindowUtil.appendToTitle('(Debug)');
+		#if debug
+		WindowUtil.appendToTitle('(Debug)');
+		#end
 
 		for (id => flag in Flag.list)
 			trace('Flag "${id}" : $flag');
