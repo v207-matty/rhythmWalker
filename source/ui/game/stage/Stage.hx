@@ -226,8 +226,6 @@ class Stage
 
 				var backdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$id/${object.graphic}'), repeatAxes);
 				applyBasicStuff(backdrop, object);
-				trace(backdrop is FlxBackdrop);
-				trace(backdrop is FlxSprite);
 				addObject(object?.id ?? '$index', backdrop);
 
 			case floor:
