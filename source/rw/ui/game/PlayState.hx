@@ -163,7 +163,7 @@ class PlayState extends ConductorState
 		timeBarSongLinked = true;
 
 		#if MOBILE_MODE
-		var leaveButton = new ui.objects.mobile.CornerButton('backBtn');
+		var leaveButton = new rw.ui.objects.mobile.CornerButton('backBtn');
 		leaveButton.setCamera(camHUD);
 		add(leaveButton);
 		leaveButton.x = FlxG.width - leaveButton.width;

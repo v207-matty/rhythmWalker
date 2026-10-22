@@ -93,13 +93,13 @@ class DialogueScene extends ConductorState
 		proceedText.alignment = CENTER;
 
 		#if MOBILE_MODE
-		var leaveButton = new ui.objects.mobile.CornerButton('backBtn');
+		var leaveButton = new rw.ui.objects.mobile.CornerButton('backBtn');
 		add(leaveButton);
 		leaveButton.back.flipX = true;
 		leaveButton.offsetBy(24, 0);
 		leaveButton.onClicked.add(leave);
 
-		var proceedButton = new ui.objects.mobile.CornerButton('proceedBtn');
+		var proceedButton = new rw.ui.objects.mobile.CornerButton('proceedBtn');
 		add(proceedButton);
 		proceedButton.x = FlxG.width - leaveButton.width;
 		proceedButton.offsetBy(-8, 0);

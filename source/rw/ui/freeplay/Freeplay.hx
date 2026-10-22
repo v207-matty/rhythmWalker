@@ -169,7 +169,7 @@ class Freeplay extends ConductorState
 		filter('all');
 
 		#if MOBILE_MODE
-		var playButton = new ui.objects.mobile.CornerButton('playBtn');
+		var playButton = new rw.ui.objects.mobile.CornerButton('playBtn');
 
 		playButton.y = FlxG.height - playButton.height;
 		playButton.x = FlxG.width - playButton.width;
