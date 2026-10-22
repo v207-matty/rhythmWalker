@@ -13,4 +13,7 @@ typedef PlayerConfigData =
 
 	@:default(20)
 	var speed:Null<Float>;
+
+	@:optional
+	var graphic:String;
 }

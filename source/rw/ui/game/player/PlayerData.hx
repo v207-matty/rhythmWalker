@@ -59,6 +59,7 @@ class PlayerData
 
 		this.config.speed ??= 20;
 		this.config.maxVelocityBase ??= 200;
+		this.config.graphic ??= this.id;
 	}
 
 	public function toString():String return new JsonWriter<PlayerData>().write(this, '');

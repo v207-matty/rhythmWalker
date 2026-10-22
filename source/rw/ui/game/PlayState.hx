@@ -239,8 +239,8 @@ class PlayState extends ConductorState
 
 	public function playerPlayAnim(anim:String, hasFlippedVer:Bool = true)
 	{
-		if (hasFlippedVer) player.animation.play(anim + ((player.flipX) ? 'R' : 'L'));
-		else player.animation.play(anim);
+		if (hasFlippedVer) player.playAnim(anim + ((player.flipX) ? 'R' : 'L'));
+		else player.playAnim(anim);
 	}
 
 	public var control_left(get, never):Bool;
@@ -295,7 +295,7 @@ class PlayState extends ConductorState
 		player.flipX = mult > -1;
 		player.velocity.x += (player.data.config.speed * shiftThing) * mult;
 
-		if (!player.stunned) playerPlayAnim('move');
+		if (!player.stunned) if (!player.animation.name.startsWith('move') || player.animation.finished) playerPlayAnim('move');
 	}
 
 	public function playerVelocityDamping() player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);

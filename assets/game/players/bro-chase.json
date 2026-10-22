@@ -1,0 +1,50 @@
+{
+    "config": {
+        "graphic": "bro-mental",
+        "maxVelocityBase": 30
+    },
+    "animations": [
+        {
+            "name": "idleL",
+            "frames": [
+                0
+            ]
+        },
+        {
+            "name": "idleR",
+            "frames": [
+                0
+            ],
+            "flipX": true
+        },
+        {
+            "name": "hurtL",
+            "frames": [
+                1
+            ]
+        },
+        {
+            "name": "hurtR",
+            "frames": [
+                1
+            ],
+            "flipX": true
+        },
+        {
+            "name": "moveL",
+            "frames": [
+                2,
+                3
+            ],
+            "fps": 6
+        },
+        {
+            "name": "moveR",
+            "frames": [
+                4,
+                5
+            ],
+            "fps": 6
+        }
+    ]
+}

@@ -20,7 +20,6 @@
 
 - Gameplay no longer has the intro transition skipped
 - All cutscenes have the hud gone and fade back in or visible and fade out
-- bro-mental no longer has a flippable idle or hurt anim (Just like the other bruised bro skins)
 - First Steps (Resolved) and Shift Around (Resolved) now have faded Beat Monsters
 
 - Every stage that could get optimizations, changes, or fixes has gotten an optimization, change, or fix (You may notice slight differences cuz of this)
@@ -32,6 +31,7 @@
 
 ## Backend
 
+- Songs are now in a class system now (only for stuff like cutscenes or similar cases like for stages)!
 - Stages are now in a class system now!
 
 - The stages for songs are JSON driven now!! ([#6](https://github.com/v207-matty/rhythmWalker/issues/6))
@@ -73,7 +73,10 @@
 - Dialogue Scenes can now have null portraits (they just turn invisible)
 - Rephrased Dialogue Scene "ESCAPE to leave" and it is now "ESCAPE to skip"
 
-## Bug Fixes
+## Fixes
+
+- Fixed bro-mental skin has been fixed
+    - Had flipped idle, hurt, and move, shouldn't have
 
 - Fixed when you have a less than 1 millisecond long song it would still make the entire game scene
 - Fixed beat monsters not being able to hit you while the game camera opacity is less then 10%

@@ -27,13 +27,20 @@
             "flipX": true
         },
         {
-            "name": "move",
+            "name": "moveL",
             "frames": [
                 2,
                 3
             ],
-            "fps": 6,
-            "createFlippedVarients": true
+            "fps": 6
+        },
+        {
+            "name": "moveR",
+            "frames": [
+                4,
+                5
+            ],
+            "fps": 6
         }
     ]
 }

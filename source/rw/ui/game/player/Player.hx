@@ -15,7 +15,7 @@ class Player extends RWSprite
 	{
 		data = new PlayerData(player);
 
-		super('game/players/${data.id}', true, data.config.dimensions.sprite[0], data.config.dimensions.sprite[1]);
+		super('game/players/${data.config?.graphic ?? data.id}', true, data.config.dimensions.sprite[0], data.config.dimensions.sprite[1]);
 
 		for (anim in data.animations)
 		{
