@@ -43,14 +43,16 @@ class SongChase extends Song
 			cutscene.destroy();
 			cutscene = null;
 		});
+
+		game.data.beatMonsters.padding = -game.player.width;
 	}
 
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
-		if (cutscene != null) return;
+		if (game.camGame.alpha > 0) return;
 
-		game.move(-.5);
+		game.move(-1);
 	}
 }

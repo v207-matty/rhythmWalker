@@ -56,6 +56,7 @@ class PlayState extends ConductorState
 
 	public var data(default, null) = {
 		beatMonsters: {
+			padding: 0.0,
 			spawn: true,
 			stepRate: 4,
 			scale: 1.0
@@ -369,7 +370,7 @@ class PlayState extends ConductorState
 		beatMonster.scale.y = beatMonster.scale.x = data.beatMonsters.scale;
 		beatMonster.updateHitbox();
 
-		beatMonster.x = player.getGraphicMidpoint().x - (beatMonster.width / 2);
+		beatMonster.x = player.getGraphicMidpoint().x - (beatMonster.width / 2) - data.beatMonsters.padding;
 		beatMonster.y = beatMonster.height * -2;
 
 		beatMonster.shader = beatMonsters.shader;
