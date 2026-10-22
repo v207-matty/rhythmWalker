@@ -253,7 +253,7 @@ class Freeplay extends ConductorState
 
 			FlxG.watch.addQuick('waveform-${wave.ID}', waveID);
 
-			if (waveID != songCode || bgAudio == null)
+			if (waveID != songCode || bgAudio == null || !bgAudio.playing)
 			{
 				wave.active = wave.visible = false;
 				return;
