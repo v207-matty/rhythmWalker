@@ -1,7 +1,7 @@
 {
     "id": "chase",
     "variation": "default",
-    "scrollSpeed": 4,
+    "scrollSpeed": 6,
     "bpmChanges": [
         {
             "t": 0,
@@ -12,6 +12,11 @@
         {
             "time": 0,
             "id": "beatmonsters-stop"
+        },
+        {
+            "time": 0,
+            "id": "beatmonsters-steprate",
+            "data": 1
         },
         {
             "time": 4000,
