@@ -26,11 +26,6 @@
             "id": "beatmonsters-start"
         },
         {
-            "time": 4000,
-            "id": "player-switch",
-            "data": "bro-regular"
-        },
-        {
             "time": 8000,
             "entries": [
                 {
