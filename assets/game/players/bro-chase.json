@@ -44,8 +44,7 @@
                 4,
                 5
             ],
-            "fps": 12,
-            "looped": true
+            "fps": 12
         },
         {
             "name": "moveR",
@@ -53,8 +52,7 @@
                 6,
                 7
             ],
-            "fps": 12,
-            "looped": true
+            "fps": 12
         }
     ]
 }
