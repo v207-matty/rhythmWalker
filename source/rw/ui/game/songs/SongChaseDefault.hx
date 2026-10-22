@@ -50,9 +50,12 @@ class SongChaseDefault extends Song
 	{
 		super.update(elapsed);
 
-		if (game.inCutscene) return;
+		if (game.camGame.alpha <= 0) return;
 
-		game.move(-.5);
-		game.data.beatMonsters.padding = game.player.width;
+		game.move(-.1);
+
+		if (game.control_right && !game.player_onRightEdge) game.data.beatMonsters.padding = game.player.width * -0.5;
+		else if (game.control_left && !game.player_onLeftEdge) game.data.beatMonsters.padding = game.player.width * 0.5;
+		else game.data.beatMonsters.padding = 0;
 	}
 }

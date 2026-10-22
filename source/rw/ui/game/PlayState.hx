@@ -243,23 +243,32 @@ class PlayState extends ConductorState
 		else player.animation.play(anim);
 	}
 
+	public var control_left(get, never):Bool;
+
+	function get_control_left():Bool return FlxG.keys.anyPressed([A, LEFT]) || (FlxG.mouse.pressed && FlxG.mouse.x < player.x);
+
+	public var control_right(get, never):Bool;
+
+	function get_control_right():Bool return FlxG.keys.anyPressed([D, RIGHT]) || (FlxG.mouse.pressed && FlxG.mouse.x > player.x);
+
+	public var player_onLeftEdge(default, null):Bool = false;
+	public var player_onRightEdge(default, null):Bool = false;
+
 	function managePlayer()
 	{
 		player.maxVelocity.x = player.data.config.maxVelocityBase * songData.scrollSpeed;
 
-		if (FlxG.keys.anyPressed([A, LEFT]) || (FlxG.mouse.pressed && FlxG.mouse.x < player.x)) move(-1);
-		else if (FlxG.keys.anyPressed([D, RIGHT]) || (FlxG.mouse.pressed && FlxG.mouse.x > player.x)) move(1);
+		if (control_left) move(-1);
+		else if (control_right) move(1);
 		else playerVelocityDamping();
 
-		if (player.x < player.width)
-		{
-			player.x = player.width;
-			player.velocity.x = 0;
-		}
+		player_onLeftEdge = player.x < player.width;
+		player_onRightEdge = player.x > FlxG.width - (player.width * 2);
 
-		if (player.x > FlxG.width - (player.width * 2))
+		if (player_onLeftEdge || player_onRightEdge)
 		{
-			player.x = FlxG.width - (player.width * 2);
+			if (player_onLeftEdge) player.x = player.width;
+			if (player_onRightEdge) player.x = FlxG.width - (player.width * 2);
 			player.velocity.x = 0;
 		}
 
