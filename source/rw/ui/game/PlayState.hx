@@ -178,6 +178,7 @@ class PlayState extends ConductorState
 		super.update(elapsed);
 
 		conductor.update(null);
+		song?.update(elapsed);
 		stage?.update(elapsed);
 
 		if (scoreText != null)
@@ -336,6 +337,7 @@ class PlayState extends ConductorState
 
 		if (canSpawnMonster && Math.floor(step % data.beatMonsters.stepRate) == 0) spawnBeatMonster();
 
+		song?.onStepHit(step, backward);
 		stage?.onStepHit(step, backward);
 	}
 
@@ -356,10 +358,11 @@ class PlayState extends ConductorState
 			});
 		}
 
+		song?.onBeatHit(beat, backward);
 		stage?.onBeatHit(beat, backward);
 	}
 
-	function spawnBeatMonster()
+	public function spawnBeatMonster()
 	{
 		var beatMonster:FlxSprite = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
 		beatMonster.scale.y = beatMonster.scale.x = data.beatMonsters.scale;
@@ -375,7 +378,7 @@ class PlayState extends ConductorState
 		beatMonsterSpawner.alpha += .1;
 	}
 
-	function addEvent(event:SongEventData)
+	public function addEvent(event:SongEventData)
 	{
 		var songEvent = new FlxTimer();
 		songEvents.push(songEvent);
@@ -425,61 +428,17 @@ class PlayState extends ConductorState
 							Int) || Std.isOfType(event.data, String))) data.beatMonsters.stepRate = Math.floor((Std.parseFloat(Std.string(event.data)) ?? 1));
 		}
 
+		song?.onEvent(event);
 		stage?.onEvent(event);
 	}
 
 	function generateSong()
 	{
-		song = new Song(songData?.id ?? '');
+		song = SongManager.get(songData?.id, songData?.variation ?? defaultVariation);
 
 		makeStage(songData?.stage ?? 'stage');
 
-		if (songData?.id == 'train getaway' && songData?.variation == defaultVariation)
-		{
-			var fireSegs:Array<Float> = [];
-			var jammedSegs:Array<Float> = [];
-
-			function addIncrementSeg(start:Float, inc:Int, skip:Array<Int>, ?jammed:Bool)
-			{
-				var incs = [0, 0.187, 0.375, 0.562, 0.750, 0.937, 1.125,];
-
-				for (i in 0...inc)
-				{
-					if (skip.contains(i)) continue;
-
-					if (jammed) jammedSegs.push(start + incs[i]);
-					else fireSegs.push(start + incs[i]);
-				}
-			}
-
-			function addSeg(seg:Array<Float>) for (thing in seg) fireSegs.push(thing);
-
-			addIncrementSeg(3, 7, []);
-			addSeg([4.500, 4.781, 5.062, 5.343, 5.625]);
-			addIncrementSeg(6, 7, [3]);
-			addIncrementSeg(9, 7, [3]);
-			addIncrementSeg(12, 7, [3]);
-			addIncrementSeg(15, 7, [3]);
-			addIncrementSeg(18, 7, [3]);
-			addIncrementSeg(21, 7, [3]);
-			addIncrementSeg(22.5, 7, [3], true);
-
-			addIncrementSeg(27, 7, [3]);
-			addIncrementSeg(30, 7, [3]);
-			addIncrementSeg(33, 7, [3]);
-
-			for (time in fireSegs) addEvent({
-				time: time * 1000,
-				id: 'traingetaway-gun'
-			});
-
-			for (time in jammedSegs) addEvent({
-				time: time * 1000,
-				id: 'traingetaway-gunJammed'
-			});
-		}
-
-		if (songData.variation == resolved && (songData.id == 'first steps' || songData.id == 'shift around')) beatMonsters.alpha = 0.5;
+		if (song != null) song.build();
 	}
 
 	function makeStage(stage:String)
