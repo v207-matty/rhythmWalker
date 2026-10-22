@@ -81,8 +81,6 @@ class PlayState extends ConductorState
 
 	override function create()
 	{
-		FlxTransitionableState.skipNextTransIn = true;
-
 		super.create();
 
 		instance = null;
