@@ -21,6 +21,26 @@
         {
             "time": 4000,
             "id": "beatmonsters-start"
+        },
+        {
+            "time": 8000,
+            "id": "beatmonsters-stop"
+        },
+        {
+            "time": 12000,
+            "id": "beatmonsters-start"
+        },
+        {
+            "time": 16000,
+            "id": "beatmonsters-stop"
+        },
+        {
+            "time": 20000,
+            "id": "beatmonsters-start"
+        },
+        {
+            "time": 24000,
+            "id": "beatmonsters-stop"
         }
     ],
     "player": "bro-chase",
