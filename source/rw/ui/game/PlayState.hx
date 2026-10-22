@@ -189,6 +189,7 @@ class PlayState extends ConductorState
 
 		if (!inCutscene) managePlayer();
 		else if (data.player.cutsceneVelocityDamping) playerVelocityDamping();
+
 		if (beatMonsters != null) manageBeatMonsters();
 		if (timeBarSongLinked) timeBarTarget = FlxG.width * (conductor.musicPosition / conductor.musicLength);
 
@@ -199,6 +200,8 @@ class PlayState extends ConductorState
 			scoreText.text = 'Score: $score | Hits Taken: $hits';
 			scoreText.screenCenter(X);
 		}
+
+		if (FlxG.keys.justPressed.ESCAPE) leave();
 
 		runOnComponents(c -> c.update(elapsed));
 	}
@@ -275,12 +278,12 @@ class PlayState extends ConductorState
 			if (player_onRightEdge) player.x = FlxG.width - (player.width * 2);
 			player.velocity.x = 0;
 		}
-
-		if (FlxG.keys.justPressed.ESCAPE) leave();
 	}
 
 	function leave()
 	{
+		if (inCutscene || !camHUD.visible || camHUD.alpha < 0.1) return;
+
 		seenEndCutscene = seenIntroCutscene = true;
 		skipping = true;
 		onSongEnd();

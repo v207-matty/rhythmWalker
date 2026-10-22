@@ -15,7 +15,9 @@
 
 ## Gameplay Related
 
-- New Event: "beatmonsters-start"
+- You now can only leave gameplay when you are not in a cutscene and when the HUD camera is visible or when the HUD camera is 10+ percent visible
+
+- New General Event: "beatmonsters-start"
     - Functions like "beatmonsters-resume"
 
 - Gameplay no longer has the intro transition skipped
