@@ -1,7 +1,6 @@
 package ui.game;
 
 import util.*;
-import ui.objects.mobile.*;
 import ui.objects.*;
 import ui.game.dialogue.*;
 import ui.game.stage.*;
@@ -166,7 +165,7 @@ class PlayState extends ConductorState
 		timeBarSongLinked = true;
 
 		#if MOBILE_MODE
-		var leaveButton = new CornerButton('backBtn');
+		var leaveButton = new ui.objects.mobile.CornerButton('backBtn');
 		leaveButton.setCamera(camHUD);
 		add(leaveButton);
 		leaveButton.x = FlxG.width - leaveButton.width;

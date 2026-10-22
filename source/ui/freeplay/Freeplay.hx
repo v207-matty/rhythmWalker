@@ -4,7 +4,6 @@ import flixel.group.FlxSpriteGroup;
 import util.Constants;
 import flixel.math.FlxMath;
 import ui.objects.RWSprite;
-import ui.objects.mobile.CornerButton;
 import flixel.util.FlxSort;
 import openfl.media.Sound;
 import flixel.tweens.FlxEase;
@@ -97,8 +96,6 @@ class Freeplay extends ConductorState
 
 	var waveformLayer:FlxSpriteGroup;
 
-	var playButton:CornerButton;
-
 	public var songCode(get, never):String;
 
 	function get_songCode():String
@@ -172,7 +169,7 @@ class Freeplay extends ConductorState
 		filter('all');
 
 		#if MOBILE_MODE
-		playButton = new CornerButton('playBtn');
+		var playButton = new ui.objects.mobile.CornerButton('playBtn');
 
 		playButton.y = FlxG.height - playButton.height;
 		playButton.x = FlxG.width - playButton.width;

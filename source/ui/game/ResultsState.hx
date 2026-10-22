@@ -1,7 +1,6 @@
 package ui.game;
 
 import util.Constants;
-import ui.objects.mobile.CornerButton;
 import ui.objects.RWSprite;
 import ui.freeplay.Freeplay;
 import flixel.util.FlxTimer;
@@ -103,7 +102,7 @@ class ResultsState extends ConductorState
 		});
 
 		#if MOBILE_MODE
-		var leaveButton = new CornerButton('backBtn');
+		var leaveButton = new ui.objects.mobile.CornerButton('backBtn');
 		add(leaveButton);
 		leaveButton.x = FlxG.width - leaveButton.width;
 		leaveButton.onClicked.add(leave);
