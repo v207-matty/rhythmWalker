@@ -40,6 +40,7 @@
 
 - Players are now JSON driven and not hardcoded!!
     - Set the "player" field in your song JSON and make sure that player has a graphic and json in "assets/game/players" with that name
+        - Or specify a plater graphic to use in the json
 
 - SAVE SHIT HAS BEEN CHANGED ( No conversion, sorry :( )
     - New Path

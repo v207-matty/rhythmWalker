@@ -17,13 +17,15 @@
             "name": "hurtL",
             "frames": [
                 1
-            ]
+            ],
+            "fps": 2
         },
         {
             "name": "hurtR",
             "frames": [
                 1
             ],
+            "fps": 2,
             "flipX": true
         },
         {
