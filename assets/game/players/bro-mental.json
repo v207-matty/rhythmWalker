@@ -14,12 +14,17 @@
             "flipX": true
         },
         {
-            "name": "hurt",
+            "name": "hurtL",
+            "frames": [
+                1
+            ]
+        },
+        {
+            "name": "hurtR",
             "frames": [
                 1
             ],
-            "fps": 2,
-            "createFlippedVarients": true
+            "flipX": true
         },
         {
             "name": "move",
