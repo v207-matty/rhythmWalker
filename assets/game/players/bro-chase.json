@@ -1,7 +1,8 @@
 {
     "config": {
         "graphic": "bro-mental",
-        "maxVelocityBase": 100
+        "maxVelocityBase": 100,
+        "speed": 10
     },
     "animations": [
         {
@@ -36,7 +37,8 @@
                 2,
                 3
             ],
-            "fps": 6
+            "fps": 6,
+            "looped":true
         },
         {
             "name": "moveR",
@@ -44,7 +46,8 @@
                 4,
                 5
             ],
-            "fps": 6
+            "fps": 6,
+            "looped":true
         }
     ]
 }

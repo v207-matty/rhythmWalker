@@ -50,13 +50,7 @@ class SongChaseDefault extends Song
 	{
 		super.build();
 
-		game.player.animation.onFinish.removeAll();
-		game.player.animation.onFinish.add(animName ->
-		{
-			if (game.inCutscene) return;
-
-			game.playerPlayAnim('move');
-			game.player.stunned = false;
-		});
+		game.player.flipX = true;
+		game.playerPlayAnim('move');
 	}
 }
