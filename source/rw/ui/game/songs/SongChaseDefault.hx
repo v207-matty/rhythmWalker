@@ -51,9 +51,11 @@ class SongChaseDefault extends Song
 	var togglePoints:Array<Dynamic>;
 
 	function togglePointOne() toggleGameplayScene(false);
+
 	function togglePointOneEnd() toggleGameplayScene(true);
 
 	function togglePointTwo() toggleGameplayScene(false);
+
 	function togglePointTwoEnd() toggleGameplayScene(true);
 
 	function togglePointThree() toggleGameplayScene(false);
@@ -61,28 +63,30 @@ class SongChaseDefault extends Song
 	override function build()
 	{
 		super.build();
-
-		// TODO: have the fuckass shit just change bgs
-
-		togglePoints = [
-			{time: 8.0, method: togglePointOne},
-			{time: 12.0, method: togglePointOneEnd},
-			{time: 16.0, method: togglePointTwo},
-			{time: 20.0, method: togglePointTwoEnd},
-			{time: 24.0, method: togglePointThree},
-		];
 	}
 
-	override function update(elapsed:Float)
+	override function onEvent(event:SongEventData)
 	{
-		super.update(elapsed);
+		super.onEvent(event);
 
-		for (point in togglePoints)
+		switch (event.id.toLowerCase())
 		{
-			if (game.conductor.musicPosition < point.time) continue;
+			case 'chase-moving':
+				switch (event.data)
+				{
+					case 1:
+						togglePointOne();
+					case 2:
+						togglePointOneEnd();
+					case 3:
+						togglePointTwo();
+					case 4:
+						togglePointTwoEnd();
+					case 5:
+						togglePointThree();
 
-			if (point.method != null) point.method();
-			togglePoints.remove(point);
+					default:
+				}
 		}
 	}
 }

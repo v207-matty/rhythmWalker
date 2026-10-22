@@ -1,6 +1,6 @@
 # 0.4.0 : Gloomy Days (Memory Bundle 1) - 11/1/2026
 
-## Songs
+## New Songs
 
 - Chase
 - Save
@@ -29,7 +29,9 @@
     - The Lost Media stage sky color is now the intended color
     - And more!!!
 
-## Backend
+## Backend / Nerd shit
+
+- Beat Monsters now have a padding data field to adjust where they fall
 
 - Songs are now in a class system now (only for stuff like cutscenes or similar cases like for stages)!
 - Stages are now in a class system now!
@@ -48,7 +50,7 @@
 
 ## UX
 
-- Now using logarithmic sound curves
+- Now using logarithmic sound curves (basically the volume thingy is more accurate to what humans actually hear)
 
 - ADDED MOBILE SUPPORT!! (heres stuff that happens when on mobile)
     - [MOBILE] Text gets sized up
