@@ -261,7 +261,10 @@ class Freeplay extends ConductorState
 
 			wave.visible = wave.active = true;
 
-			if (wave.waveformTime != bgAudio.time) wave.waveformTime = bgAudio.time;
+			@:privateAccess
+			{
+				if (wave.waveformTime != bgAudio._channel.position) wave.waveformTime = bgAudio._channel.position;
+			}
 		});
 		#end
 	}
