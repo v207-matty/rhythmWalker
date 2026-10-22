@@ -4,9 +4,9 @@ import flixel.FlxG;
 
 class StageChase extends Stage
 {
-	override public function new()
+	override public function new(stage:String)
 	{
-		super('chase');
+		super(stage);
 	}
 
 	override function build()

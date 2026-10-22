@@ -12,7 +12,7 @@ class PlayableComponent
 
 	public function build() {}
 
-	public function onEvent(event:SongEventData) {}
+	public function onEvent(event:SongEventRawData) {}
 
 	public function onBeatHit(beat:Int, backward:Bool) {}
 

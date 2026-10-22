@@ -9,16 +9,3 @@
     - Class System Beat Monsters
         - Means Beat Monsters are more customizable
 
-- Multi-event System
-    {
-        time: blah
-        entries: [
-            {
-                id: bitch,
-                data: whore
-            },
-            {
-                id: fucka
-            }
-        ]
-    }

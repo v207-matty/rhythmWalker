@@ -8,8 +8,8 @@ class StageManager
 	{
 		return switch (stage.toLowerCase())
 		{
-			case 'chase':
-				new StageChase();
+			case 'chase-1', 'chase-2', 'chase-3':
+				new StageChase(stage.toLowerCase());
 
 			case 'chinatown':
 				new StageChinatown();

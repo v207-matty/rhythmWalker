@@ -83,7 +83,7 @@ class SongChaseDefault extends Song
 		game.data.player.cutsceneVelocityDamping = true;
 	}
 
-	override function onEvent(event:SongEventData)
+	override function onEvent(event:SongEventRawData)
 	{
 		super.onEvent(event);
 

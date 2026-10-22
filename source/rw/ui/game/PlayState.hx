@@ -1,5 +1,6 @@
 package rw.ui.game;
 
+import rw.ui.game.song.SongEventData;
 import rw.util.*;
 import rw.ui.objects.*;
 import rw.ui.game.dialogue.*;
@@ -402,13 +403,15 @@ class PlayState extends ConductorState
 
 		songEvent.start(event.time / 1000, function(t)
 		{
-			parseEvent(event);
+			if (event.entries?.length > 0) for (e in event.entries) parseEvent({id: e.id, data: e.data});
+			else parseEvent({id: event.id, data: event.data});
+
 			songEvents.remove(songEvent);
 		});
 	}
 
 	// TODO: Def could do a class system here
-	function parseEvent(event:SongEventData)
+	function parseEvent(event:SongEventRawData)
 	{
 		trace(event);
 

@@ -11,12 +11,15 @@
     "events": [
         {
             "time": 0,
-            "id": "beatmonsters-stop"
-        },
-        {
-            "time": 0,
-            "id": "beatmonsters-steprate",
-            "data": 2
+            "entries": [
+                {
+                    "id": "beatmonsters-stop"
+                },
+                {
+                    "id": "beatmonsters-steprate",
+                    "data": 2
+                }
+            ]
         },
         {
             "time": 4000,
@@ -24,50 +27,73 @@
         },
         {
             "time": 8000,
-            "id": "beatmonsters-stop"
-        },
-        {
-            "time": 8000,
-            "id": "chase-moving",
-            "data": 1
+            "entries": [
+                {
+                    "id": "beatmonsters-stop"
+                },
+                {
+                    "id": "chase-moving",
+                    "data": 1
+                }
+            ]
         },
         {
             "time": 12000,
-            "id": "beatmonsters-start"
-        },
-        {
-            "time": 12000,
-            "id": "chase-moving",
-            "data": 2
+            "entries": [
+                {
+                    "id": "beatmonsters-start"
+                },
+                {
+                    "id": "stage-switch",
+                    "data": "chase-2"
+                },
+                {
+                    "id": "chase-moving",
+                    "data": 2
+                }
+            ]
         },
         {
             "time": 16000,
-            "id": "beatmonsters-stop"
-        },
-        {
-            "time": 16000,
-            "id": "chase-moving",
-            "data": 3
+            "entries": [
+                {
+                    "id": "beatmonsters-stop"
+                },
+                {
+                    "id": "chase-moving",
+                    "data": 3
+                }
+            ]
         },
         {
             "time": 20000,
-            "id": "beatmonsters-start"
-        },
-        {
-            "time": 20000,
-            "id": "chase-moving",
-            "data": 4
+            "entries": [
+                {
+                    "id": "beatmonsters-start"
+                },
+                {
+                    "id": "stage-switch",
+                    "data": "chase-3"
+                },
+                {
+                    "id": "chase-moving",
+                    "data": 4
+                }
+            ]
         },
         {
             "time": 24000,
-            "id": "beatmonsters-stop"
-        },
-        {
-            "time": 24000,
-            "id": "chase-moving",
-            "data": 5
+            "entries": [
+                {
+                    "id": "beatmonsters-stop"
+                },
+                {
+                    "id": "chase-moving",
+                    "data": 5
+                }
+            ]
         }
     ],
     "player": "bro-chase",
-    "stage": "chase"
+    "stage": "chase-1"
 }

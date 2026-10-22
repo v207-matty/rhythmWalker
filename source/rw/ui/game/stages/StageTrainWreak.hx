@@ -96,7 +96,7 @@ class StageTrainWreak extends Stage
 		game.player.y = FlxG.height - game.player.height * 1.15;
 	}
 
-	override function onEvent(event:SongEventData)
+	override function onEvent(event:SongEventRawData)
 	{
 		super.onEvent(event);
 

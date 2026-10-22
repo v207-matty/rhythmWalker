@@ -15,6 +15,9 @@
 
 ## Gameplay Related
 
+- Added multi-event system
+    - Chase is an example of this system
+
 - You now can only leave gameplay when you are not in a cutscene and when the HUD camera is visible or when the HUD camera is 10+ percent visible
 
 - New General Event: "beatmonsters-start"

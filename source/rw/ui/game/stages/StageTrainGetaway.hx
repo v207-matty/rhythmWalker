@@ -66,7 +66,7 @@ class StageTrainGetaway extends Stage
 		}
 	}
 
-	override function onEvent(event:SongEventData)
+	override function onEvent(event:SongEventRawData)
 	{
 		super.onEvent(event);
 
