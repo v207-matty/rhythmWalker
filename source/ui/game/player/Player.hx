@@ -26,7 +26,7 @@ class Player extends RWSprite
 			if (!anim.createFlippedVarients)
 			{
 				addAnim(anim.name, anim.frames, anim.fps, anim.looped, anim.flipX, anim.flipY);
-				return;
+				continue;
 			}
 
 			addAnim(anim.name + 'L', anim.frames, anim.fps, anim.looped, anim.flipX, anim.flipY);
@@ -35,9 +35,6 @@ class Player extends RWSprite
 
 		collision = new FlxSprite().makeGraphic(data.config?.dimensions?.hitbox[0] ?? 32, data.config?.dimensions?.hitbox[1] ?? 32, FlxColor.RED);
 		collision.visible = false;
-
-		@:privateAccess
-		collision.flixelType = OBJECT;
 	}
 
 	override function update(elapsed:Float)
