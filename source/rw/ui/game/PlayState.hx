@@ -483,10 +483,43 @@ class PlayState extends ConductorState
 
 	public function makePlayer(newplayer:String)
 	{
+		// important og info
+		var ioi = {
+			scale: {x: 2.0, y: 2.0},
+			position: {
+				x: 0.0,
+				y: 0.0
+			},
+			velocity: {
+				x: 0.0,
+				y: 0.0
+			},
+			animationName: 'idle'
+		};
+		ioi.position = null;
+		ioi.velocity = null;
+
 		var playerLayer = members.indexOf(player);
 
 		if (playerLayer >= 0)
 		{
+			ioi.animationName = player.animation.name;
+
+			ioi.scale = {
+				x: player.scale.x,
+				y: player.scale.y,
+			};
+
+			ioi.velocity = {
+				x: player.velocity.x,
+				y: player.velocity.y,
+			};
+
+			ioi.position = {
+				x: player.getPosition().x,
+				y: player.getPosition().y,
+			};
+
 			remove(player);
 			player.destroy();
 			player = null;
@@ -494,7 +527,9 @@ class PlayState extends ConductorState
 
 		player = new Player(newplayer);
 
-		playerPlayAnim('idle');
+		if (player.animation.exists(ioi.animationName)) player.animation.play(ioi.animationName);
+		else playerPlayAnim('idle');
+
 		player.animation.onFinish.add(animName ->
 		{
 			if (inCutscene) return;
@@ -503,9 +538,21 @@ class PlayState extends ConductorState
 			player.stunned = false;
 		});
 
-		player.setScale(2);
-		player.screenCenter();
-		player.y = FlxG.height - player.height * 1.25;
+		player.setScale(ioi.scale?.x ?? 2, ioi.scale?.x ?? 2);
+
+		if (ioi.position == null)
+		{
+			player.screenCenter();
+			player.y = FlxG.height - player.height * 1.25;
+		}
+		else player.setPosition(ioi.position.x, ioi.position.y);
+
+		if (ioi.velocity != null)
+		{
+			player.velocity.x = ioi.velocity.x;
+			player.velocity.y = ioi.velocity.y;
+		}
+
 		player.setCamera(camGame);
 
 		if (immortal) player.alpha = .25;
