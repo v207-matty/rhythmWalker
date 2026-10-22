@@ -50,7 +50,6 @@ class SongChaseDefault extends Song
 	{
 		super.build();
 
-		game.player.flipX = true;
-		game.playerPlayAnim('move');
+		// TODO: have the fuckass shit just change bgs
 	}
 }
