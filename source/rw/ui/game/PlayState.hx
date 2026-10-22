@@ -262,8 +262,8 @@ class PlayState extends ConductorState
 		else if (control_right) move(1);
 		else playerVelocityDamping();
 
-		player_onLeftEdge = player.x < player.width;
-		player_onRightEdge = player.x > FlxG.width - (player.width * 2);
+		player_onLeftEdge = player.x <= player.width;
+		player_onRightEdge = player.x >= FlxG.width - (player.width * 2);
 
 		if (player_onLeftEdge || player_onRightEdge)
 		{
