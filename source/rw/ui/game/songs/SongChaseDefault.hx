@@ -52,7 +52,8 @@ class SongChaseDefault extends Song
 
 		if (game.camGame.alpha <= 0) return;
 
-		game.move(-.1, false);
+		if (game.player.x > game.player.width * 1.01) game.move(-.1, false);
+		else game.move(-.01, false);
 
 		if (game.control_right && !game.player_onRightEdge) game.data.beatMonsters.padding = game.player.width * -0.5;
 		else if (game.control_left && !game.player_onLeftEdge) game.data.beatMonsters.padding = game.player.width * 0.5;
