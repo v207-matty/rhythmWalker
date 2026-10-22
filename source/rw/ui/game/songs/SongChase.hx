@@ -49,8 +49,8 @@ class SongChase extends Song
 	{
 		super.update(elapsed);
 
-		if (cutscene.exists) return;
+		if (cutscene != null) return;
 
-		game.move(-.1);
+		game.move(-.5);
 	}
 }
