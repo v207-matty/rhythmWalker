@@ -8,6 +8,9 @@ class SongManager
 	{
 		return switch ([song.toLowerCase(), variation])
 		{
+			case ['chase', defaultVariation]:
+				new SongChase();
+
 			case ['first steps', resolved] | ['shift around', resolved]:
 				new SongDayOneResolved(song.toLowerCase());
 

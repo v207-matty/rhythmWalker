@@ -36,6 +36,12 @@ class PlayState extends ConductorState
 	public var songData(default, null):SongData;
 	public var songEvents:Array<FlxTimer> = [];
 
+	public var components(get, never):Array<PlayableComponent>;
+
+	function get_components():Array<PlayableComponent> return [stage, song];
+
+	public function runOnComponents(a:PlayableComponent->Void) if (a != null) for (component in components) if (component != null) a(component);
+
 	public var scoreText(default, null):FlxText;
 	public var totalScore:Int = 0;
 	public var score:Int = 0;
@@ -81,8 +87,6 @@ class PlayState extends ConductorState
 
 	override function create()
 	{
-		super.create();
-
 		instance = null;
 		instance = this;
 
@@ -178,8 +182,7 @@ class PlayState extends ConductorState
 		super.update(elapsed);
 
 		conductor.update(null);
-		song?.update(elapsed);
-		stage?.update(elapsed);
+		runOnComponents(c -> c.update(elapsed));
 
 		if (scoreText != null)
 		{
@@ -337,8 +340,7 @@ class PlayState extends ConductorState
 
 		if (canSpawnMonster && Math.floor(step % data.beatMonsters.stepRate) == 0) spawnBeatMonster();
 
-		song?.onStepHit(step, backward);
-		stage?.onStepHit(step, backward);
+		runOnComponents(c -> c.onStepHit(step, backward));
 	}
 
 	override function onBeatHit(beat:Int, backward:Bool)
@@ -358,8 +360,7 @@ class PlayState extends ConductorState
 			});
 		}
 
-		song?.onBeatHit(beat, backward);
-		stage?.onBeatHit(beat, backward);
+		runOnComponents(c -> c.onBeatHit(beat, backward));
 	}
 
 	public function spawnBeatMonster()
@@ -411,7 +412,7 @@ class PlayState extends ConductorState
 
 			case 'beatmonsters-stop': data.beatMonsters.spawn = false;
 
-			case 'beatmonsters-resume': data.beatMonsters.spawn = true;
+			case 'beatmonsters-resume', 'beatmonsters-start': data.beatMonsters.spawn = true;
 
 			// the old beat system
 			case 'beatmonsters-setrate', 'beatmonsters-rate', 'beatmonsters-setbeatrate', 'beatmonsters-beatrate':
@@ -428,17 +429,15 @@ class PlayState extends ConductorState
 							Int) || Std.isOfType(event.data, String))) data.beatMonsters.stepRate = Math.floor((Std.parseFloat(Std.string(event.data)) ?? 1));
 		}
 
-		song?.onEvent(event);
-		stage?.onEvent(event);
+		runOnComponents(c -> c.onEvent(event));
 	}
 
 	function generateSong()
 	{
 		song = SongManager.get(songData?.id, songData?.variation ?? defaultVariation);
+		if (song != null) song.build();
 
 		makeStage(songData?.stage ?? 'stage');
-
-		if (song != null) song.build();
 	}
 
 	function makeStage(stage:String)
@@ -457,7 +456,6 @@ class PlayState extends ConductorState
 		}
 
 		this.stage = StageManager.get(stage ?? 'stage');
-
 		if (this.stage != null) this.stage.build();
 	}
 

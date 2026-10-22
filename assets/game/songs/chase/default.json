@@ -8,7 +8,16 @@
             "bpm": 120
         }
     ],
-    "events": [],
+    "events": [
+        {
+            "time": 0,
+            "id": "beatmonsters-stop"
+        },
+        {
+            "time": 4000,
+            "id": "beatmonsters-start"
+        }
+    ],
     "player": "bro-regular",
     "stage": "stage"
 }
