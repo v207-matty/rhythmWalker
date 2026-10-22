@@ -34,9 +34,10 @@ class SongChaseDefault extends Song
 		game.camGame.visible = game.camHUD.visible = on;
 		game.inIntroCutscene = !on;
 
+		game.playerPlayAnim('idle');
+
 		if (on)
 		{
-			game.playerPlayAnim('idle');
 			game.player.velocity.x = 0;
 			game.player.screenCenter(X);
 		}
