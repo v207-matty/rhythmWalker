@@ -10,7 +10,8 @@
                 0,
                 1
             ],
-            "fps": 4
+            "fps": 2,
+            "looped": true
         },
         {
             "name": "idleR",
@@ -18,8 +19,9 @@
                 0,
                 1
             ],
-            "fps": 4,
-            "flipX": true
+            "fps": 2,
+            "flipX": true,
+            "looped": true
         },
         {
             "name": "hurtL",
@@ -27,7 +29,7 @@
                 2,
                 3
             ],
-            "fps": 4
+            "fps": 2
         },
         {
             "name": "hurtR",
@@ -35,7 +37,7 @@
                 2,
                 3
             ],
-            "fps": 4,
+            "fps": 2,
             "flipX": true
         },
         {
@@ -44,7 +46,7 @@
                 4,
                 5
             ],
-            "fps": 12
+            "fps": 6
         },
         {
             "name": "moveR",
@@ -52,7 +54,7 @@
                 6,
                 7
             ],
-            "fps": 12
+            "fps": 6
         }
     ]
 }
