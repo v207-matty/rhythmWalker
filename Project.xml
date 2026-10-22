@@ -29,7 +29,7 @@
 
 	<haxedef name="FREEPLAY_VISUALIZER" unless="FREEPLAY_CENTER_LAYOUT || DISABLE_FREEPLAY_VISUALIZER" />
 	<haxedef name="FREEPLAY_VISUALIZER_MULTICACHE" if="FREEPLAY_VISUALIZER"
-		unless="linux || _32bit || web || MOBILE_MODE" />
+		unless="linux || _32bit || web" />
 
 	<icon path="dev/icon.png" />
 
