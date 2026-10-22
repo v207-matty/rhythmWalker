@@ -46,10 +46,43 @@ class SongChaseDefault extends Song
 		return true;
 	}
 
+	function toggleGameplayScene(on:Bool) game.inIntroCutscene = game.camGame.visible = game.camHUD.visible = on;
+
+	var togglePoints:Array<Dynamic>;
+
+	function togglePointOne() toggleGameplayScene(false);
+	function togglePointOneEnd() toggleGameplayScene(true);
+
+	function togglePointTwo() toggleGameplayScene(false);
+	function togglePointTwoEnd() toggleGameplayScene(true);
+
+	function togglePointThree() toggleGameplayScene(false);
+
 	override function build()
 	{
 		super.build();
 
 		// TODO: have the fuckass shit just change bgs
+
+		togglePoints = [
+			{time: 8.0, method: togglePointOne},
+			{time: 12.0, method: togglePointOneEnd},
+			{time: 16.0, method: togglePointTwo},
+			{time: 20.0, method: togglePointTwoEnd},
+			{time: 24.0, method: togglePointThree},
+		];
+	}
+
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+
+		for (point in togglePoints)
+		{
+			if (game.conductor.musicPosition < point.time) continue;
+
+			if (point.method != null) point.method();
+			togglePoints.remove(point);
+		}
 	}
 }

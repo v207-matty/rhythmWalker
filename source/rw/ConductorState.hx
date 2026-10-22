@@ -6,7 +6,7 @@ import flixel.addons.ui.FlxUIState;
 
 class ConductorState extends FlxUIState
 {
-	var conductor(get, never):FlxRhythmConductor;
+	public var conductor(get, never):FlxRhythmConductor;
 
 	function get_conductor():FlxRhythmConductor return FlxRhythmConductor.instance;
 
@@ -28,8 +28,8 @@ class ConductorState extends FlxUIState
 
 	function onStepHit(step:Int, backward:Bool) {}
 
-	var mouseEnabled:Bool = #if MOBILE_MODE true #else false #end;
-	var mouseVisible:Bool = #if (MOBILE_MODE && !MOBILE_PLATFORM) true #else false #end;
+	public var mouseEnabled:Bool = #if MOBILE_MODE true #else false #end;
+	public var mouseVisible:Bool = #if (MOBILE_MODE && !MOBILE_PLATFORM) true #else false #end;
 
 	override function update(elapsed:Float)
 	{
