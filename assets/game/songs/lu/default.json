@@ -8,5 +8,7 @@
             "bpm": 222
         }
     ],
-    "events": []
+    "events": [],
+    "player": "bro-regular",
+    "stage": "stage"
 }
