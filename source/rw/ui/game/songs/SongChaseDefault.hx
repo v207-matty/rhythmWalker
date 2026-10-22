@@ -25,7 +25,7 @@ class SongChaseDefault extends Song
 	function togglePointThree()
 	{
 		toggleGameplayScene(false);
-		
+
 		game.inIntroCutscene = false;
 	}
 
@@ -36,6 +36,7 @@ class SongChaseDefault extends Song
 
 		if (on)
 		{
+			game.playerPlayAnim('idle');
 			game.player.velocity.x = 0;
 			game.player.screenCenter(X);
 		}
