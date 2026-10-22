@@ -258,12 +258,12 @@ class PlayState extends ConductorState
 	{
 		player.maxVelocity.x = player.data.config.maxVelocityBase * songData.scrollSpeed;
 
-		if (control_left) move(-1);
-		else if (control_right) move(1);
+		if (control_left) move(-1, true);
+		else if (control_right) move(1, true);
 		else playerVelocityDamping();
 
-		player_onLeftEdge = player.x <= player.width;
-		player_onRightEdge = player.x >= FlxG.width - (player.width * 2);
+		player_onLeftEdge = player.x < player.width;
+		player_onRightEdge = player.x > FlxG.width - (player.width * 2);
 
 		if (player_onLeftEdge || player_onRightEdge)
 		{
@@ -282,12 +282,15 @@ class PlayState extends ConductorState
 		onSongEnd();
 	}
 
-	public function move(mult = 1.0)
+	public function move(mult = 1.0, playerMovement = false)
 	{
 		var shiftThing:Float = 1;
 
-		if (FlxG.keys.pressed.SHIFT) shiftThing *= 2;
-		else if (FlxG.mouse.pressed) shiftThing *= 2 * (player.x / FlxG.mouse.x);
+		if (playerMovement)
+		{
+			if (FlxG.keys.pressed.SHIFT) shiftThing *= 2;
+			else if (FlxG.mouse.pressed) shiftThing *= 2 * (player.x / FlxG.mouse.x);
+		}
 
 		player.flipX = mult > -1;
 		player.velocity.x += (player.data.config.speed * shiftThing) * mult;
