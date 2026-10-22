@@ -41,6 +41,16 @@ class SongChase extends Song
 		{
 			game.remove(cutscene);
 			cutscene.destroy();
+			cutscene = null;
 		});
+	}
+
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+
+		if (cutscene.exists) return;
+
+		game.move(-.1);
 	}
 }

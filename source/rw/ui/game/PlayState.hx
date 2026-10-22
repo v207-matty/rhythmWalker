@@ -274,7 +274,7 @@ class PlayState extends ConductorState
 		onSongEnd();
 	}
 
-	function move(mult = 1.0)
+	public function move(mult = 1.0)
 	{
 		var shiftThing:Float = 1;
 
@@ -594,7 +594,8 @@ class PlayState extends ConductorState
 
 			default:
 		}
-		return false;
+
+		return song?.introCutscene() ?? false;
 	}
 
 	function endCutscene():Bool
@@ -660,6 +661,6 @@ class PlayState extends ConductorState
 			default:
 		}
 
-		return false;
+		return song?.endingCutscene() ?? false;
 	}
 }

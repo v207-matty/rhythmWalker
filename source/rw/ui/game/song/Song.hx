@@ -12,4 +12,8 @@ class Song extends PlayableComponent
 		this.song = song.toLowerCase();
 		this.variation = variation;
 	}
+
+	public function introCutscene() return false;
+
+	public function endingCutscene() return false;
 }
