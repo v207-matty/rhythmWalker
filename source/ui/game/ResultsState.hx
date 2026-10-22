@@ -118,7 +118,7 @@ class ResultsState extends ConductorState
 	{
 		super.update(elapsed);
 
-		if (!leaveTimer.finished && FlxG.keys.anyJustPressed([ENTER, ESCAPE])) leave();
+		if (leaveTimer != null && !leaveTimer?.finished && FlxG.keys.anyJustPressed([ENTER, ESCAPE])) leave();
 	}
 
 	function leave()
