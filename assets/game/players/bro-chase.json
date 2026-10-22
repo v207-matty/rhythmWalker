@@ -1,7 +1,7 @@
 {
     "config": {
         "graphic": "bro-mental",
-        "maxVelocityBase": 30
+        "maxVelocityBase": 100
     },
     "animations": [
         {

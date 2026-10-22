@@ -46,17 +46,17 @@ class SongChaseDefault extends Song
 		return true;
 	}
 
-	override function update(elapsed:Float)
+	override function build()
 	{
-		super.update(elapsed);
+		super.build();
 
-		if (game.camGame.alpha <= 0) return;
+		game.player.animation.onFinish.removeAll();
+		game.player.animation.onFinish.add(animName ->
+		{
+			if (game.inCutscene) return;
 
-		if (game.player.x > game.player.width * 1.01) game.move(-.1, false);
-		else game.move(-.01, false);
-
-		if (game.control_right && !game.player_onRightEdge) game.data.beatMonsters.padding = game.player.width * -0.5;
-		else if (game.control_left && !game.player_onLeftEdge) game.data.beatMonsters.padding = game.player.width * 0.5;
-		else game.data.beatMonsters.padding = 0;
+			game.playerPlayAnim('move');
+			game.player.stunned = false;
+		});
 	}
 }
