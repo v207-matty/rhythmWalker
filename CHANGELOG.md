@@ -15,6 +15,7 @@
 
 ## Gameplay Related
 
+- New General Events: "player-switch" and "player-change"
 - Added multi-event system
     - Chase is an example of this system
 

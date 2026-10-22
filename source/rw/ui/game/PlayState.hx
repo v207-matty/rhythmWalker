@@ -128,7 +128,8 @@ class PlayState extends ConductorState
 		add(stageBackLayer);
 		stageBackLayer.camera = camGame;
 
-		makePlayer();
+		makePlayer(songData.player);
+		add(player);
 
 		beatMonsters = new FlxSpriteGroup();
 		add(beatMonsters);
@@ -425,6 +426,8 @@ class PlayState extends ConductorState
 
 			case 'camera-on', 'cam-on': camGame.visible = true;
 
+			case 'player-switch', 'player-change': if (event.data != null) makePlayer(Std.string(event.data));
+
 			case 'stage-switch', 'stage-change': if (event.data != null) makeStage(Std.string(event.data));
 
 			case 'beatmonsters-spawnmonster': spawnBeatMonster();
@@ -459,7 +462,7 @@ class PlayState extends ConductorState
 		makeStage(songData?.stage ?? 'stage');
 	}
 
-	function makeStage(stage:String)
+	public function makeStage(stage:String)
 	{
 		if (stageBackLayer == null || stageFrontLayer == null) return;
 
@@ -478,9 +481,18 @@ class PlayState extends ConductorState
 		if (this.stage != null) this.stage.build();
 	}
 
-	function makePlayer()
+	public function makePlayer(newplayer:String)
 	{
-		player = new Player(songData.player);
+		var playerLayer = members.indexOf(player);
+
+		if (playerLayer >= 0)
+		{
+			remove(player);
+			player.destroy();
+			player = null;
+		}
+
+		player = new Player(newplayer);
 
 		playerPlayAnim('idle');
 		player.animation.onFinish.add(animName ->
@@ -498,7 +510,7 @@ class PlayState extends ConductorState
 
 		if (immortal) player.alpha = .25;
 
-		add(player);
+		if (playerLayer >= 0) insert(playerLayer, player);
 	}
 
 	public var inIntroCutscene:Bool = false;
