@@ -51,7 +51,6 @@
 - [0.4.0] Train Wreak (Resolved) : Bro is still being chased by c137 but now they're jumping between trains
 - [0.4.0] Encapture (Resolved) : Bro is now running from the police
 
-
 # Day 9
 
 - [0.5.0] Lost Media (Resolved) : Bro runs to Jez for help and Jez protects Bro from the cops

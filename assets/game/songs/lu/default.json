@@ -1,0 +1,12 @@
+{
+    "id": "lu",
+    "variation": "default",
+    "scrollSpeed": 1,
+    "bpmChanges": [
+        {
+            "t": 0,
+            "bpm": 222
+        }
+    ],
+    "events": []
+}

@@ -1,0 +1,12 @@
+{
+    "id": "ambush",
+    "variation": "default",
+    "scrollSpeed": 1,
+    "bpmChanges": [
+        {
+            "t": 0,
+            "bpm": 245
+        }
+    ],
+    "events": []
+}

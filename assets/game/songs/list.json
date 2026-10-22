@@ -77,6 +77,27 @@
             ]
         },
         {
+            "song": "Planning",
+            "filters": [
+                "volume4",
+                "day4"
+            ]
+        },
+        {
+            "song": "Ambush",
+            "filters": [
+                "volume4",
+                "day4"
+            ]
+        },
+        {
+            "song": "Lu",
+            "filters": [
+                "volume4",
+                "day4"
+            ]
+        },
+        {
             "song": "First Steps",
             "filters": [
                 "volume3",
