@@ -55,6 +55,9 @@ class PlayState extends ConductorState
 	public var beatMonsterSpawner(default, null):FlxSprite;
 
 	public var data(default, null) = {
+		player: {
+			cutsceneVelocityDamping: false
+		},
 		beatMonsters: {
 			padding: 0.0,
 			spawn: true,
@@ -185,6 +188,7 @@ class PlayState extends ConductorState
 		conductor.update(null);
 
 		if (!inCutscene) managePlayer();
+		else if (data.player.cutsceneVelocityDamping) playerVelocityDamping();
 		if (beatMonsters != null) manageBeatMonsters();
 		if (timeBarSongLinked) timeBarTarget = FlxG.width * (conductor.musicPosition / conductor.musicLength);
 

@@ -63,7 +63,7 @@
             "id": "beatmonsters-stop"
         },
         {
-            "time": 8000,
+            "time": 24000,
             "id": "chase-moving",
             "data": 5
         }

@@ -12,6 +12,35 @@ class SongChaseDefault extends Song
 		super('chase', defaultVariation);
 	}
 
+	var togglePoints:Array<Dynamic>;
+
+	function togglePointOne() toggleGameplayScene(false);
+
+	function togglePointOneEnd() toggleGameplayScene(true);
+
+	function togglePointTwo() toggleGameplayScene(false);
+
+	function togglePointTwoEnd() toggleGameplayScene(true);
+
+	function togglePointThree()
+	{
+		toggleGameplayScene(false);
+		
+		game.inIntroCutscene = false;
+	}
+
+	function toggleGameplayScene(on:Bool)
+	{
+		game.camGame.visible = game.camHUD.visible = on;
+		game.inIntroCutscene = !on;
+
+		if (on)
+		{
+			game.player.velocity.x = 0;
+			game.player.screenCenter(X);
+		}
+	}
+
 	var cutscene:RWSprite;
 
 	override function introCutscene():Bool
@@ -46,23 +75,11 @@ class SongChaseDefault extends Song
 		return true;
 	}
 
-	function toggleGameplayScene(on:Bool) game.inIntroCutscene = game.camGame.visible = game.camHUD.visible = on;
-
-	var togglePoints:Array<Dynamic>;
-
-	function togglePointOne() toggleGameplayScene(false);
-
-	function togglePointOneEnd() toggleGameplayScene(true);
-
-	function togglePointTwo() toggleGameplayScene(false);
-
-	function togglePointTwoEnd() toggleGameplayScene(true);
-
-	function togglePointThree() toggleGameplayScene(false);
-
 	override function build()
 	{
 		super.build();
+
+		game.data.player.cutsceneVelocityDamping = true;
 	}
 
 	override function onEvent(event:SongEventData)

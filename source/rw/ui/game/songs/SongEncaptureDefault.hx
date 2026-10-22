@@ -7,10 +7,10 @@ class SongEncaptureDefault extends Song
 		super('encapture', defaultVariation);
 	}
 
-	override function update(elapsed:Float)
+	override function build()
 	{
-		super.update(elapsed);
+		super.build();
 
-		if (game.inCutscene) game.playerVelocityDamping();
+		game.data.player.cutsceneVelocityDamping = true;
 	}
 }
