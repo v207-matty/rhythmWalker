@@ -1,6 +1,5 @@
 {
     "config": {
-        "graphic": "bro-mental",
         "maxVelocityBase": 100,
         "speed": 10
     },
