@@ -9,13 +9,28 @@ class SongManager
 		return switch ([song.toLowerCase(), variation])
 		{
 			case ['chase', defaultVariation]:
-				new SongChase();
+				new SongChaseDefault();
 
 			case ['first steps', resolved] | ['shift around', resolved]:
 				new SongDayOneResolved(song.toLowerCase());
 
+			case ['encapture', defaultVariation]:
+				new SongEncaptureDefault();
+
+			case ['lost media', defaultVariation]:
+				new SongLostMediaDefault();
+
+			case ['scroll down chinatown', defaultVariation]:
+				new SongScrollDownChinatownDefault();
+
+			case ['shift around', defaultVariation]:
+				new SongShiftAroundDefault();
+
 			case ['train getaway', defaultVariation]:
 				new SongTrainGetawayDefault();
+
+			case ['train wreak', defaultVariation]:
+				new SongTrainWreakDefault();
 
 			default:
 				trace('Unimplemented song case : $song');

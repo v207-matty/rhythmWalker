@@ -63,5 +63,5 @@ class SongData
 		this.stage = json?.stage ?? 'stage';
 	}
 
-	public function toString():String return 'SongData($id-$variation)';
+	public function toString():String return '$id-$variation';
 }

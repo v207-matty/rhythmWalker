@@ -5,7 +5,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import rw.ui.objects.RWSprite;
 
-class SongChase extends Song
+class SongChaseDefault extends Song
 {
 	override public function new()
 	{
@@ -14,10 +14,8 @@ class SongChase extends Song
 
 	var cutscene:RWSprite;
 
-	override function build()
+	override function introCutscene():Bool
 	{
-		super.build();
-
 		game.camGame.alpha = game.camHUD.alpha = 0;
 
 		cutscene = new RWSprite('game/cutscenes/scene/chase/bro-wakeup');
@@ -32,27 +30,29 @@ class SongChase extends Song
 			cutscene.screenCenter();
 
 			FlxTween.tween(cutscene, {alpha: 0}, 1, {startDelay: 1, ease: FlxEase.quadOut});
-
 			FlxTween.tween(game.camGame, {alpha: 1}, 1, {startDelay: 1, ease: FlxEase.quadOut});
 			FlxTween.tween(game.camHUD, {alpha: 1}, 1, {startDelay: 1, ease: FlxEase.quadOut});
 		});
 
 		FlxTimer.wait(4, () ->
 		{
+			gameEndIntroCutscene();
+
 			game.remove(cutscene);
 			cutscene.destroy();
 			cutscene = null;
 		});
 
-		game.data.beatMonsters.padding = -game.player.width;
+		return true;
 	}
 
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
-		if (game.camGame.alpha > 0) return;
+		if (game.inCutscene) return;
 
-		game.move(-1);
+		game.move(-.5);
+		game.data.beatMonsters.padding = game.player.width;
 	}
 }

@@ -183,7 +183,12 @@ class PlayState extends ConductorState
 		super.update(elapsed);
 
 		conductor.update(null);
-		runOnComponents(c -> c.update(elapsed));
+
+		if (!inCutscene) managePlayer();
+		if (beatMonsters != null) manageBeatMonsters();
+		if (timeBarSongLinked) timeBarTarget = FlxG.width * (conductor.musicPosition / conductor.musicLength);
+
+		timeBar.scale.x = FlxMath.lerp(timeBar.scale.x, timeBarTarget, 0.04);
 
 		if (scoreText != null)
 		{
@@ -191,14 +196,7 @@ class PlayState extends ConductorState
 			scoreText.screenCenter(X);
 		}
 
-		if (!inCutscene) managePlayer();
-		else if (inCutscene && songData.id == 'encapture') playerVelocityDamping();
-
-		if (beatMonsters != null) manageBeatMonsters();
-
-		if (timeBarSongLinked) timeBarTarget = FlxG.width * (conductor.musicPosition / conductor.musicLength);
-
-		timeBar.scale.x = FlxMath.lerp(timeBar.scale.x, timeBarTarget, 0.04);
+		runOnComponents(c -> c.update(elapsed));
 	}
 
 	function manageBeatMonsters()
@@ -239,7 +237,7 @@ class PlayState extends ConductorState
 		beatMonsterSpawner.alpha = FlxMath.lerp(beatMonsterSpawner.alpha, (canSpawnMonster) ? 0.2 : 0, .1);
 	}
 
-	function playerPlayAnim(anim:String, hasFlippedVer:Bool = true)
+	public function playerPlayAnim(anim:String, hasFlippedVer:Bool = true)
 	{
 		if (hasFlippedVer) player.animation.play(anim + ((player.flipX) ? 'R' : 'L'));
 		else player.animation.play(anim);
@@ -288,11 +286,11 @@ class PlayState extends ConductorState
 		if (!player.stunned) playerPlayAnim('move');
 	}
 
-	function playerVelocityDamping() player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
+	public function playerVelocityDamping() player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
 
-	var skipping:Bool = false;
+	public var skipping:Bool = false;
 
-	function onSongEnd()
+	public function onSongEnd()
 	{
 		if (inCutscene) return;
 
@@ -310,13 +308,11 @@ class PlayState extends ConductorState
 			return;
 		}
 
-		final songCode = '${songData.id}-${songData.variation}';
-
 		trace('Yay we done');
 
-		if (!immortal && !skipping) if (Save.saveSongScore(songCode, score, totalScore))
+		if (!immortal && !skipping) if (Save.saveSongScore(songData.toString(), score, totalScore))
 		{
-			FlxG.switchState(() -> new ResultsState(songCode));
+			FlxG.switchState(() -> new ResultsState(songData.toString()));
 			return;
 		}
 
@@ -495,106 +491,7 @@ class PlayState extends ConductorState
 	function introCutscene():Bool
 	{
 		if (seenIntroCutscene) return false;
-
 		seenIntroCutscene = true;
-
-		switch ([songData.id, songData.variation])
-		{
-			case ['lost media', defaultVariation]:
-				camHUD.alpha = 0;
-
-				camGameFollow.y -= FlxG.height * 2;
-				camGame.focusOn(camGameFollow.getPosition());
-
-				FlxTween.tween(camGameFollow, {y: FlxG.height / 2}, 1.5, {
-					ease: FlxEase.backInOut,
-				});
-
-				FlxTween.tween(camHUD, {alpha: 1}, 1.5, {
-					ease: FlxEase.backInOut
-				});
-
-				FlxTimer.wait(1.75, () -> inIntroCutscene = false);
-
-				return true;
-
-			case ['train wreak', defaultVariation]:
-				camHUD.alpha = 0;
-
-				camGameFollow.y -= FlxG.height * 2;
-				camGame.zoom = 0.5;
-				camGame.focusOn(camGameFollow.getPosition());
-
-				FlxTween.tween(camGameFollow, {y: FlxG.height / 2}, 6, {
-					ease: FlxEase.backInOut,
-				});
-
-				FlxTween.tween(camHUD, {alpha: 1}, 6, {
-					ease: FlxEase.backInOut
-				});
-
-				function onZoomed(t)
-				{
-					stageBackLayer.forEach(sprite ->
-					{
-						if (!Std.isOfType(sprite, StageSprite) || sprite == null || sprite.isOnScreen(sprite.camera)) return;
-
-						stageBackLayer.remove(sprite);
-						sprite.destroy();
-					});
-				}
-
-				FlxTween.tween(camGame, {zoom: 1}, 6, {
-					startDelay: 5,
-					ease: FlxEase.backInOut,
-					onComplete: onZoomed,
-				});
-
-				FlxTimer.wait(12, () -> inIntroCutscene = false);
-
-				return true;
-
-			case ['scroll down chinatown', defaultVariation]:
-				camHUD.alpha = 0;
-
-				playerPlayAnim('chinatown-bridge', false);
-				player.y -= player.height * 0.5;
-
-				function partTwo()
-				{
-					spawnBeatMonster();
-					beatMonsterSpawner.alpha += .5;
-
-					FlxTween.tween(camHUD, {alpha: 1}, .4, {
-						ease: FlxEase.sineOut
-					});
-
-					FlxTween.tween(player, {x: player.x - 128, y: player.y + player.height * 0.5}, .4, {
-						ease: FlxEase.sineOut,
-						startDelay: .2,
-						onStart: t -> playerPlayAnim('chinatown-bridge-jump', false),
-						onComplete: t ->
-						{
-							playerPlayAnim('idle');
-							inEndCutscene = inIntroCutscene = false;
-						}
-					});
-				}
-
-				function partOne()
-				{
-					inEndCutscene = true;
-
-					playerPlayAnim('chinatown-bridge-lookup', false);
-					player.animation.onFinish.add(animName -> if (animName == 'chinatown-bridge-lookup') partTwo());
-				}
-
-				FlxTimer.wait(7.5, partOne);
-
-				return true;
-
-			default:
-		}
 
 		return song?.introCutscene() ?? false;
 	}
@@ -602,65 +499,7 @@ class PlayState extends ConductorState
 	function endCutscene():Bool
 	{
 		if (seenEndCutscene) return false;
-
 		seenEndCutscene = true;
-
-		function idleAndDamp()
-		{
-			playerPlayAnim('idle');
-			new FlxTimer().start(1 / FlxG.updateFramerate, t -> playerVelocityDamping(), FlxG.updateFramerate);
-		}
-
-		function ending()
-		{
-			inEndCutscene = false;
-			onSongEnd();
-		}
-
-		switch ([songData.id, songData.variation])
-		{
-			case ['train wreak', defaultVariation]:
-				idleAndDamp();
-
-				FlxTween.tween(camGame, {zoom: 1.1}, 4, {ease: FlxEase.quintOut});
-				FlxTween.tween(camHUD, {alpha: 0}, 4, {ease: FlxEase.quintOut});
-
-				FlxG.sound.play(Paths.getAudio('game/cutscenes/fuse'));
-
-				FlxTimer.wait(1, () ->
-				{
-					camGame.flash(FlxColor.ORANGE, 10);
-					FlxG.sound.play(Paths.getAudio('game/cutscenes/explosion'));
-
-					visible = false;
-				});
-
-				FlxTimer.wait(2, ending);
-
-				return true;
-
-			case ['shift around', defaultVariation]:
-				idleAndDamp();
-
-				FlxTimer.wait(1, () ->
-				{
-					player.flipX = true;
-
-					playerPlayAnim('move');
-					player.animation.curAnim.looped = true;
-
-					FlxTween.tween(player, {x: FlxG.width + (player.width * 2)}, 3, {
-						ease: FlxEase.sineIn,
-					});
-				});
-
-				FlxTimer.wait(4, ending);
-				FlxTween.tween(camHUD, {alpha: 0}, 4, {ease: FlxEase.quintOut});
-
-				return true;
-
-			default:
-		}
 
 		return song?.endingCutscene() ?? false;
 	}
