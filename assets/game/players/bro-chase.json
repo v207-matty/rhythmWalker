@@ -7,27 +7,31 @@
         {
             "name": "idleL",
             "frames": [
-                0
+                0,
+                1
             ]
         },
         {
             "name": "idleR",
             "frames": [
-                0
+                0,
+                1
             ],
             "flipX": true
         },
         {
             "name": "hurtL",
             "frames": [
-                1
+                2,
+                3
             ],
             "fps": 2
         },
         {
             "name": "hurtR",
             "frames": [
-                1
+                2,
+                3
             ],
             "fps": 2,
             "flipX": true
@@ -35,20 +39,20 @@
         {
             "name": "moveL",
             "frames": [
-                2,
-                3
-            ],
-            "fps": 6,
-            "looped":true
-        },
-        {
-            "name": "moveR",
-            "frames": [
                 4,
                 5
             ],
             "fps": 6,
-            "looped":true
+            "looped": true
+        },
+        {
+            "name": "moveR",
+            "frames": [
+                6,
+                7
+            ],
+            "fps": 6,
+            "looped": true
         }
     ]
 }
