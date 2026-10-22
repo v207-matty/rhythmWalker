@@ -32,7 +32,7 @@ class PlayState extends ConductorState
 	public var beatMonsters(default, null):FlxSpriteGroup;
 	public var stage(default, null):Stage;
 
-	public var song(default,null):Song;
+	public var song(default, null):Song;
 	public var songData(default, null):SongData;
 	public var songEvents:Array<FlxTimer> = [];
 
@@ -430,7 +430,7 @@ class PlayState extends ConductorState
 
 	function generateSong()
 	{
-		song = new Song(songData?.id ??'');
+		song = new Song(songData?.id ?? '');
 
 		makeStage(songData?.stage ?? 'stage');
 

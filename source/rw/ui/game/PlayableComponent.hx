@@ -9,7 +9,7 @@ class PlayableComponent
 	function get_game():PlayState return PlayState.instance;
 
 	public function new() {}
-    
+
 	public function build() {}
 
 	public function onEvent(event:SongEventData) {}
