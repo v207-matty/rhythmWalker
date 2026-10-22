@@ -35,6 +35,9 @@ class Player extends RWSprite
 
 		collision = new FlxSprite().makeGraphic(data.config?.dimensions?.hitbox[0] ?? 32, data.config?.dimensions?.hitbox[1] ?? 32, FlxColor.RED);
 		collision.visible = false;
+
+		@:privateAccess
+		collision.flixelType = OBJECT;
 	}
 
 	override function update(elapsed:Float)
