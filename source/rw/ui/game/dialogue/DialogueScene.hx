@@ -54,8 +54,6 @@ class DialogueScene extends ConductorState
 
 	override function create()
 	{
-		super.create();
-
 		if (dialogue == null || leaving)
 		{
 			leave();
@@ -112,6 +110,8 @@ class DialogueScene extends ConductorState
 		proceedText.y = FlxG.height - proceedText.height;
 
 		startDialogue();
+		
+		super.create();
 	}
 
 	override function update(elapsed:Float)

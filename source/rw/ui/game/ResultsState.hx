@@ -41,9 +41,9 @@ class ResultsState extends ConductorState
 	{
 		transIn = null;
 
-		super.create();
-
 		beginResults();
+
+		super.create();
 	}
 
 	function beginResults()

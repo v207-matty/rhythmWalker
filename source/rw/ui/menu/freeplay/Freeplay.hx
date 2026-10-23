@@ -25,7 +25,7 @@ import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 
 using StringTools;
 
-class Freeplay extends ConductorSubState
+class Freeplay extends ConductorState
 {
 	public static var songList:FreeplaySongListData;
 
@@ -79,15 +79,8 @@ class Freeplay extends ConductorSubState
 		return '${sng.song.toLowerCase()}-${(sng.variation ?? defaultVariation).toString().toLowerCase()}';
 	}
 
-	override public function new()
-	{
-		super(0xFF000000);
-	}
-
 	override function create()
 	{
-		super.create();
-
 		trace('filters: ${filterList}');
 
 		persistentUpdate = true;
@@ -162,6 +155,8 @@ class Freeplay extends ConductorSubState
 
 		add(playButton);
 		#end
+		
+		super.create();
 	}
 
 	override function update(elapsed:Float)
@@ -200,12 +195,7 @@ class Freeplay extends ConductorSubState
 		FlxG.switchState(() -> new DialogueScene(new SongData(song.song, song.variation)));
 	}
 
-	function leave()
-	{
-		camFollow.y = FlxG.height / 2;
-
-		close();
-	}
+	function leave() FlxG.switchState(() -> new MainMenu());
 
 	function changeSel(amount:Float)
 	{

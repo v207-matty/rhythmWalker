@@ -41,8 +41,6 @@ class PlayerViewer extends ConductorState
 
 	override function create()
 	{
-		super.create();
-
 		FlxG.camera.bgColor = FlxColor.GRAY;
 
 		getEntries();
@@ -54,6 +52,8 @@ class PlayerViewer extends ConductorState
 		text.x = text.y = text.size;
 
 		persistentUpdate = true;
+		
+		super.create();
 	}
 
 	function switchPlayer(to:String)

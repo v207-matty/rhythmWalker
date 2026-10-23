@@ -43,14 +43,12 @@ class MainMenu extends ConductorState
 		];
 	}
 
-	function openFreeplay() openSubState(new Freeplay());
+	function openFreeplay() FlxG.switchState(() -> new Freeplay());
 
 	function openOptions() {}
 
 	override function create()
 	{
-		super.create();
-
 		FlxG.sound.playMusic(Paths.getAudio('ui/menu'));
 
 		FlxG.cameras.reset(cam = new FlxCamera());
@@ -88,6 +86,8 @@ class MainMenu extends ConductorState
 		changeSelection(0);
 
 		if (enterFreeplay) proceed();
+		
+		super.create();
 	}
 
 	override function update(elapsed:Float)
