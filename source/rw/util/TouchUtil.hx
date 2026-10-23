@@ -1,5 +1,6 @@
 package rw.util;
 
+import flixel.input.FlxSwipe;
 import flixel.math.FlxMath;
 import flixel.FlxG;
 
@@ -8,6 +9,8 @@ class TouchUtil
 	public static function getSwipes() return FlxG.swipes;
 
 	public static function getSwipe() return getSwipes()[0] ?? null;
+
+	public static function validSwipe(swipe:FlxSwipe) return swipe != null && swipe.duration > 0 && swipe.distance > 0;
 
 	static final swipe_range_vertical = [0.5, 1.5];
 
@@ -19,44 +22,37 @@ class TouchUtil
 	public static function swippedUp()
 	{
 		var swipe = getSwipe();
-
-		if (swipe == null || swipe.duration == 0 || swipe.distance == 0) return false;
+		if (!validSwipe(swipe)) return false;
 
 		final up = FlxMath.roundDecimal(swipe.degrees / -90, 2);
-
 		return (up >= swipe_range_vertical[0] && up <= swipe_range_vertical[1]);
 	}
 
 	public static function swippedDown()
 	{
 		var swipe = getSwipe();
-
-		if (swipe == null || swipe.duration == 0 || swipe.distance == 0) return false;
+		if (!validSwipe(swipe)) return false;
 
 		final down = FlxMath.roundDecimal(swipe.degrees / 90, 2);
-
 		return (down >= swipe_range_vertical[0] && down <= swipe_range_vertical[1]);
 	}
 
 	public static function swippedLeft()
 	{
 		var swipe = getSwipe();
-
-		if (swipe == null || swipe.duration == 0 || swipe.distance == 0) return false;
+		if (!validSwipe(swipe)) return false;
 
 		final left = FlxMath.roundDecimal(swipe.degrees / 180, 2);
-
-		return ((left >= swipe_range_left_1[0] && left <= swipe_range_left_1[1]) || (left <= swipe_range_left_2[0] && left >= swipe_range_left_2[1]));
+		return ((left >= swipe_range_left_1[0] && left <= swipe_range_left_1[1])
+			|| (left <= swipe_range_left_2[0] && left >= swipe_range_left_2[1]));
 	}
 
 	public static function swippedRight()
 	{
 		var swipe = getSwipe();
-
-		if (swipe == null || swipe.duration == 0 || swipe.distance == 0) return false;
+		if (!validSwipe(swipe)) return false;
 
 		final right = FlxMath.roundDecimal(swipe.degrees / 180, 2);
-
 		return (right >= swipe_range_right[0] && right <= swipe_range_right[1]);
 	}
 }
