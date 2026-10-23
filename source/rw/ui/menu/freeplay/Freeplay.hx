@@ -1,5 +1,6 @@
 package rw.ui.menu.freeplay;
 
+import flixel.FlxCamera;
 import rw.util.TouchUtil;
 import flixel.group.FlxSpriteGroup;
 import rw.util.Constants;
@@ -21,14 +22,10 @@ import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.text.FlxText;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
-#if FREEPLAY_VISUALIZER
-import flixel.addons.display.waveform.FlxWaveform;
-import flixel.addons.display.waveform.FlxWaveformBuffer;
-#end
 
 using StringTools;
 
-class Freeplay extends ConductorState
+class Freeplay extends ConductorSubState
 {
 	public static var songList:FreeplaySongListData;
 
@@ -64,6 +61,7 @@ class Freeplay extends ConductorState
 	var selectedVolume = 0;
 	var selectedEntry = 0;
 
+	var cam:FlxCamera;
 	var camFollow:FlxObject;
 
 	var topSegBG:RWSprite;
@@ -72,8 +70,6 @@ class Freeplay extends ConductorState
 	var btmSegBG:RWSprite;
 	var btmSegText:FlxText;
 
-	var waveformLayer:FlxSpriteGroup;
-
 	public var songCode(get, never):String;
 
 	function get_songCode():String
@@ -81,6 +77,11 @@ class Freeplay extends ConductorState
 		var sng = entries[selectedEntry];
 		if (sng == null) return null;
 		return '${sng.song.toLowerCase()}-${(sng.variation ?? defaultVariation).toString().toLowerCase()}';
+	}
+
+	override public function new()
+	{
+		super(0xFF000000);
 	}
 
 	override function create()
@@ -93,6 +94,8 @@ class Freeplay extends ConductorState
 
 		randomTip = tips[FlxG.random.int(0, tips.length - 1)].replace('\\n', '\n');
 
+		FlxG.cameras.add(cam = new FlxCamera());
+
 		texts = new FlxTypedSpriteGroup<FlxText>();
 		add(texts);
 
@@ -101,7 +104,7 @@ class Freeplay extends ConductorState
 
 		camFollow.x = (FlxG.width / 2);
 
-		FlxG.camera.follow(camFollow, LOCKON, .1);
+		cam.follow(camFollow, LOCKON, .1);
 
 		topSegText = new FlxText(0, 0, 0, 'Score & Rank go here', Constants.TEXT_SIZE);
 		topSegText.alignment = CENTER;
@@ -122,16 +125,29 @@ class Freeplay extends ConductorState
 		btmSegBG.makeGraphic(1, 1, FlxColor.BLACK);
 		btmSegBG.scrollFactor.set();
 
+		texts.cameras = topSegText.cameras = topSegBG.cameras = btmSegText.cameras = btmSegBG.cameras = [cam];
+
 		add(btmSegBG);
 		add(btmSegText);
-
-		add(waveformLayer = new FlxSpriteGroup());
 
 		changeVolume(filterList.length);
 		changeSel(0);
 		filter('all');
 
 		#if MOBILE_MODE
+		var leaveButton = new rw.ui.objects.mobile.CornerButton('backBtn');
+
+		leaveButton.y = FlxG.height - leaveButton.height;
+
+		leaveButton.setScrollFactor(0);
+
+		leaveButton.back.angle = -180;
+		leaveButton.offsetBy(48 * leaveButton.scale.x, -48 * leaveButton.scale.y);
+
+		leaveButton.onClicked.add(leave);
+
+		add(leaveButton);
+
 		var playButton = new rw.ui.objects.mobile.CornerButton('playBtn');
 
 		playButton.y = FlxG.height - playButton.height;
@@ -146,8 +162,6 @@ class Freeplay extends ConductorState
 
 		add(playButton);
 		#end
-
-		if (transIn == null) finishTransIn();
 	}
 
 	override function update(elapsed:Float)
@@ -167,6 +181,8 @@ class Freeplay extends ConductorState
 		if (FlxG.keys.anyJustPressed([A, LEFT]) || TouchUtil.swippedLeft()) changeVolume(-1);
 		if (FlxG.keys.anyJustPressed([D, RIGHT]) || TouchUtil.swippedRight()) changeVolume(1);
 
+		if (FlxG.keys.justPressed.ESCAPE) leave();
+
 		if (FlxG.keys.justPressed.ENTER) proceed();
 	}
 
@@ -182,6 +198,13 @@ class Freeplay extends ConductorState
 
 		DialogueScene.seenIntroCutscene = false;
 		FlxG.switchState(() -> new DialogueScene(new SongData(song.song, song.variation)));
+	}
+
+	function leave()
+	{
+		camFollow.y = FlxG.height / 2;
+
+		close();
 	}
 
 	function changeSel(amount:Float)

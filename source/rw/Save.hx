@@ -1,5 +1,6 @@
 package rw;
 
+import haxe.Json;
 import rw.ui.game.song.SongScore;
 import flixel.util.FlxSave;
 import flixel.math.FlxMath;
@@ -56,8 +57,6 @@ class Save
 		};
 
 		FlxG.save.flush();
-
-		trace(game);
 	}
 
 	public static function saveSongScore(id:String, score:Int, totalScore:Int)
