@@ -2,6 +2,6 @@ You can press SHIFT to sprint!\n(Your max velocity is set depending on scroll sp
 Beat Monsters can't hurt you if the camera is off or faded below 10%,\nSo you can chill when that happens.
 When you're scaled down, you're more slippery!\nThis can be useful in dodging beat monsters.
 When you're scaled down, your hitbox does not scale with you!\nSo don't try dodging beat monsters last second, won't work.
-You can press ENTER or ESCAPE to skip the Results Scene wait once the result shows up
+You can press ENTER or ESCAPE to skip the Results Scene once the result shows up
 When using your mouse or finger to move, have your mouse or finger closer to the player, that'll move them faster usually!
 Beat Monsters can't hurt you once the song ends, it's so awesome!
