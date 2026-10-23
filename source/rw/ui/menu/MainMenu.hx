@@ -1,5 +1,6 @@
 package rw.ui.menu;
 
+import rw.util.Constants;
 import rw.util.TouchUtil;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
@@ -42,7 +43,7 @@ class MainMenu extends ConductorState
 
 		for (i => option in options)
 		{
-			var text = new FlxText(0, 0, 0, option[0].toUpperCase(), 16);
+			var text = new FlxText(0, 0, 0, option[0].toUpperCase(), Constants.TEXT_SIZE);
 			text.alignment = CENTER;
 			text.ID = i;
 			optionTexts.add(text);
@@ -52,6 +53,21 @@ class MainMenu extends ConductorState
 		logo.setScale(1);
 		logo.screenCenter(X);
 		logo.y = logo.height * 0.1;
+
+		#if MOBILE_MODE
+		var playButton = new rw.ui.objects.mobile.CornerButton('playBtn');
+
+		playButton.y = FlxG.height - playButton.height;
+
+		playButton.setScrollFactor(0);
+
+		playButton.back.angle = -180;
+		playButton.offsetBy(48 * playButton.scale.x, -48 * playButton.scale.y);
+
+		playButton.onClicked.add(proceed);
+
+		add(playButton);
+		#end
 
 		changeSelection(0);
 	}
@@ -67,7 +83,11 @@ class MainMenu extends ConductorState
 	{
 		if (FlxG.keys.anyJustPressed([W, UP]) || TouchUtil.swippedUp()) changeSelection(-1);
 		if (FlxG.keys.anyJustPressed([S, DOWN]) || TouchUtil.swippedDown()) changeSelection(1);
+
+		if (FlxG.keys.anyJustPressed([ENTER])) proceed();
 	}
+
+	function proceed() {}
 
 	function changeSelection(by:Int)
 	{
@@ -79,9 +99,8 @@ class MainMenu extends ConductorState
 
 		for (option in optionTexts)
 		{
-			option.y = (logo.y + logo.height + 16) + option.ID * (2 * option.size);
+			option.y = (logo.y + logo.height + Constants.TEXT_SIZE) + option.ID * (4 * option.size);
 			option.screenCenter(X);
-
 			option.color = (selection == option.ID) ? FlxColor.YELLOW : FlxColor.WHITE;
 		}
 
