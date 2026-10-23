@@ -38,8 +38,13 @@ class SongChaseDefault extends Song
 
 		if (on)
 		{
-			game.player.velocity.x = 0;
-			game.player.screenCenter(X);
+			game.move(0);
+
+			game.player.flipX = true;
+			game.playerPlayAnim('move');
+
+			game.player.x = game.player.width;
+			game.player.velocity.x = game.player.maxVelocity.x;
 		}
 	}
 
@@ -67,7 +72,8 @@ class SongChaseDefault extends Song
 
 		FlxTimer.wait(4, () ->
 		{
-			gameEndIntroCutscene();
+			// gameEndIntroCutscene();
+			toggleGameplayScene(true);
 
 			game.remove(cutscene);
 			cutscene.destroy();
