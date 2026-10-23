@@ -22,6 +22,9 @@ class QualityWarning extends ConductorState
 
 	override function create()
 	{
+		#if !mobile
+		mouseVisible = true;
+		#end
 		mouseEnabled = true;
 
 		warning = new FlxText(0, 0, FlxG.width,
@@ -44,7 +47,7 @@ class QualityWarning extends ConductorState
 	{
 		super.update(elapsed);
 
-		if (FlxG.mouse.justPressed) proceed();
+		if (FlxG.mouse.justReleased) proceed();
 	}
 
 	function proceed()

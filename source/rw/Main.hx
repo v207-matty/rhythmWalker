@@ -29,7 +29,7 @@ class Main extends FlxGame
 {
 	public function new()
 	{
-		super(0, 0, QualityWarning);
+		super(0, 0, null);
 	}
 
 	override function create(_:Event)
@@ -66,6 +66,8 @@ class Main extends FlxGame
 
 		FlxTransitionableState.defaultTransIn = FlxTransitionableState.defaultTransOut = getDefaultTransition();
 		FlxG.sound.soundTray.volumeUpSound = FlxG.sound.soundTray.volumeDownSound = Paths.getAudio('sfx/volume');
+
+		FlxG.switchState(() -> new QualityWarning());
 	}
 
 	override function update()
@@ -145,7 +147,7 @@ class Main extends FlxGame
 		transGraphic.persist = true;
 		transGraphic.destroyOnNoUse = false;
 
-		return new TransitionData(TILES, FlxColor.BLACK, 1, FlxPoint.get(0, -1), {
+		return new TransitionData(TILES, FlxColor.WHITE, 1, FlxPoint.get(0, -1), {
 			asset: transGraphic,
 			width: 32,
 			height: 32

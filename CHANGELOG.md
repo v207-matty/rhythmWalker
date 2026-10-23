@@ -65,6 +65,8 @@
 
 ## UI
 
+- The Transition is now white instead of black
+
 - FREEPLAY KINDA SORA REWORK AGAIN (WOOOOOO)
     - You can swipe (mobile) or click and drag your mouse (desktop) left or right to change volume and up or down to change selection
     - No visualizer or Song preview
