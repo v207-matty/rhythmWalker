@@ -6,6 +6,7 @@ import rw.ui.debug.*;
 import rw.ui.game.*;
 import rw.ui.game.song.*;
 import rw.ui.game.dialogue.*;
+import rw.ui.menu.*;
 import rw.ui.freeplay.*;
 import flixel.text.FlxText;
 import flixel.FlxG;
