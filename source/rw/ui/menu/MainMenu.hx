@@ -87,7 +87,13 @@ class MainMenu extends ConductorState
 		if (FlxG.keys.anyJustPressed([ENTER])) proceed();
 	}
 
-	function proceed() {}
+	function proceed()
+	{
+		if (options[selection] == null) return;
+
+		var method = options[selection][1];
+		if (method != null) method();
+	}
 
 	function changeSelection(by:Int)
 	{
