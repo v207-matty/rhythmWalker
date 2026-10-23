@@ -315,15 +315,12 @@ class PlayState extends ConductorState
 	{
 		if (inCutscene) return;
 
-		seenIntroCutscene = seenEndCutscene = skipping;
-
-		timeBarSongLinked = false;
-
 		FlxG.sound.music.stop();
 
+		timeBarSongLinked = false;
 		inEndCutscene = true;
 
-		if (endCutscene())
+		if (!skipping) if (endCutscene())
 		{
 			trace('Playin end cutscene');
 			return;
