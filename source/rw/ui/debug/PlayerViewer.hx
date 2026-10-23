@@ -1,4 +1,4 @@
-// #if PLAYER_VIEWER
+#if PLAYER_VIEWER
 package rw.ui.debug;
 
 import flixel.text.FlxText;
@@ -115,4 +115,4 @@ class PlayerViewer extends ConductorState
 		setAnim(animations[target]);
 	}
 }
-// #end
+#end
