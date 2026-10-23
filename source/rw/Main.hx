@@ -74,7 +74,7 @@ class Main extends FlxGame
 	{
 		super.update();
 
-		if (FlxG.keys.pressed.F4) throw 'Debug Crash';
+		if (FlxG.keys.pressed.F5) throw 'Debug Crash';
 	}
 
 	function onCrashing(e:UncaughtErrorEvent)
