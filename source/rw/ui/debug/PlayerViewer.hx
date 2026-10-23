@@ -87,7 +87,11 @@ class PlayerViewer extends ConductorState
 		if (FlxG.keys.anyJustPressed([W, UP])) changeAnim(-1);
 		if (FlxG.keys.anyJustPressed([S, DOWN])) changeAnim(1);
 
-		if (FlxG.keys.justPressed.SPACE) player.animation.reset();
+		if (FlxG.keys.justPressed.SPACE)
+		{
+			player.animation.reset();
+			player.animation.resume();
+		}
 
 		text.text = 'Player: ${player.data.id}\n' + 'Animation: ${player.animation.name}\n\n' + 'Frames: ${player.animation.curAnim.frames}\n'
 			+ 'FPS: ${player.animation.curAnim.frameRate}\n' + 'Looped: ${player.animation.curAnim.looped}\n' + 'FlipX: ${player.animation.curAnim.flipX}\n';
