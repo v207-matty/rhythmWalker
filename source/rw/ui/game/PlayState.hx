@@ -1,5 +1,6 @@
 package rw.ui.game;
 
+import rw.ui.menu.MainMenu;
 import rw.ui.game.song.SongEventData;
 import rw.util.*;
 import rw.ui.objects.*;
@@ -7,7 +8,7 @@ import rw.ui.game.dialogue.*;
 import rw.ui.game.stage.*;
 import rw.ui.game.player.*;
 import rw.ui.game.song.*;
-import rw.ui.freeplay.*;
+import rw.ui.menu.freeplay.*;
 import flixel.math.FlxPoint;
 import flixel.util.FlxGradient;
 import flixel.*;
@@ -334,7 +335,7 @@ class PlayState extends ConductorState
 			return;
 		}
 
-		FlxG.switchState(() -> new Freeplay());
+		FlxG.switchState(() -> new MainMenu(true));
 	}
 
 	public var canSpawnMonster(get, never):Bool;

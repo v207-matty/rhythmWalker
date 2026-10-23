@@ -1,4 +1,4 @@
-package rw.ui.freeplay;
+package rw.ui.menu.freeplay;
 
 import rw.ui.game.song.SongVariation;
 

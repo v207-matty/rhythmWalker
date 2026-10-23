@@ -1,6 +1,6 @@
-package rw.ui.freeplay;
+package rw.ui.menu.freeplay;
 
-import rw.ui.freeplay.FreeplaySongData;
+import rw.ui.menu.freeplay.FreeplaySongData;
 
 typedef FreeplaySongListData =
 {

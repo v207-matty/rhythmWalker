@@ -2,7 +2,8 @@ package rw.ui.game;
 
 import rw.util.Constants;
 import rw.ui.objects.RWSprite;
-import rw.ui.freeplay.Freeplay;
+import rw.ui.menu.freeplay.Freeplay;
+import rw.ui.menu.MainMenu;
 import flixel.util.FlxTimer;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
@@ -125,6 +126,6 @@ class ResultsState extends ConductorState
 		if (!windupDone) return;
 		if (!leaveTimer?.finished) leaveTimer.cancel();
 
-		FlxG.switchState(() -> new Freeplay());
+		FlxG.switchState(() -> new MainMenu(true));
 	}
 }

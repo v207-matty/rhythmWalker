@@ -21,23 +21,11 @@
 
 	<haxedef name="FREEPLAY_DISPLAY_SCORE" unless="web" />
 
-	<haxedef name="DISABLE_FREEPLAY_VISUALIZER" if="web || linux || FREEPLAY_CENTER_LAYOUT" />
-
-	<haxedef name="FREEPLAY_CENTER_LAYOUT" if="web" />
-	<haxedef name="FREEPLAY_LEFT_LAYOUT" if="MOBILE_MODE || android || ios || web" unless="FREEPLAY_CENTER_LAYOUT" />
-	<haxedef name="FREEPLAY_RIGHT_LAYOUT" unless="FREEPLAY_CENTER_LAYOUT || FREEPLAY_LEFT_LAYOUT" />
-
-	<haxedef name="FREEPLAY_VISUALIZER"
-		unless="FREEPLAY_CENTER_LAYOUT || DISABLE_FREEPLAY_VISUALIZER" />
-	<haxedef name="FREEPLAY_VISUALIZER_MULTICACHE" unless="linux || _32bit || web" />
-
 	<icon path="dev/icons/16.png" size="16" />
 	<icon path="dev/icons/32.png" size="32" />
 	<icon path="dev/icons/64.png" size="64" />
 	<icon path="dev/icons/128.png" size="128" />
 	<icon path="dev/icons/256.png" />
-
-	<define name="FREEPLAY" unless="MAINMENU" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
 

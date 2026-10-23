@@ -7,7 +7,7 @@ import rw.ui.game.*;
 import rw.ui.game.song.*;
 import rw.ui.game.dialogue.*;
 import rw.ui.menu.*;
-import rw.ui.freeplay.*;
+import rw.ui.menu.freeplay.*;
 import flixel.text.FlxText;
 import flixel.FlxG;
 import flixel.FlxState;
@@ -52,7 +52,7 @@ class QualityWarning extends FlxUIState
 		#elseif PLAYER_VIEWER
 		FlxG.switchState(() -> new PlayerViewer());
 		#elseif FREEPLAY
-		FlxG.switchState(() -> new Freeplay());
+		FlxG.switchState(() -> new MainMenu(true));
 		#else
 		FlxG.switchState(() -> new MainMenu());
 		#end

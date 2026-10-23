@@ -1,10 +1,11 @@
 # 0.4.0 (Bundle 1) - 11/1/2026
 
-## New Songs
+## Primary Things
 
-- Chase
+- NEW SONGS : CHASE AND SAVE
 
-- TBA: Save
+- MAIN MENU!
+    - FREEPLAY REWORK (again lmao)
 
 ## Gameplay Related
 
@@ -59,20 +60,21 @@
     - [MOBILE] Gameplay gets a leave button
     - [MOBILE] Dialogue Scene gets 2 buttons for skipping and proceeding
     - [MOBILE] Freeplay gets a play button
-    - [MOBILE] Freeplay layout flips
     
 - Added crash handler
 
 ## UI
+
+- FREEPLAY REWORK AGAIN (WOOOOOO)
+    - You can swipe (mobile) or click and drag your mouse (desktop) left or right to change volume and up or down to change selection
+    - No visualizer
 
 - Added "Quality Warning" screen that shows up to warn you that the music and gameplay aren't actually that good ([#8](https://github.com/v207-matty/rhythmWalker/issues/8))
     - [WEB] This 'replaces' the Click Anywhere screen
 
 - Added Time Bar
 
-- Freeplay song texts has padding now when not centered
 - Gameplay now lets you click the screen to move (the player will move to where your cursor is)
-- Freeplay lets you swipe to change selection and volume
 
 - Dialogue Scenes can now have null portraits (they just turn invisible)
 - Rephrased Dialogue Scene "ESCAPE to leave" and it is now "ESCAPE to skip"

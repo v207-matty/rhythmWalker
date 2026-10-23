@@ -1,4 +1,4 @@
-package rw.ui.freeplay;
+package rw.ui.menu.freeplay;
 
 import flixel.group.FlxSpriteGroup;
 import rw.util.Constants;
@@ -43,7 +43,8 @@ class Freeplay extends ConductorState
 	{
 		var list:Array<String> = [];
 
-		for (filter in songList?.filters) if (!list.contains(filter.toLowerCase())) if (songs.filter(s -> return s.filters.contains(filter.toLowerCase())).length > 0) list.push(filter.toLowerCase());
+		for (filter in songList?.filters) if (!list.contains(filter.toLowerCase())) if (songs.filter(s -> return s.filters.contains(filter.toLowerCase()))
+			.length > 0) list.push(filter.toLowerCase());
 		for (song in songs) for (filter in song?.filters) if (!list.contains(filter.toLowerCase())) list.push(filter.toLowerCase());
 
 		list.insert(0, 'all');
@@ -52,20 +53,6 @@ class Freeplay extends ConductorState
 	}
 
 	static var audioCache:Map<String, Sound> = [];
-
-	#if FREEPLAY_VISUALIZER
-	static var audioVizCache:Map<String, FlxWaveform> = [];
-
-	static var curWaveforms:Array<FlxWaveform> = [];
-	static var curWaveformsID:Array<String> = [];
-
-	static function runOnWaveforms(func:FlxWaveform->String->Void)
-	{
-		if (func == null || curWaveforms == null) return;
-
-		for (wf in curWaveforms) func(wf, curWaveformsID[wf.ID]);
-	}
-	#end
 
 	var randomTip:String = '';
 
@@ -147,14 +134,6 @@ class Freeplay extends ConductorState
 
 		add(waveformLayer = new FlxSpriteGroup());
 
-		#if FREEPLAY_VISUALIZER
-		runOnWaveforms((wave, waveID) ->
-		{
-			wave.alpha = 0;
-			waveformLayer.add(wave);
-		});
-		#end
-
 		changeVolume(filterList.length);
 		changeSel(0);
 		filter('all');
@@ -194,28 +173,6 @@ class Freeplay extends ConductorState
 		if (bgAudio != null && bgAudio.volume > FlxG.sound.volume) bgAudio.volume = FlxG.sound.volume;
 
 		FlxG.watch.addQuick('songCode', songCode);
-
-		#if FREEPLAY_VISUALIZER
-		runOnWaveforms((wave, waveID) ->
-		{
-			if (wave == null || wave.waveformBuffer == null) return;
-
-			FlxG.watch.addQuick('waveform-${wave.ID}', waveID);
-
-			if (waveID != songCode || bgAudio == null || !bgAudio.playing)
-			{
-				wave.active = wave.visible = false;
-				return;
-			}
-
-			wave.visible = wave.active = true;
-
-			@:privateAccess
-			{
-				if (wave.waveformTime != bgAudio._channel.position) wave.waveformTime = bgAudio._channel.position;
-			}
-		});
-		#end
 	}
 
 	function controls()
@@ -282,64 +239,12 @@ class Freeplay extends ConductorState
 		FlxG.switchState(() -> new DialogueScene(new SongData(song.song, song.variation)));
 	}
 
-	override function finishTransOut()
-	{
-		super.finishTransOut();
-
-		#if FREEPLAY_VISUALIZER
-		runOnWaveforms((wave, waveID) ->
-		{
-			waveformLayer.remove(wave);
-			wave.active = false;
-
-			#if !FREEPLAY_VISUALIZER_MULTICACHE
-			curWaveforms.remove(wave);
-			curWaveformsID.remove(waveID);
-			wave.destroy();
-			wave = null;
-			#end
-		});
-
-		#if FREEPLAY_VISUALIZER_MULTICACHE
-		for (id => waveform in audioVizCache)
-		{
-			audioVizCache.remove(id);
-			waveform.destroy();
-			waveform = null;
-		}
-
-		audioVizCache.clear();
-		#end
-		#end
-	}
-
 	function onVolumeChange(vol:Float) @:privateAccess
 	{
-		#if FREEPLAY_VISUALIZER
-		runOnWaveforms((wave, waveID) -> wave.waveformGainMultiplier = FlxG.sound.volume);
-		#end
-
 		if (bgAudio == null) return;
-
 		if (bgAudio.fadeTween?.active) bgAudio.fadeTween.cancel();
 
 		bgAudio.volume = FlxG.sound.volume;
-	}
-
-	function fadeinVisualizer()
-	{
-		if (bgAudio?.volume < 0.1 || bgAudio == null || bgAudio.length < 1) return;
-
-		#if FREEPLAY_VISUALIZER
-		runOnWaveforms((wave, waveID) ->
-		{
-			if (waveID != songCode) return;
-			wave.waveformTime = bgAudio.time;
-
-			FlxTween.cancelTweensOf(wave);
-			FlxTween.tween(wave, {alpha: 1}, .25, {ease: FlxEase.quartInOut});
-		});
-		#end
 	}
 
 	override function onFocusLost()
@@ -354,12 +259,7 @@ class Freeplay extends ConductorState
 		super.onFocus();
 
 		if (bgAudio == null) return;
-
 		bgAudio.resume();
-
-		#if FREEPLAY_VISUALIZER
-		runOnWaveforms((wave, waveID) -> if (wave != null) wave.waveformTime = bgAudio.time);
-		#end
 	}
 
 	function loadSongAudio() @:privateAccess
@@ -377,25 +277,7 @@ class Freeplay extends ConductorState
 		else bgAudio.load(audioCache.get(songCode));
 		bgAudio.looped = true;
 
-		#if (FREEPLAY_VISUALIZER && !FREEPLAY_VISUALIZER_MULTICACHE)
-		runOnWaveforms((wave, waveID) ->
-		{
-			curWaveforms.remove(wave);
-			curWaveformsID.remove(waveID);
-			waveformLayer.remove(wave);
-			wave.destroy();
-		});
-
-		makeWaveform(entries[selectedEntry]);
-		#end
-
-		#if FREEPLAY_VISUALIZER
-		runOnWaveforms((wave, waveID) -> wave.scrollFactor.set());
-		#end
-
 		bgAudio.play();
-
-		fadeinVisualizer();
 		bgAudio.fadeIn(.25, bgAudio.volume, FlxG.sound.volume);
 	}
 
@@ -446,7 +328,7 @@ class Freeplay extends ConductorState
 		topSegBG.setPosition(0, topSegText.y);
 
 		if (selectedEntry == prevSel) return;
-		
+
 		FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
 		changeBGAudio();
 	}
@@ -455,22 +337,10 @@ class Freeplay extends ConductorState
 	{
 		if (bgAudio == null || !bgAudio.playing)
 		{
-			#if FREEPLAY_VISUALIZER
-			runOnWaveforms((wave, waveID) -> wave.alpha = 0);
-			#end
-
 			loadSongAudio();
-
 			return;
 		}
 
-		#if FREEPLAY_VISUALIZER
-		runOnWaveforms((wave, waveID) ->
-		{
-			FlxTween.cancelTweensOf(wave);
-			FlxTween.tween(wave, {alpha: 0}, .25, {ease: FlxEase.quartInOut});
-		});
-		#end
 
 		bgAudio.fadeOut(.25, 0, t -> loadSongAudio());
 	}
@@ -528,99 +398,11 @@ class Freeplay extends ConductorState
 			if (curSongRank == NONE) tXt.text += ' (Unplayed)';
 			#end
 
-			#if (FREEPLAY_VISUALIZER && FREEPLAY_VISUALIZER_MULTICACHE)
-			if (curWaveforms[i] == null) makeWaveform(song, i);
-			#end
-
-			#if FREEPLAY_CENTER_LAYOUT
 			tXt.screenCenter(X);
-			#elseif FREEPLAY_LEFT_LAYOUT
-			tXt.alignment = LEFT;
-			tXt.x += tXt.size;
-			#elseif FREEPLAY_RIGHT_LAYOUT
-			tXt.alignment = RIGHT;
-			tXt.x = FlxG.width - tXt.width - tXt.size;
-			#else
-			trace('No freeplay layout defined, wtf');
-			#end
 
 			texts.add(tXt);
 		}
 
 		changeSel(entries.length);
 	}
-
-	#if FREEPLAY_VISUALIZER
-	function makeWaveform(song:FreeplaySongData, ?i:Null<Int>) @:privateAccess
-	{
-		if (i == null) i = curWaveforms.length;
-
-		var viz:String = '${song.song.toLowerCase()}-${(song.variation ?? defaultVariation).toString().toLowerCase()}';
-
-		if (curWaveformsID.contains(viz))
-		{
-			runOnWaveforms((wave, waveID) ->
-			{
-				if (waveID != viz) return;
-
-				wave.ID = i;
-				curWaveformsID.remove(viz);
-				curWaveformsID.insert(i, viz);
-				waveformLayer.add(wave);
-			});
-
-			return;
-		}
-
-		var audio:FlxSound;
-		if (audioCache.exists(viz)) audio = new FlxSound().load(audioCache.get(viz));
-		else
-		{
-			audio = new FlxSound().load(Paths.getSong(song.song, song.variation));
-			audio.looped = true;
-
-			audioCache.set(viz, audio._sound);
-		}
-
-		if (audio == null) return;
-
-		var bgAudioViz:FlxWaveform;
-
-		if (audioVizCache.exists(viz) && audioVizCache.get(viz) != null) bgAudioViz = audioVizCache.get(viz);
-		else
-		{
-			bgAudioViz = new FlxWaveform(0, 0, Math.floor(FlxG.width / 4), Math.floor(FlxG.height - topSegBG.height - btmSegBG.height), FlxColor.WHITE,
-				FlxColor.TRANSPARENT);
-			bgAudioViz.y = topSegBG.height;
-
-			bgAudioViz.loadDataFromFlxSound(audio);
-
-			if (bgAudioViz.waveformBuffer != null) bgAudioViz.waveformBuffer.autoDestroy = false;
-			bgAudioViz.waveformDuration = 125;
-
-			bgAudioViz.waveformOrientation = VERTICAL;
-			bgAudioViz.waveformTime = bgAudio?.time ?? 0;
-
-			bgAudioViz.alpha = 0;
-
-			bgAudioViz.scrollFactor.set();
-			bgAudioViz.onWaveformBufferSet.add(function()
-			{
-				audioVizCache.set(viz, bgAudioViz);
-			});
-
-			#if FREEPLAY_LEFT_LAYOUT
-			bgAudioViz.x = FlxG.width - bgAudioViz.width;
-			#end
-		}
-
-		bgAudioViz.scrollFactor.set();
-
-		bgAudioViz.ID = i;
-		waveformLayer.add(bgAudioViz);
-
-		curWaveforms.push(bgAudioViz);
-		curWaveformsID.push(viz);
-	}
-	#end
 }
