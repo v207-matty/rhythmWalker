@@ -36,7 +36,8 @@ class MainMenu extends ConductorState
 
 		for (i => option in options)
 		{
-			var text = new FlxText(0, 0, 0, option[0], 16);
+			var text = new FlxText(0, 0, 0, option[0].toUpperCase(), 16);
+            text.alignment = CENTER;
             text.ID = i;
 			optionTexts.add(text);
 		}
@@ -45,5 +46,16 @@ class MainMenu extends ConductorState
 		logo.setScale(1);
 		logo.screenCenter(X);
 		logo.y = logo.height * 0.1;
+
+        changeSelection(0);
 	}
+
+    function changeSelection(by:Int)
+    {
+        for (option in optionTexts)
+        {
+            option.y = (logo.y + logo.height + 16) + option.ID * (2 * option.size);
+            option.screenCenter(X);
+        }
+    }
 }
