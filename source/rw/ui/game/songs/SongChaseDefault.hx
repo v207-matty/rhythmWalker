@@ -72,8 +72,7 @@ class SongChaseDefault extends Song
 
 		FlxTimer.wait(4, () ->
 		{
-			// gameEndIntroCutscene();
-			toggleGameplayScene(true);
+			gameEndIntroCutscene();
 
 			game.remove(cutscene);
 			cutscene.destroy();
