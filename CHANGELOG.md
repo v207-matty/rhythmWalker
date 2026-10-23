@@ -1,4 +1,4 @@
-# 0.4.0 : Gloomy Days (Memory Bundle 1) - 11/1/2026
+# 0.4.0 : Gloomy Days (Bundle 1) - 11/1/2026
 
 ## New Songs
 
