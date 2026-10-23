@@ -1,5 +1,7 @@
 package rw.ui;
 
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.addons.ui.FlxUIState;
 import rw.util.Constants;
 import rw.ui.debug.*;
@@ -14,13 +16,15 @@ import flixel.FlxState;
 
 using StringTools;
 
-class QualityWarning extends FlxUIState
+class QualityWarning extends ConductorState
 {
+	var warning:FlxText;
+
 	override function create()
 	{
-		super.create();
+		mouseEnabled = true;
 
-		var warning:FlxText = new FlxText(0, 0, FlxG.width,
+		warning = new FlxText(0, 0, FlxG.width,
 			'HELLO THERE!'
 			+ '\nWELCOME TO RHYTHM WALKER!'
 			+ '\n\nSorry to say this but if you actually think the songs are gonna sound good or that the gameplay will be good, you are mistaken :('
@@ -32,6 +36,8 @@ class QualityWarning extends FlxUIState
 		warning.alignment = CENTER;
 		add(warning);
 		warning.screenCenter();
+
+		super.create();
 	}
 
 	override function update(elapsed:Float)
@@ -43,6 +49,16 @@ class QualityWarning extends FlxUIState
 
 	function proceed()
 	{
+		FlxTween.tween(warning, {alpha: 0}, .4, {
+			ease: FlxEase.expoOut,
+			onComplete: t ->
+			{
+				remove(warning);
+				warning.destroy();
+				warning = null;
+			}
+		});
+
 		#if GAMEPLAY
 		FlxG.switchState(() -> new PlayState('chase'));
 		#elseif DIALOGUE
