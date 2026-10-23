@@ -24,19 +24,25 @@
 
 # Day 4
 
-- [0.4.0] Planning : Jez and Bro try to come up with a plan
-- [0.4.0] Ambush : Jez and Bro get ambushed by multiple assasins
-- [0.4.0] Lu : Jez and Bro are surrounded and Lu confronts them
-
-- [0.5.0] Wild : Jez goes wild, Bro on his back, clawing through the assasins
-- [0.5.0] _ : _
-
-- [0.6.0] _ : _
-- [0.6.0] _ : _
+- [UNKNOWN] Planning : Jez and Bro try to come up with a plan
+- [UNKNOWN] Ambush : Jez and Bro get ambushed by multiple assasins
+- [UNKNOWN] Lu : Jez and Bro are surrounded and Lu confronts them
+- [UNKNOWN] Wild : Jez goes wild, Bro on his back, clawing through the assasins, and Jez + Bro escape
 
 # Day 5
 
+- [UNKNOWN] Research : Bro wants to figure out why he is wanted and does
+    - Different gameplay, more like rhythm heaven so RHL gameplay:  Web Searching
+
+- [UNKNOWN] Come Get Me : Bro and Jez are travelling, trying to lure out the assasin
+
+- [UNKNOWN] Lets End This : Bro vs Lu
+    - RHL gameplay: Boxing
+
 # Day 6
+
+- [UNKNOWN] Earnings : Bro chillin and enjoying life
+    - RHL gameplay: Laze around
 
 # Day 7
 
@@ -47,30 +53,48 @@
 
 - [0.3.0] Scroll Down Chinatown (Resolved) : Someone (c137) recognizes Bro and it turns out Bro isn't allowed back in china so that sucks
 
-- [0.4.0] Train Getaway (Resolved) : Bro got chased into a train by c137
-- [0.4.0] Train Wreak (Resolved) : Bro is still being chased by c137 but now they're jumping between trains
-- [0.4.0] Encapture (Resolved) : Bro is now running from the police
+- [UNKNOWN] Train Getaway (Resolved) : Bro got chased into a train by c137
+- [UNKNOWN] Train Wreak (Resolved) : Bro is still being chased by c137 but now they're jumping between trains
+
+- [UNKNOWN] Encapture (Resolved) : Bro was caught but is now again running from the police
 
 # Day 9
 
-- [0.5.0] Lost Media (Resolved) : Bro runs to Jez for help and Jez protects Bro from the cops
-- [0.5.0] Mental (Resolved) : Jez is knocked out by a cop and is in a nightmare coma
+- [UNKNOWN] Lost Media (Resolved) : Bro has ran to Jez for help and Jez protects Bro from the cops
+- [UNKNOWN] Mental (Resolved) : Jez is knocked out by a cop and is in a nightmare coma
 
 # Day 10
 
-- [0.5.0] _ : _
-- [0.5.0] _ : _
-- [0.5.0] _ : _
+- [UNKNOWN] Chase (Resolved) : Bro is carrying Jez and running away with him
+- [UNKNOWN] Save (Resolved) : Bro and Jez are saved by Lu!
 
-- [0.6.0] _ : _
-- [0.6.0] _ : _
-- [0.6.0] _ : _
+- [UNKNOWN] Planning (Resolved) : Lu and Bro are planning, trying to figure out how to stop c137 and the cops from chasing Bro
 
 # Day 11
 
+- [UNKNOWN] Ambush (Resolved) :  The cops raid Lu and Bros hideout, Bro keeps running
+    - Like Chase
+
+- [UNKNOWN] Lu (Resolved) : Lu is running from the cops for helping a criminal
+
+- [UNKNOWN] Wild (Resolved) : Jez reawakens and goes wild, killing cops
+    - RHL Gameplay : Cop Murder!
+
 # Day 12
 
+- [UNKNOWN] Research (Resolved) : Bro is still searching on his wantings
+    - RHL Gameplay : Web Searches
+
+- [UNKNOWN] Come Get Me (Resolved) : C137 is looking for Bro
+    - RHL Gameplay : Doorsteps
+
+- [UNKNOWN] Lets End This (Resolved) : Bro vs c137
+    - RHL Gameplay : Firearms
+    - Ends with c137 dead
+
 # Day 13
+
+- [UNKNOWN] Earnings (Resolved) : Bro is in jail 
 
 # Day 14
 

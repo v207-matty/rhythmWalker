@@ -3,15 +3,8 @@
 ## New Songs
 
 - Chase
-- Save
 
-- TBA: Planning
-- TBA: Ambush
-- TBA: Lu
-
-- TBA: Train Getaway (Resolved)
-- TBA: Train Wreak (Resolved)
-- TBA: Encapture (Resolved)
+- TBA: Save
 
 ## Gameplay Related
 
