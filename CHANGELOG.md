@@ -5,7 +5,7 @@
 - NEW SONGS : CHASE AND SAVE
 
 - MAIN MENU!
-    - FREEPLAY REWORK (again lmao)
+    - PARTIAL FREEPLAY REWORK (again lmao)
 
 ## Gameplay Related
 
@@ -65,7 +65,7 @@
 
 ## UI
 
-- FREEPLAY REWORK AGAIN (WOOOOOO)
+- FREEPLAY KINDA SORA REWORK AGAIN (WOOOOOO)
     - You can swipe (mobile) or click and drag your mouse (desktop) left or right to change volume and up or down to change selection
     - No visualizer
 
