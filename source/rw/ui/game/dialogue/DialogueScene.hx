@@ -1,5 +1,6 @@
 package rw.ui.game.dialogue;
 
+import flixel.util.FlxColor;
 import rw.util.Constants;
 import flixel.math.FlxMath;
 import flixel.util.FlxTimer;
@@ -56,7 +57,8 @@ class DialogueScene extends ConductorState
 	{
 		if (dialogue == null || leaving)
 		{
-			bgColor = 0xFFFFFFFF;
+			bgColor = Constants.TRANSITION_COLOR;
+			transIn = transOut = null;
 			leave();
 			return;
 		}

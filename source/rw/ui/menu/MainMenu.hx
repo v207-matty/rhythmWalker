@@ -53,7 +53,8 @@ class MainMenu extends ConductorState
 
 		if (enterFreeplay)
 		{
-			bgColor = 0xFFFFFFFF;
+			bgColor = Constants.TRANSITION_COLOR;
+			transIn = transOut = null;
 			proceed();
 			return;
 		}

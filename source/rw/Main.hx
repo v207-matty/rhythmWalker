@@ -1,5 +1,6 @@
 package rw;
 
+import rw.util.Constants;
 import rw.ui.game.song.SongRank;
 #if sys
 import sys.io.File;
@@ -147,7 +148,7 @@ class Main extends FlxGame
 		transGraphic.persist = true;
 		transGraphic.destroyOnNoUse = false;
 
-		return new TransitionData(TILES, FlxColor.WHITE, 1, FlxPoint.get(0, -1), {
+		return new TransitionData(TILES, Constants.TRANSITION_COLOR, 1, FlxPoint.get(0, -1), {
 			asset: transGraphic,
 			width: 32,
 			height: 32
