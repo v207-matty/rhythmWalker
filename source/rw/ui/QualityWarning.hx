@@ -52,7 +52,7 @@ class QualityWarning extends ConductorState
 
 	function proceed()
 	{
-		FlxTween.tween(warning, {alpha: 0}, .4, {
+		FlxTween.tween(warning, {alpha: 0}, 1, {
 			ease: FlxEase.expoOut,
 			onComplete: t ->
 			{
