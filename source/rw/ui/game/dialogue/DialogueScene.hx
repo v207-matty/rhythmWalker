@@ -56,6 +56,7 @@ class DialogueScene extends ConductorState
 	{
 		if (dialogue == null || leaving)
 		{
+			bgColor = 0xFFFFFFFF;
 			leave();
 			return;
 		}

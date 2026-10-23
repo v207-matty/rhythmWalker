@@ -51,6 +51,13 @@ class MainMenu extends ConductorState
 	{
 		FlxG.sound.playMusic(Paths.getAudio('ui/menu'));
 
+		if (enterFreeplay)
+		{
+			bgColor = 0xFFFFFFFF;
+			proceed();
+			return;
+		}
+
 		FlxG.cameras.reset(cam = new FlxCamera());
 
 		add(optionTexts = new FlxTypedSpriteContainer<FlxText>());
@@ -85,8 +92,6 @@ class MainMenu extends ConductorState
 
 		changeSelection(0);
 
-		if (enterFreeplay) proceed();
-		
 		super.create();
 	}
 
