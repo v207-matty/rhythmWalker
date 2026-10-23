@@ -1,6 +1,5 @@
 package rw.ui.freeplay;
 
-import rw.util.ThreadUtil;
 import flixel.group.FlxSpriteGroup;
 import rw.util.Constants;
 import flixel.math.FlxMath;
@@ -546,7 +545,7 @@ class Freeplay extends ConductorState
 			#end
 
 			#if (FREEPLAY_VISUALIZER && FREEPLAY_VISUALIZER_MULTICACHE)
-			ThreadUtil.create(() -> if (curWaveforms[i] == null) makeWaveform(song, i));
+			if (curWaveforms[i] == null) makeWaveform(song, i);
 			#end
 
 			#if FREEPLAY_CENTER_LAYOUT

@@ -51,8 +51,6 @@
 ## UX
 
 - Freeplay no longer plays a little sound when first entering it
-- [DESKTOP] Freeplay Visualizer caching is now done with threads (should take less long now to load freplay for the first time!)
-
 - Now using logarithmic sound curves (basically the volume thingy is more accurate to what humans actually hear)
 
 - ADDED MOBILE SUPPORT!! (heres stuff that happens when on mobile)
@@ -62,7 +60,7 @@
     - [MOBILE] Dialogue Scene gets 2 buttons for skipping and proceeding
     - [MOBILE] Freeplay gets a play button
     - [MOBILE] Freeplay layout flips
-
+    
 - Added crash handler
 
 ## UI
