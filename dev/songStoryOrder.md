@@ -94,7 +94,8 @@
 
 # Day 13
 
-- [UNKNOWN] Earnings (Resolved) : Bro is in jail 
+- [UNKNOWN] Earnings (Resolved) : Bro is in jail just for the murder of c137
+    - Any previous charge dropped due to self defence but the jailtime is only 1 day
 
 # Day 14
 
