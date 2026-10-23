@@ -37,6 +37,8 @@
 	<icon path="dev/icons/128.png" size="128" />
 	<icon path="dev/icons/256.png" />
 
+	<define name="FREEPLAY" unless="MAINMENU" />
+
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />

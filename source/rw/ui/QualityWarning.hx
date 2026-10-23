@@ -50,8 +50,10 @@ class QualityWarning extends FlxUIState
 		FlxG.switchState(() -> new ResultsState('train wreak-default'));
 		#elseif PLAYER_VIEWER
 		FlxG.switchState(() -> new PlayerViewer());
-		#else
+		#elseif FREEPLAY
 		FlxG.switchState(() -> new Freeplay());
+		#else
+		FlxG.switchState(() -> new MainMenu());
 		#end
 	}
 }
