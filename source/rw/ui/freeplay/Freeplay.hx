@@ -43,14 +43,7 @@ class Freeplay extends ConductorState
 	{
 		var list:Array<String> = [];
 
-		for (filter in songList?.filters)
-		{
-			if (!list.contains(filter.toLowerCase()))
-			{
-				if (songs.filter(s -> return s.filters.contains(filter.toLowerCase())).length > 0) list.push(filter.toLowerCase());
-			}
-		}
-
+		for (filter in songList?.filters) if (!list.contains(filter.toLowerCase())) if (songs.filter(s -> return s.filters.contains(filter.toLowerCase())).length > 0) list.push(filter.toLowerCase());
 		for (song in songs) for (filter in song?.filters) if (!list.contains(filter.toLowerCase())) list.push(filter.toLowerCase());
 
 		list.insert(0, 'all');
@@ -101,9 +94,7 @@ class Freeplay extends ConductorState
 	function get_songCode():String
 	{
 		var sng = entries[selectedEntry];
-
 		if (sng == null) return null;
-
 		return '${sng.song.toLowerCase()}-${(sng.variation ?? defaultVariation).toString().toLowerCase()}';
 	}
 
@@ -454,11 +445,10 @@ class Freeplay extends ConductorState
 		topSegBG.setScale(FlxG.width, topSegText.height);
 		topSegBG.setPosition(0, topSegText.y);
 
-		if (selectedEntry != prevSel || amount == 0)
-		{
-			FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
-			changeBGAudio();
-		}
+		if (selectedEntry == prevSel) return;
+		
+		FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
+		changeBGAudio();
 	}
 
 	function changeBGAudio()
@@ -511,14 +501,8 @@ class Freeplay extends ConductorState
 
 	function filter(f:String)
 	{
-		entries = [];
-
-		switch (f.toLowerCase())
-		{
-			case 'all': entries = songs;
-
-			default: entries = songs.filter(s -> return s.filters.contains(f.toLowerCase()));
-		}
+		entries = songs.filter(s -> return s.filters.contains(f.toLowerCase()));
+		if (entries.length < 1) entries = songs;
 
 		if (texts.members.length > 0)
 		{
