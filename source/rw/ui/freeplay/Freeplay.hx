@@ -1,5 +1,6 @@
 package rw.ui.freeplay;
 
+import rw.util.ThreadUtil;
 import flixel.group.FlxSpriteGroup;
 import rw.util.Constants;
 import flixel.math.FlxMath;
@@ -198,46 +199,7 @@ class Freeplay extends ConductorState
 	{
 		super.update(elapsed);
 
-		if (subState == null)
-		{
-			for (i => swipe in FlxG.swipes)
-			{
-				if (swipe.duration == 0) continue;
-
-				if (i > 0) continue;
-
-				if (swipe.distance == 0) continue;
-
-				final up = FlxMath.roundDecimal(swipe.degrees / -90, 2);
-				final down = FlxMath.roundDecimal(swipe.degrees / 90, 2);
-
-				final left = FlxMath.roundDecimal(swipe.degrees / 180, 2);
-				final right = FlxMath.roundDecimal(swipe.degrees / 45, 2);
-
-				trace('dist: ${swipe.distance}', 'deg: ${swipe.degrees}', 'left: $left', 'down: $down', 'up: $up', 'right: $right');
-
-				final range_vertical = [0.5, 1.5];
-
-				final range_left_1 = [0.7, 1.5];
-				final range_left_2 = [-0.7, -1.5];
-
-				final range_right = [-0.2, 1.2];
-
-				if (up >= range_vertical[0] && up <= range_vertical[1]) changeSel(1);
-				else if (down >= range_vertical[0] && down <= range_vertical[1]) changeSel(-1);
-				else if ((left >= range_left_1[0] && left <= range_left_1[1])
-					|| (left <= range_left_2[0] && left >= range_left_2[1])) changeVolume(-1);
-				else if (right >= range_right[0] && right <= range_right[1]) changeVolume(1);
-			}
-
-			if (FlxG.keys.anyJustPressed([W, UP])) changeSel(-1);
-			if (FlxG.keys.anyJustPressed([S, DOWN])) changeSel(1);
-
-			if (FlxG.keys.anyJustPressed([A, LEFT])) changeVolume(-1);
-			if (FlxG.keys.anyJustPressed([D, RIGHT])) changeVolume(1);
-
-			if (FlxG.keys.justPressed.ENTER) proceed();
-		}
+		if (subState == null) controls();
 
 		if (bgAudio != null && bgAudio.volume > FlxG.sound.volume) bgAudio.volume = FlxG.sound.volume;
 
@@ -264,6 +226,47 @@ class Freeplay extends ConductorState
 			}
 		});
 		#end
+	}
+
+	function controls()
+	{
+		for (i => swipe in FlxG.swipes)
+		{
+			if (swipe.duration == 0) continue;
+
+			if (i > 0) continue;
+
+			if (swipe.distance == 0) continue;
+
+			final up = FlxMath.roundDecimal(swipe.degrees / -90, 2);
+			final down = FlxMath.roundDecimal(swipe.degrees / 90, 2);
+
+			final left = FlxMath.roundDecimal(swipe.degrees / 180, 2);
+			final right = FlxMath.roundDecimal(swipe.degrees / 45, 2);
+
+			trace('dist: ${swipe.distance}', 'deg: ${swipe.degrees}', 'left: $left', 'down: $down', 'up: $up', 'right: $right');
+
+			final range_vertical = [0.5, 1.5];
+
+			final range_left_1 = [0.7, 1.5];
+			final range_left_2 = [-0.7, -1.5];
+
+			final range_right = [-0.2, 1.2];
+
+			if (up >= range_vertical[0] && up <= range_vertical[1]) changeSel(1);
+			else if (down >= range_vertical[0] && down <= range_vertical[1]) changeSel(-1);
+			else if ((left >= range_left_1[0] && left <= range_left_1[1])
+				|| (left <= range_left_2[0] && left >= range_left_2[1])) changeVolume(-1);
+			else if (right >= range_right[0] && right <= range_right[1]) changeVolume(1);
+		}
+
+		if (FlxG.keys.anyJustPressed([W, UP])) changeSel(-1);
+		if (FlxG.keys.anyJustPressed([S, DOWN])) changeSel(1);
+
+		if (FlxG.keys.anyJustPressed([A, LEFT])) changeVolume(-1);
+		if (FlxG.keys.anyJustPressed([D, RIGHT])) changeVolume(1);
+
+		if (FlxG.keys.justPressed.ENTER) proceed();
 	}
 
 	function proceed()
@@ -365,10 +368,7 @@ class Freeplay extends ConductorState
 		bgAudio.resume();
 
 		#if FREEPLAY_VISUALIZER
-		runOnWaveforms((wave, waveID) ->
-		{
-			if (wave != null) wave.waveformTime = bgAudio.time;
-		});
+		runOnWaveforms((wave, waveID) -> if (wave != null) wave.waveformTime = bgAudio.time);
 		#end
 	}
 
@@ -431,12 +431,11 @@ class Freeplay extends ConductorState
 			text.color = #if FREEPLAY_DISPLAY_SCORE (textSongRank == NONE) ? FlxColor.RED : #end
 			FlxColor.WHITE;
 
-			if (i == selectedEntry)
-			{
-				text.color = #if FREEPLAY_DISPLAY_SCORE (textSongRank == NONE) ? FlxColor.ORANGE : #end
-				FlxColor.YELLOW;
-				camFollow.y = text.y;
-			}
+			if (i != selectedEntry) continue;
+
+			text.color = #if FREEPLAY_DISPLAY_SCORE (textSongRank == NONE) ? FlxColor.ORANGE : #end
+			FlxColor.YELLOW;
+			camFollow.y = text.y;
 		}
 
 		topSegText.text = '';
@@ -484,10 +483,7 @@ class Freeplay extends ConductorState
 		});
 		#end
 
-		bgAudio.fadeOut(.25, 0, t ->
-		{
-			loadSongAudio();
-		});
+		bgAudio.fadeOut(.25, 0, t -> loadSongAudio());
 	}
 
 	function changeVolume(amount:Int)
@@ -506,13 +502,12 @@ class Freeplay extends ConductorState
 		btmSegBG.setScale(FlxG.width, btmSegText.height);
 		btmSegBG.setPosition(0, btmSegText.y);
 
-		if (selectedVolume != prevVol || amount == 0)
-		{
-			FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
+		if (selectedVolume == prevVol) return;
 
-			filter(filterList[selectedVolume]);
-			changeBGAudio();
-		}
+		FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
+
+		filter(filterList[selectedVolume]);
+		changeBGAudio();
 	}
 
 	function filter(f:String)
@@ -551,7 +546,7 @@ class Freeplay extends ConductorState
 			#end
 
 			#if (FREEPLAY_VISUALIZER && FREEPLAY_VISUALIZER_MULTICACHE)
-			if (curWaveforms[i] == null) makeWaveform(song, i);
+			ThreadUtil.create(() -> if (curWaveforms[i] == null) makeWaveform(song, i));
 			#end
 
 			#if FREEPLAY_CENTER_LAYOUT
@@ -635,6 +630,7 @@ class Freeplay extends ConductorState
 			bgAudioViz.x = FlxG.width - bgAudioViz.width;
 			#end
 		}
+
 		bgAudioViz.scrollFactor.set();
 
 		bgAudioViz.ID = i;

@@ -31,7 +31,6 @@
 ## Backend / Nerd shit
 
 - Added 16x, 64x, 128x, and 256x icon sizes
-
 - Beat Monsters now have a padding data field to adjust where they fall
 
 - Songs are now in a class system now (only for stuff like cutscenes or similar cases like for stages)!
@@ -50,6 +49,9 @@
     - Scores are saved different
 
 ## UX
+
+- Freeplay no longer plays a little sound when first entering it
+- [DESKTOP] Freeplay Visualizer caching is now done with threads (should take less long now to load freplay for the first time!)
 
 - Now using logarithmic sound curves (basically the volume thingy is more accurate to what humans actually hear)
 
