@@ -71,9 +71,6 @@ class Freeplay extends ConductorState
 	var btmSegBG:RWSprite;
 	var btmSegText:FlxText;
 
-	var bgAudio:FlxSound;
-	var bgAudioVizFade:FlxTween;
-
 	var waveformLayer:FlxSpriteGroup;
 
 	public var songCode(get, never):String;
@@ -94,11 +91,6 @@ class Freeplay extends ConductorState
 		persistentUpdate = true;
 
 		randomTip = tips[FlxG.random.int(0, tips.length - 1)].replace('\\n', '\n');
-
-		bgAudio = new FlxSound();
-		// FlxG.sound.list.add(bgAudio);
-		FlxG.sound.onVolumeChange.add(onVolumeChange);
-		onVolumeChange(FlxG.sound.volume);
 
 		texts = new FlxTypedSpriteGroup<FlxText>();
 		add(texts);
@@ -157,20 +149,11 @@ class Freeplay extends ConductorState
 		if (transIn == null) finishTransIn();
 	}
 
-	override function finishTransIn()
-	{
-		super.finishTransIn();
-
-		changeBGAudio();
-	}
-
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
 		if (subState == null) controls();
-
-		if (bgAudio != null && bgAudio.volume > FlxG.sound.volume) bgAudio.volume = FlxG.sound.volume;
 
 		FlxG.watch.addQuick('songCode', songCode);
 	}
@@ -179,11 +162,7 @@ class Freeplay extends ConductorState
 	{
 		for (i => swipe in FlxG.swipes)
 		{
-			if (swipe.duration == 0) continue;
-
-			if (i > 0) continue;
-
-			if (swipe.distance == 0) continue;
+			if (swipe.duration == 0 || i > 0 || swipe.distance == 0) continue;
 
 			final up = FlxMath.roundDecimal(swipe.degrees / -90, 2);
 			final down = FlxMath.roundDecimal(swipe.degrees / 90, 2);
@@ -226,59 +205,8 @@ class Freeplay extends ConductorState
 		}
 		trace(song);
 
-		if (bgAudio != null && bgAudio.playing) bgAudio.fadeOut(.25, 0, t ->
-		{
-			FlxG.sound.onVolumeChange.remove(onVolumeChange);
-
-			bgAudio.stop();
-			bgAudio.destroy();
-			bgAudio = null;
-		});
-
 		DialogueScene.seenIntroCutscene = false;
 		FlxG.switchState(() -> new DialogueScene(new SongData(song.song, song.variation)));
-	}
-
-	function onVolumeChange(vol:Float) @:privateAccess
-	{
-		if (bgAudio == null) return;
-		if (bgAudio.fadeTween?.active) bgAudio.fadeTween.cancel();
-
-		bgAudio.volume = FlxG.sound.volume;
-	}
-
-	override function onFocusLost()
-	{
-		super.onFocusLost();
-
-		if (bgAudio != null) bgAudio.pause();
-	}
-
-	override function onFocus()
-	{
-		super.onFocus();
-
-		if (bgAudio == null) return;
-		bgAudio.resume();
-	}
-
-	function loadSongAudio() @:privateAccess
-	{
-		if (bgAudio != null) bgAudio.stop();
-		else return;
-
-		if (entries[selectedEntry] == null) return;
-
-		if (!audioCache.exists(songCode))
-		{
-			bgAudio.load(Paths.getSong(entries[selectedEntry].song, entries[selectedEntry]?.variation ?? defaultVariation));
-			audioCache.set(songCode, bgAudio._sound);
-		}
-		else bgAudio.load(audioCache.get(songCode));
-		bgAudio.looped = true;
-
-		bgAudio.play();
-		bgAudio.fadeIn(.25, bgAudio.volume, FlxG.sound.volume);
 	}
 
 	function changeSel(amount:Float)
@@ -330,19 +258,6 @@ class Freeplay extends ConductorState
 		if (selectedEntry == prevSel) return;
 
 		FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
-		changeBGAudio();
-	}
-
-	function changeBGAudio()
-	{
-		if (bgAudio == null || !bgAudio.playing)
-		{
-			loadSongAudio();
-			return;
-		}
-
-
-		bgAudio.fadeOut(.25, 0, t -> loadSongAudio());
 	}
 
 	function changeVolume(amount:Int)
@@ -366,7 +281,6 @@ class Freeplay extends ConductorState
 		FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
 
 		filter(filterList[selectedVolume]);
-		changeBGAudio();
 	}
 
 	function filter(f:String)

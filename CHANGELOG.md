@@ -67,7 +67,7 @@
 
 - FREEPLAY KINDA SORA REWORK AGAIN (WOOOOOO)
     - You can swipe (mobile) or click and drag your mouse (desktop) left or right to change volume and up or down to change selection
-    - No visualizer
+    - No visualizer or Song preview
 
 - Added "Quality Warning" screen that shows up to warn you that the music and gameplay aren't actually that good ([#8](https://github.com/v207-matty/rhythmWalker/issues/8))
     - [WEB] This 'replaces' the Click Anywhere screen
