@@ -52,6 +52,8 @@ class PlayerViewer extends ConductorState
 
 		add(text = new FlxText(0, 0, 0, '', 16));
 		text.x = text.y = text.size;
+
+		persistentUpdate = true;
 	}
 
 	function switchPlayer(to:String)
