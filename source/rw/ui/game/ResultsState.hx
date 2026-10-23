@@ -18,6 +18,13 @@ class ResultsState extends ConductorState
 	var songRank:SongRank;
 	var songRankPercent:Float;
 
+	var windupScore:Float = 0;
+	var windupText:FlxText;
+
+	var windupDone = false;
+
+	var leaveTimer:FlxTimer;
+
 	override public function new(songCode:String)
 	{
 		super();
@@ -28,9 +35,6 @@ class ResultsState extends ConductorState
 		songRank = score?.rank ?? NONE;
 		songRankPercent = score?.percent ?? 0;
 	}
-
-	var windupScore:Float = 0;
-	var windupText:FlxText;
 
 	override function create()
 	{
@@ -49,7 +53,7 @@ class ResultsState extends ConductorState
 
 		windupText.alignment = CENTER;
 
-		FlxG.sound.play(Paths.getAudio('game/results/results'));
+		FlxG.sound.play(Paths.getAudio('ui/results/results'));
 
 		FlxTween.num(0, songScore, 4, {
 			ease: FlxEase.quintInOut,
@@ -67,7 +71,7 @@ class ResultsState extends ConductorState
 
 			windupScore = v;
 
-			if (Math.floor(windupScore) != prev) FlxG.sound.play(Paths.getAudio('game/results/resultsTick'), 0.2);
+			if (Math.floor(windupScore) != prev) FlxG.sound.play(Paths.getAudio('ui/results/resultsTick'), 0.2);
 
 			windupText.text = 'Score:\n${Math.floor(windupScore)}';
 			windupText.screenCenter();
@@ -76,7 +80,7 @@ class ResultsState extends ConductorState
 
 	function onWindupDone()
 	{
-		FlxG.sound.play(Paths.getAudio('game/results/resultsTickDone'));
+		FlxG.sound.play(Paths.getAudio('ui/results/resultsTickDone'));
 
 		windupText.size *= 2;
 		windupText.screenCenter();
@@ -84,12 +88,12 @@ class ResultsState extends ConductorState
 
 		var were:Bool = (songRank != BAD);
 
-		var didWere = new RWSprite('game/results/${(were) ? 'were' : 'did'}');
+		var didWere = new RWSprite('ui/results/${(were) ? 'were' : 'did'}');
 		add(didWere);
 		didWere.setScale(2);
 		didWere.screenCenter();
 
-		var rank = new RWSprite('game/results/ranks/$songRank');
+		var rank = new RWSprite('ui/results/ranks/$songRank');
 		add(rank);
 		rank.setScale(2);
 		rank.screenCenter();
@@ -109,10 +113,6 @@ class ResultsState extends ConductorState
 		#end
 	}
 
-	var windupDone = false;
-
-	var leaveTimer:FlxTimer;
-
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
@@ -122,9 +122,9 @@ class ResultsState extends ConductorState
 
 	function leave()
 	{
-		if (!windupDone) return;
+		if (!windupDone || leaveTimer?.finished) return;
+		if (!leaveTimer?.finished) leaveTimer.cancel();
 
-		if (!leaveTimer.finished) leaveTimer.cancel();
 		FlxG.switchState(() -> new Freeplay());
 	}
 }
