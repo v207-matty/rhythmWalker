@@ -102,7 +102,7 @@ class ResultsState extends ConductorState
 
 		leaveTimer = new FlxTimer().start(2, t ->
 		{
-			leave();
+			leave(true);
 		});
 
 		#if MOBILE_MODE
@@ -117,12 +117,12 @@ class ResultsState extends ConductorState
 	{
 		super.update(elapsed);
 
-		if (leaveTimer != null && !leaveTimer?.finished && FlxG.keys.anyJustPressed([ENTER, ESCAPE])) leave();
+		if (!leaveTimer?.finished && FlxG.keys.anyJustPressed([ENTER, ESCAPE])) leave();
 	}
 
-	function leave()
+	function leave(forced = false)
 	{
-		if (!windupDone || leaveTimer?.finished) return;
+		if (!windupDone) return;
 		if (!leaveTimer?.finished) leaveTimer.cancel();
 
 		FlxG.switchState(() -> new Freeplay());
