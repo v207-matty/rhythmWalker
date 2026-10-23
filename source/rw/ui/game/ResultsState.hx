@@ -109,7 +109,7 @@ class ResultsState extends ConductorState
 		var leaveButton = new rw.ui.objects.mobile.CornerButton('backBtn');
 		add(leaveButton);
 		leaveButton.x = FlxG.width - leaveButton.width;
-		leaveButton.onClicked.add(leave);
+		leaveButton.onClicked.add(() -> leave(true));
 		#end
 	}
 
