@@ -19,10 +19,10 @@
 
 - [0.3.1] Mental : Bro is dreaming
 
+# Day 4
+
 - [0.4.0] Chase : Bro wakes up and gets chased
 - [0.4.0] Save : Jez saves Bro but they're still being chased through multiple environments
-
-# Day 4
 
 - [UNKNOWN] Planning : Jez and Bro try to come up with a plan
 - [UNKNOWN] Ambush : Jez and Bro get ambushed by multiple assasins
