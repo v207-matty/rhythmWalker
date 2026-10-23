@@ -30,6 +30,8 @@
 
 ## Backend / Nerd shit
 
+- Added 16x, 64x, 128x, and 256x icon sizes
+
 - Beat Monsters now have a padding data field to adjust where they fall
 
 - Songs are now in a class system now (only for stuff like cutscenes or similar cases like for stages)!

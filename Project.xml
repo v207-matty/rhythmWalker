@@ -31,7 +31,11 @@
 		unless="FREEPLAY_CENTER_LAYOUT || DISABLE_FREEPLAY_VISUALIZER" />
 	<haxedef name="FREEPLAY_VISUALIZER_MULTICACHE" unless="linux || _32bit || web" />
 
-	<icon path="dev/icon.png" />
+	<icon path="dev/icons/16.png" size="16" />
+	<icon path="dev/icons/32.png" size="32" />
+	<icon path="dev/icons/64.png" size="64" />
+	<icon path="dev/icons/128.png" size="128" />
+	<icon path="dev/icons/256.png" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
