@@ -1,4 +1,3 @@
-- [MOBILE] make it so less swipe has to be done to change selection
 - Options menu
     - Make waveform togglable
     - Make waveform multicache togglable
