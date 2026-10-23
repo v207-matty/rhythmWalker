@@ -13,15 +13,26 @@ class Player extends RWSprite
 
 	override public function new(player:String)
 	{
+		super(null);
+
+		collision = new FlxSprite().makeGraphic(1, 1, FlxColor.WHITE);
+		collision.visible = false;
+		collision.color = FlxColor.RED;
+
+		load(player);
+	}
+
+	public function load(player:String)
+	{
+		if (player == null) return;
+
 		data = new PlayerData(player);
 
-		super('game/players/${data.config?.graphic ?? data.id}', true, data.config.dimensions.sprite[0], data.config.dimensions.sprite[1]);
+		loadGraphic(Paths.getImagePath('game/players/${data.config?.graphic ?? data.id}'), true, data.config.dimensions.sprite[0], data.config.dimensions.sprite[1]);
 
 		for (anim in data.animations)
 		{
 			if (anim == null || anim.name == null || anim.frames == null || anim.frames.length < 1) continue;
-
-			trace('Player Anim : ${anim.name}');
 
 			if (!anim.createFlippedVarients)
 			{
@@ -33,8 +44,8 @@ class Player extends RWSprite
 			addAnim(anim.name + 'R', anim.frames, anim.fps, anim.looped, anim.flipX, anim.flipY);
 		}
 
-		collision = new FlxSprite().makeGraphic(data.config?.dimensions?.hitbox[0] ?? 32, data.config?.dimensions?.hitbox[1] ?? 32, FlxColor.RED);
-		collision.visible = false;
+		collision.scale.set(data.config?.dimensions?.hitbox[0] ?? 32, data.config?.dimensions?.hitbox[1] ?? 32);
+		collision.updateHitbox();
 	}
 
 	override function update(elapsed:Float)

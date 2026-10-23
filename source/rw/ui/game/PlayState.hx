@@ -128,7 +128,7 @@ class PlayState extends ConductorState
 		add(stageBackLayer);
 		stageBackLayer.camera = camGame;
 
-		makePlayer(songData.player);
+		createPlayer();
 		add(player);
 
 		beatMonsters = new FlxSpriteGroup();
@@ -478,54 +478,13 @@ class PlayState extends ConductorState
 		if (this.stage != null) this.stage.build();
 	}
 
-	public function makePlayer(newplayer:String)
+	public function createPlayer()
 	{
-		// important og info
-		var ioi = {
-			scale: {x: 2.0, y: 2.0},
-			position: {
-				x: 0.0,
-				y: 0.0
-			},
-			velocity: {
-				x: 0.0,
-				y: 0.0
-			},
-			animationName: 'idle'
-		};
-		ioi.position = null;
-		ioi.velocity = null;
+		player = new Player(null);
 
-		var playerLayer = members.indexOf(player);
+		makePlayer(songData?.player);
 
-		if (playerLayer >= 0)
-		{
-			ioi.animationName = player.animation.name;
-
-			ioi.scale = {
-				x: player.scale.x,
-				y: player.scale.y,
-			};
-
-			ioi.velocity = {
-				x: player.velocity.x,
-				y: player.velocity.y,
-			};
-
-			ioi.position = {
-				x: player.getPosition().x,
-				y: player.getPosition().y,
-			};
-
-			remove(player);
-			player.destroy();
-			player = null;
-		}
-
-		player = new Player(newplayer);
-
-		if (player.animation.exists(ioi.animationName)) player.animation.play(ioi.animationName);
-		else playerPlayAnim('idle');
+		playerPlayAnim('idle');
 
 		player.animation.onFinish.add(animName ->
 		{
@@ -535,27 +494,17 @@ class PlayState extends ConductorState
 			player.stunned = false;
 		});
 
-		player.setScale(ioi.scale?.x ?? 2, ioi.scale?.x ?? 2);
+		player.setScale(2);
 
-		if (ioi.position == null)
-		{
-			player.screenCenter();
-			player.y = FlxG.height - player.height * 1.25;
-		}
-		else player.setPosition(ioi.position.x, ioi.position.y);
-
-		if (ioi.velocity != null)
-		{
-			player.velocity.x = ioi.velocity.x;
-			player.velocity.y = ioi.velocity.y;
-		}
+		player.screenCenter();
+		player.y = FlxG.height - player.height * 1.25;
 
 		player.setCamera(camGame);
 
 		if (immortal) player.alpha = .25;
-
-		if (playerLayer >= 0) insert(playerLayer, player);
 	}
+
+	public function makePlayer(newplayer:String) player.load(newplayer);
 
 	public var inIntroCutscene:Bool = false;
 	public var inEndCutscene:Bool = false;
