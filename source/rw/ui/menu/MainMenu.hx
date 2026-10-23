@@ -23,6 +23,7 @@ class MainMenu extends ConductorState
 
 		add(logo = new RWSprite('ui/logo'));
 		logo.setScale(1);
-		logo.screenCenter();
+		logo.screenCenter(X);
+        logo.y = logo.height * 0.1;
 	}
 }
