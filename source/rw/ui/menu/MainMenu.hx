@@ -1,5 +1,6 @@
 package rw.ui.menu;
 
+import rw.util.TouchUtil;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
@@ -64,23 +65,8 @@ class MainMenu extends ConductorState
 
 	function controls()
 	{
-		for (i => swipe in FlxG.swipes)
-		{
-			if (swipe.duration == 0 || i > 0 || swipe.distance == 0) continue;
-
-			final up = FlxMath.roundDecimal(swipe.degrees / -90, 2);
-			final down = FlxMath.roundDecimal(swipe.degrees / 90, 2);
-
-			trace('dist: ${swipe.distance}', 'deg: ${swipe.degrees}', 'down: $down', 'up: $up');
-
-			final range_vertical = [0.5, 1.5];
-
-			if (up >= range_vertical[0] && up <= range_vertical[1]) changeSelection(1);
-			else if (down >= range_vertical[0] && down <= range_vertical[1]) changeSelection(-1);
-		}
-
-		if (FlxG.keys.anyJustPressed([W, UP])) changeSelection(-1);
-		if (FlxG.keys.anyJustPressed([S, DOWN])) changeSelection(1);
+		if (FlxG.keys.anyJustPressed([W, UP]) || TouchUtil.swippedUp()) changeSelection(-1);
+		if (FlxG.keys.anyJustPressed([S, DOWN]) || TouchUtil.swippedDown()) changeSelection(1);
 	}
 
 	function changeSelection(by:Int)

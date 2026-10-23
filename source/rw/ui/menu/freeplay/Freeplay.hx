@@ -1,5 +1,6 @@
 package rw.ui.menu.freeplay;
 
+import rw.util.TouchUtil;
 import flixel.group.FlxSpriteGroup;
 import rw.util.Constants;
 import flixel.math.FlxMath;
@@ -160,37 +161,11 @@ class Freeplay extends ConductorState
 
 	function controls()
 	{
-		for (i => swipe in FlxG.swipes)
-		{
-			if (swipe.duration == 0 || i > 0 || swipe.distance == 0) continue;
+		if (FlxG.keys.anyJustPressed([W, UP]) || TouchUtil.swippedUp()) changeSel(-1);
+		if (FlxG.keys.anyJustPressed([S, DOWN]) || TouchUtil.swippedDown()) changeSel(1);
 
-			final up = FlxMath.roundDecimal(swipe.degrees / -90, 2);
-			final down = FlxMath.roundDecimal(swipe.degrees / 90, 2);
-
-			final left = FlxMath.roundDecimal(swipe.degrees / 180, 2);
-			final right = FlxMath.roundDecimal(swipe.degrees / 45, 2);
-
-			trace('dist: ${swipe.distance}', 'deg: ${swipe.degrees}', 'left: $left', 'down: $down', 'up: $up', 'right: $right');
-
-			final range_vertical = [0.5, 1.5];
-
-			final range_left_1 = [0.7, 1.5];
-			final range_left_2 = [-0.7, -1.5];
-
-			final range_right = [-0.2, 1.2];
-
-			if (up >= range_vertical[0] && up <= range_vertical[1]) changeSel(1);
-			else if (down >= range_vertical[0] && down <= range_vertical[1]) changeSel(-1);
-			else if ((left >= range_left_1[0] && left <= range_left_1[1])
-				|| (left <= range_left_2[0] && left >= range_left_2[1])) changeVolume(-1);
-			else if (right >= range_right[0] && right <= range_right[1]) changeVolume(1);
-		}
-
-		if (FlxG.keys.anyJustPressed([W, UP])) changeSel(-1);
-		if (FlxG.keys.anyJustPressed([S, DOWN])) changeSel(1);
-
-		if (FlxG.keys.anyJustPressed([A, LEFT])) changeVolume(-1);
-		if (FlxG.keys.anyJustPressed([D, RIGHT])) changeVolume(1);
+		if (FlxG.keys.anyJustPressed([A, LEFT]) || TouchUtil.swippedLeft()) changeVolume(-1);
+		if (FlxG.keys.anyJustPressed([D, RIGHT]) || TouchUtil.swippedRight()) changeVolume(1);
 
 		if (FlxG.keys.justPressed.ENTER) proceed();
 	}
