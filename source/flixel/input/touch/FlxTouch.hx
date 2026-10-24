@@ -17,6 +17,11 @@ import flixel.util.FlxDestroyUtil;
 class FlxTouch extends FlxPointer implements IFlxDestroyable implements IFlxInput
 {
 	/**
+	 * The threshold to surpass for a movement check to be returned as true.
+	 */
+	public var swipeThreshold:FlxPoint = FlxPoint.get(100, 100);
+
+	/**
 	 * The _unique_ ID of this touch. You should not make not any further assumptions
 	 * about this value - IDs are not guaranteed to start from 0 or ascend in order.
 	 * The behavior may vary from device to device.
@@ -83,6 +88,9 @@ class FlxTouch extends FlxPointer implements IFlxDestroyable implements IFlxInpu
 		{
 			justPressedPosition.set(viewX, viewY);
 			justPressedTimeInTicks = FlxG.game.ticks;
+
+			_startX = viewX;
+			_startY = viewY;
 		}
 		#if FLX_POINTER_INPUT
 		else if (justReleased) FlxG.swipes.push(new FlxSwipe(touchPointID, justPressedPosition.copyTo(), getViewPosition(), justPressedTimeInTicks));
@@ -135,31 +143,43 @@ class FlxTouch extends FlxPointer implements IFlxDestroyable implements IFlxInpu
 
 	inline function get_justMovedUp():Bool
 	{
-		var swiped:Bool = _swipeDeltaY > FlxG.touches.swipeThreshold.y;
+		var swiped:Bool = _swipeDeltaY > swipeThreshold.y;
 		if (swiped) _startY = viewY;
 		return swiped;
 	}
 
 	inline function get_justMovedDown():Bool
 	{
-		var swiped:Bool = _swipeDeltaY < -FlxG.touches.swipeThreshold.y;
+		var swiped:Bool = _swipeDeltaY < -swipeThreshold.y;
 		if (swiped) _startY = viewY;
 		return swiped;
 	}
 
 	inline function get_justMovedLeft():Bool
 	{
-		var swiped:Bool = _swipeDeltaX > FlxG.touches.swipeThreshold.x;
+		var swiped:Bool = _swipeDeltaX > swipeThreshold.x;
 		if (swiped) _startX = viewX;
 		return swiped;
 	}
 
 	inline function get_justMovedRight():Bool
 	{
-		var swiped:Bool = _swipeDeltaX < -FlxG.touches.swipeThreshold.x;
+		var swiped:Bool = _swipeDeltaX < -swipeThreshold.x;
 		if (swiped) _startX = viewX;
 		return swiped;
 	}
+
+	var _startX:Float = 0;
+	var _startY:Float = 0;
+
+	var _swipeDeltaX(get, never):Float;
+	var _swipeDeltaY(get, never):Float;
+
+	@:noCompletion
+	inline function get__swipeDeltaX():Float return viewX - _startX;
+
+	@:noCompletion
+	inline function get__swipeDeltaY():Float return viewY - _startY;
 }
 #else
 class FlxTouch {}

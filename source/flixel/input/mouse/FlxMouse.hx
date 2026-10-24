@@ -16,6 +16,7 @@ import flixel.input.mouse.FlxMouseButton.FlxMouseButtonID;
 import flixel.system.FlxAssets;
 import flixel.system.replay.MouseRecord;
 import flixel.util.FlxDestroyUtil;
+import flixel.math.FlxPoint;
 #if FLX_NATIVE_CURSOR
 import openfl.Vector;
 import openfl.geom.Matrix;
@@ -34,6 +35,11 @@ private class GraphicCursor extends BitmapData {}
  */
 class FlxMouse extends FlxPointer implements IFlxInputManager
 {
+	/**
+	 * The threshold to surpass for a movement check to be returned as true.
+	 */
+	public var swipeThreshold:FlxPoint = FlxPoint.get(100, 100);
+
 	/**
 	 * Whether or not mouse input is currently enabled.
 	 * @since 4.1.0
@@ -507,6 +513,11 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 		// Update the wheel
 		if (!_wheelUsed) wheel = 0;
 		_wheelUsed = false;
+		if (justPressed)
+		{
+			_startX = viewX;
+			_startY = viewY;
+		}
 	}
 
 	/**
@@ -756,5 +767,21 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 		if (swiped) _startX = viewX;
 		return swiped;
 	}
+
+	/**
+	 * Helper variables for movement checks
+	 */
+	var _startX:Float = 0;
+
+	var _startY:Float = 0;
+
+	var _swipeDeltaX(get, never):Float;
+	var _swipeDeltaY(get, never):Float;
+
+	@:noCompletion
+	inline function get__swipeDeltaX():Float return viewX - _startX;
+
+	@:noCompletion
+	inline function get__swipeDeltaY():Float return viewY - _startY;
 }
 #end
