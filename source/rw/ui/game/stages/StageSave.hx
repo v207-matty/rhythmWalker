@@ -17,7 +17,7 @@ class StageSave extends Stage
 
 		game.player.setScale(1);
 		game.player.screenCenter(X);
-		game.player.y = FlxG.height - game.player.height * ((stage == 'case-2') ? 1.25 : 2);
+		game.player.y = FlxG.height - game.player.height * 2;
 
 		// var backdrop:StageSprite = new StageSprite('save/$stage');
 		// backdrop.setGraphicSize(FlxG.width, FlxG.height);
