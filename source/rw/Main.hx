@@ -1,5 +1,6 @@
 package rw;
 
+import flixel.FlxState;
 import rw.save.Save;
 import rw.util.Constants;
 import rw.ui.game.song.SongRank;
@@ -49,7 +50,7 @@ class Main extends FlxGame
 		Sys.setCwd(Path.addTrailingSlash(System.documentsDirectory));
 		#end
 
-		super(0, 0, null);
+		super(0, 0, FlxState);
 	}
 
 	override function create(_:Event)
