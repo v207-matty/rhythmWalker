@@ -1,5 +1,6 @@
 package rw.ui.menu;
 
+import rw.save.Save;
 import lime.app.Application;
 import rw.util.macro.GitMacro;
 import rw.ui.menu.options.OptionsMenu;
@@ -16,7 +17,7 @@ import flixel.group.FlxSpriteContainer.FlxTypedSpriteContainer;
 import flixel.FlxG;
 import rw.ui.objects.RWSprite;
 
-class MainMenu extends ConductorState
+class MainMenu extends MenuState
 {
 	var logo:RWSprite;
 	var enterFreeplay = false;
@@ -99,8 +100,6 @@ class MainMenu extends ConductorState
 		#end
 
 		changeSelection(0);
-
-		if (!FlxG.sound.music?.playing) FlxG.sound.playMusic(Paths.getAudio('ui/menu'));
 
 		super.create();
 	}

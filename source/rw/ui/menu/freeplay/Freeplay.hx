@@ -26,7 +26,7 @@ import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 
 using StringTools;
 
-class Freeplay extends ConductorState
+class Freeplay extends MenuState
 {
 	public static var songList:FreeplaySongListData;
 
@@ -152,8 +152,6 @@ class Freeplay extends ConductorState
 
 		add(playBtn);
 		#end
-
-		if (!FlxG.sound.music?.playing) FlxG.sound.playMusic(Paths.getAudio('ui/menu'));
 
 		super.create();
 	}

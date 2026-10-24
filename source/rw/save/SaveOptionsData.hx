@@ -7,4 +7,7 @@ typedef SaveOptionsData =
 
 	@:optional
 	var qualityWarning:Bool;
+
+	@:optional
+	var menuMusic:Bool;
 }

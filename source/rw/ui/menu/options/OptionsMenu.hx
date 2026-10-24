@@ -10,7 +10,7 @@ import flixel.FlxG;
 import flixel.text.FlxText;
 import flixel.group.FlxSpriteContainer.FlxTypedSpriteContainer;
 
-class OptionsMenu extends ConductorState
+class OptionsMenu extends MenuState
 {
 	var cam:FlxCamera;
 	var camFollow:FlxObject;
@@ -28,6 +28,15 @@ class OptionsMenu extends ConductorState
 		options = [
 			new Option(() -> return 'Quality Warning : ${Save.options.qualityWarning}', () -> Save.options.qualityWarning = !Save.options.qualityWarning),
 			new Option(() -> return 'Shaders : ${Save.options.shaders}', () -> Save.options.shaders = !Save.options.shaders),
+			new Option(() -> return 'Menu Music : ${Save.options.menuMusic}', () ->
+			{
+				Save.options.menuMusic = !Save.options.menuMusic;
+				
+				if (!Save.options.menuMusic)
+					FlxG.sound.music.stop();
+				else
+					playMenuMusic();
+			}),
 		];
 	}
 
@@ -78,8 +87,6 @@ class OptionsMenu extends ConductorState
 		#end
 
 		changeSelection(0);
-
-		if (!FlxG.sound.music?.playing) FlxG.sound.playMusic(Paths.getAudio('ui/menu'));
 
 		super.create();
 	}

@@ -58,12 +58,11 @@ The 32bit version of the game has been retired due to no more waveform stuff lef
 - Freeplay no longer plays a little sound when first entering it
 - Now using logarithmic sound curves (basically the volume thingy is more accurate to what humans actually hear)
 
+- Gameplay now lets you click the screen to move (the player will move to where your cursor is)
+
 - ADDED MOBILE SUPPORT!! (heres stuff that happens when on mobile)
     - [MOBILE] Text gets sized up
-    - [MOBILE] Results gets a leave button
-    - [MOBILE] Gameplay gets a leave button
-    - [MOBILE] Dialogue Scene gets 2 buttons for skipping and proceeding
-    - [MOBILE] Freeplay gets a play button
+    - [MOBILE] All Menus get buttons to perform actions for keyboard
     
 - Added crash handler
 
@@ -80,9 +79,6 @@ The 32bit version of the game has been retired due to no more waveform stuff lef
     - [WEB] This 'replaces' the Click Anywhere screen
 
 - Added Time Bar
-
-- Gameplay now lets you click the screen to move (the player will move to where your cursor is)
-
 - Dialogue Scenes can now have null portraits (they just turn invisible)
 - Rephrased Dialogue Scene "ESCAPE to leave" and it is now "ESCAPE to skip"
 
