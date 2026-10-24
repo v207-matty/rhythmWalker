@@ -82,6 +82,8 @@ class MainMenu extends ConductorState
 		versionText.alpha = .25;
 
 		#if MOBILE_MODE
+		versionText.y = versionText.size;
+
 		var proceedBtn = new rw.ui.objects.mobile.CornerButton('proceedBtn');
 
 		proceedBtn.y = FlxG.height - proceedBtn.height;

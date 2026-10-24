@@ -51,7 +51,7 @@ class Main extends FlxGame
 		Sys.setCwd(Path.addTrailingSlash(System.documentsDirectory));
 		#end
 
-		super(0, 0, null);
+		super(0, 0, null, 60, 60, true);
 	}
 
 	override function create(_:Event)
@@ -159,7 +159,7 @@ class Main extends FlxGame
 		#if android
 		savedTo += ' (Most likely...)';
 		#end
-		
+
 		shortDisplayError += savedTo;
 
 		#if android

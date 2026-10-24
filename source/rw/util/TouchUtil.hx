@@ -14,9 +14,7 @@ class TouchUtil
 
 	static final swipe_range_vertical = [0.5, 1.5];
 
-	static final swipe_range_left_1 = [0.7, 1.5];
-	static final swipe_range_left_2 = [-0.7, -1.5];
-
+	static final swipe_range_left = [-1.0, 1.0];
 	static final swipe_range_right = [-0.2, 1.2];
 
 	public static function swippedUp()
@@ -34,6 +32,7 @@ class TouchUtil
 		if (!validSwipe(swipe)) return false;
 
 		final down = FlxMath.roundDecimal(swipe.degrees / 90, 2);
+		trace('down ', swipe.degrees, down);
 		return (down >= swipe_range_vertical[0] && down <= swipe_range_vertical[1]);
 	}
 
@@ -43,8 +42,8 @@ class TouchUtil
 		if (!validSwipe(swipe)) return false;
 
 		final left = FlxMath.roundDecimal(swipe.degrees / 180, 2);
-		return ((left >= swipe_range_left_1[0] && left <= swipe_range_left_1[1])
-			|| (left <= swipe_range_left_2[0] && left >= swipe_range_left_2[1]));
+		trace('left ', swipe.degrees, left);
+		return (left >= swipe_range_left[0] && left <= swipe_range_left[1]);
 	}
 
 	public static function swippedRight()

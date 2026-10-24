@@ -96,7 +96,7 @@ class Freeplay extends ConductorState
 		add(camFollow = new FlxObject((FlxG.width / 2)));
 		cam.follow(camFollow, LOCKON, .1);
 
-		topSegText = new FlxText(0, 0, 0, 'Score & Rank go here', Constants.TEXT_SIZE);
+		topSegText = new FlxText(0, 0, FlxG.width, 'Score & Rank go here', Constants.TEXT_SIZE);
 		topSegText.alignment = CENTER;
 		topSegText.scrollFactor.set();
 
@@ -107,7 +107,7 @@ class Freeplay extends ConductorState
 		add(topSegBG);
 		add(topSegText);
 
-		btmSegText = new FlxText(0, 0, 0, '', Constants.TEXT_SIZE * 2);
+		btmSegText = new FlxText(0, 0, FlxG.width, '', Constants.TEXT_SIZE * 2);
 		btmSegText.alignment = CENTER;
 		btmSegText.scrollFactor.set();
 

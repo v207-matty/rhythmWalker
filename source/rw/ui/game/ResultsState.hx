@@ -127,6 +127,6 @@ class ResultsState extends ConductorState
 		if (!windupDone) return;
 		if (!leaveTimer?.finished) leaveTimer.cancel();
 
-		FlxG.switchState(() -> new MainMenu(true));
+		FlxG.switchState(() -> new Freeplay());
 	}
 }

@@ -54,6 +54,7 @@ The 32bit version of the game has been retired due to no more waveform stuff lef
 
 ## UX
 
+- The haxeflixel splash screen is skipped now
 - Freeplay no longer plays a little sound when first entering it
 - Now using logarithmic sound curves (basically the volume thingy is more accurate to what humans actually hear)
 
@@ -68,6 +69,7 @@ The 32bit version of the game has been retired due to no more waveform stuff lef
 
 ## UI
 
+- Freeplay Top and Bottom texts now have a forced width of the game width
 - The BG Music fadeout from a menu to gameplay now happens when moving to the dialogue scene
 - The Transition is now white instead of black
 - FREEPLAY KINDA SORA REWORK AGAIN (WOOOOOO)

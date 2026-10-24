@@ -346,7 +346,7 @@ class PlayState extends ConductorState
 			return;
 		}
 
-		FlxG.switchState(() -> new MainMenu(true));
+		FlxG.switchState(() -> new Freeplay());
 	}
 
 	public var canSpawnMonster(get, never):Bool;
