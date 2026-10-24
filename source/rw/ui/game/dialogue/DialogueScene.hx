@@ -55,6 +55,8 @@ class DialogueScene extends ConductorState
 
 	override function create()
 	{
+		if (FlxG.sound.music != null) FlxG.sound.music.fadeOut(.25);
+
 		if (dialogue == null || leaving)
 		{
 			bgColor = Constants.TRANSITION_COLOR;
@@ -113,7 +115,7 @@ class DialogueScene extends ConductorState
 		proceedText.y = FlxG.height - proceedText.height;
 
 		startDialogue();
-		
+
 		super.create();
 	}
 

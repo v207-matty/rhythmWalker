@@ -11,6 +11,7 @@ import rw.ui.game.song.*;
 import rw.ui.game.dialogue.*;
 import rw.ui.menu.*;
 import rw.ui.menu.freeplay.*;
+import rw.ui.menu.options.*;
 import flixel.text.FlxText;
 import flixel.FlxG;
 import flixel.FlxState;
@@ -28,7 +29,7 @@ class QualityWarning extends ConductorState
 			proceed();
 			return;
 		}
-		
+
 		#if !mobile mouseVisible = #end mouseEnabled = true;
 
 		warning = new FlxText(0, 0, FlxG.width,
@@ -56,7 +57,7 @@ class QualityWarning extends ConductorState
 
 	function proceed()
 	{
-		FlxTween.tween(warning, {alpha: 0}, 1, {
+		if (warning != null) FlxTween.tween(warning, {alpha: 0}, 1, {
 			ease: FlxEase.expoOut,
 			onComplete: t ->
 			{
@@ -75,7 +76,9 @@ class QualityWarning extends ConductorState
 		#elseif PLAYER_VIEWER
 		FlxG.switchState(() -> new PlayerViewer());
 		#elseif FREEPLAY
-		FlxG.switchState(() -> new MainMenu(true));
+		FlxG.switchState(() -> new Freeplay());
+		#elseif OPTIONS
+		FlxG.switchState(() -> new OptionsMenu());
 		#else
 		FlxG.switchState(() -> new MainMenu());
 		#end
