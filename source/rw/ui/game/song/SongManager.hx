@@ -20,8 +20,8 @@ class SongManager
 			case ['lost media', defaultVariation]:
 				new SongLostMediaDefault();
 
-			// case ['save', defaultVariation]:
-			// 	new SongSaveDefault();
+			case ['save', defaultVariation]:
+				new SongSaveDefault();
 
 			case ['scroll down chinatown', defaultVariation]:
 				new SongScrollDownChinatownDefault();

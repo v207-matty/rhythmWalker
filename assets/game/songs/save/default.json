@@ -8,7 +8,24 @@
             "bpm": 260
         }
     ],
-    "events": [],
+    "events": [
+        {
+            "time": 0,
+            "entries": [
+                {
+                    "id": "beatmonsters-stop"
+                },
+                {
+                    "id": "beatmonsters-steprate",
+                    "data": 3
+                }
+            ]
+        },
+        {
+            "time": 3692,
+            "id": "beatmonsters-start"
+        }
+    ],
     "player": "bro-jez-save",
     "stage": "save-1"
 }
