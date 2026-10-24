@@ -1,11 +1,11 @@
-package rw.ui.game.songs;
+package rw.ui.game.walker.songs;
 
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import rw.ui.objects.RWSprite;
 
-class SongChaseDefault extends Song
+class SongChaseDefault extends WalkerSong
 {
 	override public function new()
 	{

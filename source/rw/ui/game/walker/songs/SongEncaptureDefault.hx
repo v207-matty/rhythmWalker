@@ -1,6 +1,6 @@
-package rw.ui.game.songs;
+package rw.ui.game.walker.songs;
 
-class SongEncaptureDefault extends Song
+class SongEncaptureDefault extends WalkerSong
 {
 	override public function new()
 	{

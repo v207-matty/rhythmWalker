@@ -1,4 +1,4 @@
-package rw.ui.game.songs;
+package rw.ui.game.walker.songs;
 
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -6,7 +6,7 @@ import rw.ui.objects.RWSprite;
 import flixel.text.FlxText;
 import flixel.util.FlxTimer;
 
-class SongSaveDefault extends Song
+class SongSaveDefault extends WalkerSong
 {
 	override public function new()
 	{

@@ -1,6 +1,6 @@
-package rw.ui.game.songs;
+package rw.ui.game.walker.songs;
 
-class SongDayOneResolved extends Song
+class SongDayOneResolved extends WalkerSong
 {
 	override public function new(song:String)
 	{

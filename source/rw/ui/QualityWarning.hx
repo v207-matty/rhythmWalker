@@ -7,6 +7,8 @@ import flixel.addons.ui.FlxUIState;
 import rw.util.Constants;
 import rw.ui.debug.*;
 import rw.ui.game.*;
+import rw.ui.game.rh.*;
+import rw.ui.game.walker.*;
 import rw.ui.game.song.*;
 import rw.ui.game.dialogue.*;
 import rw.ui.menu.*;
@@ -68,7 +70,7 @@ class QualityWarning extends ConductorState
 		});
 
 		#if GAMEPLAY
-		FlxG.switchState(() -> new PlayState('chase'));
+		FlxG.switchState(() -> new WalkerPlayState('chase', defaultVariation));
 		#elseif DIALOGUE
 		FlxG.switchState(() -> new DialogueScene(new SongData('encapture')));
 		#elseif RESULTS

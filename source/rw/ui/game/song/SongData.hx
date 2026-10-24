@@ -1,5 +1,6 @@
 package rw.ui.game.song;
 
+import rw.ui.game.PlayData.PlayModeData;
 import rw.util.WindowUtil;
 import json2object.JsonParser;
 import json2object.JsonWriter;
@@ -27,6 +28,8 @@ class SongData
 
 	public var player(default, null):String = 'bro-regular';
 	public var stage(default, null):String = 'stage';
+
+	public var mode(default, null):PlayModeData = WALKER;
 
 	public function new(nid:String, nvariation:SongVariation = defaultVariation, ?loadFile:Bool = true)
 	{
@@ -62,6 +65,7 @@ class SongData
 		this.scrollSpeed = json?.scrollSpeed ?? 1;
 		this.player = json?.player ?? 'bro-regular';
 		this.stage = json?.stage ?? 'stage';
+		this.mode = json?.mode ?? WALKER;
 	}
 
 	public function toString():String return '$id-$variation';

@@ -1,9 +1,11 @@
-package rw.ui.game.song;
+package rw.ui.game.walker;
 
+import rw.ui.game.song.SongVariation;
+import rw.ui.game.walker.WalkerPlayableComponent;
 import flixel.FlxG;
 import flixel.util.FlxTimer;
 
-class Song extends PlayableComponent
+class WalkerSong extends WalkerPlayableComponent
 {
 	public var song(default, null):String;
 	public var variation(default, null):SongVariation;

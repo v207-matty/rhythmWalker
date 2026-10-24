@@ -1,6 +1,6 @@
 package rw.ui.game.walker.stage;
 
-class Stage extends PlayableComponent
+class Stage extends WalkerPlayableComponent
 {
 	public var stage(default, null):String;
 

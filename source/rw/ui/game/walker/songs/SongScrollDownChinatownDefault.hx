@@ -1,10 +1,10 @@
-package rw.ui.game.songs;
+package rw.ui.game.walker.songs;
 
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import flixel.util.FlxTimer;
 
-class SongScrollDownChinatownDefault extends Song
+class SongScrollDownChinatownDefault extends WalkerSong
 {
 	override public function new()
 	{

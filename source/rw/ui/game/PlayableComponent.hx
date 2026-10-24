@@ -4,10 +4,6 @@ import rw.ui.game.song.SongEventData;
 
 class PlayableComponent
 {
-	public var game(get, never):PlayState;
-
-	function get_game():PlayState return PlayState.instance;
-
 	public function new() {}
 
 	public function build() {}
