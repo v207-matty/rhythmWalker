@@ -8,7 +8,7 @@ import flixel.FlxCamera;
 import rw.ui.menu.freeplay.Freeplay;
 import flixel.FlxSprite;
 import rw.util.Constants;
-import rw.util.TouchUtil;
+import rw.util.mobile.TouchUtil;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;

@@ -2,7 +2,7 @@ package rw.ui.menu.freeplay;
 
 import rw.save.Save;
 import flixel.FlxCamera;
-import rw.util.TouchUtil;
+import rw.util.mobile.TouchUtil;
 import flixel.group.FlxSpriteGroup;
 import rw.util.Constants;
 import flixel.math.FlxMath;

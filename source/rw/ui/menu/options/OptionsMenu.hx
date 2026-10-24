@@ -4,7 +4,7 @@ import rw.save.Save;
 import flixel.FlxObject;
 import flixel.FlxCamera;
 import flixel.util.FlxColor;
-import rw.util.TouchUtil;
+import rw.util.mobile.TouchUtil;
 import rw.util.Constants;
 import flixel.FlxG;
 import flixel.text.FlxText;
