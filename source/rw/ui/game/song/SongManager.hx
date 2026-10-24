@@ -37,7 +37,7 @@ class SongManager
 				new SongTrainWreakDefault();
 
 			default:
-				trace('Unimplemented song case : $song');
+				trace('Unimplemented song case : $song ($variation)');
 				new WalkerSong(song, variation);
 		}
 	}

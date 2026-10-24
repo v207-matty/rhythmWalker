@@ -1,0 +1,11 @@
+{
+    "id": "first steps",
+    "variation": "aria",
+    "bpmChanges": [
+        {
+            "t": 0,
+            "bpm": 110
+        }
+    ],
+    "mode": "RHYTHM_HEAVEN"
+}

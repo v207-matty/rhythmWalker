@@ -70,7 +70,7 @@ class QualityWarning extends ConductorState
 		});
 
 		#if GAMEPLAY
-		FlxG.switchState(() -> new WalkerPlayState('chase', defaultVariation));
+		FlxG.switchState(() -> new WalkerPlayState('first steps', aria));
 		#elseif DIALOGUE
 		FlxG.switchState(() -> new DialogueScene(new SongData('encapture')));
 		#elseif RESULTS

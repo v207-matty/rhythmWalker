@@ -23,12 +23,26 @@ class SongData
 			bpm: 0.0,
 		}
 	];
+	
+	@:optional
+	@:default([])
 	public var events(default, null):Array<SongEventData> = [];
+
+	@:optional
+	@:default(1)
 	public var scrollSpeed(default, null):Null<Float> = 1;
 
+	
+	@:optional
+	@:default('bro-regular')
 	public var player(default, null):String = 'bro-regular';
+	
+	@:optional
+	@:default('stage')
 	public var stage(default, null):String = 'stage';
 
+	@:optional
+	@:default(WALKER)
 	public var mode(default, null):PlayModeData = WALKER;
 
 	public function new(nid:String, nvariation:SongVariation = defaultVariation, ?loadFile:Bool = true)

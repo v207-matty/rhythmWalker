@@ -29,7 +29,7 @@ class WalkerSong extends WalkerPlayableComponent
 	function gameEndEndingCutscene()
 	{
 		game.inEndCutscene = false;
-		game.onSongEnd();
+		game.onSongEnd(false);
 	}
 
 	public function introCutscene() return false;

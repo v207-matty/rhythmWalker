@@ -41,11 +41,11 @@ class WalkerPlayState extends ConductorState
 	public var songData(default, null):SongData;
 	public var songEvents:Array<FlxTimer> = [];
 
-	public var components(get, never):Array<PlayableComponent>;
+	public var components(get, never):Array<WalkerPlayableComponent>;
 
-	function get_components():Array<PlayableComponent> return [stage, song];
+	function get_components():Array<WalkerPlayableComponent> return [stage, song];
 
-	public function runOnComponents(a:PlayableComponent->Void) if (a != null) for (component in components) if (component != null) a(component);
+	public function runOnComponents(a:WalkerPlayableComponent->Void) if (a != null) for (component in components) if (component != null) a(component);
 
 	public var scoreText(default, null):FlxText;
 	public var totalScore:Int = 0;
@@ -74,9 +74,7 @@ class WalkerPlayState extends ConductorState
 	public var stageBackLayer(default, null):FlxSpriteGroup;
 	public var stageFrontLayer(default, null):FlxSpriteGroup;
 
-	public var timeBar(default, null):RWSprite;
-	public var timeBarSongLinked:Bool = false;
-	public var timeBarTarget:Float = 0.0;
+	public var timeBar(default, null):PlayTimeBar;
 
 	public var transitionCam:FlxCamera;
 
@@ -113,13 +111,11 @@ class WalkerPlayState extends ConductorState
 		resetConductor();
 
 		FlxG.sound.playMusic(Paths.getSong(songData.id, songData.variation), 1, false);
-		FlxG.sound.music.onComplete = onSongEnd;
+		FlxG.sound.music.onComplete = () -> onSongEnd(false);
 
 		if (FlxG.sound.music.length < 1)
 		{
-			skipping = true;
-			onSongEnd();
-
+			onSongEnd(true);
 			return;
 		}
 
@@ -164,16 +160,8 @@ class WalkerPlayState extends ConductorState
 
 		if (introCutscene()) inIntroCutscene = true;
 
-		timeBar = new RWSprite(null);
-		timeBar.makeGraphic(1, 1);
-		add(timeBar);
-		timeBar.setScale(FlxG.width, Math.floor(Constants.TEXT_SIZE / 2));
-		timeBar.y = FlxG.height - timeBar.height;
-		timeBar.color = FlxColor.LIME;
+		add(timeBar = new PlayTimeBar());
 		timeBar.setCamera(camHUD);
-		timeBar.scale.x = 0;
-
-		timeBarSongLinked = true;
 
 		#if MOBILE_MODE
 		var backBtn = new rw.ui.objects.mobile.CornerButton('backBtn');
@@ -205,9 +193,8 @@ class WalkerPlayState extends ConductorState
 		else if (data.player.cutsceneVelocityDamping) playerVelocityDamping();
 
 		if (beatMonsters != null) manageBeatMonsters();
-		if (timeBarSongLinked) timeBarTarget = FlxG.width * (conductor.musicPosition / conductor.musicLength);
-
-		timeBar.scale.x = FlxMath.lerp(timeBar.scale.x, timeBarTarget, 0.04);
+		
+		timeBar.target = FlxG.width * (conductor.musicPosition / conductor.musicLength);
 
 		if (scoreText != null)
 		{
@@ -299,8 +286,7 @@ class WalkerPlayState extends ConductorState
 		if (inCutscene || !camHUD.visible || camHUD.alpha < 0.1) return;
 
 		seenEndCutscene = seenIntroCutscene = true;
-		skipping = true;
-		onSongEnd();
+		onSongEnd(true);
 	}
 
 	public function move(mult = 1.0, playerMovement = false)
@@ -321,15 +307,13 @@ class WalkerPlayState extends ConductorState
 
 	public function playerVelocityDamping() player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
 
-	public var skipping:Bool = false;
-
-	public function onSongEnd()
+	public function onSongEnd(skipping:Bool)
 	{
 		if (inCutscene) return;
 
 		FlxG.sound.music.stop();
 
-		timeBarSongLinked = false;
+		timeBar.linked = false;
 		inEndCutscene = true;
 
 		if (!skipping) if (endCutscene())
@@ -429,7 +413,7 @@ class WalkerPlayState extends ConductorState
 		{
 			case 'player-idle': playerPlayAnim('idle');
 
-			case 'song-end': onSongEnd();
+			case 'song-end': onSongEnd(false);
 
 			case 'camera-off', 'cam-off': camGame.visible = false;
 
