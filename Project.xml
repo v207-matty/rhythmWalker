@@ -33,7 +33,6 @@
 	<haxelib name="flixel-addons" />
 	<haxelib name="flixel-ui" />
 
-	<haxelib name="flixel-waveform" />
 	<haxelib name="flxrhythmconductor" />
 
 	<haxelib name="hxcpp-debugger" />
