@@ -1,5 +1,7 @@
 package rw;
 
+import rw.util.mobile.TouchUtil;
+import flixel.input.mouse.FlxMouse;
 import lime.app.Application;
 import flixel.FlxState;
 import rw.save.Save;
@@ -90,6 +92,8 @@ class Main extends FlxGame
 		#if !mobile
 		FlxG.sound.soundTray.volumeUpSound = FlxG.sound.soundTray.volumeDownSound = Paths.getAudio('sfx/volume');
 		#end
+
+		TouchUtil.mouse.swipeThreshold.set(500, 500);
 
 		FlxG.switchState(() -> new QualityWarning());
 	}
