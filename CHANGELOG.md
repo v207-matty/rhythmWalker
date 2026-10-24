@@ -4,7 +4,7 @@ The 32bit version of the game has been retired due to no more waveform stuff lef
 
 ## Primary Things
 
-- NEW SONGS : CHASE AND SAVE
+- NEW SONGS : CHASE, SAVE AND FIRST STEPS (ARIA)
 
 - MAIN MENU!
     - OPTIONS MENU!!!!!!!!!!
