@@ -90,7 +90,7 @@ class Main extends FlxGame
 		FlxG.sound.soundTray.volumeUpSound = FlxG.sound.soundTray.volumeDownSound = Paths.getAudio('sfx/volume');
 		#end
 
-		FlxG.switchState(() -> new QualityWarning());		
+		FlxG.switchState(() -> new QualityWarning());
 	}
 
 	override function update()
@@ -112,7 +112,8 @@ class Main extends FlxGame
 
 		var stack = CallStack.exceptionStack(true);
 
-		var error:String = 'Error: ${e.error}\n\nCall Stack:\n';
+		var shortDisplayError:String = 'Error: ${e.error}';
+		var error:String = '$shortDisplayError\n\nCall Stack:\n';
 		@:privateAccess stack.reverse();
 
 		function pushStack(stackItem:StackItem)
@@ -132,7 +133,12 @@ class Main extends FlxGame
 
 		for (stackItem in stack) pushStack(stackItem);
 
-		error += '\n\nPlease report this on the github: https://github.com/v207-matty/rhythmWalker/issues';
+		shortDisplayError += '\n\n${stack.length} CallStack entry / entries';
+
+		var plzReport = '\n\nPlease report this on the github: https://github.com/v207-matty/rhythmWalker/issues';
+
+		shortDisplayError += plzReport;
+		error += plzReport;
 
 		#if sys
 		var timestamp = Date.now().getTime();
@@ -141,12 +147,15 @@ class Main extends FlxGame
 
 		File.saveContent('crash/$timestamp.txt', error);
 
-		error += '\nThe crash log is saved to "crash/$timestamp.txt"';
+		var savedTo = '\nThe crash log is saved to "crash/$timestamp.txt"';
+
+		shortDisplayError += savedTo;
+		error += savedTo;
 		#end
 
 		trace(error);
 
-		WindowUtil.alert('Crash Handler', error);
+		WindowUtil.alert('Crash Handling', shortDisplayError);
 
 		#if sys
 		Sys.exit(0);
