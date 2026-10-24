@@ -27,8 +27,6 @@
 	<icon path="dev/game/icons/128.png" size="128" />
 	<icon path="dev/game/icons/256.png" />
 
-	<java path="rw/util/mobile/android/java" if="android" />
-
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />

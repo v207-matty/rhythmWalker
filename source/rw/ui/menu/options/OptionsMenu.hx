@@ -26,9 +26,6 @@ class OptionsMenu extends ConductorState
 		super();
 
 		options = [
-			#if android
-			new Option(() -> return 'Open Data Folder', () -> rw.util.mobile.android.DataFolderUtil.openDataFolder()),
-			#end
 			new Option(() -> return 'Quality Warning : ${Save.options.qualityWarning}', () -> Save.options.qualityWarning = !Save.options.qualityWarning),
 			new Option(() -> return 'Shaders : ${Save.options.shaders}', () -> Save.options.shaders = !Save.options.shaders),
 		];
