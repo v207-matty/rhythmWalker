@@ -10,4 +10,7 @@ typedef SaveOptionsData =
 
 	@:optional
 	var menuMusic:Bool;
+
+	@:optional
+	var dialogue:Bool;
 }

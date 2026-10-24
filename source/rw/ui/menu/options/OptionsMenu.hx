@@ -35,6 +35,7 @@ class OptionsMenu extends MenuState
 				if (!Save.options.menuMusic) FlxG.sound.music.stop();
 				else playMenuMusic();
 			}),
+			new Option(() -> return 'Level Dialogue : ${Save.options.dialogue}', () -> Save.options.dialogue = !Save.options.dialogue),
 			new Option(() -> return 'Clear Save Data', () -> Save.clear()),
 		];
 	}

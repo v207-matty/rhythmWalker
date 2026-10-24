@@ -74,6 +74,7 @@ class Save
 		game.options.shaders ??= true;
 		game.options.qualityWarning ??= true;
 		game.options.menuMusic ??= true;
+		game.options.dialogue ??= true;
 	}
 
 	public static function save()
