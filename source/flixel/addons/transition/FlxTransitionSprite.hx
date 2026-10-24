@@ -90,12 +90,13 @@ class FlxTransitionSprite extends FlxSprite
 			FrameRate:Int = 40)
 	{
 		super(X, Y);
+
 		if (Graphic == null)
 		{
 			Graphic = FlxGraphic.fromClass(GraphicTransTileDiamond);
-			GraphicWidth = 32;
-			GraphicHeight = 32;
+			GraphicWidth = GraphicHeight = 32;
 		}
+
 		_delay = Delay;
 		loadGraphic(Graphic, true, GraphicWidth, GraphicHeight);
 
@@ -105,11 +106,7 @@ class FlxTransitionSprite extends FlxSprite
 		graphic.destroyOnNoUse = false;
 
 		var inArray:Array<Int> = [];
-		var outArray:Array<Int> = [];
-		for (i in 1...(numFrames - 1))
-		{
-			inArray.push(i);
-		}
+		var outArray:Array<Int> = [for (i in 1...(numFrames - 1)) i];
 		outArray = inArray.copy();
 		outArray.reverse();
 
@@ -129,10 +126,7 @@ class FlxTransitionSprite extends FlxSprite
 		_newStatus = NewStatus;
 	}
 
-	function startStatus(NewStatus:TransitionStatus):Void
-	{
-		setStatus(NewStatus);
-	}
+	function startStatus(NewStatus:TransitionStatus):Void setStatus(NewStatus);
 
 	public function setStatus(Status:TransitionStatus):Void
 	{
@@ -145,39 +139,37 @@ class FlxTransitionSprite extends FlxSprite
 		}
 
 		animation.play(anim);
+
 		#if (flixel < version("5.9.0"))
 		animation.finishCallback = onFinishAnim;
 		#else
 		if (!animation.onFinish.has(onFinishAnim)) animation.onFinish.add(onFinishAnim);
 		#end
+
 		status = Status;
 	}
 
 	function onFinishAnim(str:String):Void
 	{
-		if (!_finished)
+		if (_finished) return;
+
+		_finished = true;
+		switch (status)
 		{
-			_finished = true;
-			switch (status)
-			{
-				case IN: setStatus(FULL);
-				case OUT: setStatus(EMPTY);
-				default:
-			}
+			case IN: setStatus(FULL);
+			case OUT: setStatus(EMPTY);
+			default:
 		}
 	}
 
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-		if (_starting)
-		{
-			_count += elapsed;
-			if (_count >= _delay)
-			{
-				onTime();
-			}
-		}
+
+		if (!_starting) return;
+
+		_count += elapsed;
+		if (_count >= _delay) onTime();
 	}
 
 	function onTime():Void
