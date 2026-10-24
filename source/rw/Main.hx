@@ -86,10 +86,11 @@ class Main extends FlxGame
 		FlxG.console.registerClass(WindowUtil);
 
 		FlxTransitionableState.defaultTransIn = FlxTransitionableState.defaultTransOut = getDefaultTransition();
-
-		FlxG.switchState(() -> new QualityWarning());
-		
+		#if !mobile
 		FlxG.sound.soundTray.volumeUpSound = FlxG.sound.soundTray.volumeDownSound = Paths.getAudio('sfx/volume');
+		#end
+
+		FlxG.switchState(() -> new QualityWarning());		
 	}
 
 	override function update()
