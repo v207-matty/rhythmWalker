@@ -84,7 +84,13 @@ class FlxTransitionSprite extends FlxSprite
 
 	public var status:TransitionStatus = IN;
 
-	var _newStatus:TransitionStatus = NULL;
+	var _newStatus(default, set):TransitionStatus = NULL;
+
+	function set__newStatus(status:TransitionStatus)
+	{
+		if (status == NULL) visible = false;
+		return this._newStatus = status;
+	}
 
 	public function new(X:Float = 0, Y:Float = 0, Delay:Float, Graphic:FlxGraphicAsset = null, GraphicWidth:Int = 32, GraphicHeight:Int = 32,
 			FrameRate:Int = 40)
