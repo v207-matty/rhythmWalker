@@ -68,7 +68,7 @@ class QualityWarning extends ConductorState
 		});
 
 		#if GAMEPLAY
-		FlxG.switchState(() -> new PlayState('chase'));
+		FlxG.switchState(() -> new PlayState('save'));
 		#elseif DIALOGUE
 		FlxG.switchState(() -> new DialogueScene(new SongData('encapture')));
 		#elseif RESULTS
