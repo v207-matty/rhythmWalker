@@ -81,7 +81,8 @@
             "song": "First Steps",
             "filters": [
                 "volume3",
-                "resolved remix"
+                "resolved remix",
+                "day7"
             ],
             "variation": "Resolved"
         },
@@ -89,7 +90,8 @@
             "song": "Shift Around",
             "filters": [
                 "volume3",
-                "resolved remix"
+                "resolved remix",
+                "day7"
             ],
             "variation": "Resolved"
         },
@@ -97,7 +99,8 @@
             "song": "Scroll Down Chinatown",
             "filters": [
                 "volume3",
-                "resolved remix"
+                "resolved remix",
+                "day8"
             ],
             "variation": "Resolved"
         }

@@ -68,6 +68,7 @@ The 32bit version of the game has been retired due to no more waveform stuff lef
 
 ## UI
 
+- Resolved Remixes now have their day included
 - Freeplay Top and Bottom texts now have a forced width of the game width
 - The BG Music fadeout from a menu to gameplay now happens when moving to the dialogue scene
 - The Transition is now white instead of black
