@@ -34,9 +34,9 @@ The 32bit version of the game has been retired due to no more waveform stuff lef
 
 ## Backend / Nerd shit
 
+- Player and stage graphics for the Walker Gameplay are in "assets/game/walker" now (example: "assets/game/walker/stages/stage.png" was "assets/game/stages/stage.png")
 - Added 16x, 64x, 128x, and 256x icon sizes
 - Beat Monsters now have a padding data field to adjust where they fall
-
 - Songs are now in a class system now (only for stuff like cutscenes or similar cases like for stages)!
 - Stages are now in a class system now!
 
