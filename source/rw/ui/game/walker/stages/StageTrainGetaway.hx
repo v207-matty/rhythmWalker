@@ -1,6 +1,6 @@
-package rw.ui.game.stages;
+package rw.ui.game.walker.stages;
 
-import rw.ui.game.stages.train_getaway.*;
+import rw.ui.game.walker.stages.train_getaway.*;
 import rw.ui.game.song.SongEventData;
 import flixel.tweens.FlxEase;
 import flixel.FlxG;
@@ -22,14 +22,14 @@ class StageTrainGetaway extends Stage
 	{
 		super.build();
 
-		trainGetaway_sky = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/sky'));
+		trainGetaway_sky = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/sky'));
 		trainGetaway_sky.scale.set(2, 2);
 		trainGetaway_sky.velocity.x = 256 * -5;
 		trainGetaway_sky.screenCenter(X);
 		game.stageBackLayer.add(trainGetaway_sky);
 		trainGetaway_sky.camera = game.camGame;
 
-		var train = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/train'), X);
+		var train = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/train'), X);
 		train.scale.set(2, 2);
 		train.updateHitbox();
 		train.screenCenter(X);

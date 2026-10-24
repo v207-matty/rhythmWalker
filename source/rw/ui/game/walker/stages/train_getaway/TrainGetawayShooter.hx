@@ -1,4 +1,4 @@
-package rw.ui.game.stages.train_getaway;
+package rw.ui.game.walker.stages.train_getaway;
 
 import flixel.FlxG;
 

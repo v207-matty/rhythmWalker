@@ -1,4 +1,4 @@
-package rw.ui.game.stages;
+package rw.ui.game.walker.stages;
 
 import flixel.addons.display.FlxBackdrop;
 import flixel.FlxG;
@@ -14,7 +14,7 @@ class StageChinatown extends Stage
 	{
 		super.build();
 
-		var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/chinatown/town/sky'));
+		var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/walker/stages/chinatown/town/sky'));
 		sky.scale.set(2, 2);
 		sky.updateHitbox();
 		sky.camera = game.camGame;

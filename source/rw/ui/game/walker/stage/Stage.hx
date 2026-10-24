@@ -1,4 +1,4 @@
-package rw.ui.game.stage;
+package rw.ui.game.walker.stage;
 
 class Stage extends PlayableComponent
 {

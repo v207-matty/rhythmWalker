@@ -1,4 +1,4 @@
-package rw.ui.game.player;
+package rw.ui.game.walker.player;
 
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
@@ -28,7 +28,7 @@ class Player extends RWSprite
 
 		data = new PlayerData(player);
 
-		loadGraphic(Paths.getImagePath('game/players/${data.config?.graphic ?? data.id}'), true, data.config.dimensions.sprite[0],
+		loadGraphic(Paths.getImagePath('game/walker/players/${data.config?.graphic ?? data.id}'), true, data.config.dimensions.sprite[0],
 			data.config.dimensions.sprite[1]);
 
 		for (anim in data.animations)

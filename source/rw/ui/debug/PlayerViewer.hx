@@ -4,7 +4,7 @@ package rw.ui.debug;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.FlxG;
-import rw.ui.game.player.Player;
+import rw.ui.game.walker.player.Player;
 import haxe.io.Path;
 import lime.utils.Assets;
 
@@ -16,7 +16,7 @@ class PlayerViewer extends ConductorState
 
 	function getEntries()
 	{
-		final directory = 'assets/game/players';
+		final directory = 'assets/game/walker/players';
 
 		entries = [];
 

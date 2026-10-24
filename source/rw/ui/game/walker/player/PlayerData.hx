@@ -1,4 +1,4 @@
-package rw.ui.game.player;
+package rw.ui.game.walker.player;
 
 import rw.util.WindowUtil;
 import json2object.JsonWriter;
@@ -26,7 +26,7 @@ class PlayerData
 	{
 		try
 		{
-			var path:String = Paths.json('game/players/$id');
+			var path:String = Paths.json('game/walker/players/$id');
 			loadData(new JsonParser<PlayerData>().fromJson(Assets.getText(path), path));
 		}
 		catch (e)

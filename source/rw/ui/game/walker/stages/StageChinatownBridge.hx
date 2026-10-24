@@ -1,4 +1,4 @@
-package rw.ui.game.stages;
+package rw.ui.game.walker.stages;
 
 import flixel.FlxG;
 import flixel.addons.display.FlxBackdrop;
@@ -14,7 +14,7 @@ class StageChinatownBridge extends Stage
 	{
 		super.build();
 
-		var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/chinatown/bridge/sky'));
+		var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/walker/stages/chinatown/bridge/sky'));
 		sky.scale.set(4, 4);
 		sky.updateHitbox();
 		sky.camera = game.camGame;
@@ -23,7 +23,7 @@ class StageChinatownBridge extends Stage
 		sky.screenCenter();
 		game.stageBackLayer.add(sky);
 
-		var bridge:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/chinatown/bridge/bridge'), X);
+		var bridge:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/walker/stages/chinatown/bridge/bridge'), X);
 		bridge.scale.set(4, 4);
 		bridge.updateHitbox();
 		bridge.camera = game.camGame;

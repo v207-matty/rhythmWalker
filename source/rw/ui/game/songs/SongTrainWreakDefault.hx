@@ -2,7 +2,7 @@ package rw.ui.game.songs;
 
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import rw.ui.game.stage.StageSprite;
+import rw.ui.game.walker.stage.StageSprite;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.FlxG;

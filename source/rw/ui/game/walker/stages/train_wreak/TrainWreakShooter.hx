@@ -1,4 +1,4 @@
-package rw.ui.game.stages.train_wreak;
+package rw.ui.game.walker.stages.train_wreak;
 
 import flixel.FlxCamera;
 

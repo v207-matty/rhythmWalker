@@ -1,4 +1,4 @@
-package rw.ui.game.stages;
+package rw.ui.game.walker.stages;
 
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -23,7 +23,7 @@ class StageContainment04 extends Stage
 
 		game.camGame.bgColor = 0xFF595652;
 
-		var floor:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/floor'), X);
+		var floor:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/floor'), X);
 		floor.scale.set(2, 2);
 		floor.scrollFactor.set();
 		floor.updateHitbox();
@@ -54,7 +54,7 @@ class StageContainment04 extends Stage
 			if (i != tubes - 1) continue;
 
 			containment04_tubeSubject = tube;
-			containment04_tubeSubject.loadGraphic(Paths.getImagePath('game/stages/$stage/subject'), true, 128, 128);
+			containment04_tubeSubject.loadGraphic(Paths.getImagePath('game/walker/stages/$stage/subject'), true, 128, 128);
 			containment04_tubeSubject.addAnim('idle', [0, 1], 2, true);
 			containment04_tubeSubject.addAnim('bang', [2, 3], 6, false);
 			containment04_tubeSubject.animation.play('idle');

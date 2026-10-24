@@ -1,6 +1,6 @@
-package rw.ui.game.stage;
+package rw.ui.game.walker.stage;
 
-import rw.ui.game.stages.*;
+import rw.ui.game.walker.stages.*;
 
 class StageManager
 {

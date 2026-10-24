@@ -1,6 +1,6 @@
-package rw.ui.game.stages;
+package rw.ui.game.walker.stages;
 
-import rw.ui.game.stages.train_wreak.*;
+import rw.ui.game.walker.stages.train_wreak.*;
 import rw.ui.game.song.SongEventData;
 import rw.ui.objects.Floor;
 import flixel.addons.display.FlxBackdrop;
@@ -21,7 +21,7 @@ class StageTrainWreak extends Stage
 	{
 		super.build();
 
-		var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/sky'));
+		var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/sky'));
 		sky.scale.set(2, 2);
 		sky.updateHitbox();
 		sky.velocity.x = 10;
@@ -30,7 +30,7 @@ class StageTrainWreak extends Stage
 		game.stageBackLayer.add(sky);
 		sky.camera = game.camGame;
 
-		var city:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/city'), X);
+		var city:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/city'), X);
 		city.scale.set(2, 2);
 		city.updateHitbox();
 		city.screenCenter(X);
@@ -38,7 +38,7 @@ class StageTrainWreak extends Stage
 		game.stageBackLayer.add(city);
 		city.camera = game.camGame;
 
-		var ground:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/ground'), X);
+		var ground:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/ground'), X);
 		ground.scale.set(2, 2);
 		ground.updateHitbox();
 		ground.screenCenter(X);

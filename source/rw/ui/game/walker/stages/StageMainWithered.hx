@@ -1,4 +1,4 @@
-package rw.ui.game.stages;
+package rw.ui.game.walker.stages;
 
 import rw.save.Save;
 import rw.util.CustomShader;

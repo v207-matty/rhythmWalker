@@ -1,4 +1,4 @@
-package rw.ui.game.player;
+package rw.ui.game.walker.player;
 
 typedef PlayerConfigDimensionsData =
 {
