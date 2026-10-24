@@ -1,7 +1,7 @@
 {
     "id": "save",
     "variation": "default",
-    "scrollSpeed": 6,
+    "scrollSpeed": 5,
     "bpmChanges": [
         {
             "t": 0,
@@ -10,5 +10,5 @@
     ],
     "events": [],
     "player": "bro-regular",
-    "stage": "stage"
+    "stage": "save-1"
 }
