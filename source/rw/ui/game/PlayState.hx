@@ -78,7 +78,7 @@ class PlayState extends ConductorState
 	public var timeBarSongLinked:Bool = false;
 	public var timeBarTarget:Float = 0.0;
 
-	public var transitionCam(null, null):FlxCamera;
+	public var transitionCam:FlxCamera;
 
 	override public function new(song:String, ?variation:SongVariation = defaultVariation)
 	{
