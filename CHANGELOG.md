@@ -1,5 +1,7 @@
 # 0.4.0 (Bundle 1) - 11/1/2026
 
+The 32bit version of the game has been retired due to no more waveform stuff left in the game
+
 ## Primary Things
 
 - NEW SONGS : CHASE AND SAVE

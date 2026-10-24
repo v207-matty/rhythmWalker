@@ -1,342 +1,230 @@
 name: Auto-compile
 
 on:
-        push:
-        workflow_dispatch:
+    push:
+    workflow_dispatch:
 
 jobs:
-        buildLinux64:
-                runs-on: ubuntu-latest
+    buildLinux64:
+        runs-on: ubuntu-latest
 
-                steps:
-                        - uses: actions/checkout@main
+        steps:
+            - uses: actions/checkout@main
 
-                        - uses: krdlab/setup-haxe@master
-                          with:
-                                  haxe-version: 4.3.7
+            - uses: krdlab/setup-haxe@master
+              with:
+                  haxe-version: 4.3.7
 
-                        - name: Restore Previous Cache
-                          id: cache-build-restore
-                          uses: actions/cache/restore@main
-                          with:
-                                  path: |
-                                          .haxelib/
-                                          export/64bit/release/linux/haxe/
-                                          export/64bit/release/linux/obj/
-                                  key: cache-build-linux-64
+            - name: Restore Previous Cache
+              id: cache-build-restore
+              uses: actions/cache/restore@main
+              with:
+                  path: |
+                      .haxelib/
+                      export/64bit/release/linux/haxe/
+                      export/64bit/release/linux/obj/
+                  key: cache-build-linux-64
 
-                        - name: Installing Libraries
-                          run: |
-                                haxelib install hmm
-                                haxelib run hmm install
-                                cd .haxelib/hxcpp/git/tools/hxcpp/
-                                haxe compile.hxml
-                                cd ../../../../../
+            - name: Installing Libraries
+              run: |
+                  haxelib install hmm
+                  haxelib run hmm install
+                  cd .haxelib/hxcpp/git/tools/hxcpp/
+                  haxe compile.hxml
+                  cd ../../../../../
 
-                        - name: Create Version Tag
-                          run: echo "${{github.run_id}}" > VERSION
+            - name: Create Version Tag
+              run: echo "${{github.run_id}}" > VERSION
 
-                        - name: Compile
-                          run: haxelib run lime build linux
+            - name: Compile
+              run: haxelib run lime build linux
 
-                        - name: Clear Previous Cache
-                          uses: actions/github-script@main
-                          with:
-                                  script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-build-linux-64');
+            - name: Clear Previous Cache
+              uses: actions/github-script@main
+              with:
+                  script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-build-linux-64');
 
-                        - name: Save Current Cache
-                          uses: actions/cache@main
-                          with:
-                                  key: cache-build-linux-64
-                                  path: |
-                                          .haxelib/
-                                          export/64bit/release/linux/haxe/
-                                          export/64bit/release/linux/obj/
-                                  restore-keys: |
-                                          cache-build-linux-64
+            - name: Save Current Cache
+              uses: actions/cache@main
+              with:
+                  key: cache-build-linux-64
+                  path: |
+                      .haxelib/
+                      export/64bit/release/linux/haxe/
+                      export/64bit/release/linux/obj/
+                  restore-keys: |
+                      cache-build-linux-64
 
-                        - name: Publish Artifact
-                          uses: actions/upload-artifact@main
-                          with:
-                                  name: linuxBuild-64
-                                  path: export/64bit/release/linux/bin
-        # buildLinux32:
-        #         runs-on: ubuntu-latest
+            - name: Publish Artifact
+              uses: actions/upload-artifact@main
+              with:
+                  name: linuxBuild-64
+                  path: export/64bit/release/linux/bin
 
-        #         steps:
-        #                 - uses: actions/checkout@main
+    buildWindows64:
+        runs-on: windows-latest
 
-        #                 - uses: krdlab/setup-haxe@master
-        #                   with:
-        #                           haxe-version: 4.3.7
+        steps:
+            - uses: actions/checkout@main
 
-        #                 - name: Restore Previous Cache
-        #                   id: cache-build-restore
-        #                   uses: actions/cache/restore@main
-        #                   with:
-        #                           path: |
-        #                                   .haxelib/
-        #                                   export/32bit/release/linux/haxe/
-        #                                   export/32bit/release/linux/obj/
-        #                           key: cache-build-linux-32
+            - uses: krdlab/setup-haxe@master
+              with:
+                  haxe-version: 4.3.7
 
-        #                 - name: Installing Libraries
-        #                   run: |
-        #                         haxelib install hmm
-        #                         haxelib run hmm install
-        #                         cd .haxelib/hxcpp/git/tools/hxcpp/
-        #                         haxe compile.hxml
-        #                         cd ../../../../../
-        #                         sudo apt-get install libgl1-mesa-dev libglu1-mesa-dev g++ g++-multilib gcc-multilib
-        #                         haxelib run lime rebuild linux
+            - name: Restore Previous Cache
+              id: cache-build-restore
+              uses: actions/cache/restore@main
+              with:
+                  path: |
+                      .haxelib/
+                      export/64bit/release/windows/haxe/
+                      export/64bit/release/windows/obj/
+                  key: cache-build-windows-64
 
-        #                 - name: Create Version Tag
-        #                   run: echo "${{github.run_id}}" > VERSION
+            - name: Installing Libraries
+              run: |
+                  haxelib install hmm
+                  haxelib run hmm install
+                  cd .haxelib/hxcpp/git/tools/hxcpp/
+                  haxe compile.hxml
+                  cd ../../../../../
 
-        #                 - name: Compile
-        #                   run: haxelib run lime build linux -32 -D_32bit
+            - name: Create Version Tag
+              run: echo "${{github.run_id}}" > VERSION
 
-        #                 - name: Clear Previous Cache
-        #                   uses: actions/github-script@main
-        #                   with:
-        #                           script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-build-linux');
+            - name: Compile
+              run: haxelib run lime build windows
 
-        #                 - name: Save Current Cache
-        #                   uses: actions/cache@main
-        #                   with:
-        #                           key: cache-build-linux-32
-        #                           path: |
-        #                                   .haxelib/
-        #                                   export/32bit/release/linux/haxe/
-        #                                   export/32bit/release/linux/obj/
-        #                           restore-keys: |
-        #                                   cache-build-linux-32
+            - name: Clear Previous Cache
+              uses: actions/github-script@main
+              with:
+                  script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-build-windows');
 
-        #                 - name: Publish Artifact
-        #                   uses: actions/upload-artifact@main
-        #                   with:
-        #                           name: linuxBuild-32
-        #                           path: export/32bit/release/linux/bin
-        buildWindows64:
-                runs-on: windows-latest
+            - name: Save Current Cache
+              uses: actions/cache@main
+              with:
+                  key: cache-build-windows-64
+                  path: |
+                      .haxelib/
+                      export/64bit/release/windows/haxe/
+                      export/64bit/release/windows/obj/
+                  restore-keys: |
+                      cache-build-windows-64
 
-                steps:
-                        - uses: actions/checkout@main
+            - name: Upload Artifact
+              uses: actions/upload-artifact@main
+              with:
+                  name: windowsBuild-64
+                  path: export/64bit/release/windows/bin
 
-                        - uses: krdlab/setup-haxe@master
-                          with:
-                                  haxe-version: 4.3.7
+    buildMac64:
+        runs-on: macos-latest
 
-                        - name: Restore Previous Cache
-                          id: cache-build-restore
-                          uses: actions/cache/restore@main
-                          with:
-                                  path: |
-                                          .haxelib/
-                                          export/64bit/release/windows/haxe/
-                                          export/64bit/release/windows/obj/
-                                  key: cache-build-windows-64
+        steps:
+            - uses: actions/checkout@main
 
-                        
+            - uses: krdlab/setup-haxe@master
+              with:
+                  haxe-version: 4.3.7
 
-                        - name: Installing Libraries
-                          run: |
-                                haxelib install hmm
-                                haxelib run hmm install
-                                cd .haxelib/hxcpp/git/tools/hxcpp/
-                                haxe compile.hxml
-                                cd ../../../../../
-                                
-                        - name: Create Version Tag
-                          run: echo "${{github.run_id}}" > VERSION
+            - name: Restore Previous Cache
+              id: cache-build-restore
+              uses: actions/cache/restore@main
+              with:
+                  path: |
+                      .haxelib/
+                      export/64bit/release/macos/haxe/
+                      export/64bit/release/macos/obj/
+                  key: cache-build-mac-64
 
-                        - name: Compile
-                          run: haxelib run lime build windows
+            - name: Installing Libraries
+              run: |
+                  haxelib install hmm
+                  haxelib run hmm install
+                  cd .haxelib/hxcpp/git/tools/hxcpp/
+                  haxe compile.hxml
+                  cd ../../../../../
 
-                        - name: Clear Previous Cache
-                          uses: actions/github-script@main
-                          with:
-                                  script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-build-windows');
+            - name: Create Version Tag
+              run: echo "${{github.run_id}}" > VERSION
 
-                        - name: Save Current Cache
-                          uses: actions/cache@main
-                          with:
-                                  key: cache-build-windows-64
-                                  path: |
-                                          .haxelib/
-                                          export/64bit/release/windows/haxe/
-                                          export/64bit/release/windows/obj/
-                                  restore-keys: |
-                                          cache-build-windows-64
+            - name: Compile
+              run: haxelib run lime build mac
 
-                        - name: Upload Artifact
-                          uses: actions/upload-artifact@main
-                          with:
-                                  name: windowsBuild-64
-                                  path: export/64bit/release/windows/bin
-        buildWindows32:
-                runs-on: windows-latest
+            - name: Clear Previous Cache
+              uses: actions/github-script@main
+              with:
+                  script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-build-mac');
 
-                steps:
-                        - uses: actions/checkout@main
+            - name: Save Current Cache
+              uses: actions/cache@main
+              with:
+                  key: cache-build-mac-64
+                  path: |
+                      .haxelib/
+                      export/64bit/release/macos/haxe/
+                      export/64bit/release/macos/obj/
+                  restore-keys: |
+                      cache-build-mac-64
 
-                        - uses: krdlab/setup-haxe@master
-                          with:
-                                  haxe-version: 4.3.7
+            - name: Publish Artifact
+              uses: actions/upload-artifact@main
+              with:
+                  name: macBuild-64
+                  path: export/64bit/release/macos/bin
 
-                        - name: Restore Previous Cache
-                          id: cache-build-restore
-                          uses: actions/cache/restore@main
-                          with:
-                                  path: |
-                                          .haxelib/
-                                          export/32bit/release/windows/haxe/
-                                          export/32bit/release/windows/obj/
-                                  key: cache-build-windows-32
-                        
-                        - name: Installing Libraries
-                          run: |
-                                haxelib install hmm
-                                haxelib run hmm install
-                                cd .haxelib/hxcpp/git/tools/hxcpp/
-                                haxe compile.hxml
-                                cd ../../../../../
-                                
-                        - name: Create Version Tag
-                          run: echo "${{github.run_id}}" > VERSION
+    buildWeb:
+        runs-on: windows-latest
 
-                        - name: Compile
-                          run: haxelib run lime build windows -32 -D_32bit
+        steps:
+            - uses: actions/checkout@main
 
-                        - name: Clear Previous Cache
-                          uses: actions/github-script@main
-                          with:
-                                  script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-build-windows');
+            - uses: krdlab/setup-haxe@master
+              with:
+                  haxe-version: 4.3.7
 
-                        - name: Save Current Cache
-                          uses: actions/cache@main
-                          with:
-                                  key: cache-build-windows-32
-                                  path: |
-                                          .haxelib/
-                                          export/32bit/release/windows/haxe/
-                                          export/32bit/release/windows/obj/
-                                  restore-keys: |
-                                          cache-build-windows-32
+            - name: Restore Previous Cache
+              id: cache-build-restore
+              uses: actions/cache/restore@main
+              with:
+                  path: |
+                      .haxelib/
+                      export/64bit/release/html5/haxe/
+                      export/64bit/release/html5/obj/
+                  key: cache-build-html5
 
-                        - name: Upload Artifact
-                          uses: actions/upload-artifact@main
-                          with:
-                                  name: windowsBuild-32
-                                  path: export/32bit/release/windows/bin
-        buildMac64:
-                runs-on: macos-latest
+            - name: Installing Libraries
+              run: |
+                  haxelib install hmm
+                  haxelib run hmm install
+                  cd .haxelib/hxcpp/git/tools/hxcpp/
+                  haxe compile.hxml
+                  cd ../../../../../
 
-                steps:
-                        - uses: actions/checkout@main
+            - name: Create Version Tag
+              run: echo "${{github.run_id}}" > VERSION
 
-                        - uses: krdlab/setup-haxe@master
-                          with:
-                                  haxe-version: 4.3.7
+            - name: Compile
+              run: haxelib run lime build html5
 
-                        - name: Restore Previous Cache
-                          id: cache-build-restore
-                          uses: actions/cache/restore@main
-                          with:
-                                  path: |
-                                          .haxelib/
-                                          export/64bit/release/macos/haxe/
-                                          export/64bit/release/macos/obj/
-                                  key: cache-build-mac-64
+            - name: Clear Previous Cache
+              uses: actions/github-script@main
+              with:
+                  script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-build-html5');
 
-                        - name: Installing Libraries
-                          run: |
-                                haxelib install hmm
-                                haxelib run hmm install
-                                cd .haxelib/hxcpp/git/tools/hxcpp/
-                                haxe compile.hxml
-                                cd ../../../../../
+            - name: Save Current Cache
+              uses: actions/cache@main
+              with:
+                  key: cache-build-html5
+                  path: |
+                      .haxelib/
+                      export/64bit/release/html5/haxe/
+                      export/64bit/release/html5/obj/
+                  restore-keys: |
+                      cache-build-html5
 
-                        - name: Create Version Tag
-                          run: echo "${{github.run_id}}" > VERSION
-
-                        - name: Compile
-                          run: haxelib run lime build mac
-
-                        - name: Clear Previous Cache
-                          uses: actions/github-script@main
-                          with:
-                                  script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-build-mac');
-
-                        - name: Save Current Cache
-                          uses: actions/cache@main
-                          with:
-                                  key: cache-build-mac-64
-                                  path: |
-                                          .haxelib/
-                                          export/64bit/release/macos/haxe/
-                                          export/64bit/release/macos/obj/
-                                  restore-keys: |
-                                          cache-build-mac-64
-
-                        - name: Publish Artifact
-                          uses: actions/upload-artifact@main
-                          with:
-                                  name: macBuild-64
-                                  path: export/64bit/release/macos/bin
-        buildWeb:
-                runs-on: windows-latest
-
-                steps:
-                        - uses: actions/checkout@main
-
-                        - uses: krdlab/setup-haxe@master
-                          with:
-                                  haxe-version: 4.3.7
-
-                        - name: Restore Previous Cache
-                          id: cache-build-restore
-                          uses: actions/cache/restore@main
-                          with:
-                                  path: |
-                                          .haxelib/
-                                          export/64bit/release/html5/haxe/
-                                          export/64bit/release/html5/obj/
-                                  key: cache-build-html5
-
-                        
-                        - name: Installing Libraries
-                          run: |
-                                haxelib install hmm
-                                haxelib run hmm install
-                                cd .haxelib/hxcpp/git/tools/hxcpp/
-                                haxe compile.hxml
-                                cd ../../../../../
-
-                        - name: Create Version Tag
-                          run: echo "${{github.run_id}}" > VERSION
-
-                        - name: Compile
-                          run: haxelib run lime build html5
-
-                        - name: Clear Previous Cache
-                          uses: actions/github-script@main
-                          with:
-                                  script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-build-html5');
-
-                        - name: Save Current Cache
-                          uses: actions/cache@main
-                          with:
-                                  key: cache-build-html5
-                                  path: |
-                                          .haxelib/
-                                          export/64bit/release/html5/haxe/
-                                          export/64bit/release/html5/obj/
-                                  restore-keys: |
-                                          cache-build-html5
-
-                        - name: Upload Artifact
-                          uses: actions/upload-artifact@main
-                          with:
-                                  name: webBuild
-                                  path: export/64bit/release/html5/bin
+            - name: Upload Artifact
+              uses: actions/upload-artifact@main
+              with:
+                  name: webBuild
+                  path: export/64bit/release/html5/bin
