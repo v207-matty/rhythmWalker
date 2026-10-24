@@ -98,6 +98,10 @@ class Main extends FlxGame
 		super.update();
 
 		if (FlxG.keys.pressed.F5) throw 'Debug Crash';
+
+		#if android
+		if (FlxG.android.justReleased.BACK) WindowUtil.close();
+		#end
 	}
 
 	function onCrashing(e:UncaughtErrorEvent)
