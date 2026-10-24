@@ -35,6 +35,7 @@ class OptionsMenu extends MenuState
 				if (!Save.options.menuMusic) FlxG.sound.music.stop();
 				else playMenuMusic();
 			}),
+			new Option(() -> return 'Clear Save Data', () -> Save.clear()),
 		];
 	}
 
@@ -131,6 +132,8 @@ class OptionsMenu extends MenuState
 			option.y = option.ID * (4 * option.size);
 			option.screenCenter(X);
 			option.color = (selection == option.ID) ? FlxColor.YELLOW : FlxColor.WHITE;
+
+			if (selection == option.ID) camFollow.y = option.y;
 		}
 
 		if (selection != previousSelection) FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));

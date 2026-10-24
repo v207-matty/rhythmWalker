@@ -36,13 +36,35 @@ class Save
 
 		load();
 
-		Application.current.onExit.add(function(l)
-		{
-			save();
-		});
+		Application.current.onExit.add((l) -> save());
 	}
 
 	public static function load()
+	{
+		initData();
+
+		#if !(SAVE_CLEAR || clear)
+		forceLoad();
+		#end
+	}
+
+	public static function forceLoad()
+	{
+		scores = game.scores;
+		options = game.options;
+
+		trace(game);
+	}
+
+	public static function clear()
+	{
+		game = null;
+
+		init();
+		forceLoad();
+	}
+
+	public static function initData()
 	{
 		game ??= {};
 
@@ -51,13 +73,7 @@ class Save
 
 		game.options.shaders ??= true;
 		game.options.qualityWarning ??= true;
-
-		#if !(SAVE_CLEAR || clear)
-		scores = game.scores;
-		options = game.options;
-		#end
-
-		trace(game);
+		game.options.menuMusic ??= true;
 	}
 
 	public static function save()
