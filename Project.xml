@@ -42,8 +42,9 @@
 
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Rhythm Walker" file="rhythmWalker" main="rw.Main" version="0.4.0" company="Matty" />
-	<app packageName="com.matty.rw" />
+	<app version="0.4.0" />
+	<app title="Rhythm Walker" file="rhythmWalker" main="rw.Main" />
+	<app company="Matty" package="com.matty.rw" />
 
 	<app preloader="flixel.system.FlxPreloader" />
 	<set name="SWF_VERSION" value="11.8" />
