@@ -93,7 +93,7 @@ class Main extends FlxGame
 		FlxG.sound.soundTray.volumeUpSound = FlxG.sound.soundTray.volumeDownSound = Paths.getAudio('sfx/volume');
 		#end
 
-		TouchUtil.mouse.swipeThreshold.set(500, 500);
+		TouchUtil.mouse.swipeThreshold.set(500, 400);
 
 		FlxG.switchState(() -> new QualityWarning());
 	}
