@@ -1,5 +1,6 @@
 package rw;
 
+import lime.app.Application;
 import flixel.FlxState;
 import rw.save.Save;
 import rw.util.Constants;
@@ -147,7 +148,18 @@ class Main extends FlxGame
 
 		File.saveContent('crash/$timestamp.txt', error);
 
-		var savedTo = '\nThe crash log is saved to "crash/$timestamp.txt"';
+		var path = 'crash/$timestamp.txt';
+
+		#if android
+		path = 'Android/data/${Application.current.meta.get('packageName')}/files/$path';
+		#end
+
+		var savedTo = '\nThe crash log is saved to "$path"';
+
+		#if android
+		savedTo += ' (Most likely...)';
+		savedTo += '\n(You may need to install an app that can view files in there to get the file)';
+		#end
 
 		shortDisplayError += savedTo;
 		error += savedTo;
