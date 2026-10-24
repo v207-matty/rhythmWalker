@@ -94,17 +94,17 @@ class DialogueScene extends ConductorState
 		proceedText.alignment = CENTER;
 
 		#if MOBILE_MODE
-		var leaveButton = new rw.ui.objects.mobile.CornerButton('backBtn');
-		add(leaveButton);
-		leaveButton.back.flipX = true;
-		leaveButton.offsetBy(24, 0);
-		leaveButton.onClicked.add(leave);
+		var backBtn = new rw.ui.objects.mobile.CornerButton('backBtn');
+		add(backBtn);
+		backBtn.back.flipX = true;
+		backBtn.offsetBy(24, 0);
+		backBtn.onClicked.add(leave);
 
-		var proceedButton = new rw.ui.objects.mobile.CornerButton('proceedBtn');
-		add(proceedButton);
-		proceedButton.x = FlxG.width - leaveButton.width;
-		proceedButton.offsetBy(-8, 0);
-		proceedButton.onClicked.add(() -> if (dialogueFinished) proceed());
+		var proceedBtn = new rw.ui.objects.mobile.CornerButton('proceedBtn');
+		add(proceedBtn);
+		proceedBtn.x = FlxG.width - proceedBtn.width;
+		proceedBtn.offsetBy(-8, 0);
+		proceedBtn.onClicked.add(() -> if (dialogueFinished) proceed());
 
 		proceedText.text = 'ENTER or the play button to proceed\nESCAPE or the back button to skip';
 		#end

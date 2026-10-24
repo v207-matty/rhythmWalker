@@ -5,6 +5,7 @@
 - NEW SONGS : CHASE AND SAVE
 
 - MAIN MENU!
+    - OPTIONS MENU!!!!!!!!!!
     - PARTIAL FREEPLAY REWORK (again lmao)
 
 ## Gameplay Related

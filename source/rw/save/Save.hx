@@ -1,4 +1,4 @@
-package rw;
+package rw.save;
 
 import haxe.Json;
 import rw.ui.game.song.SongScore;
@@ -12,12 +12,17 @@ using StringTools;
 
 typedef SaveData =
 {
-	?scores:Map<String, SongScore>,
+	@:optional
+	var scores:Map<String, SongScore>;
+
+	@:optional
+	var options:SaveOptionsData;
 }
 
 class Save
 {
 	public static var scores:Map<String, SongScore> = [];
+	public static var options:SaveOptionsData = {};
 
 	public static var game(get, set):SaveData;
 
@@ -42,9 +47,13 @@ class Save
 		game ??= {};
 
 		game.scores ??= [];
+		game.options ??= {};
+		
+		game.options.shaders ??= true;
 
 		#if !(SAVE_CLEAR || clear)
 		scores = game.scores;
+		options = game.options;
 		#end
 
 		trace(game);
@@ -53,7 +62,8 @@ class Save
 	public static function save()
 	{
 		game = {
-			scores: game.scores
+			scores: scores,
+			options: options,
 		};
 
 		FlxG.save.flush();

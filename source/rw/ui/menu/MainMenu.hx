@@ -1,5 +1,6 @@
 package rw.ui.menu;
 
+import rw.ui.menu.options.OptionsMenu;
 import flixel.math.FlxPoint;
 import flixel.FlxCamera;
 import rw.ui.menu.freeplay.Freeplay;
@@ -26,8 +27,6 @@ class MainMenu extends ConductorState
 
 	var cover:FlxSprite;
 
-	var cam:FlxCamera;
-
 	override public function new(enterFreeplay = false)
 	{
 		super();
@@ -45,11 +44,11 @@ class MainMenu extends ConductorState
 
 	function openFreeplay() FlxG.switchState(() -> new Freeplay());
 
-	function openOptions() {}
+	function openOptions() FlxG.switchState(() -> new OptionsMenu());
 
 	override function create()
 	{
-		FlxG.sound.playMusic(Paths.getAudio('ui/menu'));
+		FlxG.cameras.reset();
 
 		if (enterFreeplay)
 		{
@@ -58,8 +57,6 @@ class MainMenu extends ConductorState
 			proceed();
 			return;
 		}
-
-		FlxG.cameras.reset(cam = new FlxCamera());
 
 		add(optionTexts = new FlxTypedSpriteContainer<FlxText>());
 
@@ -77,21 +74,23 @@ class MainMenu extends ConductorState
 		logo.y = logo.height * 0.1;
 
 		#if MOBILE_MODE
-		var playButton = new rw.ui.objects.mobile.CornerButton('playBtn');
+		var proceedBtn = new rw.ui.objects.mobile.CornerButton('proceedBtn');
 
-		playButton.y = FlxG.height - playButton.height;
+		proceedBtn.y = FlxG.height - proceedBtn.height;
 
-		playButton.setScrollFactor(0);
+		proceedBtn.setScrollFactor(0);
 
-		playButton.back.angle = -180;
-		playButton.offsetBy(48 * playButton.scale.x, -48 * playButton.scale.y);
+		proceedBtn.back.angle = -180;
+		proceedBtn.offsetBy(48 * proceedBtn.scale.x, -48 * proceedBtn.scale.y);
 
-		playButton.onClicked.add(() -> if (subState == null) proceed());
+		proceedBtn.onClicked.add(() -> if (subState == null) proceed());
 
-		add(playButton);
+		add(proceedBtn);
 		#end
 
 		changeSelection(0);
+
+		if (!FlxG.sound.music?.playing) FlxG.sound.playMusic(Paths.getAudio('ui/menu'));
 
 		super.create();
 	}

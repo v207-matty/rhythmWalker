@@ -1,5 +1,6 @@
 package rw.ui.menu.freeplay;
 
+import rw.save.Save;
 import flixel.FlxCamera;
 import rw.util.TouchUtil;
 import flixel.group.FlxSpriteGroup;
@@ -87,16 +88,12 @@ class Freeplay extends ConductorState
 
 		randomTip = tips[FlxG.random.int(0, tips.length - 1)].replace('\\n', '\n');
 
-		FlxG.cameras.add(cam = new FlxCamera());
+		FlxG.cameras.reset(cam = new FlxCamera());
 
 		texts = new FlxTypedSpriteGroup<FlxText>();
 		add(texts);
 
-		camFollow = new FlxObject();
-		add(camFollow);
-
-		camFollow.x = (FlxG.width / 2);
-
+		add(camFollow = new FlxObject((FlxG.width / 2)));
 		cam.follow(camFollow, LOCKON, .1);
 
 		topSegText = new FlxText(0, 0, 0, 'Score & Rank go here', Constants.TEXT_SIZE);
@@ -128,34 +125,36 @@ class Freeplay extends ConductorState
 		filter('all');
 
 		#if MOBILE_MODE
-		var leaveButton = new rw.ui.objects.mobile.CornerButton('backBtn');
+		var backBtn = new rw.ui.objects.mobile.CornerButton('backBtn');
 
-		leaveButton.y = FlxG.height - leaveButton.height;
+		backBtn.y = FlxG.height - backBtn.height;
 
-		leaveButton.setScrollFactor(0);
+		backBtn.setScrollFactor(0);
 
-		leaveButton.back.angle = -180;
-		leaveButton.offsetBy(48 * leaveButton.scale.x, -48 * leaveButton.scale.y);
+		backBtn.back.angle = -180;
+		backBtn.offsetBy(48 * backBtn.scale.x, -48 * backBtn.scale.y);
 
-		leaveButton.onClicked.add(leave);
+		backBtn.onClicked.add(leave);
 
-		add(leaveButton);
+		add(backBtn);
 
-		var playButton = new rw.ui.objects.mobile.CornerButton('playBtn');
+		var playBtn = new rw.ui.objects.mobile.CornerButton('playBtn');
 
-		playButton.y = FlxG.height - playButton.height;
-		playButton.x = FlxG.width - playButton.width;
+		playBtn.y = FlxG.height - playBtn.height;
+		playBtn.x = FlxG.width - playBtn.width;
 
-		playButton.setScrollFactor(0);
+		playBtn.setScrollFactor(0);
 
-		playButton.back.angle = 90;
-		playButton.offsetBy(-16 * playButton.scale.x, -64 * playButton.scale.y);
+		playBtn.back.angle = 90;
+		playBtn.offsetBy(-16 * playBtn.scale.x, -64 * playBtn.scale.y);
 
-		playButton.onClicked.add(proceed);
+		playBtn.onClicked.add(proceed);
 
-		add(playButton);
+		add(playBtn);
 		#end
-		
+
+		if (!FlxG.sound.music?.playing) FlxG.sound.playMusic(Paths.getAudio('ui/menu'));
+
 		super.create();
 	}
 

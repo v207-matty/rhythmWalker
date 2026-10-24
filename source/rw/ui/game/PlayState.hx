@@ -1,5 +1,6 @@
 package rw.ui.game;
 
+import rw.save.Save;
 import rw.ui.menu.MainMenu;
 import rw.ui.game.song.SongEventData;
 import rw.util.*;
@@ -174,11 +175,11 @@ class PlayState extends ConductorState
 		timeBarSongLinked = true;
 
 		#if MOBILE_MODE
-		var leaveButton = new rw.ui.objects.mobile.CornerButton('backBtn');
-		leaveButton.setCamera(camHUD);
-		add(leaveButton);
-		leaveButton.x = FlxG.width - leaveButton.width;
-		leaveButton.onClicked.add(leave);
+		var backBtn = new rw.ui.objects.mobile.CornerButton('backBtn');
+		backBtn.setCamera(camHUD);
+		add(backBtn);
+		backBtn.x = FlxG.width - backBtn.width;
+		backBtn.onClicked.add(leave);
 		#end
 
 		persistentUpdate = true;
