@@ -50,7 +50,7 @@ class Main extends FlxGame
 		Sys.setCwd(Path.addTrailingSlash(System.documentsDirectory));
 		#end
 
-		super(0, 0, FlxState);
+		super(0, 0, null);
 	}
 
 	override function create(_:Event)
@@ -86,9 +86,10 @@ class Main extends FlxGame
 		FlxG.console.registerClass(WindowUtil);
 
 		FlxTransitionableState.defaultTransIn = FlxTransitionableState.defaultTransOut = getDefaultTransition();
-		FlxG.sound.soundTray.volumeUpSound = FlxG.sound.soundTray.volumeDownSound = Paths.getAudio('sfx/volume');
 
 		FlxG.switchState(() -> new QualityWarning());
+		
+		FlxG.sound.soundTray.volumeUpSound = FlxG.sound.soundTray.volumeDownSound = Paths.getAudio('sfx/volume');
 	}
 
 	override function update()
