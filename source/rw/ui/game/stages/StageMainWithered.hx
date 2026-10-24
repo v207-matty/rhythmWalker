@@ -1,5 +1,6 @@
 package rw.ui.game.stages;
 
+import rw.save.Save;
 import rw.util.CustomShader;
 
 class StageMainWithered extends StageMain
@@ -12,6 +13,8 @@ class StageMainWithered extends StageMain
 	override function build()
 	{
 		super.build();
+
+		if (!Save.options.shaders) return;
 
 		var bgShader = new CustomShader('dropshadow');
 		var charShader = new CustomShader('dropshadow');

@@ -1,5 +1,6 @@
 package rw.ui.game.stages;
 
+import rw.save.Save;
 import flixel.tweens.FlxTween;
 import flixel.FlxG;
 import rw.util.CustomShader;
@@ -61,6 +62,8 @@ class StageCrashLanding extends Stage
 
 		game.data.beatMonsters.scale = 0.75;
 
+		if (!Save.options.shaders) return;
+		
 		var charShader = new CustomShader('dropshadow');
 
 		charShader.setFloat('hue', -9.0);
