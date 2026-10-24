@@ -21,11 +21,11 @@
 
 	<haxedef name="FREEPLAY_DISPLAY_SCORE" unless="web" />
 
-	<icon path="dev/icons/16.png" size="16" />
-	<icon path="dev/icons/32.png" size="32" />
-	<icon path="dev/icons/64.png" size="64" />
-	<icon path="dev/icons/128.png" size="128" />
-	<icon path="dev/icons/256.png" />
+	<icon path="dev/game/icons/16.png" size="16" />
+	<icon path="dev/game/icons/32.png" size="32" />
+	<icon path="dev/game/icons/64.png" size="64" />
+	<icon path="dev/game/icons/128.png" size="128" />
+	<icon path="dev/game/icons/256.png" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
