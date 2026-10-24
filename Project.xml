@@ -32,12 +32,13 @@
 	<haxelib name="flixel" />
 	<haxelib name="flixel-addons" />
 	<haxelib name="flixel-ui" />
-
 	<haxelib name="flxrhythmconductor" />
 
 	<haxelib name="hxcpp-debugger" />
 
 	<haxelib name="json2object" version="git" />
+
+	<haxelib name="extension-androidtools" if="android"/>
 
 	<!-- _________________________ Application Settings _________________________ -->
 

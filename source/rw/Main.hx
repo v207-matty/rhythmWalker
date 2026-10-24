@@ -3,10 +3,6 @@ package rw;
 import rw.save.Save;
 import rw.util.Constants;
 import rw.ui.game.song.SongRank;
-#if sys
-import sys.io.File;
-import sys.FileSystem;
-#end
 import haxe.CallStack;
 import openfl.Lib;
 import openfl.events.UncaughtErrorEvent;
@@ -24,6 +20,19 @@ import flixel.addons.transition.FlxTransitionableState;
 import openfl.events.Event;
 import flixel.FlxGame;
 import rw.ui.*;
+#if sys
+import sys.io.File;
+import sys.FileSystem;
+#end
+#if (android || ios)
+import haxe.io.Path;
+#end
+#if android
+import extension.androidtools.content.Context;
+#end
+#if ios
+import lime.system.System;
+#end
 
 using StringTools;
 
@@ -31,6 +40,15 @@ class Main extends FlxGame
 {
 	public function new()
 	{
+		// Set the current working directory for Android and iOS devices
+		#if android
+		// On Android use External Files Dir.
+		Sys.setCwd(Path.addTrailingSlash(Context.getExternalFilesDir()));
+		#elseif ios
+		// On iOS use Documents Dir.
+		Sys.setCwd(Path.addTrailingSlash(System.documentsDirectory));
+		#end
+
 		super(0, 0, null);
 	}
 
