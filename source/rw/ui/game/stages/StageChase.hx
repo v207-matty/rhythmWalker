@@ -13,6 +13,8 @@ class StageChase extends Stage
 	{
 		super.build();
 
+		game.camGame.bgColor = 0xFF0D0712;
+		
 		game.data.beatMonsters.scale = .5;
 
 		game.player.setScale(1);
