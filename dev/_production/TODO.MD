@@ -2,7 +2,6 @@
 
 - Save
     - Events
-    - Bro + Jez Skin
     - Backgrounds
 
 # Droplet 1

@@ -1,0 +1,63 @@
+{
+    "config": {
+        "dimensions": {
+            "sprite": [
+                128,
+                128
+            ]
+        },
+        "maxVelocityBase": 250,
+        "speed": 25
+    },
+    "animations": [
+        {
+            "name": "idleL",
+            "frames": [
+                0
+            ]
+        },
+        {
+            "name": "idleR",
+            "frames": [
+                1
+            ],
+            "flipX": true
+        },
+        {
+            "name": "hurtL",
+            "frames": [
+                2
+            ],
+            "fps": 2
+        },
+        {
+            "name": "hurtR",
+            "frames": [
+                3
+            ],
+            "fps": 2,
+            "flipX": true
+        },
+        {
+            "name": "moveL",
+            "frames": [
+                4,
+                5,
+                6,
+                4
+            ],
+            "fps": 6
+        },
+        {
+            "name": "moveR",
+            "frames": [
+                7,
+                8,
+                9,
+                8
+            ],
+            "fps": 6,
+            "flipX": true
+        }
+    ]
+}
