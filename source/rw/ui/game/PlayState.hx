@@ -97,17 +97,13 @@ class PlayState extends ConductorState
 		instance = null;
 		instance = this;
 
-		camGameFollow = new FlxObject(FlxG.width / 2, FlxG.height / 2);
-		add(camGameFollow);
+		add(camGameFollow = new FlxObject(FlxG.width / 2, FlxG.height / 2));
 
-		camGame = new FlxCamera();
-		FlxG.cameras.add(camGame);
+		FlxG.cameras.reset(camGame = new FlxCamera());
+		FlxG.cameras.add(camHUD = new FlxCamera(), false);
+		camHUD.bgColor.alpha = 0;
 
 		camGame.follow(camGameFollow, LOCKON, 0.04);
-
-		camHUD = new FlxCamera();
-		FlxG.cameras.add(camHUD, false);
-		camHUD.bgColor.alpha = 0;
 
 		resetConductor();
 
@@ -183,6 +179,8 @@ class PlayState extends ConductorState
 		#end
 
 		persistentUpdate = true;
+
+		super.create();
 	}
 
 	override function update(elapsed:Float)
