@@ -40,7 +40,7 @@ class MainMenu extends MenuState
 			['freeplay', openFreeplay],
 			['options', openOptions],
 			#if sys
-			['exit', () -> Sys.exit(0)],
+			['exit', exit],
 			#end
 		];
 	}
@@ -48,6 +48,14 @@ class MainMenu extends MenuState
 	function openFreeplay() FlxG.switchState(() -> new Freeplay());
 
 	function openOptions() FlxG.switchState(() -> new OptionsMenu());
+
+	#if sys
+	function exit()
+	{
+		Save.save();
+		Sys.exit(0);
+	}
+	#end
 
 	override function create()
 	{
