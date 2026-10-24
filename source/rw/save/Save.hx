@@ -79,6 +79,8 @@ class Save
 
 		var newHS:Bool = false;
 
+		trace('saved score: $songScore', 'current score : $score', 'total score: $totalScore');
+
 		if (score > songScore)
 		{
 			trace('NEW HIGHSCORE FOR "$id": $score');
