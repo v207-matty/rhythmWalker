@@ -1,5 +1,6 @@
 package rw.ui.menu;
 
+import rw.util.macro.GitMacro;
 import rw.ui.menu.options.OptionsMenu;
 import flixel.math.FlxPoint;
 import flixel.FlxCamera;
@@ -72,6 +73,12 @@ class MainMenu extends ConductorState
 		logo.setScale(1);
 		logo.screenCenter(X);
 		logo.y = logo.height * 0.1;
+
+		var versionText = new FlxText(16, 16, FlxG.width,
+			'v${FlxG.stage.application.meta.get('version')} (${GitMacro.getGitBranch()}:${GitMacro.getGitHash()})', 8);
+		add(versionText);
+		versionText.y = FlxG.height - versionText.height;
+		versionText.alpha = .25;
 
 		#if MOBILE_MODE
 		var proceedBtn = new rw.ui.objects.mobile.CornerButton('proceedBtn');
