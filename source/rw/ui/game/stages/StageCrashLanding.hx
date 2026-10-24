@@ -63,7 +63,7 @@ class StageCrashLanding extends Stage
 		game.data.beatMonsters.scale = 0.75;
 
 		if (!Save.options.shaders) return;
-		
+
 		var charShader = new CustomShader('dropshadow');
 
 		charShader.setFloat('hue', -9.0);

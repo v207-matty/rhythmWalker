@@ -34,7 +34,7 @@ class SongScrollDownChinatownDefault extends Song
 				onComplete: t ->
 				{
 					game.playerPlayAnim('idle');
-                    gameEndIntroCutscene();
+					gameEndIntroCutscene();
 				}
 			});
 		}

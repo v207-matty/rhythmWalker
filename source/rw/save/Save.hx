@@ -48,7 +48,7 @@ class Save
 
 		game.scores ??= [];
 		game.options ??= {};
-		
+
 		game.options.shaders ??= true;
 		game.options.qualityWarning ??= true;
 

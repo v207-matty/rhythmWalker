@@ -188,7 +188,8 @@ class PlayState extends ConductorState
 		super.create();
 	}
 
-	override function createTransition(data:TransitionData):Transition {
+	override function createTransition(data:TransitionData):Transition
+	{
 		var trans = super.createTransition(data);
 		trans.camera = transitionCam;
 		return trans;

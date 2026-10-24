@@ -2,9 +2,9 @@ package rw.save;
 
 typedef SaveOptionsData =
 {
-    @:optional
+	@:optional
 	var shaders:Bool;
-    
-    @:optional
+
+	@:optional
 	var qualityWarning:Bool;
 }

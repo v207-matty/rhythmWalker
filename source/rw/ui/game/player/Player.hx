@@ -28,7 +28,8 @@ class Player extends RWSprite
 
 		data = new PlayerData(player);
 
-		loadGraphic(Paths.getImagePath('game/players/${data.config?.graphic ?? data.id}'), true, data.config.dimensions.sprite[0], data.config.dimensions.sprite[1]);
+		loadGraphic(Paths.getImagePath('game/players/${data.config?.graphic ?? data.id}'), true, data.config.dimensions.sprite[0],
+			data.config.dimensions.sprite[1]);
 
 		for (anim in data.animations)
 		{

@@ -52,7 +52,7 @@ class PlayerViewer extends ConductorState
 		text.x = text.y = text.size;
 
 		persistentUpdate = true;
-		
+
 		super.create();
 	}
 
