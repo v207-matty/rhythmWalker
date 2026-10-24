@@ -15,8 +15,6 @@ using StringTools;
 
 class DialogueScene extends ConductorState
 {
-	public static var seenIntroCutscene:Bool = false;
-
 	var song:SongData;
 	var skipping:Bool = false;
 	var dialogue:DialogueData;
@@ -27,8 +25,6 @@ class DialogueScene extends ConductorState
 
 		this.song = song;
 		this.skipping = skipping;
-
-		seenIntroCutscene = true;
 
 		var path = Paths.json('game/cutscenes/dialogue/${song.id.replace(' ', '-')}-${song.variation ?? defaultVariation}');
 		trace(path);

@@ -188,7 +188,6 @@ class Freeplay extends MenuState
 		}
 		trace(song);
 
-		DialogueScene.seenIntroCutscene = false;
 		FlxG.switchState(() -> new DialogueScene(new SongData(song.song, song.variation), !Save.options.dialogue));
 	}
 
