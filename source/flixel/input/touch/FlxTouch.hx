@@ -17,11 +17,6 @@ import flixel.util.FlxDestroyUtil;
 class FlxTouch extends FlxPointer implements IFlxDestroyable implements IFlxInput
 {
 	/**
-	 * The threshold to surpass for a movement check to be returned as true.
-	 */
-	public var swipeThreshold:FlxPoint = FlxPoint.get(100, 100);
-
-	/**
 	 * The _unique_ ID of this touch. You should not make not any further assumptions
 	 * about this value - IDs are not guaranteed to start from 0 or ascend in order.
 	 * The behavior may vary from device to device.
@@ -143,28 +138,28 @@ class FlxTouch extends FlxPointer implements IFlxDestroyable implements IFlxInpu
 
 	inline function get_justMovedUp():Bool
 	{
-		var swiped:Bool = _swipeDeltaY > swipeThreshold.y;
+		var swiped:Bool = _swipeDeltaY > FlxG.touches.swipeThreshold.y;
 		if (swiped) _startY = viewY;
 		return swiped;
 	}
 
 	inline function get_justMovedDown():Bool
 	{
-		var swiped:Bool = _swipeDeltaY < -swipeThreshold.y;
+		var swiped:Bool = _swipeDeltaY < -FlxG.touches.swipeThreshold.y;
 		if (swiped) _startY = viewY;
 		return swiped;
 	}
 
 	inline function get_justMovedLeft():Bool
 	{
-		var swiped:Bool = _swipeDeltaX > swipeThreshold.x;
+		var swiped:Bool = _swipeDeltaX > FlxG.touches.swipeThreshold.x;
 		if (swiped) _startX = viewX;
 		return swiped;
 	}
 
 	inline function get_justMovedRight():Bool
 	{
-		var swiped:Bool = _swipeDeltaX < -swipeThreshold.x;
+		var swiped:Bool = _swipeDeltaX < -FlxG.touches.swipeThreshold.x;
 		if (swiped) _startX = viewX;
 		return swiped;
 	}
