@@ -1,5 +1,6 @@
 package rw.ui.game.song;
 
+import rw.util.WindowUtil;
 import json2object.JsonParser;
 import json2object.JsonWriter;
 import flixel.addons.sound.MusicTimeChangeEvent;
@@ -46,7 +47,7 @@ class SongData
 		}
 		catch (e)
 		{
-			FlxG.stage.window.alert('SongData File Loading Error: ${e.message}');
+			WindowUtil.alert('SongData File Loading Error', '${e.message}');
 		}
 	}
 

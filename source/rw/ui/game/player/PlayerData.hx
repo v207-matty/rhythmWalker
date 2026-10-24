@@ -1,5 +1,6 @@
 package rw.ui.game.player;
 
+import rw.util.WindowUtil;
 import json2object.JsonWriter;
 import hxjsonast.Json;
 import json2object.JsonParser;
@@ -30,7 +31,7 @@ class PlayerData
 		}
 		catch (e)
 		{
-			FlxG.stage.window.alert('Player File Loading Error: ${e.message}');
+			WindowUtil.alert('Player File Loading Error', '${e.message}');
 		}
 	}
 

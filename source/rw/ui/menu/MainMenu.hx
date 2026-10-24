@@ -1,5 +1,6 @@
 package rw.ui.menu;
 
+import lime.app.Application;
 import rw.util.macro.GitMacro;
 import rw.ui.menu.options.OptionsMenu;
 import flixel.math.FlxPoint;
@@ -74,7 +75,7 @@ class MainMenu extends ConductorState
 		logo.screenCenter(X);
 		logo.y = logo.height * 0.1;
 
-		var versionText = new FlxText(0, 0, FlxG.width, 'v${FlxG.stage.application.meta.get('version')}', 8);
+		var versionText = new FlxText(0, 0, FlxG.width, 'v${Application.current.meta.get('version')}', 8);
 		versionText.text += ' (${GitMacro.getGitBranch()}/${GitMacro.getGitHash()})';
 		add(versionText);
 		versionText.setPosition(versionText.size, FlxG.height - versionText.height - versionText.size);

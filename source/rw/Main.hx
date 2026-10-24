@@ -145,7 +145,7 @@ class Main extends FlxGame
 		Sys.exit(0);
 		#end
 
-		FlxG.stage.window.close();
+		WindowUtil.close();
 	}
 
 	function loadAssets()
