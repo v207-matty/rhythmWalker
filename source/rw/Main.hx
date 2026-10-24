@@ -158,10 +158,14 @@ class Main extends FlxGame
 
 		#if android
 		savedTo += ' (Most likely...)';
-		savedTo += '\n(You may need to install an app that can view files in there to get the file)';
+		#end
+		
+		shortDisplayError += savedTo;
+
+		#if android
+		shortDisplayError += '\n(You may need to install an app that can view files in there to get the file)';
 		#end
 
-		shortDisplayError += savedTo;
 		error += savedTo;
 		#end
 
