@@ -30,11 +30,11 @@ class SongSaveDefault extends Song
 
 		getReadyIMG.camera = getReadyTEXT.camera = game.transitionCam;
 		getReadyIMG.alpha = getReadyTEXT.alpha = 0;
-		
+
 		FlxTween.tween(getReadyIMG, {alpha: 1}, 3.6, {
 			ease: FlxEase.sineIn
 		});
-		
+
 		FlxTween.tween(getReadyTEXT, {alpha: 1}, 3.6, {
 			ease: FlxEase.sineIn
 		});

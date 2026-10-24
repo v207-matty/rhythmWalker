@@ -31,11 +31,9 @@ class OptionsMenu extends MenuState
 			new Option(() -> return 'Menu Music : ${Save.options.menuMusic}', () ->
 			{
 				Save.options.menuMusic = !Save.options.menuMusic;
-				
-				if (!Save.options.menuMusic)
-					FlxG.sound.music.stop();
-				else
-					playMenuMusic();
+
+				if (!Save.options.menuMusic) FlxG.sound.music.stop();
+				else playMenuMusic();
 			}),
 		];
 	}
