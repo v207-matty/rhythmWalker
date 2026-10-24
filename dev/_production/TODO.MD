@@ -1,8 +1,9 @@
 # Bundle 1 (0.4.0)
 
 - Save
-    - Events
-    - Backgrounds
+    - Backgrounds (1 / 4)
+
+- Fix fade being gone when the game camera is
 
 # Droplet 1
 

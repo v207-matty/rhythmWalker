@@ -10,8 +10,8 @@ class StageManager
 		{
 			case 'chase-1', 'chase-2', 'chase-3':
 				new StageChase(stage.toLowerCase());
-				
-			case 'save-1', 'save-2', 'save-3':
+
+			case 'save-1', 'save-2', 'save-3', 'save-4':
 				new StageSave(stage.toLowerCase());
 
 			case 'chinatown':

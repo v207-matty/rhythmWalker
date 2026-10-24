@@ -24,6 +24,162 @@
         {
             "time": 3692,
             "id": "beatmonsters-start"
+        },
+        {
+            "time": 7384,
+            "entries": [
+                {
+                    "id": "beatmonsters-stop"
+                },
+                {
+                    "id": "save-moving",
+                    "data": 1
+                },
+                {
+                    "id": "stage-switch",
+                    "data": "save-2"
+                }
+            ]
+        },
+        {
+            "time": 10153,
+            "entries": [
+                {
+                    "id": "beatmonsters-start"
+                },
+                {
+                    "id": "save-moving",
+                    "data": 2
+                }
+            ]
+        },
+        {
+            "time": 13846,
+            "entries": [
+                {
+                    "id": "beatmonsters-stop"
+                },
+                {
+                    "id": "save-moving",
+                    "data": 3
+                },
+                {
+                    "id": "stage-switch",
+                    "data": "save-3"
+                },
+                {
+                    "id": "beatmonsters-steprate",
+                    "data": 4
+                }
+            ]
+        },
+        {
+            "time": 16615,
+            "entries": [
+                {
+                    "id": "beatmonsters-start"
+                },
+                {
+                    "id": "save-moving",
+                    "data": 4
+                }
+            ]
+        },
+        {
+            "time": 18461,
+            "id": "beatmonsters-steprate",
+            "data": 3
+        },
+        {
+            "time": 20307,
+            "id": "beatmonsters-steprate",
+            "data": 2
+        },
+        {
+            "time": 24000,
+            "id": "beatmonsters-steprate",
+            "data": 3
+        },
+        {
+            "time": 25846,
+            "id": "beatmonsters-steprate",
+            "data": 3
+        },
+        {
+            "time": 27692,
+            "entries": [
+                {
+                    "id": "beatmonsters-stop"
+                },
+                {
+                    "id": "save-moving",
+                    "data": 5
+                },
+                {
+                    "id": "stage-switch",
+                    "data": "save-4"
+                },
+                {
+                    "id": "beatmonsters-steprate",
+                    "data": 2
+                }
+            ]
+        },
+        {
+            "time": 30461,
+            "entries": [
+                {
+                    "id": "beatmonsters-start"
+                },
+                {
+                    "id": "save-moving",
+                    "data": 6
+                },
+                {
+                    "id": "beatmonsters-steprate",
+                    "data": 4
+                }
+            ]
+        },
+        {
+            "time": 31615,
+            "id": "beatmonsters-stop"
+        },
+        {
+            "time": 32307,
+            "id": "beatmonsters-start"
+        },
+        {
+            "time": 33461,
+            "id": "beatmonsters-stop"
+        },
+        {
+            "time": 34153,
+            "entries":[
+                {
+                    "id":"beatmonsters-start"
+                },
+                {
+                    "id":"beatmonsters-steprate",
+                    "data": 3
+                }
+            ]
+        },
+        {
+            "time": 35480,
+            "id": "beatmonsters-stop"
+        },
+        {
+            "time": 36000,
+            "entries":[
+                {
+                    "id":"beatmonsters-start"
+                },
+                {
+                    "id":"beatmonsters-steprate",
+                    "data": 2
+                }
+            ]
         }
     ],
     "player": "bro-jez-save",

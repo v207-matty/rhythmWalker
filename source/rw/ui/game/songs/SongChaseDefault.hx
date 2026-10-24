@@ -12,23 +12,6 @@ class SongChaseDefault extends Song
 		super('chase', defaultVariation);
 	}
 
-	var togglePoints:Array<Dynamic>;
-
-	function togglePointOne() toggleGameplayScene(false);
-
-	function togglePointOneEnd() toggleGameplayScene(true);
-
-	function togglePointTwo() toggleGameplayScene(false);
-
-	function togglePointTwoEnd() toggleGameplayScene(true);
-
-	function togglePointThree()
-	{
-		toggleGameplayScene(false);
-
-		game.inIntroCutscene = false;
-	}
-
 	function toggleGameplayScene(on:Bool)
 	{
 		game.camGame.visible = game.camHUD.visible = on;
@@ -98,16 +81,14 @@ class SongChaseDefault extends Song
 			case 'chase-moving':
 				switch (event.data)
 				{
-					case 1:
-						togglePointOne();
-					case 2:
-						togglePointOneEnd();
-					case 3:
-						togglePointTwo();
-					case 4:
-						togglePointTwoEnd();
+					case 1, 3:
+						toggleGameplayScene(false);
+					case 2, 4:
+						toggleGameplayScene(true);
 					case 5:
-						togglePointThree();
+						toggleGameplayScene(false);
+
+						game.inIntroCutscene = false;
 
 					default:
 				}
