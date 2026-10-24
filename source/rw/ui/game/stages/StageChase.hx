@@ -21,10 +21,7 @@ class StageChase extends Stage
 
 		game.player.setScale(1);
 		game.player.screenCenter(X);
-
-		trace(stage);
-
-		game.player.y = FlxG.height - game.player.height * ((stage == 'case-2') ? 0.5 : 2);
+		game.player.y = FlxG.height - game.player.height * ((stage == 'chase-2') ? 0.5 : 2);
 
 		var backdrop:StageSprite = new StageSprite('chase/$stage');
 		backdrop.setGraphicSize(FlxG.width, FlxG.height);
