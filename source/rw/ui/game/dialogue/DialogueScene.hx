@@ -18,13 +18,15 @@ class DialogueScene extends ConductorState
 	public static var seenIntroCutscene:Bool = false;
 
 	var song:SongData;
+	var skipping:Bool = false;
 	var dialogue:DialogueData;
 
-	override public function new(song:SongData)
+	override public function new(song:SongData, skipping = false)
 	{
 		super();
 
 		this.song = song;
+		this.skipping = skipping;
 
 		seenIntroCutscene = true;
 
@@ -57,7 +59,7 @@ class DialogueScene extends ConductorState
 	{
 		if (FlxG.sound.music != null) FlxG.sound.music.fadeOut(.25);
 
-		if (dialogue == null || leaving)
+		if (dialogue == null || leaving || skipping)
 		{
 			bgColor = Constants.TRANSITION_COLOR;
 			transIn = transOut = null;
