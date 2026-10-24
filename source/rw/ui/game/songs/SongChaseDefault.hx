@@ -41,6 +41,7 @@ class SongChaseDefault extends Song
 		cutscene.setScale(1);
 		cutscene.screenCenter();
 		game.add(cutscene);
+		cutscene.camera = game.transitionCam;
 
 		FlxTimer.wait(2, () ->
 		{
