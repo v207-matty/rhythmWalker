@@ -1,5 +1,7 @@
 package rw.ui.game.stages;
 
+import rw.util.CustomShader;
+import rw.save.Save;
 import flixel.FlxG;
 
 class StageChase extends Stage
@@ -27,5 +29,16 @@ class StageChase extends Stage
 		backdrop.screenCenter();
 		game.stageBackLayer.add(backdrop);
 		backdrop.setCamera(game.camGame);
+
+		if (!Save.options.shaders) return;
+
+		var charShader = new CustomShader('dropshadow');
+
+		charShader.setFloat('hue', -9.0);
+		charShader.setFloat('saturation', -15.0);
+		charShader.setFloat('brightness', -22.0);
+		charShader.setFloat('contrast', 0.0);
+
+		game.player.shader = game.beatMonsters.shader = charShader;
 	}
 }
