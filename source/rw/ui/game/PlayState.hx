@@ -1,5 +1,7 @@
 package rw.ui.game;
 
+import flixel.addons.transition.TransitionData;
+import flixel.addons.transition.Transition;
 import rw.save.Save;
 import rw.ui.menu.MainMenu;
 import rw.ui.game.song.SongEventData;
@@ -76,6 +78,8 @@ class PlayState extends ConductorState
 	public var timeBarSongLinked:Bool = false;
 	public var timeBarTarget:Float = 0.0;
 
+	public var transitionCam(null, null):FlxCamera;
+
 	override public function new(song:String, ?variation:SongVariation = defaultVariation)
 	{
 		super(null, null);
@@ -101,7 +105,8 @@ class PlayState extends ConductorState
 
 		FlxG.cameras.reset(camGame = new FlxCamera());
 		FlxG.cameras.add(camHUD = new FlxCamera(), false);
-		camHUD.bgColor.alpha = 0;
+		FlxG.cameras.add(transitionCam = new FlxCamera(), false);
+		transitionCam.bgColor.alpha = camHUD.bgColor.alpha = 0;
 
 		camGame.follow(camGameFollow, LOCKON, 0.04);
 
@@ -181,6 +186,12 @@ class PlayState extends ConductorState
 		persistentUpdate = true;
 
 		super.create();
+	}
+
+	override function createTransition(data:TransitionData):Transition {
+		var trans = super.createTransition(data);
+		trans.camera = transitionCam;
+		return trans;
 	}
 
 	override function update(elapsed:Float)
