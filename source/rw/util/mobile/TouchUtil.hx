@@ -8,11 +8,11 @@ import flixel.FlxG;
 
 class TouchUtil
 {
-	public static var touch(get, never):Touch;
+	public static var touch(get, never):FlxTouch;
 
 	static function get_touch() return FlxG.touches.getFirst();
 
-	public static var mouse(get, never):Mouse;
+	public static var mouse(get, never):FlxMouse;
 
 	static function get_mouse() return FlxG.mouse;
 

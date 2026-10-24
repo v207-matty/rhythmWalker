@@ -85,10 +85,7 @@ class FlxTouch extends FlxPointer implements IFlxDestroyable implements IFlxInpu
 			justPressedTimeInTicks = FlxG.game.ticks;
 		}
 		#if FLX_POINTER_INPUT
-		else if (justReleased)
-		{
-			FlxG.swipes.push(new FlxSwipe(touchPointID, justPressedPosition.copyTo(), getViewPosition(), justPressedTimeInTicks));
-		}
+		else if (justReleased) FlxG.swipes.push(new FlxSwipe(touchPointID, justPressedPosition.copyTo(), getViewPosition(), justPressedTimeInTicks));
 		#end
 	}
 
@@ -106,29 +103,62 @@ class FlxTouch extends FlxPointer implements IFlxDestroyable implements IFlxInpu
 		setRawPositionUnsafe(flashPoint.x, flashPoint.y);
 	}
 
-	inline function get_touchPointID():Int
+	inline function get_touchPointID():Int return input.ID;
+
+	inline function get_justReleased():Bool return input.justReleased;
+
+	inline function get_released():Bool return input.released;
+
+	inline function get_pressed():Bool return input.pressed;
+
+	inline function get_justPressed():Bool return input.justPressed;
+
+	/**
+	 * Check to see if this touch has just been moved upwards.
+	 */
+	public var justMovedUp(get, never):Bool;
+
+	/**
+	 * Check to see if this touch has just been moved downwards.
+	 */
+	public var justMovedDown(get, never):Bool;
+
+	/**
+	 * Check to see if this touch has just been moved leftwards.
+	 */
+	public var justMovedLeft(get, never):Bool;
+
+	/**
+	 * Check to see if this touch has just been moved rightwards.
+	 */
+	public var justMovedRight(get, never):Bool;
+
+	inline function get_justMovedUp():Bool
 	{
-		return input.ID;
+		var swiped:Bool = _swipeDeltaY > FlxG.touches.swipeThreshold.y;
+		if (swiped) _startY = viewY;
+		return swiped;
 	}
 
-	inline function get_justReleased():Bool
+	inline function get_justMovedDown():Bool
 	{
-		return input.justReleased;
+		var swiped:Bool = _swipeDeltaY < -FlxG.touches.swipeThreshold.y;
+		if (swiped) _startY = viewY;
+		return swiped;
 	}
 
-	inline function get_released():Bool
+	inline function get_justMovedLeft():Bool
 	{
-		return input.released;
+		var swiped:Bool = _swipeDeltaX > FlxG.touches.swipeThreshold.x;
+		if (swiped) _startX = viewX;
+		return swiped;
 	}
 
-	inline function get_pressed():Bool
+	inline function get_justMovedRight():Bool
 	{
-		return input.pressed;
-	}
-
-	inline function get_justPressed():Bool
-	{
-		return input.justPressed;
+		var swiped:Bool = _swipeDeltaX < -FlxG.touches.swipeThreshold.x;
+		if (swiped) _startX = viewX;
+		return swiped;
 	}
 }
 #else

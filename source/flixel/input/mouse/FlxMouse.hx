@@ -265,33 +265,15 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	public function load(?Graphic:Dynamic, Scale:Float = 1, XOffset:Int = 0, YOffset:Int = 0):Void
 	{
 		#if !FLX_NATIVE_CURSOR
-		if (cursor != null)
-		{
-			FlxDestroyUtil.removeChild(cursorContainer, cursor);
-		}
+		if (cursor != null) FlxDestroyUtil.removeChild(cursorContainer, cursor);
 		#end
 
-		if (Graphic == null)
-		{
-			Graphic = new GraphicCursor(0, 0);
-		}
+		if (Graphic == null) Graphic = new GraphicCursor(0, 0);
 
-		if ((Graphic is Class))
-		{
-			cursor = Type.createInstance(Graphic, []);
-		}
-		else if ((Graphic is BitmapData))
-		{
-			cursor = new Bitmap(cast Graphic);
-		}
-		else if ((Graphic is String))
-		{
-			cursor = new Bitmap(FlxG.assets.getBitmapData(Graphic, false));
-		}
-		else
-		{
-			cursor = new Bitmap(new GraphicCursor(0, 0));
-		}
+		if ((Graphic is Class)) cursor = Type.createInstance(Graphic, []);
+		else if ((Graphic is BitmapData)) cursor = new Bitmap(cast Graphic);
+		else if ((Graphic is String)) cursor = new Bitmap(FlxG.assets.getBitmapData(Graphic, false));
+		else cursor = new Bitmap(new GraphicCursor(0, 0));
 
 		cursor.x = XOffset;
 		cursor.y = YOffset;
@@ -299,15 +281,9 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 		cursor.scaleY = Scale;
 
 		#if FLX_NATIVE_CURSOR
-		if (XOffset < 0 || YOffset < 0)
-		{
-			throw "Negative offsets aren't supported for native cursors.";
-		}
+		if (XOffset < 0 || YOffset < 0) throw "Negative offsets aren't supported for native cursors.";
 
-		if (Scale < 0)
-		{
-			throw "Negative scale isn't supported for native cursors.";
-		}
+		if (Scale < 0) throw "Negative scale isn't supported for native cursors.";
 
 		var scaledWidth:Int = Std.int(Scale * cursor.bitmapData.width);
 		var scaledHeight:Int = Std.int(Scale * cursor.bitmapData.height);
@@ -335,17 +311,10 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	 */
 	public function unload():Void
 	{
-		if (cursor != null)
-		{
-			if (cursorContainer.visible)
-			{
-				load();
-			}
-			else
-			{
-				cursor = FlxDestroyUtil.removeChild(cursorContainer, cursor);
-			}
-		}
+		if (cursor == null) return;
+
+		if (cursorContainer.visible) load();
+		else cursor = FlxDestroyUtil.removeChild(cursorContainer, cursor);
 	}
 
 	#if FLX_NATIVE_CURSOR
@@ -372,10 +341,7 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	 * @param   name         The ID name used for the cursor
 	 * @param   cursorData   MouseCursorData contains the bitmap, hotspot etc
 	 */
-	public inline function registerNativeCursor(name:String, cursorData:MouseCursorData):Void
-	{
-		untyped Mouse.registerCursor(name, cursorData);
-	}
+	public inline function registerNativeCursor(name:String, cursorData:MouseCursorData):Void untyped Mouse.registerCursor(name, cursorData);
 
 	/**
 	 * Shortcut to register a simple MouseCursorData
@@ -539,10 +505,7 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 		#end
 
 		// Update the wheel
-		if (!_wheelUsed)
-		{
-			wheel = 0;
-		}
+		if (!_wheelUsed) wheel = 0;
 		_wheelUsed = false;
 	}
 
@@ -568,10 +531,7 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 		#if !FLX_NATIVE_CURSOR
 		_visibleWhenFocusLost = visible;
 
-		if (visible)
-		{
-			visible = false;
-		}
+		if (visible) visible = false;
 
 		Mouse.show();
 		#end
@@ -591,11 +551,9 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	 */
 	function onMouseWheel(flashEvent:MouseEvent):Void
 	{
-		if (enabled)
-		{
-			_wheelUsed = true;
-			wheel = flashEvent.delta;
-		}
+		if (!enabled) return;
+		_wheelUsed = true;
+		wheel = flashEvent.delta;
 	}
 
 	#if FLX_MOUSE_ADVANCED
@@ -674,39 +632,24 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	function hideSystemCursor():Void
 	{
 		#if FLX_NATIVE_CURSOR
-		if (_currentNativeCursor != null)
-		{
-			setNativeCursor(_currentNativeCursor);
-		}
+		if (_currentNativeCursor != null) setNativeCursor(_currentNativeCursor);
 		#else
 		Mouse.hide();
 
-		if (visible)
-		{
-			cursorContainer.visible = true;
-		}
+		if (visible) cursorContainer.visible = true;
 		#end
 	}
 
 	function set_useSystemCursor(value:Bool):Bool
 	{
-		if (value)
-		{
-			showSystemCursor();
-		}
-		else
-		{
-			hideSystemCursor();
-		}
+		if (value) showSystemCursor();
+		else hideSystemCursor();
 		return useSystemCursor = value;
 	}
 
 	function showCursor():Void
 	{
-		if (useSystemCursor)
-		{
-			Mouse.show();
-		}
+		if (useSystemCursor) Mouse.show();
 		else
 		{
 			if (cursor == null) load();
@@ -737,10 +680,7 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	@:allow(flixel.system.replay.FlxReplay)
 	function record():MouseRecord
 	{
-		if ((_lastX == gameX) && (_lastY == gameY) && (_lastLeftButtonState == _leftButton.current) && (_lastWheel == wheel))
-		{
-			return null;
-		}
+		if ((_lastX == gameX) && (_lastY == gameY) && (_lastLeftButtonState == _leftButton.current) && (_lastWheel == wheel)) return null;
 
 		_lastX = gameX;
 		_lastY = gameY;
@@ -756,10 +696,8 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 		// Note: some clicks are fast enough to not pass through a frame where they are PRESSED
 		// and JUST_RELEASED is swallowed by FlxButton and others, but not third-party code
 		if ((_lastLeftButtonState == PRESSED || _lastLeftButtonState == JUST_PRESSED)
-			&& (record.button == RELEASED || record.button == JUST_RELEASED))
-		{
-			_stage.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_UP, true, false, record.x, record.y));
-		}
+			&& (record.button == RELEASED || record.button == JUST_RELEASED)) _stage.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_UP, true, false, record.x,
+				record.y));
 		_lastLeftButtonState = _leftButton.current = record.button;
 		wheel = record.wheel;
 		_rawX = record.x;
@@ -767,14 +705,56 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 		updatePositions();
 	}
 
-	inline function get__cursor()
+	inline function get__cursor() return cursor;
+
+	inline function set__cursor(value:Bitmap) return cursor = value;
+
+	/**
+	 * Check to see if mouse has just been moved upwards.
+	 */
+	public var justMovedUp(get, never):Bool;
+
+	/**
+	 * Check to see if mouse has just been moved downwards.
+	 */
+	public var justMovedDown(get, never):Bool;
+
+	/**
+	 * Check to see if mouse has just been moved leftwards.
+	 */
+	public var justMovedLeft(get, never):Bool;
+
+	/**
+	 * Check to see if mouse has just been moved rightwards.
+	 */
+	public var justMovedRight(get, never):Bool;
+
+	function get_justMovedUp():Bool
 	{
-		return cursor;
+		var swiped:Bool = _swipeDeltaY < -swipeThreshold.y;
+		if (swiped) _startY = viewY;
+		return swiped;
 	}
 
-	inline function set__cursor(value:Bitmap)
+	function get_justMovedDown():Bool
 	{
-		return cursor = value;
+		var swiped:Bool = _swipeDeltaY > swipeThreshold.y;
+		if (swiped) _startY = viewY;
+		return swiped;
+	}
+
+	function get_justMovedLeft():Bool
+	{
+		var swiped:Bool = _swipeDeltaX < -swipeThreshold.x;
+		if (swiped) _startX = viewX;
+		return swiped;
+	}
+
+	function get_justMovedRight():Bool
+	{
+		var swiped:Bool = _swipeDeltaX > swipeThreshold.x;
+		if (swiped) _startX = viewX;
+		return swiped;
 	}
 }
 #end
