@@ -74,10 +74,10 @@ class MainMenu extends ConductorState
 		logo.screenCenter(X);
 		logo.y = logo.height * 0.1;
 
-		var versionText = new FlxText(16, 16, FlxG.width,
-			'v${FlxG.stage.application.meta.get('version')} (${GitMacro.getGitBranch()}:${GitMacro.getGitHash()})', 8);
+		var versionText = new FlxText(0, 0, FlxG.width, 'v${FlxG.stage.application.meta.get('version')}', 8);
+		versionText.text += ' (${GitMacro.getGitBranch()}:${GitMacro.getGitHash()})';
 		add(versionText);
-		versionText.y = FlxG.height - versionText.height;
+		versionText.setPosition(versionText.size, FlxG.height - versionText.height - versionText.size);
 		versionText.alpha = .25;
 
 		#if MOBILE_MODE

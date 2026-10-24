@@ -3,6 +3,8 @@ package rw.util.macro;
 import sys.io.Process;
 import haxe.macro.Context;
 
+using StringTools;
+
 class GitMacro
 {
 	public static macro function getGitHash()
@@ -15,7 +17,7 @@ class GitMacro
 		process.close();
 
 		if (output == null) return macro $v{''};
-		else return macro $v{output.substr(0, 6)};
+		else return macro $v{output.trim().substr(0, 6)};
 	}
 
 	public static macro function getGitBranch()
@@ -28,6 +30,6 @@ class GitMacro
 		process.close();
 
 		if (output == null) return macro $v{''};
-		else return macro $v{output};
+		else return macro $v{output.trim()};
 	}
 }
