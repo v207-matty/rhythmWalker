@@ -1,5 +1,6 @@
 package rw.ui;
 
+import rw.save.Save;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.addons.ui.FlxUIState;
@@ -22,10 +23,13 @@ class QualityWarning extends ConductorState
 
 	override function create()
 	{
-		#if !mobile
-		mouseVisible = true;
-		#end
-		mouseEnabled = true;
+		if (!Save.options.qualityWarning)
+		{
+			proceed();
+			return;
+		}
+		
+		#if !mobile mouseVisible = #end mouseEnabled = true;
 
 		warning = new FlxText(0, 0, FlxG.width,
 			'HELLO THERE!'

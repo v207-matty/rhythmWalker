@@ -50,6 +50,7 @@ class Save
 		game.options ??= {};
 		
 		game.options.shaders ??= true;
+		game.options.qualityWarning ??= true;
 
 		#if !(SAVE_CLEAR || clear)
 		scores = game.scores;

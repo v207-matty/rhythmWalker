@@ -25,7 +25,10 @@ class OptionsMenu extends ConductorState
 	{
 		super();
 
-		options = [new Option(() -> return 'Shaders : ${Save.options.shaders}', () -> Save.options.shaders = !Save.options.shaders),];
+		options = [
+			new Option(() -> return 'Quality Warning : ${Save.options.qualityWarning}', () -> Save.options.qualityWarning = !Save.options.qualityWarning),
+			new Option(() -> return 'Shaders : ${Save.options.shaders}', () -> Save.options.shaders = !Save.options.shaders),
+		];
 	}
 
 	override function create()
@@ -45,7 +48,7 @@ class OptionsMenu extends ConductorState
 			optionTexts.add(text);
 		}
 
-        #if MOBILE_MODE
+		#if MOBILE_MODE
 		var backBtn = new rw.ui.objects.mobile.CornerButton('backBtn');
 
 		backBtn.y = FlxG.height - backBtn.height;
@@ -104,7 +107,7 @@ class OptionsMenu extends ConductorState
 		var method = options[selection].onClick;
 		if (method != null) method();
 
-        changeSelection(0);
+		changeSelection(0);
 	}
 
 	function leave() FlxG.switchState(() -> new MainMenu());
