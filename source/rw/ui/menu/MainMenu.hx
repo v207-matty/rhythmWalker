@@ -75,7 +75,7 @@ class MainMenu extends ConductorState
 		logo.y = logo.height * 0.1;
 
 		var versionText = new FlxText(0, 0, FlxG.width, 'v${FlxG.stage.application.meta.get('version')}', 8);
-		versionText.text += ' (${GitMacro.getGitBranch()}:${GitMacro.getGitHash()})';
+		versionText.text += ' (${GitMacro.getGitBranch()}/${GitMacro.getGitHash()})';
 		add(versionText);
 		versionText.setPosition(versionText.size, FlxG.height - versionText.height - versionText.size);
 		versionText.alpha = .25;
