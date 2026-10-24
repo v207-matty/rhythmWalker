@@ -21,8 +21,8 @@ jobs:
               with:
                   path: |
                       .haxelib/
-                      export/64bit/release/linux/haxe/
-                      export/64bit/release/linux/obj/
+                      export/release/linux/haxe/
+                      export/release/linux/obj/
                   key: cache-build-linux-64
 
             - name: Installing Libraries
@@ -50,8 +50,8 @@ jobs:
                   key: cache-build-linux-64
                   path: |
                       .haxelib/
-                      export/64bit/release/linux/haxe/
-                      export/64bit/release/linux/obj/
+                      export/release/linux/haxe/
+                      export/release/linux/obj/
                   restore-keys: |
                       cache-build-linux-64
 
@@ -59,7 +59,7 @@ jobs:
               uses: actions/upload-artifact@main
               with:
                   name: linuxBuild-64
-                  path: export/64bit/release/linux/bin
+                  path: export/release/linux/bin
 
     buildWindows64:
         runs-on: windows-latest
@@ -77,8 +77,8 @@ jobs:
               with:
                   path: |
                       .haxelib/
-                      export/64bit/release/windows/haxe/
-                      export/64bit/release/windows/obj/
+                      export/release/windows/haxe/
+                      export/release/windows/obj/
                   key: cache-build-windows-64
 
             - name: Installing Libraries
@@ -106,8 +106,8 @@ jobs:
                   key: cache-build-windows-64
                   path: |
                       .haxelib/
-                      export/64bit/release/windows/haxe/
-                      export/64bit/release/windows/obj/
+                      export/release/windows/haxe/
+                      export/release/windows/obj/
                   restore-keys: |
                       cache-build-windows-64
 
@@ -115,7 +115,7 @@ jobs:
               uses: actions/upload-artifact@main
               with:
                   name: windowsBuild-64
-                  path: export/64bit/release/windows/bin
+                  path: export/release/windows/bin
 
     buildMac64:
         runs-on: macos-latest
@@ -133,8 +133,8 @@ jobs:
               with:
                   path: |
                       .haxelib/
-                      export/64bit/release/macos/haxe/
-                      export/64bit/release/macos/obj/
+                      export/release/macos/haxe/
+                      export/release/macos/obj/
                   key: cache-build-mac-64
 
             - name: Installing Libraries
@@ -162,8 +162,8 @@ jobs:
                   key: cache-build-mac-64
                   path: |
                       .haxelib/
-                      export/64bit/release/macos/haxe/
-                      export/64bit/release/macos/obj/
+                      export/release/macos/haxe/
+                      export/release/macos/obj/
                   restore-keys: |
                       cache-build-mac-64
 
@@ -171,7 +171,7 @@ jobs:
               uses: actions/upload-artifact@main
               with:
                   name: macBuild-64
-                  path: export/64bit/release/macos/bin
+                  path: export/release/macos/bin
 
     buildWeb:
         runs-on: windows-latest
@@ -189,8 +189,8 @@ jobs:
               with:
                   path: |
                       .haxelib/
-                      export/64bit/release/html5/haxe/
-                      export/64bit/release/html5/obj/
+                      export/release/html5/haxe/
+                      export/release/html5/obj/
                   key: cache-build-html5
 
             - name: Installing Libraries
@@ -218,8 +218,8 @@ jobs:
                   key: cache-build-html5
                   path: |
                       .haxelib/
-                      export/64bit/release/html5/haxe/
-                      export/64bit/release/html5/obj/
+                      export/release/html5/haxe/
+                      export/release/html5/obj/
                   restore-keys: |
                       cache-build-html5
 
@@ -227,4 +227,4 @@ jobs:
               uses: actions/upload-artifact@main
               with:
                   name: webBuild
-                  path: export/64bit/release/html5/bin
+                  path: export/release/html5/bin

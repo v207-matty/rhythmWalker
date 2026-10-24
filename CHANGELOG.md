@@ -85,7 +85,7 @@ The 32bit version of the game has been retired due to no more waveform stuff lef
 
 ## Fixes
 
-- Fixed bro-mental skin has been fixed
+- Fixed bro-mental skin
     - Had flipped idle, hurt, and move, shouldn't have
 
 - Fixed when you have a less than 1 millisecond long song it would still make the entire game scene
