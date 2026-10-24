@@ -1,11 +1,23 @@
 package rw.ui.game.song;
 
+import rw.ui.game.rh.*;
 import rw.ui.game.walker.*;
 import rw.ui.game.walker.songs.*;
 
 class SongManager
 {
-	public static function get(song:String, variation:SongVariation):PlayableComponent
+	public static function getRhythmHeaven(song:String, variation:SongVariation):RHSong
+	{
+		return switch ([song.toLowerCase(), variation])
+		{
+			default:
+				trace('Unimplemented song case : $song ($variation)');
+				return new RHSong(song,variation);
+		}
+
+	}
+
+	public static function getWalker(song:String, variation:SongVariation):WalkerSong
 	{
 		return switch ([song.toLowerCase(), variation])
 		{
@@ -38,7 +50,7 @@ class SongManager
 
 			default:
 				trace('Unimplemented song case : $song ($variation)');
-				null;
+				new WalkerSong(song, variation);
 		}
 	}
 }

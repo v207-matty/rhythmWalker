@@ -449,7 +449,7 @@ class WalkerPlayState extends ConductorState
 
 	function generateSong()
 	{
-		song = SongManager.get(songData?.id, songData?.variation ?? defaultVariation);
+		song = SongManager.getWalker(songData?.id, songData?.variation ?? defaultVariation);
 		if (song != null) song.build();
 
 		makeStage(songData?.stage ?? 'stage');
