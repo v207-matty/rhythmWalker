@@ -8,7 +8,7 @@ class RHStageSprite extends RWSprite
 {
 	override public function new(sprite:String, ?animated:Bool, ?fw:Int, ?fh:Int)
 	{
-		super((sprite == null) ? null : 'game/walker/stages/$sprite', animated, fw, fh);
+		super((sprite == null) ? null : 'game/rh/stages/$sprite', animated, fw, fh);
 		this.sprite = sprite;
 	}
 
