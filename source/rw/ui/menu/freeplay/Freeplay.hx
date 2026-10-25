@@ -203,7 +203,7 @@ class Freeplay extends MenuState
 		if (selectedEntry > entries.length - 1) selectedEntry = 0;
 
 		var score = Save.scores.get(songCode);
-		var curSongScore:Float = score?.score ?? 0;
+		var curSongScore:Int = score?.score ?? 0;
 		var curSongRank:SongRank = score?.rank ?? NONE;
 		var curSongRankPercent:Float = score?.percent ?? 0;
 

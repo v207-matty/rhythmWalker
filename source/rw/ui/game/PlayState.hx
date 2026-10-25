@@ -25,8 +25,8 @@ class PlayState<ComponentType:PlayableComponent, SongType:ComponentType> extends
 	public var songEvents:Array<FlxTimer> = [];
 
 	public var scoreText(default, null):FlxText;
-	public var totalScore:Float = 0;
-	public var score:Float = 0;
+	public var totalScore:Int = 0;
+	public var score:Int = 0;
 
 	public var camGame(default, null):FlxCamera;
 	public var camGameFollow(default, null):FlxObject;

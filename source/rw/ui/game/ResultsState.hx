@@ -16,7 +16,7 @@ import rw.ui.game.song.SongRank;
 
 class ResultsState extends ConductorState
 {
-	var songScore:Float;
+	var songScore:Int;
 	var songRank:SongRank;
 	var songRankPercent:Float;
 
