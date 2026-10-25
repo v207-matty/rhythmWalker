@@ -69,6 +69,8 @@ class QualityWarning extends ConductorState
 			}
 		});
 
+		FlxG.sound.cache(Paths.getAudio('ui/menu'));
+
 		#if GAMEPLAY
 		FlxG.switchState(() -> new DialogueScene(new SongData('first steps', aria), true));
 		#elseif DIALOGUE
