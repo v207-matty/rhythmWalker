@@ -137,6 +137,6 @@ class OptionsMenu extends MenuState
 			if (selection == option.ID) camFollow.y = option.y;
 		}
 
-		if (selection != previousSelection) FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
+		if (selection != previousSelection) FlxG.sound.play(Paths.getAudio('ui/sfx/menu/scroll'));
 	}
 }

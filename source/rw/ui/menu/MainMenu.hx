@@ -150,6 +150,6 @@ class MainMenu extends MenuState
 			option.color = (selection == option.ID) ? FlxColor.YELLOW : FlxColor.WHITE;
 		}
 
-		if (selection != previousSelection) FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
+		if (selection != previousSelection) FlxG.sound.play(Paths.getAudio('ui/sfx/menu/scroll'));
 	}
 }

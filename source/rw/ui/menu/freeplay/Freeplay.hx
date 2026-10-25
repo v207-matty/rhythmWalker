@@ -180,7 +180,7 @@ class Freeplay extends MenuState
 
 	function proceed()
 	{
-		FlxG.sound.play(Paths.getAudio('sfx/menu/confirm'));
+		FlxG.sound.play(Paths.getAudio('ui/sfx/menu/confirm'));
 
 		var song = {
 			song: songCode.substr(0, songCode.lastIndexOf('-')),
@@ -241,7 +241,7 @@ class Freeplay extends MenuState
 
 		if (selectedEntry == prevSel) return;
 
-		FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
+		FlxG.sound.play(Paths.getAudio('ui/sfx/menu/scroll'));
 	}
 
 	function changeVolume(amount:Int)
@@ -262,7 +262,7 @@ class Freeplay extends MenuState
 
 		if (selectedVolume == prevVol) return;
 
-		FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
+		FlxG.sound.play(Paths.getAudio('ui/sfx/menu/scroll'));
 
 		filter(filterList[selectedVolume]);
 	}

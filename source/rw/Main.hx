@@ -90,7 +90,7 @@ class Main extends FlxGame
 
 		FlxTransitionableState.defaultTransIn = FlxTransitionableState.defaultTransOut = getDefaultTransition();
 		#if !mobile
-		FlxG.sound.soundTray.volumeUpSound = FlxG.sound.soundTray.volumeDownSound = Paths.getAudio('sfx/volume');
+		FlxG.sound.soundTray.volumeUpSound = FlxG.sound.soundTray.volumeDownSound = Paths.getAudio('ui/sfx/volume');
 		#end
 
 		TouchUtil.mouse.swipeThreshold.set(500, 400);
