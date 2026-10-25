@@ -13,6 +13,8 @@ class FirstStepsAriaLCRSprite extends RHSprite
 		addAnim('center', [0]);
 		addAnim('left', [1]);
 		addAnim('right', [2]);
+
+		playAnim('center');
 	}
 
 	override function setCamera(cam:FlxCamera):FirstStepsAriaLCRSprite return cast super.setCamera(cam);

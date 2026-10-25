@@ -1,5 +1,7 @@
 package rw.ui.game.rh.songs;
 
+import rw.util.mobile.TouchUtil;
+import flixel.FlxG;
 import rw.ui.game.rh.songs.first_steps_aria.FirstStepsAriaLCRSprite;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -15,6 +17,10 @@ class SongFirstStepsAria extends RHSong
 
 	var bro:RHSprite;
 
+	public var broPoint(get, never):String;
+
+	function get_broPoint():String return bro.animation.name;
+
 	var lazers:Array<FirstStepsAriaLCRSprite> = [];
 
 	override function build()
@@ -25,11 +31,29 @@ class SongFirstStepsAria extends RHSong
 
 		game.back.add(new RHSprite('first-steps-aria/stage').scaleToScreen().setCamera(game.camGame));
 
-		game.gameplayElements.add(bro = new RHSprite('first-steps-aria/bro', true, 1280, 720).scaleToScreen().setCamera(game.camGame));
-		bro.addAnim('center', [0]);
-		bro.addAnim('left', [1]);
-		bro.addAnim('right', [2]);
+		game.gameplayElements.add(bro = new FirstStepsAriaLCRSprite('bro').setCamera(game.camGame));
+
+		trace(broPoint);
 	}
+
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+
+		if (FlxG.keys.anyJustPressed([A, LEFT]) || TouchUtil.swippedLeft())
+		{
+			moveTo('left', 'center');
+			moveTo('center', 'right');
+		}
+
+		if (FlxG.keys.anyJustPressed([D, RIGHT]) || TouchUtil.swippedRight())
+		{
+			moveTo('right', 'center');
+			moveTo('center', 'left');
+		}
+	}
+
+	function moveTo(point:String, ifPoint:String) if (broPoint == ifPoint) bro.playAnim(point);
 
 	override function onEvent(event:SongEventRawData)
 	{
