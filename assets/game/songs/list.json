@@ -108,7 +108,6 @@
         {
             "song": "First Steps",
             "filters": [
-                "!all",
                 "volume4",
                 "aria mix"
             ],
