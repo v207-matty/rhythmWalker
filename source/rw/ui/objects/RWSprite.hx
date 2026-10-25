@@ -1,5 +1,6 @@
 package rw.ui.objects;
 
+import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxCamera;
 import flixel.FlxSprite;
@@ -19,6 +20,9 @@ class RWSprite extends FlxSprite
 
 		setScale(4);
 	}
+
+	override function makeGraphic(width:Int, height:Int, color:FlxColor = FlxColor.WHITE, unique:Bool = false,
+			?key:String):RWSprite return cast super.makeGraphic(width, height, color, unique, key);
 
 	public function setScale(?x:Float, ?y:Float):RWSprite
 	{

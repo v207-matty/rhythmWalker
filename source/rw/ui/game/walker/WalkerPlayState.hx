@@ -1,5 +1,6 @@
 package rw.ui.game.walker;
 
+import rw.ui.game.walker.beatmonster.BeatMonster;
 import flixel.math.FlxPoint;
 import flixel.util.FlxGradient;
 import rw.util.Constants;
@@ -21,7 +22,7 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong, Wal
 	public static var instance:WalkerPlayState;
 
 	public var player(default, null):Player;
-	public var beatMonsters(default, null):FlxSpriteGroup;
+	public var beatMonsters(default, null):FlxTypedSpriteGroup<BeatMonster>;
 	public var beatMonsterSpawner(default, null):FlxSprite;
 	public var scoreText(default, null):FlxText;
 	public var hits:Int = 0;
@@ -58,7 +59,7 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong, Wal
 		createPlayer();
 
 		gameplayElements.add(player);
-		gameplayElements.add(beatMonsters = new FlxSpriteGroup());
+		gameplayElements.add(beatMonsters = new FlxTypedSpriteGroup<BeatMonster>());
 		gameplayElements.add(beatMonsterSpawner = FlxGradient.createGradientFlxSprite(Math.floor(FlxG.width * 1.1), Math.floor(FlxG.height * 0.2),
 			[FlxColor.RED, FlxColor.TRANSPARENT]));
 
@@ -90,14 +91,6 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong, Wal
 
 	override function onStepHit(step:Int, backward:Bool)
 	{
-		if (!inCutscene && ((canSpawnMonster || !inEndCutscene && beatMonsters.members.length > 0) && data.beatMonsters.stepRate > 0))
-		{
-			var scoreInc:Int = 25;
-
-			totalScore += scoreInc;
-			if (!player.stunned) score += scoreInc;
-		}
-
 		if (canSpawnMonster && Math.floor(step % data.beatMonsters.stepRate) == 0) spawnBeatMonster();
 
 		super.onStepHit(step, backward);
@@ -182,9 +175,20 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong, Wal
 				continue;
 			}
 
-			if (!monster.overlaps(player.collision)) continue;
-			if (immortal || inCutscene || player.stunned) continue;
-			if (!camGame.visible || camGame.alpha < 0.1) continue;
+			if (monster.y < player.y || monster.avoided || immortal || inCutscene || player.stunned || !camGame.visible || camGame.alpha < 0.1) continue;
+
+			if (!monster.overlaps(player.collision))
+			{
+				if (monster.y > player.collision.y && !monster.avoided)
+				{
+					monster.avoided = true;
+					applyScore(true);
+				}
+
+				continue;
+			}
+
+			applyScore(false);
 
 			player.stunned = true;
 			playerPlayAnim('hurt');
@@ -202,6 +206,14 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong, Wal
 
 		beatMonsterSpawner.y = camGame.viewY;
 		beatMonsterSpawner.alpha = FlxMath.lerp(beatMonsterSpawner.alpha, (canSpawnMonster) ? 0.2 : 0, .1);
+	}
+
+	public function applyScore(dodged:Bool)
+	{
+		final scoreToApply = (dodged) ? Constants.GAMEPLAY_WALKER_SCORE_AVOID : Constants.GAMEPLAY_WALKER_SCORE_HIT;
+
+		totalScore += Constants.GAMEPLAY_WALKER_SCORE_AVOID;
+		score += scoreToApply;
 	}
 
 	public function playerPlayAnim(anim:String, hasFlippedVer:Bool = true)
@@ -269,13 +281,11 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong, Wal
 
 	public var canSpawnMonster(get, never):Bool;
 
-	function get_canSpawnMonster():Bool return !inEndCutscene && data.beatMonsters.spawn;
+	function get_canSpawnMonster():Bool return !inEndCutscene && data.beatMonsters.spawn && data.beatMonsters.stepRate > 0;
 
 	public function spawnBeatMonster()
 	{
-		var beatMonster:FlxSprite = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
-		beatMonster.scale.y = beatMonster.scale.x = data.beatMonsters.scale;
-		beatMonster.updateHitbox();
+		var beatMonster:BeatMonster = new BeatMonster(data.beatMonsters.scale);
 
 		beatMonster.x = player.getGraphicMidpoint().x - (beatMonster.width / 2) - data.beatMonsters.padding;
 		beatMonster.y = beatMonster.height * -2;

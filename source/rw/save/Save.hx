@@ -1,7 +1,7 @@
 package rw.save;
 
+import rw.save.SaveSongScore.SaveSongScoreVersion;
 import haxe.Json;
-import rw.ui.game.song.SongScore;
 import flixel.util.FlxSave;
 import flixel.math.FlxMath;
 import lime.app.Application;
@@ -12,8 +12,10 @@ using StringTools;
 
 typedef SaveData =
 {
+	var version:SaveVersion;
+
 	@:optional
-	var scores:Map<String, SongScore>;
+	var scores:Map<String, SaveSongScore>;
 
 	@:optional
 	var options:SaveOptionsData;
@@ -21,7 +23,11 @@ typedef SaveData =
 
 class Save
 {
-	public static var scores:Map<String, SongScore> = [];
+	public static final LATEST_VERSION:SaveVersion = SAVING_B1_INDEV_0;
+	public static final LATEST_VERSION_SONG:SaveSongScoreVersion = BUNDLE_ONE;
+
+	public static var version:SaveVersion;
+	public static var scores:Map<String, SaveSongScore> = [];
 	public static var options:SaveOptionsData = {};
 
 	public static var game(get, set):SaveData;
@@ -50,10 +56,20 @@ class Save
 
 	public static function forceLoad()
 	{
+		version = game.version;
 		scores = game.scores;
 		options = game.options;
 
+		saveConvert();
+
 		trace(game);
+	}
+
+	static function saveConvert()
+	{
+		for (song => score in scores) if (score.version == null || score.version == _UNKNOWN) score.version = BEFORE_BUNDLE_ONE;
+
+		version = LATEST_VERSION;
 	}
 
 	public static function clear()
@@ -66,8 +82,11 @@ class Save
 
 	public static function initData()
 	{
-		game ??= {};
+		game ??= {
+			version: null,
+		};
 
+		game.version ??= _UNKNOWN;
 		game.scores ??= [];
 		game.options ??= {};
 
@@ -80,6 +99,7 @@ class Save
 	public static function save()
 	{
 		game = {
+			version: LATEST_VERSION,
 			scores: scores,
 			options: options,
 		};
@@ -90,9 +110,11 @@ class Save
 	public static function saveSongScore(id:String, score:Int, totalScore:Int)
 	{
 		var song = scores.get(id);
+
 		var songScore:Int = song?.score ?? 0;
 		var songRank:SongRank = song?.rank ?? NONE;
 		var songRankPercent:Float = song?.percent ?? 0;
+		var songVersion:SaveSongScoreVersion = song?.version ?? _UNKNOWN;
 
 		var newHS:Bool = false;
 
@@ -100,7 +122,7 @@ class Save
 
 		final newPercent = FlxMath.roundDecimal(score / totalScore, 2);
 
-		if (newPercent > songRankPercent || score > songScore)
+		if (newPercent > songRankPercent || score > songScore || songVersion != LATEST_VERSION_SONG)
 		{
 			trace('NEW HIGHSCORE FOR "$id": $score');
 			trace(' | $score / $totalScore');
@@ -118,6 +140,7 @@ class Save
 			percent: FlxMath.roundDecimal(songRankPercent, 2),
 			rank: songRank,
 			score: songScore,
+			version: LATEST_VERSION_SONG
 		});
 
 		return newHS;

@@ -4,6 +4,10 @@ The 32bit version of the game has been retired due to no more waveform stuff lef
 
 ## Primary Things
 
+- SAVE SHIT HAS BEEN CHANGED ( No conversion, sorry :( )
+    - New Path
+    - Scores are saved different and have a different system anyway
+
 - NEW GAMEPLAY MODE : RHYTHM HEAVEN
 
 - NEW SONGS : CHASE, SAVE AND FIRST STEPS (ARIA)
@@ -50,22 +54,19 @@ The 32bit version of the game has been retired due to no more waveform stuff lef
     - Set the "player" field in your song JSON and make sure that player has a graphic and json in "assets/game/walker/players" with that name
         - Or specify a plater graphic to use in the json
 
-- SAVE SHIT HAS BEEN CHANGED ( No conversion, sorry :( )
-    - New Path
-    - Scores are saved different
-
 ## UX
 
+- Updated Scoring again lmao
+    - These are for if you are not in a cutscene
+    - You receive -10 points for getting hit by beat monsters
+    - You receive 100 points for avoiding beat monsters
 - The haxeflixel splash screen is skipped now
 - Freeplay no longer plays a little sound when first entering it
 - Now using logarithmic sound curves (basically the volume thingy is more accurate to what humans actually hear)
-
 - Gameplay now lets you click the screen to move (the player will move to where your cursor is)
-
 - ADDED MOBILE SUPPORT!! (heres stuff that happens when on mobile)
     - [MOBILE] Text gets sized up
     - [MOBILE] All Menus get buttons to perform actions for keyboard
-    
 - Added crash handler
 
 ## UI
@@ -89,7 +90,7 @@ The 32bit version of the game has been retired due to no more waveform stuff lef
 
 - Fixed weird score saving system
     - Before it only worked by comparing your previous score (if any) to your current then updating, but if the song got updated and you couldnt get around the same score as in the previous version, you would've had a permanently fucked score
-        - Now it checks if your new percentage is higher or if you have a higher score
+        - Now it checks if your new percentage is higher, if you have a higher score, or if you're on a different system
 
 - Fixed bro-mental skin
     - Had flipped idle, hurt, and move, shouldn't have
