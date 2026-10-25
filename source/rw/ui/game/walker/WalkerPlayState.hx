@@ -1,29 +1,19 @@
 package rw.ui.game.walker;
 
-import flixel.addons.transition.TransitionData;
-import flixel.addons.transition.Transition;
+import flixel.addons.transition.*;
 import rw.save.Save;
-import rw.ui.menu.MainMenu;
 import rw.ui.game.song.SongEventData;
 import rw.util.*;
-import rw.ui.objects.*;
-import rw.ui.game.dialogue.*;
 import rw.ui.game.walker.stage.*;
 import rw.ui.game.walker.player.*;
 import rw.ui.game.song.*;
 import rw.ui.menu.freeplay.*;
-import flixel.math.FlxPoint;
-import flixel.util.FlxGradient;
 import flixel.*;
-import flixel.tweens.*;
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.addons.display.FlxBackdrop;
 import flixel.addons.sound.FlxRhythmConductorUtil;
-import flixel.util.FlxTimer;
 import flixel.text.FlxText;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
-import flixel.util.FlxColor;
+import flixel.util.*;
 
 using StringTools;
 
@@ -41,12 +31,6 @@ class WalkerPlayState extends ConductorState
 	public var songData(default, null):SongData;
 	public var songEvents:Array<FlxTimer> = [];
 
-	public var components(get, never):Array<WalkerPlayableComponent>;
-
-	function get_components():Array<WalkerPlayableComponent> return [stage, song];
-
-	public function runOnComponents(a:WalkerPlayableComponent->Void) if (a != null) for (component in components) if (component != null) a(component);
-
 	public var scoreText(default, null):FlxText;
 	public var totalScore:Int = 0;
 	public var score:Int = 0;
@@ -56,6 +40,7 @@ class WalkerPlayState extends ConductorState
 	public var camGameFollow(default, null):FlxObject;
 
 	public var camHUD(default, null):FlxCamera;
+	public var camTransition:FlxCamera;
 
 	public var beatMonsterSpawner(default, null):FlxSprite;
 
@@ -76,15 +61,17 @@ class WalkerPlayState extends ConductorState
 
 	public var timeBar(default, null):PlayTimeBar;
 
-	public var transitionCam:FlxCamera;
+	public var components(get, never):Array<WalkerPlayableComponent>;
+
+	function get_components():Array<WalkerPlayableComponent> return [stage, song];
+
+	public function runOnComponents(a:WalkerPlayableComponent->Void) if (a != null) for (component in components) if (component != null) a(component);
 
 	override public function new(song:String, ?variation:SongVariation = defaultVariation)
 	{
-		super(null, null);
+		super();
 
 		this.songData = new SongData(song, variation ?? defaultVariation);
-
-		FlxG.log.add(song);
 	}
 
 	override function destroy()
@@ -103,8 +90,8 @@ class WalkerPlayState extends ConductorState
 
 		FlxG.cameras.reset(camGame = new FlxCamera());
 		FlxG.cameras.add(camHUD = new FlxCamera(), false);
-		FlxG.cameras.add(transitionCam = new FlxCamera(), false);
-		transitionCam.bgColor.alpha = camHUD.bgColor.alpha = 0;
+		FlxG.cameras.add(camTransition = new FlxCamera(), false);
+		camTransition.bgColor.alpha = camHUD.bgColor.alpha = 0;
 
 		camGame.follow(camGameFollow, LOCKON, 0.04);
 
@@ -123,29 +110,18 @@ class WalkerPlayState extends ConductorState
 
 		trace('song len: ${FlxG.sound.music.length / 1000}s');
 
-		stageBackLayer = new FlxSpriteGroup();
-		add(stageBackLayer);
-		stageBackLayer.camera = camGame;
-
 		createPlayer();
+
+		add(stageBackLayer = new FlxSpriteGroup());
 		add(player);
+		add(beatMonsters = new FlxSpriteGroup());
+		add(beatMonsterSpawner = FlxGradient.createGradientFlxSprite(Math.floor(FlxG.width * 1.1), Math.floor(FlxG.height * 0.2),
+			[FlxColor.RED, FlxColor.TRANSPARENT]));
+		add(stageFrontLayer = new FlxSpriteGroup());
+		add(scoreText = new FlxText(0, 0, FlxG.width, 'BOB', Constants.TEXT_SIZE));
 
-		beatMonsters = new FlxSpriteGroup();
-		add(beatMonsters);
-		beatMonsters.camera = camGame;
-
-		beatMonsterSpawner = FlxGradient.createGradientFlxSprite(Math.floor(FlxG.width * 1.1), Math.floor(FlxG.height * 0.2),
-			[FlxColor.RED, FlxColor.TRANSPARENT]);
-		add(beatMonsterSpawner);
-		beatMonsterSpawner.camera = camGame;
 		beatMonsterSpawner.alpha = 0;
 
-		stageFrontLayer = new FlxSpriteGroup();
-		add(stageFrontLayer);
-		stageFrontLayer.camera = camGame;
-
-		scoreText = new FlxText(0, 0, FlxG.width, 'BOB', Constants.TEXT_SIZE);
-		add(scoreText);
 		scoreText.setBorderStyle(OUTLINE, FlxColor.BLACK, Constants.TEXT_OUTLINE_SIZE);
 		scoreText.camera = camHUD;
 		scoreText.alignment = CENTER;
@@ -153,10 +129,6 @@ class WalkerPlayState extends ConductorState
 		generateSong();
 
 		beatMonsterSpawner.shader = beatMonsters.shader;
-
-		for (event in songData.events) addEvent(event);
-
-		transitionIn();
 
 		if (introCutscene()) inIntroCutscene = true;
 
@@ -179,7 +151,7 @@ class WalkerPlayState extends ConductorState
 	override function createTransition(data:TransitionData):Transition
 	{
 		var trans = super.createTransition(data);
-		trans.camera = transitionCam;
+		trans.camera = camTransition;
 		return trans;
 	}
 
@@ -193,7 +165,7 @@ class WalkerPlayState extends ConductorState
 		else if (data.player.cutsceneVelocityDamping) playerVelocityDamping();
 
 		if (beatMonsters != null) manageBeatMonsters();
-		
+
 		timeBar.target = FlxG.width * (conductor.musicPosition / conductor.musicLength);
 
 		if (scoreText != null)
@@ -453,6 +425,8 @@ class WalkerPlayState extends ConductorState
 		if (song != null) song.build();
 
 		makeStage(songData?.stage ?? 'stage');
+
+		for (event in songData.events) addEvent(event);
 	}
 
 	public function makeStage(stage:String)

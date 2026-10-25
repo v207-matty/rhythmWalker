@@ -28,7 +28,7 @@ class SongSaveDefault extends WalkerSong
 		getReadyTEXT.screenCenter(X);
 		getReadyTEXT.y = getReadyTEXT.size;
 
-		getReadyIMG.camera = getReadyTEXT.camera = game.transitionCam;
+		getReadyIMG.camera = getReadyTEXT.camera = game.camTransition;
 		getReadyIMG.alpha = getReadyTEXT.alpha = 0;
 
 		FlxTween.tween(getReadyIMG, {alpha: 1}, 3.6, {

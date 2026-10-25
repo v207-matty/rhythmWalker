@@ -4,6 +4,8 @@ The 32bit version of the game has been retired due to no more waveform stuff lef
 
 ## Primary Things
 
+- NEW GAMEPLAY MODE : RHYTHM HEAVEN
+
 - NEW SONGS : CHASE, SAVE AND FIRST STEPS (ARIA)
 
 - MAIN MENU!

@@ -1,5 +1,6 @@
 package rw.ui.game.song;
 
+import rw.ui.game.rh.songs.*;
 import rw.ui.game.rh.*;
 import rw.ui.game.walker.*;
 import rw.ui.game.walker.songs.*;
@@ -10,11 +11,13 @@ class SongManager
 	{
 		return switch ([song.toLowerCase(), variation])
 		{
+			case ['first steps', aria]:
+				return new SongFirstStepsAria();
+
 			default:
 				trace('Unimplemented song case : $song ($variation)');
-				return new RHSong(song,variation);
+				return new RHSong(song, variation);
 		}
-
 	}
 
 	public static function getWalker(song:String, variation:SongVariation):WalkerSong
