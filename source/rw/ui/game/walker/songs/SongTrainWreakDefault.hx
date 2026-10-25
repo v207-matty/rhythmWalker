@@ -14,6 +14,14 @@ class SongTrainWreakDefault extends WalkerSong
 		super('train wreak', defaultVariation);
 	}
 
+	override function build()
+	{
+		super.build();
+
+		FlxG.sound.cache(Paths.getAudio('game/cutscenes/fuse'));
+		FlxG.sound.cache(Paths.getAudio('game/cutscenes/explosion'));
+	}
+
 	override function introCutscene():Bool
 	{
 		game.camHUD.alpha = 0;
