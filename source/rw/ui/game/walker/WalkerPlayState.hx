@@ -57,9 +57,9 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong, Wal
 	{
 		createPlayer();
 
-		middle.add(player);
-		middle.add(beatMonsters = new FlxSpriteGroup());
-		middle.add(beatMonsterSpawner = FlxGradient.createGradientFlxSprite(Math.floor(FlxG.width * 1.1), Math.floor(FlxG.height * 0.2),
+		gameplayElements.add(player);
+		gameplayElements.add(beatMonsters = new FlxSpriteGroup());
+		gameplayElements.add(beatMonsterSpawner = FlxGradient.createGradientFlxSprite(Math.floor(FlxG.width * 1.1), Math.floor(FlxG.height * 0.2),
 			[FlxColor.RED, FlxColor.TRANSPARENT]));
 
 		add(scoreText = new FlxText(0, 0, FlxG.width, 'BOB', Constants.TEXT_SIZE));

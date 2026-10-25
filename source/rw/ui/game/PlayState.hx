@@ -33,6 +33,8 @@ class PlayState<ComponentType:PlayableComponent, SongType:ComponentType, StageTy
 
 	public var timeBar(default, null):PlayTimeBar;
 
+	public var gameplayElements(default, null):FlxSpriteGroup;
+
 	public var back(default, null):FlxSpriteGroup;
 	public var middle(default, null):FlxSpriteGroup;
 	public var front(default, null):FlxSpriteGroup;
@@ -96,6 +98,7 @@ class PlayState<ComponentType:PlayableComponent, SongType:ComponentType, StageTy
 
 		add(back = new FlxSpriteGroup());
 		add(middle = new FlxSpriteGroup());
+		add(gameplayElements = new FlxSpriteGroup());
 		add(front = new FlxSpriteGroup());
 
 		generateState();
