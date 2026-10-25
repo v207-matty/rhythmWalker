@@ -106,7 +106,7 @@ class Main extends FlxGame
 		if (FlxG.keys.pressed.F5) throw 'Debug Crash';
 
 		#if android
-		if (FlxG.android.justReleased.ANY) Save.save();
+		if (FlxG.android.justPressed.ANY) Save.save();
 		#end
 	}
 

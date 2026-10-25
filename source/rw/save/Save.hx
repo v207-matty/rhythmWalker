@@ -146,6 +146,8 @@ class Save
 			mode: mode
 		});
 
+		save();
+
 		return newHS;
 	}
 }
