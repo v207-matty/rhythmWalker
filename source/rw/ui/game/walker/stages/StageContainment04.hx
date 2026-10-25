@@ -15,7 +15,11 @@ class StageContainment04 extends WalkerStage
 		super('containment-04');
 	}
 
+	var tubes:Array<WalkerStageSprite> = [];
 	var containment04_tubeSubject:WalkerStageSprite;
+	var label:WalkerStageSprite;
+	var floor:FlxBackdrop;
+	var floorFloor:Floor;
 
 	override function build()
 	{
@@ -23,25 +27,25 @@ class StageContainment04 extends WalkerStage
 
 		game.camGame.bgColor = 0xFF595652;
 
-		var floor:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/floor'), X);
+		floor = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/floor'), X);
 		floor.scale.set(2, 2);
 		floor.scrollFactor.set();
 		floor.updateHitbox();
 		floor.camera = game.camGame;
 		floor.y = FlxG.height - floor.height;
 
-		game.back.add(new Floor(floor, 0xFF696A6A, game.camGame, FlxPoint.weak(1, 0)));
+		game.back.add(floorFloor = new Floor(floor, 0xFF696A6A, game.camGame, FlxPoint.weak(1, 0)));
 		game.back.add(floor);
 
-		var label = new WalkerStageSprite('$stage/label');
+		label = new WalkerStageSprite('$stage/label');
 		label.setScale(2);
 		label.screenCenter(X);
 		label.y = FlxG.height - label.height;
 		game.back.add(label);
 
-		var tubes = 2 * Math.round(FlxG.width / 1280);
+		var tubeCount = 2 * Math.round(FlxG.width / 1280);
 
-		for (i in 0...tubes)
+		for (i in 0...tubeCount)
 		{
 			var tube = new WalkerStageSprite('$stage/tube');
 			tube.setScale(2);
@@ -50,8 +54,9 @@ class StageContainment04 extends WalkerStage
 			tube.x = ((tube.width * 2.75) * i) + 32;
 
 			game.back.add(tube);
+			tubes.push(tube);
 
-			if (i != tubes - 1) continue;
+			if (i != tubeCount - 1) continue;
 
 			containment04_tubeSubject = tube;
 			containment04_tubeSubject.loadGraphic(Paths.getImagePath('game/walker/stages/$stage/subject'), true, 128, 128);
@@ -80,6 +85,25 @@ class StageContainment04 extends WalkerStage
 				});
 
 				game.inEndCutscene = true;
+		}
+	}
+
+	override function destroy()
+	{
+		super.destroy();
+
+		label.destroy();
+		floor.destroy();
+		floorFloor.destroy();
+
+		label = null;
+		floor = null;
+		floorFloor = null;
+
+		for (tube in tubes)
+		{
+			tube.destroy();
+			tube = null;
 		}
 	}
 }

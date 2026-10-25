@@ -17,36 +17,54 @@ class StageTrainWreak extends WalkerStage
 
 	var trainWreak_shooter:TrainWreakShooter;
 
+	var sky:FlxBackdrop;
+	var city:FlxBackdrop;
+	var ground:FlxBackdrop;
+	var groundFloor:Floor;
+
+	var sprites:Array<TrainWreakPiece> = [];
+
+	override function destroy() {
+		super.destroy();
+
+		sky.destroy();
+		city.destroy();
+		ground.destroy();
+		sky = city = ground = null;
+
+		groundFloor.destroy();
+		groundFloor = null;
+
+		trainWreak_shooter.destroy();
+		trainWreak_shooter = null;
+	}
+
 	override function build()
 	{
 		super.build();
 
-		var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/sky'));
-		sky.scale.set(2, 2);
-		sky.updateHitbox();
+		sky = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/sky'));
 		sky.velocity.x = 10;
-		sky.screenCenter(X);
 		sky.scrollFactor.set(.25, .25);
 		game.back.add(sky);
-		sky.camera = game.camGame;
 
-		var city:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/city'), X);
-		city.scale.set(2, 2);
-		city.updateHitbox();
-		city.screenCenter(X);
+		city = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/city'), X);
 		city.scrollFactor.set(.5, .5);
 		game.back.add(city);
-		city.camera = game.camGame;
 
-		var ground:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/ground'), X);
-		ground.scale.set(2, 2);
-		ground.updateHitbox();
-		ground.screenCenter(X);
+		ground = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/ground'), X);
 		ground.scrollFactor.set(.75, .75);
-		ground.camera = game.camGame;
 
-		game.back.add(new Floor(ground, 0xFF3B3E44, game.camGame));
+		game.back.add(groundFloor = new Floor(ground, 0xFF3B3E44, game.camGame));
 		game.back.add(ground);
+
+		for (backdrop in [sky,city,ground])
+		{
+			backdrop.scale.set(2,2);
+			backdrop.updateHitbox();
+			backdrop.screenCenter(X);
+			backdrop.camera = game.camGame;
+		}
 
 		var pieceList:Array<Dynamic> = [
 			['crowds/randoms-left', 0.75],
@@ -66,6 +84,7 @@ class StageTrainWreak extends WalkerStage
 
 			var pspr = new TrainWreakPiece(piece[0], game.camGame, piece[1]);
 			game.back.add(pspr);
+			sprites.push(pspr);
 
 			if (isCrowd)
 			{

@@ -13,19 +13,23 @@ class StageCrashLanding extends WalkerStage
 		super('crash landing');
 	}
 
+	var ship:WalkerStageSprite;
+	var mountains:WalkerStageSprite;
+	var hills:WalkerStageSprite;
+	var ground:WalkerStageSprite;
+	var frontHills:WalkerStageSprite;
+
 	override function build()
 	{
 		super.build();
 
 		game.camGame.bgColor = 0xFF0D0712;
 
-		var ship:WalkerStageSprite;
-		
 		game.back.add(ship = new WalkerStageSprite('$stage/ship').setScrollFactor(0.05).scaleToScreen().setCamera(game.camGame));
-		game.back.add(new WalkerStageSprite('$stage/mountains').setScrollFactor(0.1).scaleToScreen().setCamera(game.camGame));
-		game.back.add(new WalkerStageSprite('$stage/hills').setScrollFactor(0.1).scaleToScreen().setCamera(game.camGame));
-		game.back.add(new WalkerStageSprite('$stage/ground').setScrollFactor(0.75).scaleToScreen().setCamera(game.camGame));
-		game.front.add(new WalkerStageSprite('$stage/frontHills').setScrollFactor(0.9).scaleToScreen().setCamera(game.camGame));
+		game.back.add(mountains = new WalkerStageSprite('$stage/mountains').setScrollFactor(0.1).scaleToScreen().setCamera(game.camGame));
+		game.back.add(hills = new WalkerStageSprite('$stage/hills').setScrollFactor(0.1).scaleToScreen().setCamera(game.camGame));
+		game.back.add(ground = new WalkerStageSprite('$stage/ground').setScrollFactor(0.75).scaleToScreen().setCamera(game.camGame));
+		game.front.add(frontHills = new WalkerStageSprite('$stage/frontHills').setScrollFactor(0.9).scaleToScreen().setCamera(game.camGame));
 
 		ship.setScale(Math.floor(FlxG.width / 1280));
 		ship.alpha = .5;
@@ -38,6 +42,7 @@ class StageCrashLanding extends WalkerStage
 			{
 				game.back.remove(ship);
 				ship.destroy();
+				ship = null;
 			}
 		});
 
@@ -57,5 +62,16 @@ class StageCrashLanding extends WalkerStage
 		charShader.setFloat('contrast', 0.0);
 
 		game.player.shader = game.beatMonsters.shader = charShader;
+	}
+
+	override function destroy()
+	{
+		super.destroy();
+
+		for (obj in [ship, mountains, hills, ground, frontHills,])
+		{
+			obj.destroy();
+			obj = null;
+		}
 	}
 }
