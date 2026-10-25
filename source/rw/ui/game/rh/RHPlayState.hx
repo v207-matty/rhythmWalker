@@ -1,76 +1,16 @@
 package rw.ui.game.rh;
 
-import flixel.group.FlxSpriteGroup;
-import rw.ui.game.rh.stage.*;
-import rw.ui.game.song.SongEventData;
-import flixel.addons.transition.*;
-import flixel.text.FlxText;
-import flixel.*;
-import flixel.util.FlxTimer;
-import rw.ui.menu.freeplay.Freeplay;
-import rw.save.Save;
-import flixel.addons.sound.FlxRhythmConductorUtil;
-import rw.ui.game.song.*;
+import rw.ui.game.rh.stage.RHStage;
 
-class RHPlayState extends ConductorState
+class RHPlayState extends PlayState<RHPlayableComponent, RHSong, RHStage>
 {
 	public static var instance:RHPlayState;
-
-	public var stage(default, null):RHStage;
-	public var song(default, null):RHSong;
-
-	public var songData(default, null):SongData;
-	public var songEvents:Array<FlxTimer> = [];
-
-	public var scoreText(default, null):FlxText;
-	public var totalScore:Int = 0;
-	public var score:Int = 0;
-
-	public var camGame(default, null):FlxCamera;
-	public var camGameFollow(default, null):FlxObject;
-
-	public var camHUD(default, null):FlxCamera;
-	public var camTransition(default, null):FlxCamera;
-
-	public var timeBar(default, null):PlayTimeBar;
-
-	public var back(default, null):FlxSpriteGroup;
-	public var middle(default, null):FlxSpriteGroup;
-	public var front(default, null):FlxSpriteGroup;
-
-	public var layers(get, never):Array<FlxSpriteGroup>;
-
-	function get_layers():Array<FlxSpriteGroup> return [back, middle, front];
-
-	public function runOnLayers(a:FlxSpriteGroup->Void) if (a != null) for (layers in layers) if (layers != null) a(layers);
-
-	public var components(get, never):Array<RHPlayableComponent>;
-
-	function get_components():Array<RHPlayableComponent> return [stage, song];
-
-	public function runOnComponents(a:RHPlayableComponent->Void) if (a != null) for (component in components) if (component != null) a(component);
-
-	override public function new(song:String, ?variation:SongVariation = defaultVariation)
-	{
-		super();
-
-		this.songData = new SongData(song, variation ?? defaultVariation);
-	}
 
 	override function destroy()
 	{
 		super.destroy();
 
-		runOnComponents(c -> c.destroy());
-
 		instance = null;
-	}
-
-	override function createTransition(data:TransitionData):Transition
-	{
-		var trans = super.createTransition(data);
-		trans.camera = camTransition;
-		return trans;
 	}
 
 	override function create()
@@ -78,150 +18,26 @@ class RHPlayState extends ConductorState
 		instance = null;
 		instance = this;
 
-		add(camGameFollow = new FlxObject(FlxG.width / 2, FlxG.height / 2));
-
-		FlxG.cameras.reset(camGame = new FlxCamera());
-		FlxG.cameras.add(camHUD = new FlxCamera(), false);
-		FlxG.cameras.add(camTransition = new FlxCamera(), false);
-		camTransition.bgColor.alpha = camHUD.bgColor.alpha = 0;
-
-		camGame.follow(camGameFollow, LOCKON, 0.04);
-
-		resetConductor();
-
-		FlxG.sound.playMusic(Paths.getSong(songData.id, songData.variation), 1, false);
-		FlxG.sound.music.onComplete = () -> onSongEnd(false);
-
-		if (FlxG.sound.music.length < 1)
-		{
-			onSongEnd(true);
-			return;
-		}
-
-		FlxRhythmConductorUtil.loadMeta(conductor, FlxRhythmConductorUtil.parseTimeChanges(songData.bpmChanges));
-
-		generateSong();
-
-		add(timeBar = new PlayTimeBar());
-		timeBar.setCamera(camTransition);
-
-		#if MOBILE_MODE
-		var backBtn = new rw.ui.objects.mobile.CornerButton('backBtn');
-		backBtn.setCamera(camHUD);
-		add(backBtn);
-		backBtn.x = FlxG.width - backBtn.width;
-		backBtn.onClicked.add(leave);
-		#end
-
-		persistentUpdate = true;
-
 		super.create();
 	}
 
-	override function update(elapsed:Float)
+	override function generateState()
 	{
-		super.update(elapsed);
-
-		conductor.update(null);
-
-		if (FlxG.keys.justPressed.ESCAPE) leave();
-
-		timeBar.target = FlxG.width * (conductor.musicPosition / conductor.musicLength);
-
-		runOnComponents(c -> c.update(elapsed));
+		super.generateState();
 	}
 
-	override function onBeatHit(beat:Int, backward:Bool)
+	override function generateSong()
 	{
-		super.onBeatHit(beat, backward);
+		this.song = SongManager.getRhythmHeaven(songData?.id, songData?.variation);
 
-		runOnComponents(c -> c.onBeatHit(beat, backward));
+		super.generateSong();
 	}
 
-	override function onStepHit(step:Int, backward:Bool)
+	override function makeStage(stage:String)
 	{
-		super.onStepHit(step, backward);
+		super.makeStage(stage);
 
-		runOnComponents(c -> c.onStepHit(step, backward));
-	}
-
-	public function onSongEnd(skipping:Bool)
-	{
-		FlxG.sound.music.stop();
-
-		timeBar.linked = false;
-
-		trace('Yay we done');
-
-		if (!skipping) if (Save.saveSongScore(songData.toString(), score, totalScore))
-		{
-			FlxG.switchState(() -> new ResultsState(songData.toString()));
-			return;
-		}
-
-		FlxG.switchState(() -> new Freeplay());
-	}
-
-	public function leave() onSongEnd(true);
-
-	function generateSong()
-	{
-		song = SongManager.getRhythmHeaven(songData?.id, songData?.variation ?? defaultVariation);
-		if (song != null) song.build();
-
-		makeStage(songData?.stage ?? 'stage');
-
-		for (event in songData.events) addEvent(event);
-	}
-
-	public function makeStage(stage:String)
-	{
-		runOnLayers(l ->
-		{
-			for (sprite in l.members)
-			{
-				l.members.remove(sprite);
-				sprite.destroy();
-			}
-
-			l.clear();
-		});
-
-		if (this.stage != null) this.stage.destroy();
-		this.stage = StageManager.getRH(stage ?? 'stage');
-		if (this.stage != null) this.stage.build();
-	}
-
-	public function addEvent(event:SongEventData)
-	{
-		var songEvent = new FlxTimer();
-		songEvents.push(songEvent);
-
-		songEvent.start(event.time / 1000, function(t)
-		{
-			if (event.entries?.length > 0) for (e in event.entries) parseEvent({id: e.id, data: e.data});
-			else parseEvent({id: event.id, data: event.data});
-
-			songEvents.remove(songEvent);
-		});
-	}
-
-	// TODO: Def could do a class system here
-	function parseEvent(event:SongEventRawData)
-	{
-		trace(event);
-
-		switch (event.id.toLowerCase())
-		{
-			case 'song-end': onSongEnd(false);
-
-			case 'camera-off', 'cam-off': camGame.visible = false;
-
-			case 'camera-on', 'cam-on': camGame.visible = true;
-
-			case 'stage-switch', 'stage-change': if (event.data != null) makeStage(Std.string(event.data));
-		}
-
-		runOnComponents(c -> c.onEvent(event));
+		this.stage = StageManager.getRhythmHeaven(stage);
+		this.stage?.build();
 	}
 }

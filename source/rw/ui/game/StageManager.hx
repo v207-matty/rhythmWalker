@@ -7,7 +7,7 @@ import rw.ui.game.walker.stages.*;
 
 class StageManager
 {
-	public static function getRH(stage:String):RHStage
+	public static function getRhythmHeaven(stage:String):RHStage
 	{
 		return switch (stage.toLowerCase())
 		{

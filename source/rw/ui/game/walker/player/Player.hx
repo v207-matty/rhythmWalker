@@ -1,5 +1,6 @@
 package rw.ui.game.walker.player;
 
+import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
 import rw.ui.objects.RWSprite;
@@ -28,6 +29,8 @@ class Player extends RWSprite
 
 		data = new PlayerData(player);
 
+		trace(data);
+
 		loadGraphic(Paths.getImagePath('game/walker/players/${data.config?.graphic ?? data.id}'), true, data.config.dimensions.sprite[0],
 			data.config.dimensions.sprite[1]);
 
@@ -47,6 +50,8 @@ class Player extends RWSprite
 
 		collision.scale.set(data.config?.dimensions?.hitbox[0] ?? 32, data.config?.dimensions?.hitbox[1] ?? 32);
 		collision.updateHitbox();
+
+		initVars();
 	}
 
 	override function update(elapsed:Float)

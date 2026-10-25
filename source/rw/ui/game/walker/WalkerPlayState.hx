@@ -1,48 +1,30 @@
 package rw.ui.game.walker;
 
-import flixel.addons.transition.*;
-import rw.save.Save;
-import rw.ui.game.song.SongEventData;
-import rw.util.*;
-import rw.ui.game.walker.stage.*;
-import rw.ui.game.walker.player.*;
-import rw.ui.game.song.*;
-import rw.ui.menu.freeplay.*;
-import flixel.*;
-import flixel.addons.sound.FlxRhythmConductorUtil;
-import flixel.text.FlxText;
-import flixel.group.FlxSpriteGroup;
+import flixel.math.FlxPoint;
+import flixel.util.FlxGradient;
+import rw.util.Constants;
+import rw.ui.game.walker.stage.WalkerStageSprite;
+import flixel.util.FlxColor;
 import flixel.math.FlxMath;
-import flixel.util.*;
+import flixel.FlxSprite;
+import flixel.text.FlxText;
+import rw.ui.game.walker.player.Player;
+import flixel.group.FlxSpriteGroup;
+import flixel.FlxG;
+import rw.ui.game.song.SongEventData.SongEventRawData;
+import rw.ui.game.walker.stage.WalkerStage;
 
 using StringTools;
 
-class WalkerPlayState extends ConductorState
+class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong, WalkerStage>
 {
 	public static var instance:WalkerPlayState;
 
-	public var immortal(default, null):Bool = #if immortal true #else false #end;
-
 	public var player(default, null):Player;
 	public var beatMonsters(default, null):FlxSpriteGroup;
-	public var stage(default, null):WalkerStage;
-
-	public var song(default, null):WalkerSong;
-	public var songData(default, null):SongData;
-	public var songEvents:Array<FlxTimer> = [];
-
-	public var scoreText(default, null):FlxText;
-	public var totalScore:Int = 0;
-	public var score:Int = 0;
-	public var hits:Int = 0;
-
-	public var camGame(default, null):FlxCamera;
-	public var camGameFollow(default, null):FlxObject;
-
-	public var camHUD(default, null):FlxCamera;
-	public var camTransition:FlxCamera;
-
 	public var beatMonsterSpawner(default, null):FlxSprite;
+	public var scoreText(default, null):FlxText;
+	public var hits:Int = 0;
 
 	public var data(default, null) = {
 		player: {
@@ -56,35 +38,9 @@ class WalkerPlayState extends ConductorState
 		}
 	};
 
-	public var back(default, null):FlxSpriteGroup;
-	public var front(default, null):FlxSpriteGroup;
-
-	public var timeBar(default, null):PlayTimeBar;
-
-	public var layers(get, never):Array<FlxSpriteGroup>;
-
-	function get_layers():Array<FlxSpriteGroup> return [back, front];
-
-	public function runOnLayers(a:FlxSpriteGroup->Void) if (a != null) for (layers in layers) if (layers != null) a(layers);
-
-	public var components(get, never):Array<WalkerPlayableComponent>;
-
-	function get_components():Array<WalkerPlayableComponent> return [stage, song];
-
-	public function runOnComponents(a:WalkerPlayableComponent->Void) if (a != null) for (component in components) if (component != null) a(component);
-
-	override public function new(song:String, ?variation:SongVariation = defaultVariation)
-	{
-		super();
-
-		this.songData = new SongData(song, variation ?? defaultVariation);
-	}
-
 	override function destroy()
 	{
 		super.destroy();
-
-		runOnComponents(c -> c.destroy());
 
 		instance = null;
 	}
@@ -94,41 +50,19 @@ class WalkerPlayState extends ConductorState
 		instance = null;
 		instance = this;
 
-		add(camGameFollow = new FlxObject(FlxG.width / 2, FlxG.height / 2));
+		super.create();
+	}
 
-		FlxG.cameras.reset(camGame = new FlxCamera());
-		FlxG.cameras.add(camHUD = new FlxCamera(), false);
-		FlxG.cameras.add(camTransition = new FlxCamera(), false);
-		camTransition.bgColor.alpha = camHUD.bgColor.alpha = 0;
-
-		camGame.follow(camGameFollow, LOCKON, 0.04);
-
-		resetConductor();
-
-		FlxG.sound.playMusic(Paths.getSong(songData.id, songData.variation), 1, false);
-		FlxG.sound.music.onComplete = () -> onSongEnd(false);
-
-		if (FlxG.sound.music.length < 1)
-		{
-			onSongEnd(true);
-			return;
-		}
-
-		FlxRhythmConductorUtil.loadMeta(conductor, FlxRhythmConductorUtil.parseTimeChanges(songData.bpmChanges));
-
-		trace('song len: ${FlxG.sound.music.length / 1000}s');
-
+	override function generateState()
+	{
 		createPlayer();
 
-		add(back = new FlxSpriteGroup());
-		add(player);
-		add(beatMonsters = new FlxSpriteGroup());
-		add(beatMonsterSpawner = FlxGradient.createGradientFlxSprite(Math.floor(FlxG.width * 1.1), Math.floor(FlxG.height * 0.2),
+		middle.add(player);
+		middle.add(beatMonsters = new FlxSpriteGroup());
+		middle.add(beatMonsterSpawner = FlxGradient.createGradientFlxSprite(Math.floor(FlxG.width * 1.1), Math.floor(FlxG.height * 0.2),
 			[FlxColor.RED, FlxColor.TRANSPARENT]));
-		add(front = new FlxSpriteGroup());
-		add(scoreText = new FlxText(0, 0, FlxG.width, 'BOB', Constants.TEXT_SIZE));
 
-		beatMonsterSpawner.alpha = 0;
+		add(scoreText = new FlxText(0, 0, FlxG.width, 'BOB', Constants.TEXT_SIZE));
 
 		scoreText.setBorderStyle(OUTLINE, FlxColor.BLACK, Constants.TEXT_OUTLINE_SIZE);
 		scoreText.camera = camHUD;
@@ -137,55 +71,100 @@ class WalkerPlayState extends ConductorState
 		generateSong();
 
 		beatMonsterSpawner.shader = beatMonsters.shader;
-
-		if (introCutscene()) inIntroCutscene = true;
-
-		add(timeBar = new PlayTimeBar());
-		timeBar.setCamera(camHUD);
-
-		#if MOBILE_MODE
-		var backBtn = new rw.ui.objects.mobile.CornerButton('backBtn');
-		backBtn.setCamera(camHUD);
-		add(backBtn);
-		backBtn.x = FlxG.width - backBtn.width;
-		backBtn.onClicked.add(leave);
-		#end
-
-		persistentUpdate = true;
-
-		super.create();
 	}
 
-	override function createTransition(data:TransitionData):Transition
+	override function generateSong()
 	{
-		var trans = super.createTransition(data);
-		trans.camera = camTransition;
-		return trans;
+		this.song = SongManager.getWalker(songData?.id, songData?.variation);
+
+		super.generateSong();
 	}
 
-	override function update(elapsed:Float)
+	override function makeStage(stage:String)
 	{
-		super.update(elapsed);
+		super.makeStage(stage);
 
-		conductor.update(null);
+		this.stage = StageManager.getWalker(stage);
+		this.stage?.build();
+	}
 
-		if (!inCutscene) managePlayer();
-		else if (data.player.cutsceneVelocityDamping) playerVelocityDamping();
-
-		if (beatMonsters != null) manageBeatMonsters();
-
-		timeBar.target = FlxG.width * (conductor.musicPosition / conductor.musicLength);
-
-		if (scoreText != null)
+	override function onStepHit(step:Int, backward:Bool)
+	{
+		if (!inCutscene && ((canSpawnMonster || !inEndCutscene && beatMonsters.members.length > 0) && data.beatMonsters.stepRate > 0))
 		{
-			scoreText.text = 'Score: $score | Hits Taken: $hits';
-			scoreText.screenCenter(X);
+			var scoreInc:Int = 25;
+
+			totalScore += scoreInc;
+			if (!player.stunned) score += scoreInc;
 		}
 
-		if (FlxG.keys.justPressed.ESCAPE) leave();
+		if (canSpawnMonster && Math.floor(step % data.beatMonsters.stepRate) == 0) spawnBeatMonster();
 
-		runOnComponents(c -> c.update(elapsed));
+		super.onStepHit(step, backward);
 	}
+
+	override function onBeatHit(beat:Int, backward:Bool)
+	{
+		runOnLayers(l -> for (sprite in l.members)
+		{
+			if (!Std.isOfType(sprite, WalkerStageSprite)) return;
+
+			var stageSprite = cast(sprite, WalkerStageSprite);
+			if (stageSprite == null) return;
+
+			stageSprite.dance();
+		});
+
+		super.onBeatHit(beat, backward);
+	}
+
+	override function parseEvent(event:SongEventRawData)
+	{
+		switch (event.id.toLowerCase())
+		{
+			case 'player-idle': playerPlayAnim('idle');
+
+			case 'player-switch', 'player-change': if (event.data != null) makePlayer(Std.string(event.data));
+
+			case 'beatmonsters-spawnmonster': spawnBeatMonster();
+
+			case 'beatmonsters-stop': data.beatMonsters.spawn = false;
+
+			case 'beatmonsters-resume', 'beatmonsters-start': data.beatMonsters.spawn = true;
+
+			// the old beat system
+			case 'beatmonsters-setrate', 'beatmonsters-rate', 'beatmonsters-setbeatrate', 'beatmonsters-beatrate':
+				if (event.data != null
+					&& (Std.isOfType(event.data,
+						Float) || Std.isOfType(event.data,
+							Int) || Std.isOfType(event.data,
+							String))) data.beatMonsters.stepRate = Math.floor((Std.parseFloat(Std.string(event.data)) ?? 1.0) * 4);
+
+			case 'beatmonsters-setsteprate', 'beatmonsters-steprate':
+				if (event.data != null
+					&& (Std.isOfType(event.data,
+						Float) || Std.isOfType(event.data,
+							Int) || Std.isOfType(event.data, String))) data.beatMonsters.stepRate = Math.floor((Std.parseFloat(Std.string(event.data)) ?? 1));
+		}
+
+		super.parseEvent(event);
+	}
+
+	// override function updateState(elapsed:Float)
+	// {
+	// 	super.updateState(elapsed);
+
+	// 	if (!inCutscene) managePlayer();
+	// 	else if (data.player.cutsceneVelocityDamping) playerVelocityDamping();
+
+	// 	if (beatMonsters != null) manageBeatMonsters();
+
+	// 	if (scoreText != null)
+	// 	{
+	// 		scoreText.text = 'Score: $score | Hits Taken: $hits';
+	// 		scoreText.screenCenter(X);
+	// 	}
+	// }
 
 	function manageBeatMonsters()
 	{
@@ -233,17 +212,26 @@ class WalkerPlayState extends ConductorState
 
 	public var control_left(get, never):Bool;
 
-	function get_control_left():Bool return FlxG.keys.anyPressed([A, LEFT]) || (FlxG.mouse.pressed && FlxG.mouse.x < player.x);
+	function get_control_left():Bool
+	{
+		return FlxG.keys.anyPressed([A, LEFT]) || (FlxG.mouse.pressed && FlxG.mouse.x < player.x);
+	}
 
 	public var control_right(get, never):Bool;
 
-	function get_control_right():Bool return FlxG.keys.anyPressed([D, RIGHT]) || (FlxG.mouse.pressed && FlxG.mouse.x > player.x);
+	function get_control_right():Bool
+	{
+		return FlxG.keys.anyPressed([D, RIGHT]) || (FlxG.mouse.pressed && FlxG.mouse.x > player.x);
+	}
 
 	public var player_onLeftEdge(default, null):Bool = false;
 	public var player_onRightEdge(default, null):Bool = false;
 
 	function managePlayer()
 	{
+		@:privateAccess
+		if (player.maxVelocity == null) player.initMotionVars();
+
 		player.maxVelocity.x = player.data.config.maxVelocityBase * songData.scrollSpeed;
 
 		if (control_left) move(-1, true);
@@ -259,14 +247,6 @@ class WalkerPlayState extends ConductorState
 			if (player_onRightEdge) player.x = FlxG.width - (player.width * 2);
 			player.velocity.x = 0;
 		}
-	}
-
-	function leave()
-	{
-		if (inCutscene || !camHUD.visible || camHUD.alpha < 0.1) return;
-
-		seenEndCutscene = seenIntroCutscene = true;
-		onSongEnd(true);
 	}
 
 	public function move(mult = 1.0, playerMovement = false)
@@ -287,72 +267,9 @@ class WalkerPlayState extends ConductorState
 
 	public function playerVelocityDamping() player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
 
-	public function onSongEnd(skipping:Bool)
-	{
-		if (inCutscene) return;
-
-		FlxG.sound.music.stop();
-
-		timeBar.linked = false;
-		inEndCutscene = true;
-
-		if (!skipping) if (endCutscene())
-		{
-			trace('Playin end cutscene');
-			return;
-		}
-
-		trace('Yay we done');
-
-		if (!immortal && !skipping) if (Save.saveSongScore(songData.toString(), score, totalScore))
-		{
-			FlxG.switchState(() -> new ResultsState(songData.toString()));
-			return;
-		}
-
-		FlxG.switchState(() -> new Freeplay());
-	}
-
 	public var canSpawnMonster(get, never):Bool;
 
 	function get_canSpawnMonster():Bool return !inEndCutscene && data.beatMonsters.spawn;
-
-	override function onStepHit(step:Int, backward:Bool)
-	{
-		super.onStepHit(step, backward);
-
-		if (!inCutscene && ((canSpawnMonster || !inEndCutscene && beatMonsters.members.length > 0) && data.beatMonsters.stepRate > 0))
-		{
-			var scoreInc:Int = 25;
-
-			totalScore += scoreInc;
-			if (!player.stunned) score += scoreInc;
-		}
-
-		if (canSpawnMonster && Math.floor(step % data.beatMonsters.stepRate) == 0) spawnBeatMonster();
-
-		runOnComponents(c -> c.onStepHit(step, backward));
-	}
-
-	override function onBeatHit(beat:Int, backward:Bool)
-	{
-		super.onBeatHit(beat, backward);
-
-		for (layer in [back, front,])
-		{
-			layer.forEach(sprite ->
-			{
-				if (!Std.isOfType(sprite, WalkerStageSprite)) return;
-
-				var stageSprite = cast(sprite, WalkerStageSprite);
-				if (stageSprite == null) return;
-
-				stageSprite.dance();
-			});
-		}
-
-		runOnComponents(c -> c.onBeatHit(beat, backward));
-	}
 
 	public function spawnBeatMonster()
 	{
@@ -370,94 +287,9 @@ class WalkerPlayState extends ConductorState
 		beatMonsterSpawner.alpha += .1;
 	}
 
-	public function addEvent(event:SongEventData)
-	{
-		var songEvent = new FlxTimer();
-		songEvents.push(songEvent);
-
-		songEvent.start(event.time / 1000, function(t)
-		{
-			if (event.entries?.length > 0) for (e in event.entries) parseEvent({id: e.id, data: e.data});
-			else parseEvent({id: event.id, data: event.data});
-
-			songEvents.remove(songEvent);
-		});
-	}
-
-	// TODO: Def could do a class system here
-	function parseEvent(event:SongEventRawData)
-	{
-		trace(event);
-
-		switch (event.id.toLowerCase())
-		{
-			case 'player-idle': playerPlayAnim('idle');
-
-			case 'song-end': onSongEnd(false);
-
-			case 'camera-off', 'cam-off': camGame.visible = false;
-
-			case 'camera-on', 'cam-on': camGame.visible = true;
-
-			case 'player-switch', 'player-change': if (event.data != null) makePlayer(Std.string(event.data));
-
-			case 'stage-switch', 'stage-change': if (event.data != null) makeStage(Std.string(event.data));
-
-			case 'beatmonsters-spawnmonster': spawnBeatMonster();
-
-			case 'beatmonsters-stop': data.beatMonsters.spawn = false;
-
-			case 'beatmonsters-resume', 'beatmonsters-start': data.beatMonsters.spawn = true;
-
-			// the old beat system
-			case 'beatmonsters-setrate', 'beatmonsters-rate', 'beatmonsters-setbeatrate', 'beatmonsters-beatrate':
-				if (event.data != null
-					&& (Std.isOfType(event.data,
-						Float) || Std.isOfType(event.data,
-							Int) || Std.isOfType(event.data,
-							String))) data.beatMonsters.stepRate = Math.floor((Std.parseFloat(Std.string(event.data)) ?? 1.0) * 4);
-
-			case 'beatmonsters-setsteprate', 'beatmonsters-steprate':
-				if (event.data != null
-					&& (Std.isOfType(event.data,
-						Float) || Std.isOfType(event.data,
-							Int) || Std.isOfType(event.data, String))) data.beatMonsters.stepRate = Math.floor((Std.parseFloat(Std.string(event.data)) ?? 1));
-		}
-
-		runOnComponents(c -> c.onEvent(event));
-	}
-
-	function generateSong()
-	{
-		song = SongManager.getWalker(songData?.id, songData?.variation ?? defaultVariation);
-		if (song != null) song.build();
-
-		makeStage(songData?.stage ?? 'stage');
-
-		for (event in songData.events) addEvent(event);
-	}
-
-	public function makeStage(stage:String)
-	{
-		runOnLayers(l -> {
-			for (sprite in l.members)
-			{
-				l.members.remove(sprite);
-				sprite.destroy();
-			}
-
-			l.clear();
-		});
-
-		this.stage = StageManager.getWalker(stage ?? 'stage');
-		if (this.stage != null) this.stage.build();
-	}
-
 	public function createPlayer()
 	{
-		player = new Player(null);
-
-		makePlayer(songData?.player);
+		makePlayer(songData?.player ?? 'bro-regular');
 
 		playerPlayAnim('idle');
 
@@ -479,30 +311,9 @@ class WalkerPlayState extends ConductorState
 		if (immortal) player.alpha = .25;
 	}
 
-	public function makePlayer(newplayer:String) player.load(newplayer);
-
-	public var inIntroCutscene:Bool = false;
-	public var inEndCutscene:Bool = false;
-	public var inCutscene(get, never):Bool;
-
-	function get_inCutscene():Bool return inIntroCutscene || inEndCutscene;
-
-	public var seenEndCutscene:Bool = false;
-	public var seenIntroCutscene:Bool = false;
-
-	function introCutscene():Bool
+	public function makePlayer(newplayer:String)
 	{
-		if (seenIntroCutscene) return false;
-		seenIntroCutscene = true;
-
-		return song?.introCutscene() ?? false;
-	}
-
-	function endCutscene():Bool
-	{
-		if (seenEndCutscene) return false;
-		seenEndCutscene = true;
-
-		return song?.endingCutscene() ?? false;
+		if (player == null) player = new Player(newplayer);
+		else player.load(newplayer);
 	}
 }
