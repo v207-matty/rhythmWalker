@@ -1,5 +1,6 @@
 package rw.ui.game.walker;
 
+import rw.ui.game.song.SongVariation;
 import rw.ui.game.walker.beatmonster.BeatMonster;
 import flixel.math.FlxPoint;
 import flixel.util.FlxGradient;
@@ -38,6 +39,13 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong, Wal
 			scale: 1.0
 		}
 	};
+
+	override public function new(song:String, ?variation:SongVariation = defaultVariation)
+	{
+		super(song, variation);
+
+		mode = WALKER;
+	}
 
 	override function destroy()
 	{

@@ -1,5 +1,6 @@
 package rw.save;
 
+import rw.ui.game.PlayData.PlayModeData;
 import rw.save.SaveSongScore.SaveSongScoreVersion;
 import haxe.Json;
 import flixel.util.FlxSave;
@@ -107,7 +108,7 @@ class Save
 		FlxG.save.flush();
 	}
 
-	public static function saveSongScore(id:String, score:Int, totalScore:Int)
+	public static function saveSongScore(id:String, score:Int, totalScore:Int, mode:PlayModeData)
 	{
 		var song = scores.get(id);
 
@@ -115,6 +116,7 @@ class Save
 		var songRank:SongRank = song?.rank ?? NONE;
 		var songRankPercent:Float = song?.percent ?? 0;
 		var songVersion:SaveSongScoreVersion = song?.version ?? _UNKNOWN;
+		var songMode:PlayModeData = song?.mode ?? null;
 
 		var newHS:Bool = false;
 
@@ -122,7 +124,7 @@ class Save
 
 		final newPercent = FlxMath.roundDecimal(score / totalScore, 2);
 
-		if (newPercent > songRankPercent || score > songScore || songVersion != LATEST_VERSION_SONG)
+		if (newPercent > songRankPercent || score > songScore || songVersion != LATEST_VERSION_SONG || songMode != mode)
 		{
 			trace('NEW HIGHSCORE FOR "$id": $score');
 			trace(' | $score / $totalScore');
@@ -140,7 +142,8 @@ class Save
 			percent: FlxMath.roundDecimal(songRankPercent, 2),
 			rank: songRank,
 			score: songScore,
-			version: LATEST_VERSION_SONG
+			version: LATEST_VERSION_SONG,
+			mode: mode
 		});
 
 		return newHS;

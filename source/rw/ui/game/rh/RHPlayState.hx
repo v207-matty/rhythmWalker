@@ -1,10 +1,18 @@
 package rw.ui.game.rh;
 
+import rw.ui.game.song.SongVariation;
 import rw.ui.game.rh.stage.RHStage;
 
 class RHPlayState extends PlayState<RHPlayableComponent, RHSong, RHStage>
 {
 	public static var instance:RHPlayState;
+
+	override public function new(song:String, ?variation:SongVariation = defaultVariation)
+	{
+		super(song, variation);
+
+		mode = RHYTHM_HEAVEN;
+	}
 
 	override function destroy()
 	{

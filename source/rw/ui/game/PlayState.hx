@@ -1,5 +1,6 @@
 package rw.ui.game;
 
+import rw.ui.game.PlayData.PlayModeData;
 import flixel.group.FlxSpriteGroup;
 import rw.ui.game.rh.stage.*;
 import rw.ui.game.song.SongEventData;
@@ -57,6 +58,8 @@ class PlayState<ComponentType:PlayableComponent, SongType:ComponentType, StageTy
 
 		this.songData = new SongData(song, variation ?? defaultVariation);
 	}
+
+	public var mode:PlayModeData;
 
 	override function destroy()
 	{
@@ -167,7 +170,7 @@ class PlayState<ComponentType:PlayableComponent, SongType:ComponentType, StageTy
 
 		trace('Yay we done');
 
-		if (!immortal && !skipping) if (Save.saveSongScore(songData.toString(), score, totalScore))
+		if (!immortal && !skipping) if (Save.saveSongScore(songData.toString(), score, totalScore, mode))
 		{
 			FlxG.switchState(() -> new ResultsState(songData.toString()));
 			return;
