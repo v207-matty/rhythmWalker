@@ -6,7 +6,7 @@ import rw.ui.game.song.SongRank;
 typedef SaveSongScore =
 {
 	var rank:SongRank;
-	var score:Int;
+	var score:Float;
 	var percent:Float;
 
 	var mode:PlayModeData;

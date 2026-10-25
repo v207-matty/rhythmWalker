@@ -108,11 +108,11 @@ class Save
 		FlxG.save.flush();
 	}
 
-	public static function saveSongScore(id:String, score:Int, totalScore:Int, mode:PlayModeData)
+	public static function saveSongScore(id:String, score:Float, totalScore:Float, mode:PlayModeData)
 	{
 		var song = scores.get(id);
 
-		var songScore:Int = song?.score ?? 0;
+		var songScore:Float = song?.score ?? 0;
 		var songRank:SongRank = song?.rank ?? NONE;
 		var songRankPercent:Float = song?.percent ?? 0;
 		var songVersion:SaveSongScoreVersion = song?.version ?? _UNKNOWN;
