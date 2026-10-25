@@ -56,6 +56,10 @@
         {
             "time": 30666,
             "id": "encapture-subjectBang"
+        },
+        {
+            "time": 31996,
+            "id": "song-end"
         }
     ],
     "player": "bro-captured",
