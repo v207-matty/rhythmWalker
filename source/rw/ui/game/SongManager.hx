@@ -1,9 +1,10 @@
-package rw.ui.game.song;
+package rw.ui.game;
 
 import rw.ui.game.rh.songs.*;
 import rw.ui.game.rh.*;
 import rw.ui.game.walker.*;
 import rw.ui.game.walker.songs.*;
+import rw.ui.game.song.*;
 
 class SongManager
 {
@@ -15,7 +16,7 @@ class SongManager
 				return new SongFirstStepsAria();
 
 			default:
-				trace('Unimplemented song case : $song ($variation)');
+				trace('Unimplemented RH song case : $song ($variation)');
 				return new RHSong(song, variation);
 		}
 	}
@@ -52,7 +53,7 @@ class SongManager
 				new SongTrainWreakDefault();
 
 			default:
-				trace('Unimplemented song case : $song ($variation)');
+				trace('Unimplemented walker song case : $song ($variation)');
 				new WalkerSong(song, variation);
 		}
 	}

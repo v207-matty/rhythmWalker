@@ -8,6 +8,8 @@ class PlayableComponent
 
 	public function build() {}
 
+	public function destroy() {}
+
 	public function onEvent(event:SongEventRawData) {}
 
 	public function onBeatHit(beat:Int, backward:Bool) {}

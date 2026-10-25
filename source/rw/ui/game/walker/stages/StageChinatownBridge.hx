@@ -3,31 +3,44 @@ package rw.ui.game.walker.stages;
 import flixel.FlxG;
 import flixel.addons.display.FlxBackdrop;
 
-class StageChinatownBridge extends Stage
+class StageChinatownBridge extends WalkerStage
 {
 	override public function new()
 	{
 		super('chinatown-bridge');
 	}
 
+	var sky:FlxBackdrop;
+	var bridge:FlxBackdrop;
+
 	override function build()
 	{
 		super.build();
 
-		var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/walker/stages/chinatown/bridge/sky'));
+		sky = new FlxBackdrop(Paths.getImagePath('game/walker/stages/chinatown/bridge/sky'));
 		sky.scale.set(4, 4);
 		sky.updateHitbox();
 		sky.camera = game.camGame;
 
 		sky.velocity.x = 2;
 		sky.screenCenter();
-		game.stageBackLayer.add(sky);
+		game.back.add(sky);
 
-		var bridge:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/walker/stages/chinatown/bridge/bridge'), X);
+		bridge = new FlxBackdrop(Paths.getImagePath('game/walker/stages/chinatown/bridge/bridge'), X);
 		bridge.scale.set(4, 4);
 		bridge.updateHitbox();
 		bridge.camera = game.camGame;
 		bridge.y = FlxG.height - bridge.height;
-		game.stageBackLayer.add(bridge);
+		game.back.add(bridge);
+	}
+
+	override function destroy()
+	{
+		super.destroy();
+
+		sky.destroy();
+		bridge.destroy();
+
+		sky = bridge = null;
 	}
 }

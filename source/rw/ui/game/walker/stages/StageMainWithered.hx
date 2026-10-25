@@ -35,7 +35,7 @@ class StageMainWithered extends StageMain
 		monsterShader.setFloat('brightness', -73.0);
 		monsterShader.setFloat('contrast', 0.0);
 
-		game.stageBackLayer.members[0].shader = bgShader;
+		game.back.members[0].shader = bgShader;
 		game.player.shader = charShader;
 		game.beatMonsters.shader = monsterShader;
 	}

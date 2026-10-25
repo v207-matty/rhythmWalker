@@ -7,7 +7,7 @@ import flixel.FlxG;
 import flixel.addons.display.FlxBackdrop;
 import flixel.tweens.FlxTween;
 
-class StageTrainGetaway extends Stage
+class StageTrainGetaway extends WalkerStage
 {
 	override public function new()
 	{
@@ -15,8 +15,22 @@ class StageTrainGetaway extends Stage
 	}
 
 	var trainGetaway_i:Float = 1;
+
 	var trainGetaway_sky:FlxBackdrop;
 	var trainGetaway_shooter:TrainGetawayShooter;
+	var train:FlxBackdrop;
+
+	override function destroy()
+	{
+		super.destroy();
+
+		trainGetaway_shooter.destroy();
+		trainGetaway_shooter = null;
+
+		trainGetaway_sky.destroy();
+		train.destroy();
+		trainGetaway_sky = train = null;
+	}
 
 	override function build()
 	{
@@ -26,15 +40,15 @@ class StageTrainGetaway extends Stage
 		trainGetaway_sky.scale.set(2, 2);
 		trainGetaway_sky.velocity.x = 256 * -5;
 		trainGetaway_sky.screenCenter(X);
-		game.stageBackLayer.add(trainGetaway_sky);
+		game.back.add(trainGetaway_sky);
 		trainGetaway_sky.camera = game.camGame;
 
-		var train = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/train'), X);
+		train = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/train'), X);
 		train.scale.set(2, 2);
 		train.updateHitbox();
 		train.screenCenter(X);
 		train.y = FlxG.height - train.height;
-		game.stageBackLayer.add(train);
+		game.back.add(train);
 		train.camera = game.camGame;
 
 		game.player.setScale(1);
@@ -44,7 +58,7 @@ class StageTrainGetaway extends Stage
 		game.data.beatMonsters.scale = 0.5;
 
 		trainGetaway_shooter = new TrainGetawayShooter();
-		game.stageBackLayer.add(trainGetaway_shooter);
+		game.back.add(trainGetaway_shooter);
 		trainGetaway_shooter.camera = game.camGame;
 
 		trainGetaway_shooter.screenCenter();

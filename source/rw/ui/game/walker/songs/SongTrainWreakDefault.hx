@@ -1,8 +1,8 @@
 package rw.ui.game.walker.songs;
 
+import rw.ui.game.walker.stage.WalkerStageSprite;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import rw.ui.game.walker.stage.StageSprite;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.FlxG;
@@ -40,11 +40,11 @@ class SongTrainWreakDefault extends WalkerSong
 
 		function onZoomed(t)
 		{
-			game.stageBackLayer.forEach(sprite ->
+			game.back.forEach(sprite ->
 			{
-				if (!Std.isOfType(sprite, StageSprite) || sprite == null || sprite.isOnScreen(sprite.camera)) return;
+				if (!Std.isOfType(sprite, WalkerStageSprite) || sprite == null || sprite.isOnScreen(sprite.camera)) return;
 
-				game.stageBackLayer.remove(sprite);
+				game.back.remove(sprite);
 				sprite.destroy();
 			});
 		}
