@@ -13,11 +13,10 @@ import rw.save.Save;
 import flixel.addons.sound.FlxRhythmConductorUtil;
 import rw.ui.game.song.*;
 
-class PlayState<ComponentType:PlayableComponent, SongType:ComponentType, StageType:ComponentType> extends ConductorState
+class PlayState<ComponentType:PlayableComponent, SongType:ComponentType> extends ConductorState
 {
 	public var immortal(default, null):Bool = #if immortal true #else false #end;
 
-	public var stage(default, null):StageType;
 	public var song(default, null):SongType;
 
 	public var songData(default, null):SongData;
@@ -48,7 +47,7 @@ class PlayState<ComponentType:PlayableComponent, SongType:ComponentType, StageTy
 
 	public var components(get, never):Array<ComponentType>;
 
-	function get_components():Array<ComponentType> return [stage, song];
+	function get_components():Array<ComponentType> return [song];
 
 	public function runOnComponents(a:ComponentType->Void) if (a != null) for (component in components) if (component != null) a(component);
 
@@ -201,25 +200,7 @@ class PlayState<ComponentType:PlayableComponent, SongType:ComponentType, StageTy
 
 	function generateSong()
 	{
-		makeStage(songData?.stage ?? 'stage');
-
 		for (event in songData.events) addEvent(event);
-	}
-
-	public function makeStage(stage:String)
-	{
-		runOnLayers(l ->
-		{
-			for (sprite in l.members)
-			{
-				l.members.remove(sprite);
-				sprite.destroy();
-			}
-
-			l.clear();
-		});
-
-		if (this.stage != null) this.stage.destroy();
 	}
 
 	public function addEvent(event:SongEventData)
@@ -248,8 +229,6 @@ class PlayState<ComponentType:PlayableComponent, SongType:ComponentType, StageTy
 			case 'camera-off', 'cam-off': camGame.visible = false;
 
 			case 'camera-on', 'cam-on': camGame.visible = true;
-
-			case 'stage-switch', 'stage-change': if (event.data != null) makeStage(Std.string(event.data));
 		}
 
 		runOnComponents(c -> c.onEvent(event));

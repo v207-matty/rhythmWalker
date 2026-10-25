@@ -18,14 +18,18 @@ import rw.ui.game.walker.stage.WalkerStage;
 
 using StringTools;
 
-class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong, WalkerStage>
+class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong>
 {
 	public static var instance:WalkerPlayState;
 
+	public var stage:WalkerStage;
 	public var player(default, null):Player;
+
 	public var beatMonsters(default, null):FlxTypedSpriteGroup<BeatMonster>;
 	public var beatMonsterSpawner(default, null):FlxSprite;
+	
 	public var scoreText(default, null):FlxText;
+	
 	public var hits:Int = 0;
 
 	public var data(default, null) = {
@@ -86,12 +90,24 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong, Wal
 	{
 		this.song = SongManager.getWalker(songData?.id, songData?.variation);
 
+		makeStage(songData?.stage ?? 'stage');
 		super.generateSong();
 	}
 
-	override function makeStage(stage:String)
+	public function makeStage(stage:String)
 	{
-		super.makeStage(stage);
+		runOnLayers(l ->
+		{
+			for (sprite in l.members)
+			{
+				l.members.remove(sprite);
+				sprite.destroy();
+			}
+
+			l.clear();
+		});
+
+		if (this.stage != null) this.stage.destroy();
 
 		this.stage = StageManager.getWalker(stage);
 		this.stage?.build();
@@ -127,6 +143,8 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong, Wal
 
 			case 'player-switch', 'player-change': if (event.data != null) makePlayer(Std.string(event.data));
 
+			case 'stage-switch', 'stage-change': if (event.data != null) makeStage(Std.string(event.data));
+			
 			case 'beatmonsters-spawnmonster': spawnBeatMonster();
 
 			case 'beatmonsters-stop': data.beatMonsters.spawn = false;

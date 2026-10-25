@@ -1,26 +1,10 @@
 package rw.ui.game;
 
-import rw.ui.game.rh.stage.*;
-import rw.ui.game.rh.stages.*;
 import rw.ui.game.walker.stage.*;
 import rw.ui.game.walker.stages.*;
 
 class StageManager
 {
-	public static function getRhythmHeaven(stage:String):RHStage
-	{
-		return switch (stage.toLowerCase())
-		{
-			case 'stage':
-				new RHStageMain(stage);
-
-			default:
-				trace('Unimplemented RH stage case : $stage');
-				new RHStage(stage);
-		}
-
-	}
-
 	public static function getWalker(stage:String):WalkerStage
 	{
 		return switch (stage.toLowerCase())

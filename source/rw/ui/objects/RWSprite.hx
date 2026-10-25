@@ -32,7 +32,7 @@ class RWSprite extends FlxSprite
 		return this;
 	}
 
-	public function addAnim(anim:String, frames:Array<Int>, fps:Int, ?looped:Bool = false, flipX = false,
+	public function addAnim(anim:String, frames:Array<Int>, fps:Int = 24, ?looped:Bool = false, flipX = false,
 			flipY = false) animation.add(anim, frames, fps, looped, flipX, flipY);
 
 	public function playAnim(name:String, forced = false, reversed = false, frame = 0)

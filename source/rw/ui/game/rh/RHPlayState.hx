@@ -1,9 +1,8 @@
 package rw.ui.game.rh;
 
 import rw.ui.game.song.SongVariation;
-import rw.ui.game.rh.stage.RHStage;
 
-class RHPlayState extends PlayState<RHPlayableComponent, RHSong, RHStage>
+class RHPlayState extends PlayState<RHPlayableComponent, RHSong>
 {
 	public static var instance:RHPlayState;
 
@@ -37,15 +36,8 @@ class RHPlayState extends PlayState<RHPlayableComponent, RHSong, RHStage>
 	override function generateSong()
 	{
 		this.song = SongManager.getRhythmHeaven(songData?.id, songData?.variation);
+		this.song?.build();
 
 		super.generateSong();
-	}
-
-	override function makeStage(stage:String)
-	{
-		super.makeStage(stage);
-
-		this.stage = StageManager.getRhythmHeaven(stage);
-		this.stage?.build();
 	}
 }
