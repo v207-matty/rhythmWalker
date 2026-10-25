@@ -27,9 +27,7 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong>
 
 	public var beatMonsters(default, null):FlxTypedSpriteGroup<BeatMonster>;
 	public var beatMonsterSpawner(default, null):FlxSprite;
-	
-	public var scoreText(default, null):FlxText;
-	
+		
 	public var hits:Int = 0;
 
 	public var data(default, null) = {
@@ -74,12 +72,6 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong>
 		gameplayElements.add(beatMonsters = new FlxTypedSpriteGroup<BeatMonster>());
 		gameplayElements.add(beatMonsterSpawner = FlxGradient.createGradientFlxSprite(Math.floor(FlxG.width * 1.1), Math.floor(FlxG.height * 0.2),
 			[FlxColor.RED, FlxColor.TRANSPARENT]));
-
-		add(scoreText = new FlxText(0, 0, FlxG.width, 'BOB', Constants.TEXT_SIZE));
-
-		scoreText.setBorderStyle(OUTLINE, FlxColor.BLACK, Constants.TEXT_OUTLINE_SIZE);
-		scoreText.camera = camHUD;
-		scoreText.alignment = CENTER;
 
 		generateSong();
 
@@ -171,8 +163,6 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong>
 
 	override function updateState(elapsed:Float)
 	{
-		super.updateState(elapsed);
-
 		if (!inCutscene) managePlayer();
 		else if (data.player.cutsceneVelocityDamping) playerVelocityDamping();
 
@@ -233,15 +223,7 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong>
 		beatMonsterSpawner.y = camGame.viewY;
 		beatMonsterSpawner.alpha = FlxMath.lerp(beatMonsterSpawner.alpha, (canSpawnMonster) ? 0.2 : 0, .1);
 	}
-
-	public function applyScore(dodged:Bool)
-	{
-		final scoreToApply = (dodged) ? Constants.GAMEPLAY_WALKER_SCORE_AVOID : Constants.GAMEPLAY_WALKER_SCORE_HIT;
-
-		totalScore += Constants.GAMEPLAY_WALKER_SCORE_AVOID;
-		score += scoreToApply;
-	}
-
+	
 	public function playerPlayAnim(anim:String, hasFlippedVer:Bool = true)
 	{
 		if (hasFlippedVer) player.playAnim(anim + ((player.flipX) ? 'R' : 'L'));

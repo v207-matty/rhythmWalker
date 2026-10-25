@@ -1,5 +1,7 @@
 package rw.ui.game;
 
+import flixel.util.FlxColor;
+import rw.util.Constants;
 import rw.ui.game.PlayData.PlayModeData;
 import flixel.group.FlxSpriteGroup;
 import rw.ui.game.rh.stage.*;
@@ -22,6 +24,7 @@ class PlayState<ComponentType:PlayableComponent, SongType:ComponentType> extends
 	public var songData(default, null):SongData;
 	public var songEvents:Array<FlxTimer> = [];
 
+	public var scoreText(default, null):FlxText;
 	public var totalScore:Int = 0;
 	public var score:Int = 0;
 
@@ -113,6 +116,12 @@ class PlayState<ComponentType:PlayableComponent, SongType:ComponentType> extends
 
 		generateState();
 
+		add(scoreText = new FlxText(0, 0, FlxG.width, 'BOB', Constants.TEXT_SIZE));
+
+		scoreText.setBorderStyle(OUTLINE, FlxColor.BLACK, Constants.TEXT_OUTLINE_SIZE);
+		scoreText.camera = camHUD;
+		scoreText.alignment = CENTER;
+
 		if (introCutscene()) inIntroCutscene = true;
 
 		add(timeBar = new PlayTimeBar());
@@ -196,7 +205,14 @@ class PlayState<ComponentType:PlayableComponent, SongType:ComponentType> extends
 
 	function generateState() generateSong();
 
-	function updateState(elapsed:Float) {}
+	function updateState(elapsed:Float)
+	{
+		if (scoreText != null)
+		{
+			scoreText.text = 'Score: $score';
+			scoreText.screenCenter(X);
+		}
+	}
 
 	function generateSong()
 	{
@@ -259,5 +275,13 @@ class PlayState<ComponentType:PlayableComponent, SongType:ComponentType> extends
 		seenEndCutscene = true;
 
 		return false;
+	}
+
+	public function applyScore(dodged:Bool)
+	{
+		final scoreToApply = (dodged) ? Constants.GAMEPLAY_SCORE_AVOID : Constants.GAMEPLAY_SCORE_HIT;
+
+		totalScore += Constants.GAMEPLAY_SCORE_AVOID;
+		score += scoreToApply;
 	}
 }

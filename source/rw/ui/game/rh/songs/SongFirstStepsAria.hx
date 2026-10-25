@@ -6,7 +6,9 @@ import rw.ui.game.rh.songs.first_steps_aria.FirstStepsAriaLCRSprite;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
-import rw.ui.game.song.SongEventData.SongEventRawData;
+import rw.ui.game.song.SongEventData;
+
+using StringTools;
 
 class SongFirstStepsAria extends RHSong
 {
@@ -17,9 +19,7 @@ class SongFirstStepsAria extends RHSong
 
 	var bro:RHSprite;
 
-	public var broPoint(get, never):String;
-
-	function get_broPoint():String return bro.animation.name;
+	public var broPoint:String = 'center';
 
 	var lazers:Array<FirstStepsAriaLCRSprite> = [];
 
@@ -32,8 +32,9 @@ class SongFirstStepsAria extends RHSong
 		game.back.add(new RHSprite('first-steps-aria/stage').scaleToScreen().setCamera(game.camGame));
 
 		game.gameplayElements.add(bro = new FirstStepsAriaLCRSprite('bro').setCamera(game.camGame));
-
-		trace(broPoint);
+		bro.addAnim('center-hit', [3]);
+		bro.addAnim('left-hit', [4]);
+		bro.addAnim('right-hit', [5]);
 	}
 
 	override function update(elapsed:Float)
@@ -58,7 +59,13 @@ class SongFirstStepsAria extends RHSong
 		}
 	}
 
-	function moveTo(point:String, ifPoint:String) if (broPoint == ifPoint) bro.playAnim(point);
+	function moveTo(point:String, ifPoint:String)
+	{
+		if (broPoint != ifPoint) return;
+
+		broPoint = point;
+		bro.playAnim(point);
+	}
 
 	override function onEvent(event:SongEventRawData)
 	{
@@ -83,9 +90,6 @@ class SongFirstStepsAria extends RHSong
 
 				var time = Std.parseFloat('${event.data.delay}') / 1000;
 
-				// trace('Lazer Seg Time: $time');
-				// trace('Lazer Seg Side: ${event.data.side}');
-
 				FlxTween.tween(warning, {alpha: 1}, time, {
 					ease: FlxEase.sineIn,
 					onComplete: t ->
@@ -102,6 +106,11 @@ class SongFirstStepsAria extends RHSong
 				{
 					lazer.playAnim(event.data.side);
 					lazer.alpha = 1;
+
+					var dodged = broPoint != event.data.side;
+					game.applyScore(dodged);
+
+					if (!dodged) bro.playAnim('$broPoint-hit');
 
 					FlxTween.tween(lazer, {alpha: 0}, ((game.conductor.stepLengthMs / 1000) * 2), {
 						ease: FlxEase.sineIn,
