@@ -7,5 +7,26 @@
             "bpm": 110
         }
     ],
+    "events": [
+        {
+            "time": 0,
+            "entries": [
+                {
+                    "id": "lazerSeg",
+                    "data": {
+                        "side": "left",
+                        "delay": 1090
+                    }
+                },
+                {
+                    "id": "lazerSeg",
+                    "data": {
+                        "side": "right",
+                        "delay": 2181
+                    }
+                }
+            ]
+        }
+    ],
     "mode": "RHYTHM_HEAVEN"
 }
