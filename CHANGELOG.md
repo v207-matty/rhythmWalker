@@ -89,7 +89,7 @@ The 32bit version of the game has been retired due to no more waveform stuff lef
 
 - Fixed weird score saving system
     - Before it only worked by comparing your previous score (if any) to your current then updating, but if the song got updated and you couldnt get around the same score as in the previous version, you would've had a permanently fucked score
-        - Now it checks if your new percentage is higher, if you have a higher score, and if the (estimated) total score of your previous run is the same as now (I'm scared this is gonna have some issues cause I round up and don't floor and then there's some fuckin decimal percentage being an ass, maybe I should just save the total score the song has to prevent smth like this? idk)
+        - Now it checks if your new percentage is higher or if you have a higher score
 
 - Fixed bro-mental skin
     - Had flipped idle, hurt, and move, shouldn't have

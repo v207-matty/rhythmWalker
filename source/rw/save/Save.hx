@@ -100,7 +100,7 @@ class Save
 
 		final newPercent = FlxMath.roundDecimal(score / totalScore, 2);
 
-		if (newPercent > songRankPercent || score > songScore || Math.round(songScore * (100 / songRankPercent)) != totalScore)
+		if (newPercent > songRankPercent || score > songScore)
 		{
 			trace('NEW HIGHSCORE FOR "$id": $score');
 			trace(' | $score / $totalScore');
