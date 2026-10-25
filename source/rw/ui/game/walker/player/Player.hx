@@ -70,11 +70,4 @@ class Player extends RWSprite
 			collision.draw();
 		}
 	}
-
-	override function destroy()
-	{
-		super.destroy();
-
-		throw 'PLAYER DYING SOMEHOW';
-	}
 }

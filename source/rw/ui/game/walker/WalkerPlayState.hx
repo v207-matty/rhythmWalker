@@ -150,21 +150,21 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong, Wal
 		super.parseEvent(event);
 	}
 
-	// override function updateState(elapsed:Float)
-	// {
-	// 	super.updateState(elapsed);
+	override function updateState(elapsed:Float)
+	{
+		super.updateState(elapsed);
 
-	// 	if (!inCutscene) managePlayer();
-	// 	else if (data.player.cutsceneVelocityDamping) playerVelocityDamping();
+		if (!inCutscene) managePlayer();
+		else if (data.player.cutsceneVelocityDamping) playerVelocityDamping();
 
-	// 	if (beatMonsters != null) manageBeatMonsters();
+		if (beatMonsters != null) manageBeatMonsters();
 
-	// 	if (scoreText != null)
-	// 	{
-	// 		scoreText.text = 'Score: $score | Hits Taken: $hits';
-	// 		scoreText.screenCenter(X);
-	// 	}
-	// }
+		if (scoreText != null)
+		{
+			scoreText.text = 'Score: $score | Hits Taken: $hits';
+			scoreText.screenCenter(X);
+		}
+	}
 
 	function manageBeatMonsters()
 	{
