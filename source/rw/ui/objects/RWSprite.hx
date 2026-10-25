@@ -1,5 +1,6 @@
 package rw.ui.objects;
 
+import flixel.FlxG;
 import flixel.FlxCamera;
 import flixel.FlxSprite;
 
@@ -20,10 +21,12 @@ class RWSprite extends FlxSprite
 		}
 	}
 
-	public function setScale(?x:Float, ?y:Float)
+	public function setScale(?x:Float, ?y:Float):RWSprite
 	{
 		scale.set(x ?? y ?? 1, y ?? x ?? 1);
 		updateHitbox();
+
+		return this;
 	}
 
 	public function addAnim(anim:String, frames:Array<Int>, fps:Int, ?looped:Bool = false, flipX = false,
@@ -37,9 +40,35 @@ class RWSprite extends FlxSprite
 
 	public function dance() {}
 
-	public function setCamera(cam:FlxCamera) camera = cam;
+	public function setCamera(cam:FlxCamera):RWSprite
+	{
+		camera = cam;
+		return this;
+	}
 
-	public function setScrollFactor(?x:Float, ?y:Float) scrollFactor.set(x ?? y ?? 1, y ?? x ?? 1);
+	public function setScrollFactor(?x:Float, ?y:Float):RWSprite
+	{
+		scrollFactor.set(x ?? y ?? 1, y ?? x ?? 1);
+		return this;
+	}
 
-	public function offsetBy(?x:Float, ?y:Float) offset.add(x ?? y ?? 0, y ?? x ?? 0);
+	public function offsetBy(?x:Float, ?y:Float):RWSprite
+	{
+		offset.add(x ?? y ?? 0, y ?? x ?? 0);
+		return this;
+	}
+
+	public function scaleToScreen():RWSprite
+	{
+		setScale(1);
+
+		if (width > height) setGraphicSize(FlxG.width);
+		else if (height > width) setGraphicSize(0, FlxG.height);
+		else setScale(FlxG.width, FlxG.height);
+
+		updateHitbox();
+		screenCenter();
+
+		return this;
+	}
 }

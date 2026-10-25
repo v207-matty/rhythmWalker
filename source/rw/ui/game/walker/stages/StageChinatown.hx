@@ -23,10 +23,6 @@ class StageChinatown extends Stage
 		sky.screenCenter();
 		game.stageBackLayer.add(sky);
 
-		var spr = new StageSprite('chinatown/town/town');
-		spr.setGraphicSize(FlxG.width, FlxG.height);
-		spr.updateHitbox();
-		spr.screenCenter();
-		game.stageBackLayer.add(spr);
+		game.stageBackLayer.add(new StageSprite('chinatown/town/town').scaleToScreen());
 	}
 }

@@ -23,12 +23,7 @@ class StageSave extends Stage
 		game.player.screenCenter(X);
 		game.player.y = FlxG.height - game.player.height * 1.25;
 
-		var backdrop:StageSprite = new StageSprite('save/$stage');
-		backdrop.setGraphicSize(FlxG.width, FlxG.height);
-		backdrop.updateHitbox();
-		backdrop.screenCenter();
-		game.stageBackLayer.add(backdrop);
-		backdrop.setCamera(game.camGame);
+		game.stageBackLayer.add(new StageSprite('save/$stage').scaleToScreen().setCamera(game.camGame));
 
 		if (!Save.options.shaders) return;
 

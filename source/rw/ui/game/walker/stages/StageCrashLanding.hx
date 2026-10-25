@@ -1,5 +1,6 @@
 package rw.ui.game.walker.stages;
 
+import lime.tools.SplashScreen;
 import rw.save.Save;
 import flixel.tweens.FlxTween;
 import flixel.FlxG;
@@ -18,29 +19,14 @@ class StageCrashLanding extends Stage
 
 		game.camGame.bgColor = 0xFF0D0712;
 
-		var ship = new StageSprite('$stage/ship');
-		var mountains = new StageSprite('$stage/mountains');
-		var hills = new StageSprite('$stage/hills');
-		var ground = new StageSprite('$stage/ground');
-		var frontHills = new StageSprite('$stage/frontHills');
+		var ship:StageSprite;
+		
+		game.stageBackLayer.add(ship = new StageSprite('$stage/ship').setScrollFactor(0.05).scaleToScreen().setCamera(game.camGame));
+		game.stageBackLayer.add(new StageSprite('$stage/mountains').setScrollFactor(0.1).scaleToScreen().setCamera(game.camGame));
+		game.stageBackLayer.add(new StageSprite('$stage/hills').setScrollFactor(0.1).scaleToScreen().setCamera(game.camGame));
+		game.stageBackLayer.add(new StageSprite('$stage/ground').setScrollFactor(0.75).scaleToScreen().setCamera(game.camGame));
+		game.stageFrontLayer.add(new StageSprite('$stage/frontHills').setScrollFactor(0.9).scaleToScreen().setCamera(game.camGame));
 
-		ship.setScrollFactor(0.05);
-		mountains.setScrollFactor(0.1);
-		hills.setScrollFactor(0.25);
-		ground.setScrollFactor(0.75);
-		frontHills.setScrollFactor(0.9);
-
-		for (spr in [ship, mountains, hills, ground, frontHills])
-		{
-			spr.setGraphicSize(FlxG.width, FlxG.height);
-			spr.updateHitbox();
-			spr.screenCenter();
-
-			spr.setCamera(game.camGame);
-
-			if (spr != frontHills) game.stageBackLayer.add(spr);
-		}
-		game.stageFrontLayer.add(frontHills);
 
 		ship.setScale(Math.floor(FlxG.width / 1280));
 		ship.alpha = .5;
