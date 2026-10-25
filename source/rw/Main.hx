@@ -94,7 +94,7 @@ class Main extends FlxGame
 		#end
 
 		TouchUtil.mouse.swipeThreshold.set(500, 400);
-		FlxG.touches.swipeThreshold.set(200, 200);
+		FlxG.touches.swipeThreshold.set(200, 300);
 
 		FlxG.switchState(() -> new QualityWarning());
 	}
