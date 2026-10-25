@@ -40,13 +40,18 @@ class SongFirstStepsAria extends RHSong
 	{
 		super.update(elapsed);
 
-		if (FlxG.keys.anyJustPressed([A, LEFT]) || TouchUtil.swippedLeft())
+		if (TouchUtil.mouse.justPressed) controls();
+	}
+
+	function controls()
+	{
+		if (TouchUtil.mouse.x < (FlxG.width / 2))
 		{
 			moveTo('left', 'center');
 			moveTo('center', 'right');
 		}
 
-		if (FlxG.keys.anyJustPressed([D, RIGHT]) || TouchUtil.swippedRight())
+		if (TouchUtil.mouse.x > (FlxG.width / 2))
 		{
 			moveTo('right', 'center');
 			moveTo('center', 'left');

@@ -31,6 +31,9 @@ class RHPlayState extends PlayState<RHPlayableComponent, RHSong>
 	override function generateState()
 	{
 		super.generateState();
+
+		mouseEnabled = true;
+		mouseVisible = #if !mobile true #else false #end;
 	}
 
 	override function generateSong()
