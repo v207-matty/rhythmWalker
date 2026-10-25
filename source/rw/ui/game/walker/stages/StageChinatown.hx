@@ -10,14 +10,11 @@ class StageChinatown extends WalkerStage
 		super('chinatown');
 	}
 
-	var sky:FlxBackdrop;
-	var town:WalkerStageSprite;
-
 	override function build()
 	{
 		super.build();
 
-		sky = new FlxBackdrop(Paths.getImagePath('game/walker/stages/chinatown/town/sky'));
+		var sky = new FlxBackdrop(Paths.getImagePath('game/walker/stages/chinatown/town/sky'));
 		sky.scale.set(2, 2);
 		sky.updateHitbox();
 		sky.camera = game.camGame;
@@ -26,17 +23,6 @@ class StageChinatown extends WalkerStage
 		sky.screenCenter();
 		game.back.add(sky);
 
-		game.back.add(town = new WalkerStageSprite('chinatown/town/town').scaleToScreen());
-	}
-
-	override function destroy()
-	{
-		super.destroy();
-
-		sky.destroy();
-		town.destroy();
-
-		sky = null;
-		town = null;
+		game.back.add(new WalkerStageSprite('chinatown/town/town').scaleToScreen());
 	}
 }

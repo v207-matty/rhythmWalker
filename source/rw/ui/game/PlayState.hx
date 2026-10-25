@@ -65,6 +65,14 @@ class PlayState<ComponentType:PlayableComponent, SongType:ComponentType, StageTy
 	{
 		super.destroy();
 
+		runOnLayers(l ->
+		{
+			remove(l);
+
+			l.destroy();
+			l = null;
+		});
+
 		runOnComponents(c -> c.destroy());
 	}
 

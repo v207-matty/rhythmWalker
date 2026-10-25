@@ -11,9 +11,12 @@ class StageManager
 	{
 		return switch (stage.toLowerCase())
 		{
+			case 'stage':
+				new RHStageMain(stage);
+
 			default:
 				trace('Unimplemented RH stage case : $stage');
-				new RHStage(null);
+				new RHStage(stage);
 		}
 
 	}

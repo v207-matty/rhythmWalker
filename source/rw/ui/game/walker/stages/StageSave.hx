@@ -11,8 +11,6 @@ class StageSave extends WalkerStage
 		super(stage);
 	}
 
-	var backdrop:WalkerStageSprite;
-
 	override function build()
 	{
 		super.build();
@@ -25,7 +23,7 @@ class StageSave extends WalkerStage
 		game.player.screenCenter(X);
 		game.player.y = FlxG.height - game.player.height * 1.25;
 
-		game.back.add(backdrop = new WalkerStageSprite('save/$stage').scaleToScreen().setCamera(game.camGame));
+		game.back.add(new WalkerStageSprite('save/$stage').scaleToScreen().setCamera(game.camGame));
 
 		if (!Save.options.shaders) return;
 
@@ -37,13 +35,5 @@ class StageSave extends WalkerStage
 		charShader.setFloat('contrast', 0.0);
 
 		game.player.shader = game.beatMonsters.shader = charShader;
-	}
-
-	override function destroy()
-	{
-		super.destroy();
-
-		backdrop.destroy();
-		backdrop = null;
 	}
 }

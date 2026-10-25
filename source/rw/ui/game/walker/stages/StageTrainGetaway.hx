@@ -18,19 +18,6 @@ class StageTrainGetaway extends WalkerStage
 
 	var trainGetaway_sky:FlxBackdrop;
 	var trainGetaway_shooter:TrainGetawayShooter;
-	var train:FlxBackdrop;
-
-	override function destroy()
-	{
-		super.destroy();
-
-		trainGetaway_shooter.destroy();
-		trainGetaway_shooter = null;
-
-		trainGetaway_sky.destroy();
-		train.destroy();
-		trainGetaway_sky = train = null;
-	}
 
 	override function build()
 	{
@@ -43,7 +30,7 @@ class StageTrainGetaway extends WalkerStage
 		game.back.add(trainGetaway_sky);
 		trainGetaway_sky.camera = game.camGame;
 
-		train = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/train'), X);
+		var train = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/train'), X);
 		train.scale.set(2, 2);
 		train.updateHitbox();
 		train.screenCenter(X);

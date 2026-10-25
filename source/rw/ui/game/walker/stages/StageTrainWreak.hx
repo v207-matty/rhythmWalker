@@ -17,45 +17,23 @@ class StageTrainWreak extends WalkerStage
 
 	var trainWreak_shooter:TrainWreakShooter;
 
-	var sky:FlxBackdrop;
-	var city:FlxBackdrop;
-	var ground:FlxBackdrop;
-	var groundFloor:Floor;
-
-	var sprites:Array<TrainWreakPiece> = [];
-
-	override function destroy() {
-		super.destroy();
-
-		sky.destroy();
-		city.destroy();
-		ground.destroy();
-		sky = city = ground = null;
-
-		groundFloor.destroy();
-		groundFloor = null;
-
-		trainWreak_shooter.destroy();
-		trainWreak_shooter = null;
-	}
-
 	override function build()
 	{
 		super.build();
 
-		sky = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/sky'));
+		var sky = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/sky'));
 		sky.velocity.x = 10;
 		sky.scrollFactor.set(.25, .25);
 		game.back.add(sky);
 
-		city = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/city'), X);
+		var city = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/city'), X);
 		city.scrollFactor.set(.5, .5);
 		game.back.add(city);
 
-		ground = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/ground'), X);
+		var ground = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/ground'), X);
 		ground.scrollFactor.set(.75, .75);
 
-		game.back.add(groundFloor = new Floor(ground, 0xFF3B3E44, game.camGame));
+		game.back.add(new Floor(ground, 0xFF3B3E44, game.camGame));
 		game.back.add(ground);
 
 		for (backdrop in [sky,city,ground])
@@ -84,7 +62,6 @@ class StageTrainWreak extends WalkerStage
 
 			var pspr = new TrainWreakPiece(piece[0], game.camGame, piece[1]);
 			game.back.add(pspr);
-			sprites.push(pspr);
 
 			if (isCrowd)
 			{

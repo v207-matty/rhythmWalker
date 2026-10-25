@@ -11,8 +11,6 @@ class StageChase extends WalkerStage
 		super(stage);
 	}
 
-	var backdrop:WalkerStageSprite;
-
 	override function build()
 	{
 		super.build();
@@ -25,7 +23,7 @@ class StageChase extends WalkerStage
 		game.player.screenCenter(X);
 		game.player.y = FlxG.height - game.player.height * ((stage == 'chase-2') ? 1.25 : 2);
 
-		game.back.add(backdrop = new WalkerStageSprite('chase/$stage').scaleToScreen().setCamera(game.camGame));
+		game.back.add(new WalkerStageSprite('chase/$stage').scaleToScreen().setCamera(game.camGame));
 
 		if (!Save.options.shaders) return;
 
@@ -37,13 +35,5 @@ class StageChase extends WalkerStage
 		charShader.setFloat('contrast', 0.0);
 
 		game.player.shader = game.beatMonsters.shader = charShader;
-	}
-
-	override function destroy()
-	{
-		super.destroy();
-
-		backdrop.destroy();
-		backdrop = null;
 	}
 }

@@ -10,14 +10,11 @@ class StageChinatownBridge extends WalkerStage
 		super('chinatown-bridge');
 	}
 
-	var sky:FlxBackdrop;
-	var bridge:FlxBackdrop;
-
 	override function build()
 	{
 		super.build();
 
-		sky = new FlxBackdrop(Paths.getImagePath('game/walker/stages/chinatown/bridge/sky'));
+		var sky = new FlxBackdrop(Paths.getImagePath('game/walker/stages/chinatown/bridge/sky'));
 		sky.scale.set(4, 4);
 		sky.updateHitbox();
 		sky.camera = game.camGame;
@@ -26,21 +23,11 @@ class StageChinatownBridge extends WalkerStage
 		sky.screenCenter();
 		game.back.add(sky);
 
-		bridge = new FlxBackdrop(Paths.getImagePath('game/walker/stages/chinatown/bridge/bridge'), X);
+		var bridge = new FlxBackdrop(Paths.getImagePath('game/walker/stages/chinatown/bridge/bridge'), X);
 		bridge.scale.set(4, 4);
 		bridge.updateHitbox();
 		bridge.camera = game.camGame;
 		bridge.y = FlxG.height - bridge.height;
 		game.back.add(bridge);
-	}
-
-	override function destroy()
-	{
-		super.destroy();
-
-		sky.destroy();
-		bridge.destroy();
-
-		sky = bridge = null;
 	}
 }

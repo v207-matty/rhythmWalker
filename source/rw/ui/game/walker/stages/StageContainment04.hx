@@ -15,11 +15,7 @@ class StageContainment04 extends WalkerStage
 		super('containment-04');
 	}
 
-	var tubes:Array<WalkerStageSprite> = [];
 	var containment04_tubeSubject:WalkerStageSprite;
-	var label:WalkerStageSprite;
-	var floor:FlxBackdrop;
-	var floorFloor:Floor;
 
 	override function build()
 	{
@@ -27,17 +23,17 @@ class StageContainment04 extends WalkerStage
 
 		game.camGame.bgColor = 0xFF595652;
 
-		floor = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/floor'), X);
+		var floor = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/floor'), X);
 		floor.scale.set(2, 2);
 		floor.scrollFactor.set();
 		floor.updateHitbox();
 		floor.camera = game.camGame;
 		floor.y = FlxG.height - floor.height;
 
-		game.back.add(floorFloor = new Floor(floor, 0xFF696A6A, game.camGame, FlxPoint.weak(1, 0)));
+		game.back.add(new Floor(floor, 0xFF696A6A, game.camGame, FlxPoint.weak(1, 0)));
 		game.back.add(floor);
 
-		label = new WalkerStageSprite('$stage/label');
+		var label = new WalkerStageSprite('$stage/label');
 		label.setScale(2);
 		label.screenCenter(X);
 		label.y = FlxG.height - label.height;
@@ -54,7 +50,6 @@ class StageContainment04 extends WalkerStage
 			tube.x = ((tube.width * 2.75) * i) + 32;
 
 			game.back.add(tube);
-			tubes.push(tube);
 
 			if (i != tubeCount - 1) continue;
 
@@ -85,25 +80,6 @@ class StageContainment04 extends WalkerStage
 				});
 
 				game.inEndCutscene = true;
-		}
-	}
-
-	override function destroy()
-	{
-		super.destroy();
-
-		label.destroy();
-		floor.destroy();
-		floorFloor.destroy();
-
-		label = null;
-		floor = null;
-		floorFloor = null;
-
-		for (tube in tubes)
-		{
-			tube.destroy();
-			tube = null;
 		}
 	}
 }
