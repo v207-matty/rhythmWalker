@@ -72,7 +72,7 @@ class QualityWarning extends ConductorState
 		FlxG.sound.cache(Paths.getAudio('ui/menu'));
 
 		#if GAMEPLAY
-		FlxG.switchState(() -> new DialogueScene(new SongData('first steps', defaultVariation), true));
+		FlxG.switchState(() -> new DialogueScene(new SongData('first steps', aria), true));
 		#elseif DIALOGUE
 		FlxG.switchState(() -> new DialogueScene(new SongData('encapture')));
 		#elseif RESULTS
