@@ -1,6 +1,6 @@
 package rw.ui.game.rh.songs;
 
-import rw.ui.game.rh.songs.first_steps_aria.Lazer;
+import rw.ui.game.rh.songs.first_steps_aria.FirstStepsAriaLCRSprite;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
@@ -15,7 +15,7 @@ class SongFirstStepsAria extends RHSong
 
 	var bro:RHSprite;
 
-	var lazers:Array<Lazer> = [];
+	var lazers:Array<FirstStepsAriaLCRSprite> = [];
 
 	override function build()
 	{
@@ -40,15 +40,34 @@ class SongFirstStepsAria extends RHSong
 			case 'lazerseg':
 				if (event.data == null || event.data.delay == null || event.data.side == null) return;
 
-				var lazer = new Lazer().setCamera(game.camGame);
+				var warning = new FirstStepsAriaLCRSprite('warnings').setCamera(game.camGame);
+				lazers.push(warning);
+				game.gameplayElements.add(warning);
+				warning.playAnim(event.data.side);
+
+				var lazer = new FirstStepsAriaLCRSprite('shots').setCamera(game.camGame);
 				lazers.push(lazer);
 				game.gameplayElements.add(lazer);
+
 				lazer.alpha = 0;
+				warning.alpha = 0;
 
 				var time = Std.parseFloat('${event.data.delay}') / 1000;
 
 				// trace('Lazer Seg Time: $time');
 				// trace('Lazer Seg Side: ${event.data.side}');
+
+				FlxTween.tween(warning, {alpha: 1}, time, {
+					ease: FlxEase.sineIn,
+					onComplete: t ->
+					{
+						game.remove(warning);
+						lazers.remove(warning);
+
+						warning.destroy();
+						warning = null;
+					}
+				});
 
 				FlxTimer.wait(time, () ->
 				{
