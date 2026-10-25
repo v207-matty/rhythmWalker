@@ -137,7 +137,7 @@ class RHPlayState extends ConductorState
 
 		trace('Yay we done');
 
-		if (!skipping) if (Save.saveSongScore(songData.toString(), 0, 0))
+		if (!skipping) if (Save.saveSongScore(songData.toString(), score, totalScore))
 		{
 			FlxG.switchState(() -> new ResultsState(songData.toString()));
 			return;
