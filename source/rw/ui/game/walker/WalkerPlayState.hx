@@ -25,7 +25,7 @@ class WalkerPlayState extends ConductorState
 
 	public var player(default, null):Player;
 	public var beatMonsters(default, null):FlxSpriteGroup;
-	public var stage(default, null):Stage;
+	public var stage(default, null):WalkerStage;
 
 	public var song(default, null):WalkerSong;
 	public var songData(default, null):SongData;
@@ -56,10 +56,16 @@ class WalkerPlayState extends ConductorState
 		}
 	};
 
-	public var stageBackLayer(default, null):FlxSpriteGroup;
-	public var stageFrontLayer(default, null):FlxSpriteGroup;
+	public var back(default, null):FlxSpriteGroup;
+	public var front(default, null):FlxSpriteGroup;
 
 	public var timeBar(default, null):PlayTimeBar;
+
+	public var layers(get, never):Array<FlxSpriteGroup>;
+
+	function get_layers():Array<FlxSpriteGroup> return [back, front];
+
+	public function runOnLayers(a:FlxSpriteGroup->Void) if (a != null) for (layers in layers) if (layers != null) a(layers);
 
 	public var components(get, never):Array<WalkerPlayableComponent>;
 
@@ -77,6 +83,8 @@ class WalkerPlayState extends ConductorState
 	override function destroy()
 	{
 		super.destroy();
+
+		runOnComponents(c -> c.destroy());
 
 		instance = null;
 	}
@@ -112,12 +120,12 @@ class WalkerPlayState extends ConductorState
 
 		createPlayer();
 
-		add(stageBackLayer = new FlxSpriteGroup());
+		add(back = new FlxSpriteGroup());
 		add(player);
 		add(beatMonsters = new FlxSpriteGroup());
 		add(beatMonsterSpawner = FlxGradient.createGradientFlxSprite(Math.floor(FlxG.width * 1.1), Math.floor(FlxG.height * 0.2),
 			[FlxColor.RED, FlxColor.TRANSPARENT]));
-		add(stageFrontLayer = new FlxSpriteGroup());
+		add(front = new FlxSpriteGroup());
 		add(scoreText = new FlxText(0, 0, FlxG.width, 'BOB', Constants.TEXT_SIZE));
 
 		beatMonsterSpawner.alpha = 0;
@@ -330,13 +338,13 @@ class WalkerPlayState extends ConductorState
 	{
 		super.onBeatHit(beat, backward);
 
-		for (layer in [stageBackLayer, stageFrontLayer,])
+		for (layer in [back, front,])
 		{
 			layer.forEach(sprite ->
 			{
-				if (!Std.isOfType(sprite, StageSprite)) return;
+				if (!Std.isOfType(sprite, WalkerStageSprite)) return;
 
-				var stageSprite = cast(sprite, StageSprite);
+				var stageSprite = cast(sprite, WalkerStageSprite);
 				if (stageSprite == null) return;
 
 				stageSprite.dance();
@@ -431,20 +439,17 @@ class WalkerPlayState extends ConductorState
 
 	public function makeStage(stage:String)
 	{
-		if (stageBackLayer == null || stageFrontLayer == null) return;
-
-		for (layer in [stageBackLayer, stageFrontLayer,])
-		{
-			for (sprite in layer.members)
+		runOnLayers(l -> {
+			for (sprite in l.members)
 			{
-				stageBackLayer.members.remove(sprite);
+				l.members.remove(sprite);
 				sprite.destroy();
 			}
 
-			layer.clear();
-		}
+			l.clear();
+		});
 
-		this.stage = StageManager.get(stage ?? 'stage');
+		this.stage = StageManager.getWalker(stage ?? 'stage');
 		if (this.stage != null) this.stage.build();
 	}
 

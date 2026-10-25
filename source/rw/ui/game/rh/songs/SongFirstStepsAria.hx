@@ -6,4 +6,11 @@ class SongFirstStepsAria extends RHSong
 	{
 		super('first steps', aria);
 	}
+
+	override function build()
+	{
+		super.build();
+
+		game.camGame.bgColor = 0xFF222034;
+	}
 }

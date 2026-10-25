@@ -1,5 +1,7 @@
 package rw.ui.game.rh;
 
+import flixel.group.FlxSpriteGroup;
+import rw.ui.game.rh.stage.*;
 import rw.ui.game.song.SongEventData;
 import flixel.addons.transition.*;
 import flixel.text.FlxText;
@@ -14,7 +16,9 @@ class RHPlayState extends ConductorState
 {
 	public static var instance:RHPlayState;
 
+	public var stage(default, null):RHStage;
 	public var song(default, null):RHSong;
+
 	public var songData(default, null):SongData;
 	public var songEvents:Array<FlxTimer> = [];
 
@@ -28,11 +32,21 @@ class RHPlayState extends ConductorState
 	public var camHUD(default, null):FlxCamera;
 	public var camTransition(default, null):FlxCamera;
 
-	public var timeBar:PlayTimeBar;
+	public var timeBar(default, null):PlayTimeBar;
+
+	public var back(default, null):FlxSpriteGroup;
+	public var middle(default, null):FlxSpriteGroup;
+	public var front(default, null):FlxSpriteGroup;
+
+	public var layers(get, never):Array<FlxSpriteGroup>;
+
+	function get_layers():Array<FlxSpriteGroup> return [back, middle, front];
+
+	public function runOnLayers(a:FlxSpriteGroup->Void) if (a != null) for (layers in layers) if (layers != null) a(layers);
 
 	public var components(get, never):Array<RHPlayableComponent>;
 
-	function get_components():Array<RHPlayableComponent> return [song];
+	function get_components():Array<RHPlayableComponent> return [stage, song];
 
 	public function runOnComponents(a:RHPlayableComponent->Void) if (a != null) for (component in components) if (component != null) a(component);
 
@@ -46,6 +60,8 @@ class RHPlayState extends ConductorState
 	override function destroy()
 	{
 		super.destroy();
+
+		runOnComponents(c -> c.destroy());
 
 		instance = null;
 	}
@@ -153,7 +169,27 @@ class RHPlayState extends ConductorState
 		song = SongManager.getRhythmHeaven(songData?.id, songData?.variation ?? defaultVariation);
 		if (song != null) song.build();
 
+		makeStage(songData?.stage ?? 'stage');
+
 		for (event in songData.events) addEvent(event);
+	}
+
+	public function makeStage(stage:String)
+	{
+		runOnLayers(l ->
+		{
+			for (sprite in l.members)
+			{
+				l.members.remove(sprite);
+				sprite.destroy();
+			}
+
+			l.clear();
+		});
+
+		if (this.stage != null) this.stage.destroy();
+		this.stage = StageManager.getRH(stage ?? 'stage');
+		if (this.stage != null) this.stage.build();
 	}
 
 	public function addEvent(event:SongEventData)
@@ -182,6 +218,8 @@ class RHPlayState extends ConductorState
 			case 'camera-off', 'cam-off': camGame.visible = false;
 
 			case 'camera-on', 'cam-on': camGame.visible = true;
+
+			case 'stage-switch', 'stage-change': if (event.data != null) makeStage(Std.string(event.data));
 		}
 
 		runOnComponents(c -> c.onEvent(event));

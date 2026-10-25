@@ -8,7 +8,7 @@ import flixel.FlxG;
 
 using StringTools;
 
-class StageTrainWreak extends Stage
+class StageTrainWreak extends WalkerStage
 {
 	override public function new()
 	{
@@ -27,7 +27,7 @@ class StageTrainWreak extends Stage
 		sky.velocity.x = 10;
 		sky.screenCenter(X);
 		sky.scrollFactor.set(.25, .25);
-		game.stageBackLayer.add(sky);
+		game.back.add(sky);
 		sky.camera = game.camGame;
 
 		var city:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/city'), X);
@@ -35,7 +35,7 @@ class StageTrainWreak extends Stage
 		city.updateHitbox();
 		city.screenCenter(X);
 		city.scrollFactor.set(.5, .5);
-		game.stageBackLayer.add(city);
+		game.back.add(city);
 		city.camera = game.camGame;
 
 		var ground:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/walker/stages/$stage/ground'), X);
@@ -45,8 +45,8 @@ class StageTrainWreak extends Stage
 		ground.scrollFactor.set(.75, .75);
 		ground.camera = game.camGame;
 
-		game.stageBackLayer.add(new Floor(ground, 0xFF3B3E44, game.camGame));
-		game.stageBackLayer.add(ground);
+		game.back.add(new Floor(ground, 0xFF3B3E44, game.camGame));
+		game.back.add(ground);
 
 		var pieceList:Array<Dynamic> = [
 			['crowds/randoms-left', 0.75],
@@ -65,7 +65,7 @@ class StageTrainWreak extends Stage
 			var isCrowd:Bool = Std.string(piece[0]).startsWith('crowds/');
 
 			var pspr = new TrainWreakPiece(piece[0], game.camGame, piece[1]);
-			game.stageBackLayer.add(pspr);
+			game.back.add(pspr);
 
 			if (isCrowd)
 			{
@@ -90,7 +90,7 @@ class StageTrainWreak extends Stage
 		trainWreak_shooter.screenCenter();
 		trainWreak_shooter.x -= trainWreak_shooter.width * 0.25;
 		trainWreak_shooter.y -= trainWreak_shooter.width * 0.5;
-		game.stageBackLayer.add(trainWreak_shooter);
+		game.back.add(trainWreak_shooter);
 
 		game.player.screenCenter();
 		game.player.y = FlxG.height - game.player.height * 1.15;

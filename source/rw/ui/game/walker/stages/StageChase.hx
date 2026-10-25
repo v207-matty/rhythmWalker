@@ -4,12 +4,14 @@ import rw.util.CustomShader;
 import rw.save.Save;
 import flixel.FlxG;
 
-class StageChase extends Stage
+class StageChase extends WalkerStage
 {
 	override public function new(stage:String)
 	{
 		super(stage);
 	}
+
+	var backdrop:WalkerStageSprite;
 
 	override function build()
 	{
@@ -23,7 +25,7 @@ class StageChase extends Stage
 		game.player.screenCenter(X);
 		game.player.y = FlxG.height - game.player.height * ((stage == 'chase-2') ? 1.25 : 2);
 
-		game.stageBackLayer.add(new StageSprite('chase/$stage').scaleToScreen().setCamera(game.camGame));
+		game.back.add(backdrop = new WalkerStageSprite('chase/$stage').scaleToScreen().setCamera(game.camGame));
 
 		if (!Save.options.shaders) return;
 
@@ -35,5 +37,13 @@ class StageChase extends Stage
 		charShader.setFloat('contrast', 0.0);
 
 		game.player.shader = game.beatMonsters.shader = charShader;
+	}
+
+	override function destroy()
+	{
+		super.destroy();
+
+		backdrop.destroy();
+		backdrop = null;
 	}
 }

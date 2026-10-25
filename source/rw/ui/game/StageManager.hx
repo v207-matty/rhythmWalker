@@ -1,10 +1,24 @@
-package rw.ui.game.walker.stage;
+package rw.ui.game;
 
+import rw.ui.game.rh.stage.*;
+import rw.ui.game.rh.stages.*;
+import rw.ui.game.walker.stage.*;
 import rw.ui.game.walker.stages.*;
 
 class StageManager
 {
-	public static function get(stage:String)
+	public static function getRH(stage:String):RHStage
+	{
+		return switch (stage.toLowerCase())
+		{
+			default:
+				trace('Unimplemented RH stage case : $stage');
+				new RHStage(null);
+		}
+
+	}
+
+	public static function getWalker(stage:String):WalkerStage
 	{
 		return switch (stage.toLowerCase())
 		{
@@ -39,8 +53,8 @@ class StageManager
 				new StageTrainWreak();
 
 			default:
-				trace('Unimplemented stage case : $stage');
-				new Stage(stage);
+				trace('Unimplemented walker stage case : $stage');
+				new WalkerStage(stage);
 		}
 	}
 }

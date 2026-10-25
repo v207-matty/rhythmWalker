@@ -2,7 +2,7 @@ package rw.ui.game.walker.stages.train_getaway;
 
 import flixel.FlxG;
 
-class TrainGetawayShooter extends StageSprite
+class TrainGetawayShooter extends WalkerStageSprite
 {
 	override public function new()
 	{

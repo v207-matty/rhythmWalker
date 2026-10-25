@@ -4,7 +4,7 @@ import rw.util.CustomShader;
 import rw.save.Save;
 import flixel.FlxG;
 
-class StageSave extends Stage
+class StageSave extends WalkerStage
 {
 	override public function new(stage:String)
 	{
@@ -23,7 +23,7 @@ class StageSave extends Stage
 		game.player.screenCenter(X);
 		game.player.y = FlxG.height - game.player.height * 1.25;
 
-		game.stageBackLayer.add(new StageSprite('save/$stage').scaleToScreen().setCamera(game.camGame));
+		game.back.add(new WalkerStageSprite('save/$stage').scaleToScreen().setCamera(game.camGame));
 
 		if (!Save.options.shaders) return;
 

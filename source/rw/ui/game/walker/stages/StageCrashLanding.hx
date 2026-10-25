@@ -6,7 +6,7 @@ import flixel.tweens.FlxTween;
 import flixel.FlxG;
 import rw.util.CustomShader;
 
-class StageCrashLanding extends Stage
+class StageCrashLanding extends WalkerStage
 {
 	override public function new()
 	{
@@ -19,14 +19,13 @@ class StageCrashLanding extends Stage
 
 		game.camGame.bgColor = 0xFF0D0712;
 
-		var ship:StageSprite;
+		var ship:WalkerStageSprite;
 		
-		game.stageBackLayer.add(ship = new StageSprite('$stage/ship').setScrollFactor(0.05).scaleToScreen().setCamera(game.camGame));
-		game.stageBackLayer.add(new StageSprite('$stage/mountains').setScrollFactor(0.1).scaleToScreen().setCamera(game.camGame));
-		game.stageBackLayer.add(new StageSprite('$stage/hills').setScrollFactor(0.1).scaleToScreen().setCamera(game.camGame));
-		game.stageBackLayer.add(new StageSprite('$stage/ground').setScrollFactor(0.75).scaleToScreen().setCamera(game.camGame));
-		game.stageFrontLayer.add(new StageSprite('$stage/frontHills').setScrollFactor(0.9).scaleToScreen().setCamera(game.camGame));
-
+		game.back.add(ship = new WalkerStageSprite('$stage/ship').setScrollFactor(0.05).scaleToScreen().setCamera(game.camGame));
+		game.back.add(new WalkerStageSprite('$stage/mountains').setScrollFactor(0.1).scaleToScreen().setCamera(game.camGame));
+		game.back.add(new WalkerStageSprite('$stage/hills').setScrollFactor(0.1).scaleToScreen().setCamera(game.camGame));
+		game.back.add(new WalkerStageSprite('$stage/ground').setScrollFactor(0.75).scaleToScreen().setCamera(game.camGame));
+		game.front.add(new WalkerStageSprite('$stage/frontHills').setScrollFactor(0.9).scaleToScreen().setCamera(game.camGame));
 
 		ship.setScale(Math.floor(FlxG.width / 1280));
 		ship.alpha = .5;
@@ -37,7 +36,7 @@ class StageCrashLanding extends Stage
 		FlxTween.tween(ship, {x: -FlxG.width * 2, y: FlxG.height * 2}, 6, {
 			onComplete: t ->
 			{
-				game.stageBackLayer.remove(ship);
+				game.back.remove(ship);
 				ship.destroy();
 			}
 		});

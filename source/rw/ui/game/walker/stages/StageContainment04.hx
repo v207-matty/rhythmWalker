@@ -8,14 +8,14 @@ import rw.ui.objects.Floor;
 import flixel.FlxG;
 import flixel.addons.display.FlxBackdrop;
 
-class StageContainment04 extends Stage
+class StageContainment04 extends WalkerStage
 {
 	override public function new()
 	{
 		super('containment-04');
 	}
 
-	var containment04_tubeSubject:StageSprite;
+	var containment04_tubeSubject:WalkerStageSprite;
 
 	override function build()
 	{
@@ -30,26 +30,26 @@ class StageContainment04 extends Stage
 		floor.camera = game.camGame;
 		floor.y = FlxG.height - floor.height;
 
-		game.stageBackLayer.add(new Floor(floor, 0xFF696A6A, game.camGame, FlxPoint.weak(1, 0)));
-		game.stageBackLayer.add(floor);
+		game.back.add(new Floor(floor, 0xFF696A6A, game.camGame, FlxPoint.weak(1, 0)));
+		game.back.add(floor);
 
-		var label = new StageSprite('$stage/label');
+		var label = new WalkerStageSprite('$stage/label');
 		label.setScale(2);
 		label.screenCenter(X);
 		label.y = FlxG.height - label.height;
-		game.stageBackLayer.add(label);
+		game.back.add(label);
 
 		var tubes = 2 * Math.round(FlxG.width / 1280);
 
 		for (i in 0...tubes)
 		{
-			var tube = new StageSprite('$stage/tube');
+			var tube = new WalkerStageSprite('$stage/tube');
 			tube.setScale(2);
 
 			tube.y = FlxG.height - tube.height * 1.4 - 4;
 			tube.x = ((tube.width * 2.75) * i) + 32;
 
-			game.stageBackLayer.add(tube);
+			game.back.add(tube);
 
 			if (i != tubes - 1) continue;
 
