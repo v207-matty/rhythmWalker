@@ -1,5 +1,6 @@
 package rw.ui.game.rh.songs;
 
+import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import rw.save.Save;
 import rw.util.mobile.TouchUtil;
 import flixel.FlxG;
@@ -23,7 +24,7 @@ class SongFirstStepsAria extends RHSong
 
 	var tutorial:FirstStepsAriaLCRSprite;
 
-	var lazers:Array<FirstStepsAriaLCRSprite> = [];
+	var lazers:FlxTypedSpriteGroup<FirstStepsAriaLCRSprite>;
 
 	override function build()
 	{
@@ -37,6 +38,8 @@ class SongFirstStepsAria extends RHSong
 		bro.addAnim('center-hit', [3]);
 		bro.addAnim('left-hit', [4]);
 		bro.addAnim('right-hit', [5]);
+
+		game.gameplayElements.add(lazers = new FlxTypedSpriteGroup<FirstStepsAriaLCRSprite>());
 
 		if (Save.scores.exists(game.songData.toString())) return;
 
@@ -84,16 +87,14 @@ class SongFirstStepsAria extends RHSong
 				if (event.data == null || event.data.delay == null || event.data.side == null) return;
 
 				var warning = new FirstStepsAriaLCRSprite('warnings').setCamera(game.camGame);
-				lazers.push(warning);
-				game.gameplayElements.add(warning);
-				warning.playAnim(event.data.side);
+				lazers.add(warning);
 
 				var lazer = new FirstStepsAriaLCRSprite('shots').setCamera(game.camGame);
-				lazers.push(lazer);
-				game.gameplayElements.add(lazer);
+				lazers.add(lazer);
 
-				lazer.alpha = 0;
-				warning.alpha = 0;
+				warning.playAnim(event.data.side);
+				
+				lazer.alpha = warning.alpha = 0;
 
 				var time = Std.parseFloat('${event.data.delay}') / 1000;
 
@@ -101,7 +102,6 @@ class SongFirstStepsAria extends RHSong
 					ease: FlxEase.sineIn,
 					onComplete: t ->
 					{
-						game.remove(warning);
 						lazers.remove(warning);
 
 						warning.destroy();
@@ -134,7 +134,6 @@ class SongFirstStepsAria extends RHSong
 						ease: FlxEase.sineIn,
 						onComplete: t ->
 						{
-							game.remove(lazer);
 							lazers.remove(lazer);
 
 							lazer.destroy();
