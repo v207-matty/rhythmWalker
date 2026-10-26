@@ -1,5 +1,6 @@
 package rw.ui.game.rh.songs;
 
+import rw.save.Save;
 import rw.util.mobile.TouchUtil;
 import flixel.FlxG;
 import rw.ui.game.rh.songs.first_steps_aria.FirstStepsAriaLCRSprite;
@@ -17,9 +18,10 @@ class SongFirstStepsAria extends RHSong
 		super('first steps', aria);
 	}
 
-	var bro:RHSprite;
+	var bro:FirstStepsAriaLCRSprite;
+	var broPoint:String = 'center';
 
-	public var broPoint:String = 'center';
+	var tutorial:FirstStepsAriaLCRSprite;
 
 	var lazers:Array<FirstStepsAriaLCRSprite> = [];
 
@@ -35,6 +37,11 @@ class SongFirstStepsAria extends RHSong
 		bro.addAnim('center-hit', [3]);
 		bro.addAnim('left-hit', [4]);
 		bro.addAnim('right-hit', [5]);
+
+		if (Save.scores.exists(game.songData.toString())) return;
+
+		game.gameplayElements.add(tutorial = new FirstStepsAriaLCRSprite('tutorial').setCamera(game.camGame));
+		tutorial.visible = false;
 	}
 
 	override function update(elapsed:Float)
@@ -102,6 +109,17 @@ class SongFirstStepsAria extends RHSong
 					}
 				});
 
+				if (tutorial != null) FlxTween.tween(tutorial, {alpha: 1}, time * 0.75, {
+					ease: FlxEase.sineIn,
+					onComplete: t ->
+					{
+						if (tutorial == null) return;
+
+						tutorial.visible = true;
+						tutorial.playAnim(event.data.side);
+					}
+				});
+
 				FlxTimer.wait(time, () ->
 				{
 					lazer.playAnim(event.data.side);
@@ -123,6 +141,12 @@ class SongFirstStepsAria extends RHSong
 							lazer = null;
 						}
 					});
+
+					if (tutorial == null) return;
+
+					game.gameplayElements.remove(tutorial);
+					tutorial.destroy();
+					tutorial = null;
 				});
 		}
 	}
