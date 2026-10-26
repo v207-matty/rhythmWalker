@@ -27,7 +27,7 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong>
 
 	public var beatMonsters(default, null):FlxTypedSpriteGroup<BeatMonster>;
 	public var beatMonsterSpawner(default, null):FlxSprite;
-		
+
 	public var hits:Int = 0;
 
 	public var data(default, null) = {
@@ -136,7 +136,7 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong>
 			case 'player-switch', 'player-change': if (event.data != null) makePlayer(Std.string(event.data));
 
 			case 'stage-switch', 'stage-change': if (event.data != null) makeStage(Std.string(event.data));
-			
+
 			case 'beatmonsters-spawnmonster': spawnBeatMonster();
 
 			case 'beatmonsters-stop': data.beatMonsters.spawn = false;
@@ -223,7 +223,7 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong>
 		beatMonsterSpawner.y = camGame.viewY;
 		beatMonsterSpawner.alpha = FlxMath.lerp(beatMonsterSpawner.alpha, (canSpawnMonster) ? 0.2 : 0, .1);
 	}
-	
+
 	public function playerPlayAnim(anim:String, hasFlippedVer:Bool = true)
 	{
 		if (hasFlippedVer) player.playAnim(anim + ((player.flipX) ? 'R' : 'L'));
@@ -333,5 +333,23 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong>
 	{
 		if (player == null) player = new Player(newplayer);
 		else player.load(newplayer);
+	}
+
+	override function introCutscene():Bool
+	{
+		if (seenIntroCutscene) return false;
+
+		seenIntroCutscene = true;
+
+		return song?.introCutscene() ?? false;
+	}
+
+	override function endCutscene():Bool
+	{
+		if (seenEndCutscene) return false;
+
+		seenEndCutscene = true;
+
+		return song?.endingCutscene() ?? false;
 	}
 }
