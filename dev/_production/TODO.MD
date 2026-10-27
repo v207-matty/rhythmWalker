@@ -1,53 +1,47 @@
-# Bundle 1 (0.4.0)
+# Current Update
 
-# Droplet 1
+# Next Update
+
+# Later Update
 
 - Train Getaway (Resolved)
-    - Song Remake
+    - Song
     - Background Assets
     - Bro Skin
     - C137 Asset
 
 - Train Wreak (Resolved)
-    - Song Remake
+    - Song
     - Background Assets
     - Bro Assets
     - C137 Asset
     - "Cutscene" Assets
         - Inbetween the cuts of bgs
 
-# Droplet 2
-
 - Encapture (Resolved)
-    - Song Remake
+    - Song
     - Backgrounds
     - Cop Assets
     - Bro Skins
 
 - Lost Media (Resolved)
-    - Song Creation
+    - Song
     - Background
 
 - Mental (Resolved)
-    - Song Creation
-
-# Bundle 2
+    - Song
 
 - Planning
-    - Song Remake
+    - Song
     - Rhythm Heaven Gameplay
 
 - Ambush
-    - Song Remake
+    - Song
 
 - Lu
-    - Song Remake
-
-# Droplet 3
+    - Song
 
 - Wild
-    - Song Creation
+    - Song
 
-# Misc
-
-- GJ Medals? : https://try.haxe.org/#40531346
+- Game Jolt Medals? : https://try.haxe.org/#40531346
