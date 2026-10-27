@@ -99,13 +99,14 @@ class PlayState<ComponentType:PlayableComponent, SongType:ComponentType> extends
 		resetConductor();
 
 		FlxG.sound.playMusic(Paths.getSong(songData.id, songData.variation), 1, false);
-		FlxG.sound.music.onComplete = () -> onSongEnd(false);
 
 		if (FlxG.sound.music.length < 1)
 		{
 			onSongEnd(true);
 			return;
 		}
+
+		FlxG.sound.music.onComplete = () -> onSongEnd(false);
 
 		FlxRhythmConductorUtil.loadMeta(conductor, FlxRhythmConductorUtil.parseTimeChanges(songData.bpmChanges));
 
