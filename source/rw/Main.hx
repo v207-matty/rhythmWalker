@@ -177,11 +177,6 @@ class Main extends FlxGame
 		trace(error);
 
 		WindowUtil.alert('Crash Handling', shortDisplayError);
-
-		#if sys
-		Sys.exit(0);
-		#end
-
 		WindowUtil.close();
 	}
 
