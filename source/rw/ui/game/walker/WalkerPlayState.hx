@@ -249,11 +249,6 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong>
 
 	function managePlayer()
 	{
-		@:privateAccess
-		if (player.maxVelocity == null) player.initMotionVars();
-
-		player.maxVelocity.x = player.data.config.maxVelocityBase * songData.scrollSpeed;
-
 		if (control_left) move(-1, true);
 		else if (control_right) move(1, true);
 		else playerVelocityDamping();
@@ -327,6 +322,8 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong>
 		player.setCamera(camGame);
 
 		if (immortal) player.alpha = .25;
+
+		player.maxVelocity.x = player.data.config.maxVelocityBase * songData.scrollSpeed;
 	}
 
 	public function makePlayer(newplayer:String)
