@@ -1,12 +1,13 @@
-# Current Update
+# Current Update(s)
 
-# Next Update
+# Next Update(s)
 
 - Train Getaway (Resolved)
     - Song
     - Background
     - Bro Skin
-    - C137 Asset
+    - Intro Cutscene Assets
+        - C137 chasing Bro
 
 - Train Wreak (Resolved)
     - Song
@@ -20,13 +21,26 @@
     - Song
     - Backgrounds
     - Bro Skins
+    - Cutscene Assets
+        - Bro arrested but runs anyway
+        - Cops flying above ya on a platform
 
-# Later Update
+    - Walker Horizontal Gameplay?
+        - Beat Monsters come from left and right and you have to jump to avoid them
+
+# Later Update(s)
 
 - Lost Media (Resolved)
     - Song
+
     - Background
-    - Bro + Jez Standing Skin
+        - Bro BG Asset
+    - Jez Asset
+
+    - Rhythm Heaven Gameplay
+        - Cops emerge each step
+        - Click the cops to slice them
+        - Click the floor to dodge
 
 - Mental (Resolved)
     - Song
@@ -34,7 +48,12 @@
 
 - Planning
     - Song
+
+    - Backgrounds
+        - PC Screens
+
     - Rhythm Heaven Gameplay
+        - Click the correct search from a select few that appear
 
 - Ambush
     - Song
