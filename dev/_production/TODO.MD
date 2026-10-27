@@ -57,6 +57,10 @@
 
 - Ambush
     - Song
+    - Background
+    - Player Assets (Swap sometimes during the songs)
+        - Bro Assets
+        - Jez Assets
 
 - Lu
     - Song
