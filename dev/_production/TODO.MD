@@ -2,34 +2,35 @@
 
 # Next Update
 
-# Later Update
-
 - Train Getaway (Resolved)
     - Song
-    - Background Assets
+    - Background
     - Bro Skin
     - C137 Asset
 
 - Train Wreak (Resolved)
     - Song
-    - Background Assets
-    - Bro Assets
-    - C137 Asset
-    - "Cutscene" Assets
-        - Inbetween the cuts of bgs
+    - City Backgrounds
+    - Bro Skin
+    - Cutscene Assets
+        - Images inbetween the cuts of bgs
+        - C137 on some platform thingy floating up
 
 - Encapture (Resolved)
     - Song
     - Backgrounds
-    - Cop Assets
     - Bro Skins
+
+# Later Update
 
 - Lost Media (Resolved)
     - Song
     - Background
+    - Bro + Jez Standing Skin
 
 - Mental (Resolved)
     - Song
+    - Jez Skin
 
 - Planning
     - Song
@@ -43,5 +44,19 @@
 
 - Wild
     - Song
+
+- Research
+    - Song
+
+- Come Get Me
+    - Song
+
+- Lets End This
+    - Song
+
+- Earnings
+    - Song
+
+# Misc
 
 - Game Jolt Medals? : https://try.haxe.org/#40531346
