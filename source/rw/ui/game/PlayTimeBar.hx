@@ -19,7 +19,7 @@ class PlayTimeBar extends RWSprite
 		return target = newTarget;
 	}
 
-    public var lerpRate:Float = 0.04;
+	public var lerpRate:Float = 0.04;
 
 	override public function new()
 	{
@@ -32,9 +32,10 @@ class PlayTimeBar extends RWSprite
 		scale.x = 0;
 	}
 
-    override function update(elapsed:Float) {
-        super.update(elapsed);
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
 
 		scale.x = FlxMath.lerp(scale.x, target, lerpRate);
-    }
+	}
 }

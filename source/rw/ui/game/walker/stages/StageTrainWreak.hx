@@ -36,9 +36,9 @@ class StageTrainWreak extends WalkerStage
 		game.back.add(new Floor(ground, 0xFF3B3E44, game.camGame));
 		game.back.add(ground);
 
-		for (backdrop in [sky,city,ground])
+		for (backdrop in [sky, city, ground])
 		{
-			backdrop.scale.set(2,2);
+			backdrop.scale.set(2, 2);
 			backdrop.updateHitbox();
 			backdrop.screenCenter(X);
 			backdrop.camera = game.camGame;

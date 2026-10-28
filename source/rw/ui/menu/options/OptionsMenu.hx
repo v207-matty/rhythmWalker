@@ -28,13 +28,14 @@ class OptionsMenu extends MenuState
 		options = [
 			new Option(() -> return 'Quality Warning : ${Save.options.qualityWarning}', () -> Save.options.qualityWarning = !Save.options.qualityWarning),
 			new Option(() -> return 'Shaders : ${Save.options.shaders}', () -> Save.options.shaders = !Save.options.shaders),
-			new Option(() -> return 'Menu Music : ${Save.options.menuMusic}', () ->
-			{
-				Save.options.menuMusic = !Save.options.menuMusic;
+			new Option(() -> return 'Menu Music : ${Save.options.menuMusic}',
+				() ->
+				{
+					Save.options.menuMusic = !Save.options.menuMusic;
 
-				if (!Save.options.menuMusic) FlxG.sound.music.stop();
-				else playMenuMusic();
-			}),
+					if (!Save.options.menuMusic) FlxG.sound.music.stop();
+					else playMenuMusic();
+				}),
 			new Option(() -> return 'Level Dialogue : ${Save.options.dialogue}', () -> Save.options.dialogue = !Save.options.dialogue),
 			new Option(() -> return 'Clear Save Data', () -> Save.clear()),
 		];

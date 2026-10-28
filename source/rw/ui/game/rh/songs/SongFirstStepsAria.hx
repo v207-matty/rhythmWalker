@@ -93,7 +93,7 @@ class SongFirstStepsAria extends RHSong
 				lazers.add(lazer);
 
 				warning.playAnim(event.data.side);
-				
+
 				lazer.alpha = warning.alpha = 0;
 
 				var time = Std.parseFloat('${event.data.delay}') / 1000;

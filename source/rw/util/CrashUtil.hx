@@ -36,17 +36,17 @@ class CrashUtil
 	{
 		var stack = CallStack.exceptionStack(true);
 
-        @:privateAccess
-        stack.reverse();
+		@:privateAccess
+		stack.reverse();
 
-        return stack;
+		return stack;
 	}
 
 	public static function onCrashing(e:UncaughtErrorEvent) @:privateAccess
 	{
 		e.preventDefault();
 
-        var stack = exceptionStack();
+		var stack = exceptionStack();
 
 		Save.save();
 
@@ -55,7 +55,7 @@ class CrashUtil
 
 		for (stackItem in stack) error += pushStack(stackItem);
 
-		shortDisplayError += '\n\n${stack.length} CallStack entry / entries';
+		shortDisplayError += '\n\n${stack.length} CallStack ${(stack.length == 1) ? 'entry' : 'entries'}';
 
 		shortDisplayError += plzReport;
 		error += plzReport;
