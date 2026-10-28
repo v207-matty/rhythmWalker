@@ -1,16 +1,11 @@
 package rw;
 
+import rw.util.CrashUtil;
 import rw.util.mobile.TouchUtil;
-import flixel.input.mouse.FlxMouse;
-import lime.app.Application;
-import flixel.FlxState;
 import rw.save.Save;
 import rw.util.Constants;
-import rw.ui.game.song.SongRank;
-import haxe.CallStack;
 import openfl.Lib;
 import openfl.events.UncaughtErrorEvent;
-import flixel.util.FlxColor;
 import flixel.math.FlxPoint;
 import flixel.addons.transition.FlxTransitionSprite;
 import flixel.graphics.FlxGraphic;
@@ -24,10 +19,6 @@ import flixel.addons.transition.FlxTransitionableState;
 import openfl.events.Event;
 import flixel.FlxGame;
 import rw.ui.*;
-#if sys
-import sys.io.File;
-import sys.FileSystem;
-#end
 #if (android || ios)
 import haxe.io.Path;
 #end
@@ -68,7 +59,7 @@ class Main extends FlxGame
 		WindowUtil.appendToTitle('(Debug)');
 		#end
 
-		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrashing);
+		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, CrashUtil.onCrashing);
 
 		FlxG.sound.applySoundCurve = (volume:Float) ->
 		{
@@ -108,76 +99,6 @@ class Main extends FlxGame
 		#if android
 		if (FlxG.android.justPressed.ANY) Save.save();
 		#end
-	}
-
-	function onCrashing(e:UncaughtErrorEvent)
-	{
-		e.preventDefault();
-
-		Save.save();
-
-		var stack = CallStack.exceptionStack(true);
-
-		var shortDisplayError:String = 'Error: ${e.error}';
-		var error:String = '$shortDisplayError\n\nCall Stack:\n';
-		@:privateAccess stack.reverse();
-
-		function pushStack(stackItem:StackItem)
-		{
-			switch (stackItem)
-			{
-				case FilePos(innerStackItem, file, line, column):
-					error += ' in ${file}#${line}';
-					if (column != null) error += ':${column}';
-				case CFunction: error += '[Function] ';
-				case Module(m): error += '[Module(${m})] ';
-				case Method(classname, method): error += '[Function(${classname}.${method})] ';
-				case LocalFunction(v): error += '[LocalFunction(${v})] ';
-			}
-			error += '\n';
-		}
-
-		for (stackItem in stack) pushStack(stackItem);
-
-		shortDisplayError += '\n\n${stack.length} CallStack entry / entries';
-
-		var plzReport = '\n\nPlease report this on the github: https://github.com/v207-matty/rhythmWalker/issues';
-
-		shortDisplayError += plzReport;
-		error += plzReport;
-
-		#if sys
-		var timestamp = Date.now().getTime();
-
-		if (!FileSystem.exists('crash')) FileSystem.createDirectory('crash');
-
-		File.saveContent('crash/$timestamp.txt', error);
-
-		var path = 'crash/$timestamp.txt';
-
-		#if android
-		path = 'Android/data/${Application.current.meta.get('packageName')}/files/$path';
-		#end
-
-		var savedTo = '\nThe crash log is saved to "$path"';
-
-		#if android
-		savedTo += ' (Most likely...)';
-		#end
-
-		shortDisplayError += savedTo;
-
-		#if android
-		shortDisplayError += '\n(You may need to install an app that can view files in there to get the file)';
-		#end
-
-		error += savedTo;
-		#end
-
-		trace(error);
-
-		WindowUtil.alert('Crash Handling', shortDisplayError);
-		WindowUtil.close();
 	}
 
 	function loadAssets()
