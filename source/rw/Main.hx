@@ -74,10 +74,8 @@ class Main extends FlxGame
 
 		super.create(_);
 
-		FlxG.console.registerClass(Paths);
-		FlxG.console.registerClass(Save);
-		FlxG.console.registerClass(Freeplay);
-		FlxG.console.registerClass(WindowUtil);
+		var clses:Array<Class<Dynamic>> = [Paths, Save, Freeplay, WindowUtil];
+		for (cls in clses) FlxG.console.registerClass(cls);
 
 		FlxTransitionableState.defaultTransIn = FlxTransitionableState.defaultTransOut = getDefaultTransition();
 		#if !mobile
