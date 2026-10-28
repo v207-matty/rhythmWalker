@@ -32,14 +32,23 @@ class CrashUtil
 
 	static var plzReport = '\n\nPlease report this on the github: https://github.com/v207-matty/rhythmWalker/issues';
 
+	static function exceptionStack():Array<StackItem>
+	{
+		var stack = CallStack.exceptionStack(true);
+
+        @:privateAccess
+        stack.reverse();
+
+        return stack;
+	}
+
 	public static function onCrashing(e:UncaughtErrorEvent) @:privateAccess
 	{
 		e.preventDefault();
 
-		Save.save();
+        var stack = exceptionStack();
 
-		var stack = CallStack.exceptionStack(true);
-		stack.reverse();
+		Save.save();
 
 		var shortDisplayError:String = 'Error: ${e.error}';
 		var error:String = '$shortDisplayError\n\nCall Stack:\n';
@@ -57,7 +66,7 @@ class CrashUtil
 
 		if (!FileSystem.exists('crash')) FileSystem.createDirectory('crash');
 
-        File.saveContent(path, error);
+		File.saveContent(path, error);
 
 		var savedTo = '\nThe crash log is saved to "$path"';
 
