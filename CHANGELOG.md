@@ -8,9 +8,7 @@ The 32bit version of the game has been retired due to no more waveform stuff lef
     - New Path
     - Scores are saved different and have a different system anyway
 
-- NEW GAMEPLAY MODE : RHYTHM HEAVEN
-
-- NEW SONGS : CHASE, SAVE AND FIRST STEPS (ARIA)
+- NEW SONGS : CHASE, AND SAVE
 
 - MAIN MENU!
     - OPTIONS MENU!!!!!!!!!!
@@ -39,6 +37,8 @@ The 32bit version of the game has been retired due to no more waveform stuff lef
     - And more!!!
 
 ## Backend / Nerd shit
+
+- Work for a "Rhythm Heaven" game mode has been done
 
 - Player and stage graphics for the Walker Gameplay are in "assets/game/walker" now (example: "assets/game/walker/stages/stage.png" was "assets/game/stages/stage.png")
 - Added 16x, 64x, 128x, and 256x icon sizes
