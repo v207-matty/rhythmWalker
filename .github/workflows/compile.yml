@@ -2,6 +2,8 @@ name: Auto-compile
 
 on:
     push:
+      branches:
+        - RELEASE
     workflow_dispatch:
 
 jobs:
