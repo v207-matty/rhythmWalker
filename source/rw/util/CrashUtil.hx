@@ -1,10 +1,6 @@
 package rw.util;
 
 import lime.app.Application;
-#if sys
-import sys.io.File;
-import sys.FileSystem;
-#end
 import haxe.CallStack;
 import rw.save.Save;
 import openfl.events.UncaughtErrorEvent;

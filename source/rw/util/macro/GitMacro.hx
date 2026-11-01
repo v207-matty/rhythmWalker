@@ -1,7 +1,6 @@
 package rw.util.macro;
 
 #if sys
-import sys.io.Process;
 import haxe.macro.Context;
 
 using StringTools;
