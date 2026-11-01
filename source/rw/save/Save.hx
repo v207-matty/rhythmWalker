@@ -1,7 +1,6 @@
 package rw.save;
 
 import rw.ui.game.PlayData.PlayModeData;
-import rw.save.SaveSongScore.SaveSongScoreVersion;
 import haxe.Json;
 import flixel.util.FlxSave;
 import flixel.math.FlxMath;
@@ -11,23 +10,12 @@ import rw.ui.game.song.SongRank;
 
 using StringTools;
 
-typedef SaveData =
-{
-	var version:SaveVersion;
-
-	@:optional
-	var scores:Map<String, SaveSongScore>;
-
-	@:optional
-	var options:SaveOptionsData;
-}
-
 class Save
 {
-	public static final LATEST_VERSION:SaveVersion = SAVING_B1_INDEV_0;
-	public static final LATEST_VERSION_SONG:SaveSongScoreVersion = BUNDLE_ONE;
+	public static final LATEST_VERSION:Null<Int> = 0;
+	public static final LATEST_VERSION_SONG:Null<Int> = 0;
 
-	public static var version:SaveVersion;
+	public static var version:Null<Int>;
 	public static var scores:Map<String, SaveSongScore> = [];
 	public static var options:SaveOptionsData = {};
 
@@ -68,7 +56,10 @@ class Save
 
 	static function saveConvert()
 	{
-		for (song => score in scores) if (score.version == null || score.version == _UNKNOWN) score.version = BEFORE_BUNDLE_ONE;
+		for (song => score in scores)
+		{
+			if (score.version == null || score.version <= LATEST_VERSION_SONG) score.version = -1;
+		}
 
 		version = LATEST_VERSION;
 	}
@@ -87,7 +78,7 @@ class Save
 			version: null,
 		};
 
-		game.version ??= _UNKNOWN;
+		game.version ??= null;
 		game.scores ??= [];
 		game.options ??= {};
 
@@ -115,7 +106,7 @@ class Save
 		var songScore:Int = song?.score ?? 0;
 		var songRank:SongRank = song?.rank ?? NONE;
 		var songRankPercent:Float = song?.percent ?? 0;
-		var songVersion:SaveSongScoreVersion = song?.version ?? _UNKNOWN;
+		var songVersion = song?.version ?? null;
 		var songMode:PlayModeData = song?.mode ?? null;
 
 		var newHS:Bool = false;

@@ -10,14 +10,5 @@ typedef SaveSongScore =
 	var percent:Float;
 
 	var mode:PlayModeData;
-	var version:SaveSongScoreVersion;
-}
-
-enum abstract SaveSongScoreVersion(Null<Int>) from Null<Int> to Null<Int>
-{
-	var _UNKNOWN = null;
-
-	var BEFORE_BUNDLE_ONE = -1;
-
-	var BUNDLE_ONE = 0;
+	var version:Null<Int>;
 }
