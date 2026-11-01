@@ -58,7 +58,7 @@ jobs:
             - name: Publish Artifact
               uses: actions/upload-artifact@main
               with:
-                  name: linuxBuild-64
+                  name: rhythmWalker-linuxBuild-64
                   path: export/release/linux/bin
 
     buildWindows64:
@@ -114,7 +114,7 @@ jobs:
             - name: Upload Artifact
               uses: actions/upload-artifact@main
               with:
-                  name: windowsBuild-64
+                  name: rhythmWalker-windowsBuild-64
                   path: export/release/windows/bin
 
     buildMac64:
@@ -170,7 +170,7 @@ jobs:
             - name: Publish Artifact
               uses: actions/upload-artifact@main
               with:
-                  name: macBuild-64
+                  name: rhythmWalker-macBuild-64
                   path: export/release/macos/bin
 
     buildWeb:
@@ -226,5 +226,5 @@ jobs:
             - name: Upload Artifact
               uses: actions/upload-artifact@main
               with:
-                  name: webBuild
+                  name: rhythmWalker-webBuild
                   path: export/release/html5/bin
