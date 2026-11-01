@@ -9,4 +9,7 @@ typedef SaveData =
 
 	@:optional
 	var options:SaveOptionsData;
+
+	@:optional
+	var gamejoly:SaveGameJoltData;
 }

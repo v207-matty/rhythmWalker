@@ -2,7 +2,7 @@ export/
 .haxelib/
 dump/
 
-dev/albumVideos/
+gamejoly.txt
 
 RECOVER_**.fla
 .DS_Store

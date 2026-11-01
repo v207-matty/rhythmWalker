@@ -1,5 +1,6 @@
 package rw;
 
+import rw.util.macro.FileMacro;
 import rw.util.CrashUtil;
 import rw.util.mobile.TouchUtil;
 import rw.save.Save;
@@ -72,6 +73,8 @@ class Main extends FlxGame
 			return 1 - (Math.log(clampedVolume) / Math.log(0.001));
 		}
 
+		loadGameJoly();
+
 		super.create(_);
 
 		var clses:Array<Class<Dynamic>> = [Paths, Save, Freeplay, WindowUtil];
@@ -97,6 +100,22 @@ class Main extends FlxGame
 		#if android
 		if (FlxG.android.justPressed.ANY) Save.save();
 		#end
+	}
+
+	function loadGameJoly()
+	{
+		var gamejoltInfo = FileMacro.getFile('dev/macro/gamejoly.txt');
+
+		if (gamejoltInfo == null) return;
+
+		var info = gamejoltInfo.splitByLinebreaks();
+
+		if (info.length < 2) return;
+
+		var gameid = Std.parseInt(info[0]);
+		var privateKey = info[1];
+
+		GameJolt.instance = new GameJolt(gameid, privateKey);
 	}
 
 	function loadAssets()

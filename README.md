@@ -11,3 +11,5 @@ Cool music game where you avoid projectiles falling towards you that spawn to th
 [Matty (Me!)](https://www.youtube.com/@MattyV207) : Director, Programming, Art, Animation, Music
 
 [Nathan Gibson](https://nathangibson.myportfolio.com) : Menu UI Sounds
+
+[ADA_Spoopi](https://www.youtube.com/channel/UCbeihhy1GNudcMKgRosZExA) : Base Gamejolt API Class

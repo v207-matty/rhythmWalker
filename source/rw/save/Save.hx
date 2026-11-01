@@ -12,12 +12,13 @@ using StringTools;
 
 class Save
 {
-	public static final LATEST_VERSION:Null<Int> = 0;
+	public static final LATEST_VERSION:Null<Int> = 1;
 	public static final LATEST_VERSION_SONG:Null<Int> = 0;
 
 	public static var version:Null<Int>;
 	public static var scores:Map<String, SaveSongScore> = [];
 	public static var options:SaveOptionsData = {};
+	public static var gamejoly:SaveGameJoltData = {};
 
 	public static var game(get, set):SaveData;
 
@@ -48,6 +49,7 @@ class Save
 		version = game.version;
 		scores = game.scores;
 		options = game.options;
+		gamejoly = game.gamejoly;
 
 		saveConvert();
 
@@ -56,10 +58,7 @@ class Save
 
 	static function saveConvert()
 	{
-		for (song => score in scores)
-		{
-			if (score.version == null || score.version <= LATEST_VERSION_SONG) score.version = -1;
-		}
+		for (song => score in scores) if (score.version == null || score.version <= LATEST_VERSION_SONG) score.version = -1;
 
 		version = LATEST_VERSION;
 	}
@@ -81,11 +80,15 @@ class Save
 		game.version ??= null;
 		game.scores ??= [];
 		game.options ??= {};
+		game.gamejoly ??= {};
 
 		game.options.shaders ??= true;
 		game.options.qualityWarning ??= true;
 		game.options.menuMusic ??= true;
 		game.options.dialogue ??= true;
+
+		game.gamejoly.username ??= null;
+		game.gamejoly.user_token ??= null;
 	}
 
 	public static function save()
@@ -94,6 +97,7 @@ class Save
 			version: LATEST_VERSION,
 			scores: scores,
 			options: options,
+			gamejoly: gamejoly,
 		};
 
 		FlxG.save.flush();
