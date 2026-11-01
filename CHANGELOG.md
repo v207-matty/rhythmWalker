@@ -1,7 +1,7 @@
 # 0.4.0 (Bundle 1) - 11/1/2026
 
 The 32bit version of the game has been retired due to no more waveform stuff left in the game
-A macOS version is availible
+A macOS and Linux version of the game is availible now
 
 ## Primary Things
 
