@@ -12,9 +12,9 @@ class GameManager
 	{
 		switch (mode)
 		{
-			case WALKER: return () -> new WalkerPlayState(data.song, data.variation);
+			case WALKER: return () -> new WalkerPlayState(data);
 
-			case RHYTHM_HEAVEN: return () -> new RHPlayState(data.song, data.variation);
+			case RHYTHM_HEAVEN: return () -> new RHPlayState(data);
 		}
 
 		trace('Invalid : $mode');

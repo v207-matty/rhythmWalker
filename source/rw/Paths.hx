@@ -8,9 +8,8 @@ class Paths
 
 	public static function getAudio(path:String) return getPath('$path.ogg');
 
-	public static function getSong(song:String,
-			variation:SongVariation = defaultVariation)
-		return getAudio('game/songs/${song.toLowerCase()}/${(variation ?? defaultVariation)?.toString()?.toLowerCase()}');
+	public static function getSong(song:String, variation:SongVariation = defaultVariation,
+			filter:String = 'legacy') return getAudio('songs/$filter/${song.toLowerCase()}/${(variation ?? defaultVariation)?.toString()?.toLowerCase()}');
 
 	public static function getImagePath(path:String) return getPath('$path.png');
 

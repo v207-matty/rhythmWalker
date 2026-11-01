@@ -106,7 +106,7 @@ class Main extends FlxGame
 			for (line in Assets.getText(tipsList).split('\n')) if (line.trim().length > 0) line.trim()
 		];
 
-		for (songList in FileUtil.readDirectory('assets/data/songs/lists'))
+		for (songList in FileUtil.readDirectory('assets/songs/lists'))
 		{
 			var path = new Path(songList);
 

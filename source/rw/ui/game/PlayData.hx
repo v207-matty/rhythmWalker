@@ -9,6 +9,10 @@ typedef PlayData =
 	@:optional
 	@:default(defaultVariation)
 	var variation:SongVariation;
+
+	@:optional
+	@:default('legacy')
+	var filter:String;
 }
 
 enum abstract PlayModeData(String) from String to String

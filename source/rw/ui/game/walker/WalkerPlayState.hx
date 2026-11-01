@@ -42,9 +42,9 @@ class WalkerPlayState extends PlayState<WalkerPlayableComponent, WalkerSong>
 		}
 	};
 
-	override public function new(song:String, ?variation:SongVariation = defaultVariation)
+	override public function new(data:PlayData)
 	{
-		super(song, variation);
+		super(data);
 
 		mode = WALKER;
 	}

@@ -54,14 +54,17 @@ class PlayState<ComponentType:PlayableComponent, SongType:ComponentType> extends
 
 	public function runOnComponents(a:ComponentType->Void) if (a != null) for (component in components) if (component != null) a(component);
 
-	override public function new(song:String, ?variation:SongVariation = defaultVariation)
+	override public function new(data:PlayData)
 	{
 		super();
 
-		this.songData = new SongData(song, variation ?? defaultVariation);
+		this.songData = new SongData(data.song ?? 'first steps', data.variation ?? defaultVariation);
+		this.filter = data.filter ?? 'legacy';
 	}
 
 	public var mode:PlayModeData;
+
+	var filter(default, null):String;
 
 	override function destroy()
 	{
@@ -98,7 +101,7 @@ class PlayState<ComponentType:PlayableComponent, SongType:ComponentType> extends
 
 		resetConductor();
 
-		FlxG.sound.playMusic(Paths.getSong(songData.id, songData.variation), 1, false);
+		FlxG.sound.playMusic(Paths.getSong(songData.id, songData.variation, filter), 1, false);
 
 		if (FlxG.sound.music.length < 1)
 		{
