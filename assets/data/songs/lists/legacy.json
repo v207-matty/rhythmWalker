@@ -1,4 +1,5 @@
 {
+    "path": "songs/legacy",
     "filters": [
         "volume1",
         "volume2",

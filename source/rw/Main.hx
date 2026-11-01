@@ -1,9 +1,9 @@
 package rw;
 
-import rw.util.CrashUtil;
+import haxe.io.Path;
+import rw.util.*;
 import rw.util.mobile.TouchUtil;
 import rw.save.Save;
-import rw.util.Constants;
 import openfl.Lib;
 import openfl.events.UncaughtErrorEvent;
 import flixel.math.FlxPoint;
@@ -13,7 +13,6 @@ import flixel.addons.transition.TransitionData;
 import haxe.Json;
 import rw.ui.menu.freeplay.Freeplay;
 import lime.utils.Assets;
-import rw.util.WindowUtil;
 import flixel.FlxG;
 import flixel.addons.transition.FlxTransitionableState;
 import openfl.events.Event;
@@ -101,15 +100,20 @@ class Main extends FlxGame
 
 	function loadAssets()
 	{
-		var songList = Paths.json('game/songs/list');
 		var tipsList = Paths.txt('game/tips');
-
-		if (Assets.exists(songList)) Freeplay.songList = Json.parse(Assets.getText(songList));
-		else throw 'SONG LIST IS MISSING, GAME WILL DIE NOW.';
 
 		if (Assets.exists(tipsList)) Freeplay.tips = [
 			for (line in Assets.getText(tipsList).split('\n')) if (line.trim().length > 0) line.trim()
 		];
+
+		for (songList in FileUtil.readDirectory('assets/data/songs/lists'))
+		{
+			var path = new Path(songList);
+
+			if (Assets.exists(path.toString())) Freeplay.songLists.set(path.file, Json.parse(Assets.getText(path.toString())));
+		}
+
+		if (Freeplay.songLists.length() == 0) throw 'SONG LISTS ARE MISSING, GAME WILL DIE NOW.';
 	}
 
 	function getDefaultTransition():TransitionData

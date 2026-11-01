@@ -28,11 +28,13 @@ using StringTools;
 
 class Freeplay extends MenuState
 {
-	public static var songList:FreeplaySongListData;
+	public static var songLists(default,null):Map<String, FreeplaySongListData> = [];
+
+	public static var songList(default,null):String = 'legacy';
 
 	public static var songs(get, never):Array<FreeplaySongData>;
 
-	static function get_songs():Array<FreeplaySongData> return songList.songs;
+	static function get_songs():Array<FreeplaySongData> return songLists.get(songList)?.songs ?? [];
 
 	public static var tips:Array<String> = ['No tips'];
 
@@ -42,7 +44,8 @@ class Freeplay extends MenuState
 	{
 		var list:Array<String> = [];
 
-		for (filter in songList?.filters) if (!list.contains(filter.toLowerCase())) if (songs.filter(s -> return s.filters.contains(filter.toLowerCase()))
+		for (filter in songLists.get(songList)?.filters) if (!list.contains(filter.toLowerCase())) if (songs.filter(s -> return
+			s.filters.contains(filter.toLowerCase()))
 			.length > 0) list.push(filter.toLowerCase());
 		for (song in songs) for (filter in song?.filters) if (!list.contains(filter.toLowerCase())) list.push(filter.toLowerCase());
 
@@ -50,8 +53,6 @@ class Freeplay extends MenuState
 
 		return list;
 	}
-
-	static var audioCache:Map<String, Sound> = [];
 
 	var randomTip:String = '';
 
@@ -78,6 +79,13 @@ class Freeplay extends MenuState
 		var sng = entries[selectedEntry];
 		if (sng == null) return null;
 		return '${sng.song.toLowerCase()}-${(sng.variation ?? defaultVariation).toString().toLowerCase()}';
+	}
+
+	override public function new(songList:String = 'legacy')
+	{
+		super();
+
+		Freeplay.songList = songList;
 	}
 
 	override function create()
