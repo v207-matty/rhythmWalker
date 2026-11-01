@@ -4,8 +4,7 @@
         "volume2",
         "volume3",
         "volume4",
-        "resolved remix",
-        "aria mix"
+        "resolved remix"
     ],
     "songs": [
         {
@@ -104,14 +103,6 @@
                 "day8"
             ],
             "variation": "Resolved"
-        },
-        {
-            "song": "First Steps",
-            "filters": [
-                "volume4",
-                "aria mix"
-            ],
-            "variation": "Aria"
         }
     ]
 }
